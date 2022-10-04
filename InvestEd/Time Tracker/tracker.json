@@ -1,0 +1,47 @@
+{
+    "Week 1": {
+        "activities": [
+            {
+                "activity": "Research",
+                "start_time": "12:30 am",
+                "end_time": "12:30 am",
+                "description": "What the nut",
+                "total_hours": 0
+            },
+            {
+                "activity": "Coding",
+                "start_time": "12:30 am",
+                "end_time": "12:30 am",
+                "description": "What the snut",
+                "total_hours": 0
+            }
+        ]
+    },
+    "Week 2": {
+        "activities": []
+    },
+    "Week 3": {
+        "activities": []
+    },
+    "Week 4": {
+        "activities": []
+    },
+    "Week 5": {
+        "activities": []
+    },
+    "Week 6": {
+        "activities": []
+    },
+    "Week 7": {
+        "activities": []
+    },
+    "Week 8": {
+        "activities": []
+    },
+    "Week 9": {
+        "activities": []
+    },
+    "Week 10": {
+        "activities": []
+    }
+}

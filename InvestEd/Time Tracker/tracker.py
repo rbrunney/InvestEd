@@ -1,6 +1,7 @@
 import PySimpleGUI as gui
 import os
 import json
+import time
 
 def main():
 
@@ -71,12 +72,14 @@ def main():
                 window['-MULTILINE-'].get()
             )
 
+        # If the user close window 'X' it will shut the gui down
         if event == gui.WIN_CLOSED:
             break
 
     window.close()
 
 def create_activity(week, activity, start_time, end_time, description):
+    # Making new activity object
     new_activity = {
         "activity" : activity,
         "start_time" : start_time,
@@ -85,24 +88,29 @@ def create_activity(week, activity, start_time, end_time, description):
         "total_hours" : 0
     }
 
-    if not 'tracker.json' in os.listdir():
-        activity_info = {
-            week : {
-                "activities" : [new_activity]
-            }
-        }
+    # Checking to see if tracker.json exists if not create the file
+    if not os.path.exists('./tracker.json'):
         with open('tracker.json', 'w') as file:
-            file.write(json.dumps(activity_info, indent=4))
-    else:
-        with open('tracker.json', 'r') as file:
-            json_load = json.load(file)
-            
-            with open ('tracker.json', 'w') as file:
-                print(json_load)
-                file.write(json.dumps(json_load[week]['activities'].append(new_activity)))
+            file.write(json.dumps({
+                'Week 1' : {"activities" : []},
+                'Week 2' : {"activities" : []},
+                'Week 3' : {"activities" : []},
+                'Week 4' : {"activities" : []},
+                'Week 5' : {"activities" : []},
+                'Week 6' : {"activities" : []},
+                'Week 7' : {"activities" : []},
+                'Week 8' : {"activities" : []},
+                'Week 9' : {"activities" : []},
+                'Week 10' : {"activities" : []}
+            }, indent=4))
 
-def calculate_total_hours(start_hour, start_minute, end_hour, end_minute):
-    pass 
+    # Reading and Overwriteing with new information
+    with open('tracker.json', 'r') as file:
+        json_load = json.loads(file.read())
+        
+        with open('tracker.json', 'w') as file:
+            json_load[week]['activities'].append(new_activity)
+            file.write(json.dumps(json_load, indent=4)) 
 
 if __name__ == "__main__":
     main()
