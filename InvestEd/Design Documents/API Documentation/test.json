@@ -1,0 +1,93 @@
+[
+    {
+        "content" : "I got $105 Dollars off of MSFT Pretty Poggers. Added more for Edit"
+    },
+    {
+        "message" : "Post 79a8sd8asd Created Successfuly!",
+        "results" : {
+            "post_id" : "79a8sd8asd",
+            "status_code" : 201
+        },
+        "date-time": "2022/09/24 24:00:00"
+    },
+    {
+        "message" : "Post 79a8sd8asd Updated Successfuly!",
+        "results" : {
+            "post_id" : "79a8sd8asd",
+            "status_code" : 201
+        },
+        "date-time": "2022/09/24 24:00:00"
+    },
+    {
+        "message" : "Post 79a8sd8asd Updated Successfuly!"
+    },
+    {
+        "message" : "Top Trending Post Fetched Successfuly!",
+        "results" : {
+            "trending_post" : [
+                {
+                    "post_id" : "5sa8d7asd76asd",
+                    "user_id" : "6a8d78asd8a8as",
+                    "content" : "Got MSFT for only $13 lets go",
+                    "likes" : 4666565
+                },
+                {
+                    "post_id" : "5sa8d7asd76asd",
+                    "user_id" : "6a8d78asd8a8as",
+                    "content" : "Got Bacon lets go",
+                    "likes" : 4666565
+                },
+                {
+                    "post_id" : "5sa8d7asd76asd",
+                    "user_id" : "6a8d78asd8a8as",
+                    "content" : "Cheezbrger",
+                    "likes" : 4666565
+                }
+            ],
+            "status_code" : 200
+        },
+        "date-time": "2022/09/24 24:00:00"
+    },
+    {
+        "message" : "Post 5sa8d7asd76asd Successfuly Fetched!",
+        "results" : {
+            "post" : {
+                "post_id" : "5sa8d7asd76asd",
+                "user_id" : "6a8d78asd8a8as",
+                "content" : "Got MSFT for only $13 lets go",
+                "likes" : 4666565
+            },
+            "status_code" : 200
+        },
+        "date-time": "2022/09/24 24:00:00"
+    },
+    {
+        "message" : "Post 5sa8d7asd76asd Comments Successfuly Fetched!",
+        "results" : {
+            "comments" : [
+                {
+                    "post_date" : "2022/09/24 24:00:00",
+                    "user_id" : "0as7dsa87d",
+                    "content" : "Congrats"
+                },
+                {
+                    "post_date" : "2022/09/24 24:00:00",
+                    "user_id" : "0as7dsa87d",
+                    "content" : "Poggers"
+                }
+            ],
+            "status_code" : 200
+        },
+        "date-time": "2022/09/24 24:00:00"
+    },
+    {
+        "content" : "Poggers man"
+    },
+    {
+        "message" : "Comment On 5sa8d7asd76asd Made Succesfuly!",
+        "results" : {
+            "status_code" : 200
+        },
+        "date-time": "2022/09/24 24:00:00"
+    }
+]
