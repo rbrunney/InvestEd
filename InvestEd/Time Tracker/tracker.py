@@ -1,6 +1,7 @@
 import PySimpleGUI as gui
-import os
+import datetime as dt
 import json
+import os
 
 def main():
 
@@ -50,11 +51,14 @@ def main():
     view_hours_layout = [
         [gui.Combo(week_list, default_value=week_list[0], readonly=True, key='-VIEW-WEEK-'), gui.Button('Fetch', key='-FETCH-')],
         [gui.Text('Total Hours: '), gui.Text('0', key='-TOTAL-HOURS-'), gui.Text('Min Hours Reached: '), gui.Text('FALSE', key='-IS-REACHED-')],
-        [gui.Table(
-            values=[['Activity', 'Start-Time', 'End-Time', 'Description', 'Day']], 
-            headings=['Activity', 'Start-Time', 'End-Time', 'Description', 'Day'],
-            justification='center'
-            )]
+        [
+            gui.Table(
+                values=[], 
+                headings=['Activity', 'Start-Time', 'End-Time', 'Description', 'Day'],
+                justification='center',
+                key='-ACTIVITY-TABLE-',  
+            )
+        ]
     ]
 
     window_components = [
@@ -73,7 +77,7 @@ def main():
     ## ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ## Making window and running gui
 
-    window = gui.Window(title='Capstone Time Tracker', layout=window_components, margins=(150, 50))
+    window = gui.Window(title='Capstone Time Tracker', layout=window_components, margins=(100, 25))
 
     while True:
         event, values = window.read()
@@ -90,9 +94,11 @@ def main():
             )
 
         if event == '-FETCH-':
-            print(window['-VIEW-WEEK-'].get())
+            # Getting tracker information from json file and then caclulating total time taken
+            activity_data = get_activity_data(window['-VIEW-WEEK-'].get())
 
-            window['-TOTAL-HOURS-'].update('20')
+            window['-ACTIVITY-TABLE-'].update(activity_data[0])
+            window['-TOTAL-HOURS-'].update(str(calculate_time(activity_data[1])))
 
             if float(window['-TOTAL-HOURS-'].get()) >= 20:
                 window['-IS-REACHED-'].update('TRUE')
@@ -104,14 +110,56 @@ def main():
 
     window.close()
 
+def get_activity_data(week):
+
+    with open('tracker.json', 'r') as file:
+        tracker_info = json.loads(file.read())
+        table_data = []
+        time_information = []
+
+        for key in dict(tracker_info[week]).keys():
+            for data_info in tracker_info[week][key]['activities']:
+                table_data.append([data_info['activity'], data_info['start_time'], data_info['end_time'], data_info['description'], key])
+                time_information.append([data_info['start_time'],data_info['end_time']])
+
+    return (table_data, time_information)
+
+def calculate_time(time_list):
+
+    total_time_worked = 0
+
+    for time_tuple in time_list:
+        # Need to update the time if the user puts in pm. That way we get more accurate timing on worked hours
+        start_time_check = time_tuple[0].split(' ')
+        end_time_check = time_tuple[1].split(' ')
+        if start_time_check[1] == 'pm':
+            change_hour = start_time_check[0].split(':')
+            new_end_time = str(int(change_hour[0]) + 12)
+
+            time_tuple[0] = f'{new_end_time}:{change_hour[1]}'
+
+        if end_time_check[1] == 'pm':
+            change_hour = end_time_check[0].split(':')
+            new_end_time = str(int(change_hour[0]) + 12)
+
+            time_tuple[1] = f'{new_end_time}:{change_hour[1]}'
+
+        # Getting start time and end time
+        start_time = dt.datetime.strptime(time_tuple[0].split(' ')[0], "%H:%M")
+        end_time = dt.datetime.strptime(time_tuple[1].split(' ')[0], "%H:%M")
+
+        # Getting total elapsed time in hours
+        total_time_worked += (end_time - start_time).total_seconds() / (60 * 60)
+
+    return total_time_worked
+
 def create_activity(week, day, activity, start_time, end_time, description):
     # Making new activity object
     new_activity = {
         "activity" : activity,
         "start_time" : start_time,
         "end_time" : end_time,
-        "description" : description,
-        "total_hours" : 0
+        "description" : description
     }
 
     # Checking to see if tracker.json exists if not create the file
