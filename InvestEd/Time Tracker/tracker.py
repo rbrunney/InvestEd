@@ -35,11 +35,12 @@ def main():
     ]
 
     week_list = [f'Week {week}' for week in range(1, 11)]
+    day_list = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     add_hours_layout = [
         [gui.Column(layout=add_column_1), gui.Column(add_column_2)],
         [gui.Text('Description')],
         [gui.Multiline(key='-MULTILINE-')],
-        [gui.Combo(week_list, default_value=week_list[0], readonly=True, key='-WEEK-')],
+        [gui.Combo(week_list, default_value=week_list[0], readonly=True, key='-WEEK-'), gui.Combo(day_list, default_value=day_list[0], readonly=True, key='-DAY-')],
         [gui.Button('Add Hours', key='-ADD-')]
     ]
 
@@ -66,6 +67,7 @@ def main():
             # Creating activity for information
             create_activity(
                 window['-WEEK-'].get(),
+                window['-DAY-'].get(),
                 window['-ACTIVITYBOX-'].get(),
                 str(window['-S-HOUR-'].get()) + ":" + str(window['-S-MINUTE-'].get()) + ' ' + window['-S-DAYTIME-'].get(),
                 str(window['-E-HOUR-'].get()) + ":" + str(window['-E-MINUTE-'].get()) + ' ' + window['-E-DAYTIME-'].get(),
@@ -78,7 +80,7 @@ def main():
 
     window.close()
 
-def create_activity(week, activity, start_time, end_time, description):
+def create_activity(week, day, activity, start_time, end_time, description):
     # Making new activity object
     new_activity = {
         "activity" : activity,
@@ -92,24 +94,30 @@ def create_activity(week, activity, start_time, end_time, description):
     if not os.path.exists('./tracker.json'):
         with open('tracker.json', 'w') as file:
             file.write(json.dumps({
-                'Week 1' : {"activities" : []},
-                'Week 2' : {"activities" : []},
-                'Week 3' : {"activities" : []},
-                'Week 4' : {"activities" : []},
-                'Week 5' : {"activities" : []},
-                'Week 6' : {"activities" : []},
-                'Week 7' : {"activities" : []},
-                'Week 8' : {"activities" : []},
-                'Week 9' : {"activities" : []},
-                'Week 10' : {"activities" : []}
+                'Week 1' : {},
+                'Week 2' : {},
+                'Week 3' : {},
+                'Week 4' : {},
+                'Week 5' : {},
+                'Week 6' : {},
+                'Week 7' : {},
+                'Week 8' : {},
+                'Week 9' : {},
+                'Week 10' : {}
             }, indent=4))
 
     # Reading and Overwriteing with new information
     with open('tracker.json', 'r') as file:
         json_load = json.loads(file.read())
-        
+
         with open('tracker.json', 'w') as file:
-            json_load[week]['activities'].append(new_activity)
+
+            try:
+                json_load[week][day]['activities'].append(new_activity)
+            except:
+                json_load[week][day] = {'activities' : []}
+                json_load[week][day]['activities'].append(new_activity)
+
             file.write(json.dumps(json_load, indent=4)) 
 
 if __name__ == "__main__":
