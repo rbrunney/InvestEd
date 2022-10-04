@@ -1,5 +1,6 @@
 import PySimpleGUI as gui
 import os
+import json
 
 def main():
 
@@ -63,11 +64,13 @@ def main():
         if event == '-ADD-':
             # Creating activity for information
             create_activity(
-                window['-WEEK-'].get(), window['-ACTIVITYBOX-'].get(),
+                window['-WEEK-'].get(),
+                window['-ACTIVITYBOX-'].get(),
                 str(window['-S-HOUR-'].get()) + ":" + str(window['-S-MINUTE-'].get()) + ' ' + window['-S-DAYTIME-'].get(),
                 str(window['-E-HOUR-'].get()) + ":" + str(window['-E-MINUTE-'].get()) + ' ' + window['-E-DAYTIME-'].get(),
                 window['-MULTILINE-'].get()
             )
+
         if event == gui.WIN_CLOSED:
             break
 
@@ -78,11 +81,28 @@ def create_activity(week, activity, start_time, end_time, description):
         "activity" : activity,
         "start_time" : start_time,
         "end_time" : end_time,
-        "description" : description
+        "description" : description,
+        "total_hours" : 0
     }
 
-    print(new_activity)
+    if not 'tracker.json' in os.listdir():
+        activity_info = {
+            week : {
+                "activities" : [new_activity]
+            }
+        }
+        with open('tracker.json', 'w') as file:
+            file.write(json.dumps(activity_info, indent=4))
+    else:
+        with open('tracker.json', 'r') as file:
+            json_load = json.load(file)
+            
+            with open ('tracker.json', 'w') as file:
+                print(json_load)
+                file.write(json.dumps(json_load[week]['activities'].append(new_activity)))
 
+def calculate_total_hours(start_hour, start_minute, end_hour, end_minute):
+    pass 
 
 if __name__ == "__main__":
     main()
