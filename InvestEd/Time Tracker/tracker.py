@@ -23,14 +23,14 @@ def main():
         [
             gui.Combo(values=[hour for hour in range(1, 13)], key='-S-HOUR-', default_value=12, readonly=True), 
             gui.Text(':'), 
-            gui.Combo(values=[hour for hour in range(1, 60)], key='-S-MINUTE-', default_value=30, readonly=True),
+            gui.Combo(values=[hour for hour in range(0, 60)], key='-S-MINUTE-', default_value=30, readonly=True),
             gui.Combo(values=['am', 'pm'], key='-S-DAYTIME-', default_value='am', readonly=True)
         ],
         [gui.Text('End Time', justification='center')],
         [
             gui.Combo(values=[hour for hour in range(1, 13)], key='-E-HOUR-', default_value=12, readonly=True), 
             gui.Text(':'), 
-            gui.Combo(values=[hour for hour in range(1, 60)], key='-E-MINUTE-', default_value=30, readonly=True),
+            gui.Combo(values=[hour for hour in range(0, 60)], key='-E-MINUTE-', default_value=30, readonly=True),
             gui.Combo(values=['am', 'pm'], key='-E-DAYTIME-', default_value='am', readonly=True)
         ],
     ]
