@@ -1,13 +1,13 @@
 import PySimpleGUI as gui
 import os
 import json
-import time
 
 def main():
 
     gui.theme("Python")
 
-    ## Making First Column Layout for Adding Hours 
+    ## ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ## Making First Tab Layout for Adding Hours 
 
     # Fields for giving activity title
     add_column_1 = [
@@ -44,21 +44,36 @@ def main():
         [gui.Button('Add Hours', key='-ADD-')]
     ]
 
-    view_hours_layout = [[gui.Text('Hello from view')]]
+    ## ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ## Making Second Tab Layout for Viewing Hours 
+
+    view_hours_layout = [
+        [gui.Combo(week_list, default_value=week_list[0], readonly=True, key='-VIEW-WEEK-'), gui.Button('Fetch', key='-FETCH-')],
+        [gui.Text('Total Hours: '), gui.Text('0', key='-TOTAL-HOURS-'), gui.Text('Min Hours Reached: '), gui.Text('FALSE', key='-IS-REACHED-')],
+        [gui.Table(
+            values=[['Activity', 'Start-Time', 'End-Time', 'Description', 'Day']], 
+            headings=['Activity', 'Start-Time', 'End-Time', 'Description', 'Day'],
+            justification='center'
+            )]
+    ]
 
     window_components = [
         [
             gui.TabGroup(
                 [[
-                    gui.Tab('Add Hours', layout=add_hours_layout),
-                    gui.Tab('View Hours', layout=view_hours_layout)
+                    gui.Tab('Add Hours', layout=add_hours_layout, element_justification='center'),
+                    gui.Tab('View Hours', layout=view_hours_layout, element_justification='center')
                 ]],
                 tab_location='top'
             )
         ]
     ]
 
-    window = gui.Window(title='Capstone Time Tracker', layout=window_components, margins=(300, 150))
+
+    ## ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ## Making window and running gui
+
+    window = gui.Window(title='Capstone Time Tracker', layout=window_components, margins=(150, 50))
 
     while True:
         event, values = window.read()
@@ -73,6 +88,15 @@ def main():
                 str(window['-E-HOUR-'].get()) + ":" + str(window['-E-MINUTE-'].get()) + ' ' + window['-E-DAYTIME-'].get(),
                 window['-MULTILINE-'].get()
             )
+
+        if event == '-FETCH-':
+            print(window['-VIEW-WEEK-'].get())
+
+            window['-TOTAL-HOURS-'].update('20')
+
+            if float(window['-TOTAL-HOURS-'].get()) >= 20:
+                window['-IS-REACHED-'].update('TRUE')
+            
 
         # If the user close window 'X' it will shut the gui down
         if event == gui.WIN_CLOSED:
