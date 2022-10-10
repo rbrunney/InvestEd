@@ -141,7 +141,18 @@
             ]
         }
     },
-    "Week 2": {},
+    "Week 2": {
+        "Monday": {
+            "activities": [
+                {
+                    "activity": "Research",
+                    "start_time": "10:0 am",
+                    "end_time": "10:34 am",
+                    "description": "Researching RabbitMQ"
+                }
+            ]
+        }
+    },
     "Week 3": {},
     "Week 4": {},
     "Week 5": {},
