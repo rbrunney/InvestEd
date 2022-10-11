@@ -1,4 +1,4 @@
-package org.invested.accountservice.config.models;
+package org.invested.accountservice.models;
 
 import javax.crypto.Cipher;
 import java.nio.charset.StandardCharsets;
@@ -39,9 +39,9 @@ public class RSA {
     }
 
     private PrivateKey extractPrivateKey(String privateKeyPem) {
-        privateKeyPem = privateKeyPem.replace("-----BEGIN PRIVATE KEY-----", "");
-        privateKeyPem = privateKeyPem.replace("-----END PRIVATE KEY-----", "");
-        privateKeyPem = privateKeyPem.replace("\\s+", "");
+        privateKeyPem = privateKeyPem.replace("-----BEGIN RSA PRIVATE KEY-----", "");
+        privateKeyPem = privateKeyPem.replace("-----END RSA PRIVATE KEY-----", "");
+        privateKeyPem = privateKeyPem.replace(" ", "");
 
         // Decode the Base64
         byte[] pkcs8EncodeBytes = Base64.getDecoder().decode(privateKeyPem);

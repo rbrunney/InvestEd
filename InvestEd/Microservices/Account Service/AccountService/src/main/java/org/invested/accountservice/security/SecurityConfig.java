@@ -1,7 +1,9 @@
-package org.invested.accountservice.config.security;
+package org.invested.accountservice.security;
 
+import org.invested.accountservice.filter.CustomAuthorizationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -9,11 +11,13 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -21,11 +25,6 @@ public class SecurityConfig {
 
     // To Keep track of current active users
     private final InMemoryUserDetailsManager memAuth = new InMemoryUserDetailsManager();
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Using Bcrypt for any user for there passwords
-    }
 
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http, UserDetailsService userDetailsService) throws Exception {
@@ -45,15 +44,28 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .httpBasic(Customizer.withDefaults())
-                .authorizeRequests().anyRequest().permitAll()
-                .and()// Currently going to permit all until endpoints are made
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Setting session to stateless since using REST
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
     @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(); // Using Bcrypt for any user for there passwords
+    }
+
+    @Bean
     public UserDetailsService userDetailsService() {
+        memAuth.createUser(
+                User.withUsername("rbrunney")
+                        .password(passwordEncoder().encode("password"))
+                        .roles("ADMIN")
+                        .build()
+        );
         return memAuth;
     }
 }

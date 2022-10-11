@@ -1,4 +1,4 @@
-package org.invested.accountservice.config.models;
+package org.invested.accountservice.models;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
