@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+
+  account_database:
+    image: "mysql:latest"
+    container_name: invested-account-db
+    enviroment:
+      - MYSQL_DATABASE=accounts 
+      - MYSQL_USER=rbrunney
+      - MYSQL_PASSWORD=tempPass123!
+      - MYSQL_ROOT_PASSWORD=tempPass123!
+    ports:
+      - "9000:3306"
+    networks:
+      - base-net
+
+
+networks:
+  base-net:
+    name: "invested_ecosystem"
