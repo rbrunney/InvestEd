@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -47,6 +46,8 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/invested_account").permitAll()
+                .antMatchers(HttpMethod.POST, "/invested_account/authenticate").permitAll()
+                .antMatchers(HttpMethod.GET, "/invested_account/test").hasAnyAuthority("ROLE_USER")
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -61,12 +62,6 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        memAuth.createUser(
-                User.withUsername("rbrunney")
-                        .password(passwordEncoder().encode("password"))
-                        .roles("ADMIN")
-                        .build()
-        );
         return memAuth;
     }
 }

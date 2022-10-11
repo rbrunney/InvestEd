@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -11,7 +12,7 @@ import java.util.stream.Collectors;
 public class JsonWebToken {
     private final String generatedToken;
 
-    public JsonWebToken(User user, Algorithm algorithm, int expireTimeInMinutes) {
+    public JsonWebToken(UserDetails user, Algorithm algorithm, int expireTimeInMinutes) {
         // Creating JWT
         generatedToken = JWT.create()
                 .withSubject(user.getUsername())
