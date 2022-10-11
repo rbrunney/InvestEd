@@ -3,6 +3,7 @@ package org.invested.accountservice.config.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.invested.accountservice.config.models.JWTUtil;
 import org.invested.accountservice.config.models.JsonWebToken;
+import org.invested.accountservice.config.models.RSA;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -34,6 +35,8 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         String password = request.getParameter("password");
 
         // Decrypting user information that was encrypted
+        username = new RSA().decrypt(username.getBytes());
+        password = new RSA().decrypt(password.getBytes());
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
 
