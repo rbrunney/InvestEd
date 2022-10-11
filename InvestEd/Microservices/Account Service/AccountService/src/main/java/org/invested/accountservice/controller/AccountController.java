@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/invested_user")
+@RequestMapping("/invested_account")
 public class AccountController {
 
     @Autowired
@@ -26,7 +26,6 @@ public class AccountController {
 
     @PostMapping()
     public ResponseEntity<Map<String, String>> createUser(@RequestBody Account newAccount) {
-
         accountRepo.save(newAccount);
 
         return new ResponseEntity<>(HttpStatus.CREATED);

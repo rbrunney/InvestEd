@@ -1,14 +1,20 @@
 package org.invested.accountservice.models.application;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 public class Account {
 
     @Id
-    private String id;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
     private String username;
     private String password;
@@ -40,6 +46,15 @@ public class Account {
     // /////////////////////////////////////////////////////////////////
     // Getters and Setters
     // /////////////////////////////////////////////////////////////////
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -94,13 +109,5 @@ public class Account {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 }

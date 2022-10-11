@@ -3,5 +3,7 @@ package org.invested.accountservice.respository;
 import org.invested.accountservice.models.application.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AccountJPARepo extends JpaRepository<Account, String> {
+import java.util.UUID;
+
+public interface AccountJPARepo extends JpaRepository<Account, UUID> {
 }
