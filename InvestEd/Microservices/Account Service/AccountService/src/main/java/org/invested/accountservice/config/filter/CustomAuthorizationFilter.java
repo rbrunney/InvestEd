@@ -1,4 +1,4 @@
-package org.invested.accountservice.filter;
+package org.invested.accountservice.config.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

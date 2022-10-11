@@ -1,4 +1,4 @@
-package org.invested.accountservice.models;
+package org.invested.accountservice.models.security;
 
 import javax.crypto.Cipher;
 import java.nio.charset.StandardCharsets;

@@ -149,6 +149,12 @@
                     "start_time": "10:0 am",
                     "end_time": "10:34 am",
                     "description": "Researching RabbitMQ"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "7:0 pm",
+                    "end_time": "10:0 pm",
+                    "description": "Implemeting JWT and RSA into Account API"
                 }
             ]
         }
