@@ -157,6 +157,22 @@
                     "description": "Implemeting JWT and RSA into Account API"
                 }
             ]
+        },
+        "Tuesday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "8:0 am",
+                    "end_time": "10:55 am",
+                    "description": "Account API Start w/ JWT"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "8:0 pm",
+                    "end_time": "8:48 pm",
+                    "description": "Finished RSA Implementation"
+                }
+            ]
         }
     },
     "Week 3": {},

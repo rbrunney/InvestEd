@@ -5,6 +5,7 @@ import org.invested.accountservice.models.application.Account;
 import org.invested.accountservice.models.application.Response;
 import org.invested.accountservice.models.security.JWTUtil;
 import org.invested.accountservice.models.security.JsonWebToken;
+import org.invested.accountservice.models.security.RSA;
 import org.invested.accountservice.respository.AccountJPARepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,11 +29,24 @@ public class AccountController {
         return "JWT Working";
     }
 
+    @GetMapping("/encrypt/{msg}")
+    public String encrypt(@PathVariable String msg) {
+        try {
+            RSA rsa = new RSA();
+            rsa.initFromStrings();
+            return rsa.encrypt(msg);
+        } catch(Exception e) {
+            return "Encrypt MSG Failed";
+        }
+    }
+
     @PostMapping("/authenticate")
     public ResponseEntity<Map<String, Object>> authenticateUser(@RequestBody JsonNode userCredentials) {
         // Decryption happens here when implementation works
-        String username = userCredentials.get("username").asText();
-        String password = userCredentials.get("password").asText();
+        RSA rsa = new RSA();
+        rsa.initFromStrings();
+        String username = rsa.decrypt(userCredentials.get("username").asText());
+        String password = rsa.decrypt(userCredentials.get("password").asText());
 
         Account accountFound = accountRepo.getAccountByUsername(username);
 
