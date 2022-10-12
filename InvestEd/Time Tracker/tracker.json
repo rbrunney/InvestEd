@@ -171,6 +171,12 @@
                     "start_time": "8:0 pm",
                     "end_time": "8:48 pm",
                     "description": "Finished RSA Implementation"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "8:48 pm",
+                    "end_time": "9:28 pm",
+                    "description": "Cleaning /authenticate"
                 }
             ]
         }

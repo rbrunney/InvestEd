@@ -8,6 +8,8 @@ import org.invested.accountservice.respository.AccountJPARepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -37,7 +39,7 @@ public class AccountService {
         Account foundUser = accountRepo.getAccountByUsername(userCredentials.get("username"));
 
         if(foundUser != null) {
-            return foundUser.getPassword().equals(userCredentials.get("password"));
+            return BCrypt.checkpw(userCredentials.get("password"), foundUser.getPassword());
         }
 
         return false;
@@ -54,5 +56,27 @@ public class AccountService {
         tokens.put("refresh-token", new JsonWebToken(authenticatedUser, JWTUtil.getAlgorithm(), expireTimeInMinutes * 2).getGeneratedToken());
 
         return tokens;
+    }
+
+    public boolean checkIfAccountExists(String key, String value) {
+        Account foundUser;
+        if(key.equals("username"))
+            foundUser = accountRepo.getAccountByUsername(value);
+        else if(key.equals("email"))
+            foundUser = accountRepo.getAccountByEmail(value);
+        else
+            throw new IllegalArgumentException("Key must either be 'username' or 'email'");
+
+        return foundUser != null;
+    }
+
+    public void saveUser(Account newAccount) {
+        // Encrypting Password so it's not plain text on database
+        newAccount.setPassword(BCrypt.hashpw(newAccount.getPassword(), BCrypt.gensalt()));
+
+        // Save to database
+        accountRepo.save(newAccount);
+
+        // Make Call to RabbitMQ to send confirmation email
     }
 }

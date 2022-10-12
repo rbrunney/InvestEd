@@ -3,16 +3,12 @@ package org.invested.accountservice.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.invested.accountservice.models.application.Account;
 import org.invested.accountservice.models.application.Response;
-import org.invested.accountservice.models.security.JWTUtil;
-import org.invested.accountservice.models.security.JsonWebToken;
 import org.invested.accountservice.models.security.RSA;
 import org.invested.accountservice.respository.AccountJPARepo;
 import org.invested.accountservice.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -64,11 +60,17 @@ public class AccountController {
 
     @PostMapping()
     public ResponseEntity<Map<String, String>> createUser(@RequestBody Account newAccount) {
-        accountRepo.save(newAccount);
-        // Check to see if username us taken
+        // Check to see if username or email us taken
+        if(!(accountService.checkIfAccountExists("username", newAccount.getUsername())
+                || accountService.checkIfAccountExists("email", newAccount.getEmail()))) {
+            // Saving user
+            accountService.saveUser(newAccount);
+
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
             // If taken New ResponsEnityy with Bad Request
             // Else make new account
                 // Make Message to RabbitMQ
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

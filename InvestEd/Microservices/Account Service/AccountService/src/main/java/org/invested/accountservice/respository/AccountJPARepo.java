@@ -7,4 +7,5 @@ import java.util.UUID;
 
 public interface AccountJPARepo extends JpaRepository<Account, UUID> {
     Account getAccountByUsername(String username);
+    Account getAccountByEmail(String email);
 }
