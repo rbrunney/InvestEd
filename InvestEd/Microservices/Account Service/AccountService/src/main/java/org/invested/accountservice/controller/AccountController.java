@@ -7,6 +7,7 @@ import org.invested.accountservice.models.security.JWTUtil;
 import org.invested.accountservice.models.security.JsonWebToken;
 import org.invested.accountservice.models.security.RSA;
 import org.invested.accountservice.respository.AccountJPARepo;
+import org.invested.accountservice.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,9 @@ public class AccountController {
 
     @Autowired
     private AccountJPARepo accountRepo;
+
+    @Autowired
+    private AccountService accountService;
 
     @GetMapping("/test")
     public String testJWTWorks() {
@@ -42,27 +46,18 @@ public class AccountController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<Map<String, Object>> authenticateUser(@RequestBody JsonNode userCredentials) {
-        // Decryption happens here when implementation works
-        RSA rsa = new RSA();
-        rsa.initFromStrings();
-        String username = rsa.decrypt(userCredentials.get("username").asText());
-        String password = rsa.decrypt(userCredentials.get("password").asText());
+        // Decrypt incoming body
+        Map<String, String> loginInfo = accountService.decryptUserCredentials(userCredentials.get("username").asText(), userCredentials.get("password").asText());
 
-        Account accountFound = accountRepo.getAccountByUsername(username);
+        // Check to see if user is valid
+        if (accountService.validateUserCredentials(loginInfo)) {
+            Map<String, Object> tokens = accountService.generateJsonWebTokens(loginInfo, 10);
 
-        // Need to do comparison once its encrypt the password data
-        if(accountFound != null && accountFound.getPassword().equals(password)) {
-            UserDetails authenticatedUser = User.withUsername(username).password(password).roles("USER").build();
-
-            Map<String, Object> tokens = new HashMap<>();
-            tokens.put("access-token", new JsonWebToken(authenticatedUser, JWTUtil.getAlgorithm(), 10).getGeneratedToken());
-            tokens.put("refresh-token", new JsonWebToken(authenticatedUser, JWTUtil.getAlgorithm(), 30).getGeneratedToken());
-
-            return new ResponseEntity<>(new Response("Authenication Valid!", tokens).getResponseBody(), HttpStatus.OK);
+            return new ResponseEntity<>(new Response("Authentication Passed!", tokens).getResponseBody(), HttpStatus.OK);
         }
 
         Map<String, Object> status = new HashMap<>();
-        status.put("status-code", HttpStatus.BAD_REQUEST);
+        status.put("status-code", HttpStatus.BAD_REQUEST.value());
 
         return new ResponseEntity<>(new Response("Authentication Invalid!", status).getResponseBody(), HttpStatus.BAD_REQUEST);
     }
