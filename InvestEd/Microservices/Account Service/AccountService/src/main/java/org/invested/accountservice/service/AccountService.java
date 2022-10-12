@@ -28,7 +28,6 @@ public class AccountService {
     public Map<String, String> decryptUserCredentials(String username, String password) {
         // Having to Decrypt User Information using RSA
         RSA rsa = new RSA();
-        rsa.initFromStrings();
         String decryptedUsername = rsa.decrypt(username);
         String decryptedPassword = rsa.decrypt(password);
 

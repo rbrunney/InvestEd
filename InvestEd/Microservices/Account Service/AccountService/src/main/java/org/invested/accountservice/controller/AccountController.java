@@ -29,7 +29,6 @@ public class AccountController {
     public String encrypt(@PathVariable String msg) {
         try {
             RSA rsa = new RSA();
-            rsa.initFromStrings();
             return rsa.encrypt(msg);
         } catch(Exception e) {
             return "Encrypt MSG Failed";

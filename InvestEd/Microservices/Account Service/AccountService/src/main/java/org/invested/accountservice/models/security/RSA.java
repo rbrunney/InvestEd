@@ -13,23 +13,10 @@ public class RSA {
     private PrivateKey privateKey;
     private PublicKey publicKey;
 
-    private static final String PUBLIC_KEY = System.getenv("RSA_PUBLIC_KEY").replace("\"", "");
-    private static final String PRIVATE_KEY = System.getenv("RSA_PRIVATE_KEY").replace("\"", "");
+    private static final String PUBLIC_KEY = System.getenv("RSA_PUBLIC_KEY");
+    private static final String PRIVATE_KEY = System.getenv("RSA_PRIVATE_KEY");
 
-    public void init() {
-        try {
-            KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
-            generator.initialize(2048);
-            KeyPair pair = generator.generateKeyPair();
-
-            privateKey = pair.getPrivate();
-            publicKey = pair.getPublic();
-        } catch(Exception e) {
-            System.out.println("[ERROR] " + e.getMessage());
-        }
-    }
-
-    public void initFromStrings() {
+    public RSA() {
         try {
             X509EncodedKeySpec keySpecPublic = new X509EncodedKeySpec(decode(PUBLIC_KEY));
             PKCS8EncodedKeySpec keySpecPrivate = new PKCS8EncodedKeySpec(decode(PRIVATE_KEY));
@@ -41,11 +28,6 @@ public class RSA {
         } catch(Exception e) {
             System.out.println("[ERROR] " + e.getMessage());
         }
-    }
-
-    public void printKeys() {
-        System.out.println(encode(publicKey.getEncoded()));
-        System.out.println(encode(privateKey.getEncoded()));
     }
 
     public String encrypt(String msgToEncrypt) throws Exception {
