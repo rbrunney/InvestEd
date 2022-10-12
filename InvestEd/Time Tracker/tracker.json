@@ -177,6 +177,22 @@
                     "start_time": "8:48 pm",
                     "end_time": "9:28 pm",
                     "description": "Cleaning /authenticate"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "9:28 pm",
+                    "end_time": "10:2 pm",
+                    "description": "Working on POST /account"
+                }
+            ]
+        },
+        "Wednesday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "9:40 am",
+                    "end_time": "10:50 am",
+                    "description": "Working on RabbitMQ Producer"
                 }
             ]
         }

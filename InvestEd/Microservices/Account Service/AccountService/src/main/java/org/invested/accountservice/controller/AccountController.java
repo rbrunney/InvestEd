@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.invested.accountservice.models.application.Account;
 import org.invested.accountservice.models.application.Response;
 import org.invested.accountservice.models.security.RSA;
-import org.invested.accountservice.respository.AccountJPARepo;
 import org.invested.accountservice.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,9 +16,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/invested_account")
 public class AccountController {
-
-    @Autowired
-    private AccountJPARepo accountRepo;
 
     @Autowired
     private AccountService accountService;
@@ -59,7 +55,7 @@ public class AccountController {
     }
 
     @PostMapping()
-    public ResponseEntity<Map<String, String>> createUser(@RequestBody Account newAccount) {
+    public ResponseEntity<Map<String, Object>> createUser(@RequestBody Account newAccount) {
         // Check to see if username or email us taken
         if(!(accountService.checkIfAccountExists("username", newAccount.getUsername())
                 || accountService.checkIfAccountExists("email", newAccount.getEmail()))) {
@@ -68,9 +64,9 @@ public class AccountController {
 
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
-            // If taken New ResponsEnityy with Bad Request
-            // Else make new account
-                // Make Message to RabbitMQ
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(new Response("Username or Email Already Taken!", new HashMap<>(){{
+            put("status-code", HttpStatus.BAD_REQUEST.value());
+        }}).getResponseBody(), HttpStatus.BAD_REQUEST);
     }
 }

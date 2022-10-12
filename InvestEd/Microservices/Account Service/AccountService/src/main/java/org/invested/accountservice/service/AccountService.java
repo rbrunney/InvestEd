@@ -5,6 +5,7 @@ import org.invested.accountservice.models.security.JWTUtil;
 import org.invested.accountservice.models.security.JsonWebToken;
 import org.invested.accountservice.models.security.RSA;
 import org.invested.accountservice.respository.AccountJPARepo;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,9 @@ public class AccountService {
 
     @Autowired
     private AccountJPARepo accountRepo;
+
+    @Autowired
+    private AmqpTemplate amqpTemplate;
 
     public Map<String, String> decryptUserCredentials(String username, String password) {
         // Having to Decrypt User Information using RSA
@@ -75,8 +79,9 @@ public class AccountService {
         newAccount.setPassword(BCrypt.hashpw(newAccount.getPassword(), BCrypt.gensalt()));
 
         // Save to database
-        accountRepo.save(newAccount);
+        Account savedAccount = accountRepo.save(newAccount);
 
         // Make Call to RabbitMQ to send confirmation email
+        amqpTemplate.convertAndSend("ACCOUNT_EMAIL_EXCHANGE", "email.confirmation", savedAccount.getEmail());
     }
 }
