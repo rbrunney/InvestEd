@@ -82,8 +82,15 @@ public class AccountService {
         // Save to database
         Account savedAccount = accountRepo.save(newAccount);
 
+        // Creating RabbitMQ Message
+        Map<String, String> message = new HashMap<>() {{
+            put("email", savedAccount.getEmail());
+            put("fname", savedAccount.getFirstName());
+            put("lname", savedAccount.getLastName());
+        }};
+
         // Make Call to RabbitMQ to send confirmation email
-        amqpTemplate.convertAndSend("ACCOUNT_EMAIL_EXCHANGE", "email.confirmation", savedAccount.getEmail());
+        amqpTemplate.convertAndSend("ACCOUNT_EMAIL_EXCHANGE", "email.confirmation", message.toString());
     }
 
     public void sendCode(String email) {

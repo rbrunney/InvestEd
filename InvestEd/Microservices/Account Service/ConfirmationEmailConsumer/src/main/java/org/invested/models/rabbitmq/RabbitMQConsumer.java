@@ -5,6 +5,8 @@ import org.invested.models.email.SendEmail;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RabbitMQConsumer {
 
@@ -36,10 +38,21 @@ public class RabbitMQConsumer {
                 @Override
                 public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) {
                     String rabbitmqMessage = new String(body, StandardCharsets.UTF_8);
+                    Map<String, String> msgToMap = convertMsgToMap(rabbitmqMessage.replace("{", "")
+                            .replace("}", "")
+                            .replace(" ", ""));
 
-                    String emailBody = "<h1> Confirm Email </h1>";
+                    String emailBody = "<div>\n" +
+                            "        <img src=\"https://i.pinimg.com/736x/ba/92/7f/ba927ff34cd961ce2c184d47e8ead9f6.jpg\"></img>\n" +
+                            "    </div>\n" +
+                            "    <div>\n" +
+                            "        <h1 style=\"text-align:center;\">Welcome to InvestEd!</h1>\n" +
+                            "    </div>\n" +
+                            "    <div>\n" +
+                            "        <h3 style=\"text-align:center;\"> Hello " + msgToMap.get("fname") + " " + msgToMap.get("lname") + " </h3>\n" +
+                            "    </div>";
 
-                    new SendEmail(rabbitmqMessage, "Confirmation Email", emailBody);
+                    new SendEmail(msgToMap.get("email"), "Confirmation Email", emailBody);
                 }
             };
 
@@ -48,6 +61,19 @@ public class RabbitMQConsumer {
             System.out.println("[ERROR] " + ioe.getMessage());
         }
 
+    }
+
+    private Map<String, String> convertMsgToMap(String msgToConvert) {
+        Map<String, String> finalResult = new HashMap<>();
+
+        String[] jsonPairs = msgToConvert.split(",");
+
+        for(String pair : jsonPairs) {
+            String[] keyValue = pair.split("=");
+            finalResult.put(keyValue[0], keyValue[1]);
+        }
+
+        return finalResult;
     }
 
     private void closeConnection() {
