@@ -68,4 +68,20 @@ public class AccountController {
             put("status-code", HttpStatus.BAD_REQUEST.value());
         }}).getResponseBody(), HttpStatus.BAD_REQUEST);
     }
+
+    @GetMapping("/forgot_password")
+    public ResponseEntity<Map<String, Object>> forgotPassword(@RequestBody JsonNode reqBody) {
+
+        accountService.sendCode(reqBody.get("user_email").asText());
+        return new ResponseEntity<>(new Response("Password Updated!", new HashMap<>(){{
+            put("status-code", HttpStatus.OK.value());
+        }}).getResponseBody(), HttpStatus.OK);
+    }
+
+    @GetMapping("/verify_code")
+    public ResponseEntity<Map<String, Object>> verifyCode() {
+        return new ResponseEntity<>(new Response("Password Updated!", new HashMap<>(){{
+            put("status-code", HttpStatus.OK.value());
+        }}).getResponseBody(), HttpStatus.OK);
+    }
 }

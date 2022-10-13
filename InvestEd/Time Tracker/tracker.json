@@ -207,6 +207,22 @@
                     "description": "Consumer Made for ConfirmationEmail"
                 }
             ]
+        },
+        "Thursday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "8:0 am",
+                    "end_time": "8:16 am",
+                    "description": "Working on /forogt_password"
+                },
+                {
+                    "activity": "Research",
+                    "start_time": "8:16 am",
+                    "end_time": "8:27 am",
+                    "description": "Redis in Docker/With Java"
+                }
+            ]
         }
     },
     "Week 3": {},

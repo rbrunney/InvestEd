@@ -2,6 +2,14 @@ version: "3.9"
 
 services:
 
+  forgot_pass_code_database:
+    image: "redis:alpine"
+    container_name: verify-code-database
+    ports:
+      - "6379:6379"
+    networks:
+      - base-net
+
   rabbitmq:
     image: "rabbitmq:3-management"
     container_name: rabbitmq

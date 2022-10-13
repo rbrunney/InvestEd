@@ -1,6 +1,7 @@
 package org.invested.accountservice.service;
 
 import org.invested.accountservice.models.application.Account;
+import org.invested.accountservice.models.application.RedisUtil;
 import org.invested.accountservice.models.security.JWTUtil;
 import org.invested.accountservice.models.security.JsonWebToken;
 import org.invested.accountservice.models.security.RSA;
@@ -82,5 +83,15 @@ public class AccountService {
 
         // Make Call to RabbitMQ to send confirmation email
         amqpTemplate.convertAndSend("ACCOUNT_EMAIL_EXCHANGE", "email.confirmation", savedAccount.getEmail());
+    }
+
+    public void sendCode(String email) {
+        RedisUtil.redisConnection.set("test", email);
+
+        System.out.println(RedisUtil.redisConnection.get("test"));
+    }
+
+    public boolean verifyCode(int code) {
+        return true;
     }
 }
