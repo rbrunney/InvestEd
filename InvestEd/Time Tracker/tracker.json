@@ -193,6 +193,12 @@
                     "start_time": "9:40 am",
                     "end_time": "10:50 am",
                     "description": "Working on RabbitMQ Producer"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "4:41 pm",
+                    "end_time": "5:20 pm",
+                    "description": "Cont RabbitMQ Implementation"
                 }
             ]
         }
