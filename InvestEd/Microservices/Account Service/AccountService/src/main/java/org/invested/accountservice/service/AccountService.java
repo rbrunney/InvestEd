@@ -105,7 +105,13 @@ public class AccountService {
         return String.format("%06d", new Random().nextInt(999999));
     }
 
-    public boolean verifyCode(int code) {
-        return true;
+    public boolean verifyCode(String email, int code) {
+        // Get current code from redis and check to see if it's the same
+        String currentCode = RedisUtil.redisConnection.get(email);
+        return currentCode != null && Integer.parseInt(currentCode) == code;
+    }
+
+    public void deleteVerificationCode(String email) {
+        RedisUtil.redisConnection.del(email);
     }
 }

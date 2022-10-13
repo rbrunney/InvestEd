@@ -2,6 +2,7 @@ package org.invested.accountservice.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.invested.accountservice.models.application.Account;
+import org.invested.accountservice.models.application.RedisUtil;
 import org.invested.accountservice.models.application.Response;
 import org.invested.accountservice.models.security.RSA;
 import org.invested.accountservice.service.AccountService;
@@ -70,18 +71,32 @@ public class AccountController {
     }
 
     @GetMapping("/forgot_password")
-    public ResponseEntity<Map<String, Object>> forgotPassword(@RequestBody JsonNode reqBody) {
+    public ResponseEntity<Map<String, Object>> forgotPassword(@RequestBody JsonNode requestBody) {
 
-        accountService.sendCode(reqBody.get("user_email").asText());
-        return new ResponseEntity<>(new Response("Password Updated!", new HashMap<>(){{
+        accountService.sendCode(requestBody.get("user_email").asText());
+        return new ResponseEntity<>(new Response("Verification Code Sent", new HashMap<>(){{
             put("status-code", HttpStatus.OK.value());
         }}).getResponseBody(), HttpStatus.OK);
     }
 
     @GetMapping("/verify_code")
-    public ResponseEntity<Map<String, Object>> verifyCode() {
-        return new ResponseEntity<>(new Response("Password Updated!", new HashMap<>(){{
-            put("status-code", HttpStatus.OK.value());
-        }}).getResponseBody(), HttpStatus.OK);
+    public ResponseEntity<Map<String, Object>> verifyCode(@RequestBody JsonNode requestBody) {
+
+        // Verifying Code
+        if(accountService.verifyCode(requestBody.get("user_email").asText(),
+                Integer.parseInt(requestBody.get("verification_code").asText()))) {
+
+            accountService.deleteVerificationCode(requestBody.get("user_email").asText());
+            return new ResponseEntity<>(new Response("Verification Code Valid!", new HashMap<>(){{
+                put("status-code", HttpStatus.OK.value());
+            }}).getResponseBody(), HttpStatus.OK);
+        } else {
+            accountService.deleteVerificationCode(requestBody.get("user_email").asText());
+        }
+
+        return new ResponseEntity<>(new Response("Verification Code Invalid!", new HashMap<>(){{
+            put("status-code", HttpStatus.BAD_REQUEST.value());
+        }}).getResponseBody(), HttpStatus.BAD_REQUEST);
+
     }
 }
