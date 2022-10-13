@@ -199,6 +199,12 @@
                     "start_time": "4:41 pm",
                     "end_time": "5:20 pm",
                     "description": "Cont RabbitMQ Implementation"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "6:20 pm",
+                    "end_time": "7:2 pm",
+                    "description": "Consumer Made for ConfirmationEmail"
                 }
             ]
         }

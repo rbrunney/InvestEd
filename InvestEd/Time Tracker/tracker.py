@@ -49,7 +49,7 @@ def main():
     ## Making Second Tab Layout for Viewing Hours 
 
     view_hours_layout = [
-        [gui.Combo(week_list, default_value=week_list[0], readonly=True, key='-VIEW-WEEK-'), gui.Button('Fetch', key='-FETCH-')],
+        [gui.Combo(week_list, default_value=week_list[0], readonly=True, key='-VIEW-WEEK-'), gui.Button('Fetch', key='-FETCH-'), gui.Button('Summary', key='-SUMMARY-')],
         [gui.Text('Total Hours: '), gui.Text('0', key='-TOTAL-HOURS-'), gui.Text('Min Hours Reached: '), gui.Text('FALSE', key='-IS-REACHED-')],
         [
             gui.Table(
@@ -102,6 +102,13 @@ def main():
 
             if float(window['-TOTAL-HOURS-'].get()) >= 20:
                 window['-IS-REACHED-'].update('TRUE')
+            else:
+                window['-IS-REACHED-'].update('FALSE')
+        
+        if event == '-SUMMARY-':
+            data = get_summary_data(window['-VIEW-WEEK-'].get())
+            summary_output = f'Coding: {data["Coding"]} hrs\nResearch: {data["Research"]} hrs\nDesign: {data["Design"]} hrs\nBug Fixing: {data["Bug Fixing"]} hrs\nOther: {data["Other"]} hrs'
+            gui.Popup(summary_output, title='Hours Break Down', keep_on_top=True)
             
 
         # If the user close window 'X' it will shut the gui down
@@ -123,6 +130,19 @@ def get_activity_data(week):
                 time_information.append([data_info['start_time'],data_info['end_time']])
 
     return (table_data, time_information)
+
+def get_summary_data(week):
+    with open('tracker.json', 'r') as file:
+        tracker_info = json.loads(file.read())
+        summary_data = {
+            'Coding': 0, 'Research' : 0, 'Design' : 0, 'Bug Fixing' : 0, 'Other' : 0
+        }
+
+        for key in dict(tracker_info[week]).keys():
+            for data_info in tracker_info[week][key]['activities']:
+                summary_data[data_info['activity']] = summary_data[data_info['activity']] + calculate_time([[data_info['start_time'],data_info['end_time']]])
+                
+    return summary_data
 
 def calculate_time(time_list):
 
