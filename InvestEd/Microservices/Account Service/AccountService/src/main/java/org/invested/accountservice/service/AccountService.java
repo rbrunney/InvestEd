@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 @Service
 public class AccountService {
@@ -86,9 +87,22 @@ public class AccountService {
     }
 
     public void sendCode(String email) {
-        RedisUtil.redisConnection.set("test", email);
+        // Generate code and put into redis
+        String generatedCode = generateSixDigitCode();
+        RedisUtil.redisConnection.set(email, generatedCode);
 
-        System.out.println(RedisUtil.redisConnection.get("test"));
+        // Making message information
+        Map<String, String> forgotPassMsg = new HashMap<>() {{
+            put("email", email);
+            put("verification-code", generatedCode);
+        }};
+
+        // Make Call to RabbitMQ to send forgot email password
+        amqpTemplate.convertAndSend("ACCOUNT_EMAIL_EXCHANGE", "email.forgot-pass", forgotPassMsg.toString());
+    }
+
+    public String generateSixDigitCode() {
+        return String.format("%06d", new Random().nextInt(999999));
     }
 
     public boolean verifyCode(int code) {
