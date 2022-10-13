@@ -1,6 +1,7 @@
 package org.invested.models.rabbitmq;
 
 import com.rabbitmq.client.*;
+import org.invested.models.email.SendEmail;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -36,7 +37,9 @@ public class RabbitMQConsumer {
                 public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) {
                     String rabbitmqMessage = new String(body, StandardCharsets.UTF_8);
 
-                    System.out.println(rabbitmqMessage);
+                    String emailBody = "<h1> Confirm Email </h1>";
+
+                    new SendEmail(rabbitmqMessage, "Confirmation Email", emailBody);
                 }
             };
 
