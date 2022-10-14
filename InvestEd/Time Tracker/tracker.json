@@ -221,6 +221,12 @@
                     "start_time": "8:16 am",
                     "end_time": "8:27 am",
                     "description": "Redis in Docker/With Java"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "9:25 am",
+                    "end_time": "10:50 am",
+                    "description": "Working on ForgotPassword Consumer"
                 }
             ]
         }

@@ -43,14 +43,17 @@ public class RabbitMQConsumer {
                             .replace(" ", ""));
 
                     String emailBody = "<div>\n" +
-                            "        <img src=\"https://i.pinimg.com/736x/ba/92/7f/ba927ff34cd961ce2c184d47e8ead9f6.jpg\"></img>\n" +
-                            "    </div>\n" +
-                            "    <div>\n" +
                             "        <h1 style=\"text-align:center;\">Welcome to InvestEd!</h1>\n" +
                             "    </div>\n" +
                             "    <div>\n" +
-                            "        <h3 style=\"text-align:center;\"> Hello " + msgToMap.get("fname") + " " + msgToMap.get("lname") + " </h3>\n" +
-                            "    </div>";
+                            "        <h2 style=\"text-align:center;\"> Hello, " + msgToMap.get("fname") + " " + msgToMap.get("lname") + "! </h3>\n" +
+                            "    </div>" +
+                            "    <div>\n" +
+                            "        <h3 style=\"text-align:center;\"> Please Confirm Email Below: </h3>\n" +
+                            "    </div>" +
+                            "    <div style=\"text-align:center;\">\n" +
+                            "        <a href=\"https://youtube.com\">Confirm Email!</button>\n" +
+                            "    </div> ";
 
                     new SendEmail(msgToMap.get("email"), "Confirmation Email", emailBody);
                 }

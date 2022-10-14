@@ -93,6 +93,14 @@ public class AccountService {
         amqpTemplate.convertAndSend("ACCOUNT_EMAIL_EXCHANGE", "email.confirmation", message.toString());
     }
 
+    public void deleteUser(String username) {
+        try {
+            accountRepo.delete(accountRepo.getAccountByUsername(username));
+        } catch(Exception e) {
+            System.out.println("[ERROR] " + e.getMessage());
+        }
+    }
+
     public void sendCode(String email) {
         // Generate code and put into redis
         String generatedCode = generateSixDigitCode();
