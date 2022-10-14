@@ -50,6 +50,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET, "invested_acconut/forgot_password").permitAll()
                 .antMatchers(HttpMethod.GET, "/invested_account/test").hasAnyAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.DELETE, "/invested_account").hasAnyAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.PUT, "invested_account").hasAnyAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.GET, "/invested_account/encrypt/**").permitAll()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

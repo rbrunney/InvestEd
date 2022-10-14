@@ -14,8 +14,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.InvalidKeyException;
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 @RestController
@@ -81,9 +83,19 @@ public class AccountController {
     }
 
     @PutMapping()
-    public ResponseEntity<Map<String, Object>> updateUser(Principal principal, @RequestBody JsonNode requestBody) {
+    public ResponseEntity<Map<String, Object>> updateUser(Principal principal, @RequestBody JsonNode requestBody) throws InvalidKeyException {
+        Account userToUpdate = null;
+        for (Iterator<String> it = requestBody.fieldNames(); it.hasNext(); ) {
+            String key = it.next();
+            userToUpdate = accountService.updateUserField(principal.getName(), key, requestBody.get(key).asText());
+        }
 
+        if(userToUpdate != null) {
+            accountService.saveUser(userToUpdate);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
 
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/forgot_password")

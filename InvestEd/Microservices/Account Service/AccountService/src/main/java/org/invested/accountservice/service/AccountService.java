@@ -1,5 +1,6 @@
 package org.invested.accountservice.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.invested.accountservice.models.application.Account;
 import org.invested.accountservice.models.application.RedisUtil;
 import org.invested.accountservice.models.security.JWTUtil;
@@ -13,8 +14,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.security.InvalidKeyException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
@@ -95,9 +99,33 @@ public class AccountService {
 
     public void deleteUser(String username) {
         try {
-            accountRepo.delete(accountRepo.getAccountByUsername(username));
+            accountRepo.deleteAccountByUsername(username);
         } catch(Exception e) {
             System.out.println("[ERROR] " + e.getMessage());
+        }
+    }
+
+    public Account updateUserField(String username, String fieldToUpdate, String newInfo) throws InvalidKeyException {
+        Account accountToUpdate = accountRepo.getAccountByUsername(username);
+
+        switch (fieldToUpdate) {
+            case "first_name" -> {
+                accountToUpdate.setFirstName(newInfo);
+                return accountToUpdate;
+            }
+            case "last_name" -> {
+                accountToUpdate.setLastName(newInfo);
+                return accountToUpdate;
+            }
+            case "password" -> {
+                accountToUpdate.setPassword(BCrypt.hashpw(newInfo, BCrypt.gensalt()));
+                return accountToUpdate;
+            }
+            case "phone" -> {
+                accountToUpdate.setPhone(newInfo);
+                return accountToUpdate;
+            }
+            default -> throw new InvalidKeyException("Invalid Property in Json");
         }
     }
 
