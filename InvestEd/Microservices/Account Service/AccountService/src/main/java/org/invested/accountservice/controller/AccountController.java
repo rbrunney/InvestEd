@@ -91,7 +91,7 @@ public class AccountController {
         }
 
         if(userToUpdate != null) {
-            accountService.saveUser(userToUpdate);
+            accountService.updateUser(userToUpdate);
             return new ResponseEntity<>(HttpStatus.OK);
         }
 

@@ -1,6 +1,5 @@
 package org.invested.accountservice.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import org.invested.accountservice.models.application.Account;
 import org.invested.accountservice.models.application.RedisUtil;
 import org.invested.accountservice.models.security.JWTUtil;
@@ -12,13 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.security.InvalidKeyException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
@@ -99,10 +95,23 @@ public class AccountService {
 
     public void deleteUser(String username) {
         try {
-            accountRepo.deleteAccountByUsername(username);
+            Account accountToDelete = accountRepo.getAccountByUsername(username);
+            accountRepo.deleteById(accountToDelete.getUsername());
         } catch(Exception e) {
             System.out.println("[ERROR] " + e.getMessage());
         }
+    }
+
+    public void updateUser(Account updatedAccount) {
+        accountRepo.save(updatedAccount);
+
+        Map<String, String> message = new HashMap<>() {{
+            put("email", updatedAccount.getEmail());
+            put("fname", updatedAccount.getFirstName());
+            put("lname", updatedAccount.getLastName());
+        }};
+
+        amqpTemplate.convertAndSend("ACCOUNT_EMAIL_EXCHANGE", "email.user-info-update", message.toString());
     }
 
     public Account updateUserField(String username, String fieldToUpdate, String newInfo) throws InvalidKeyException {

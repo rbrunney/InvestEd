@@ -8,6 +8,7 @@ import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableMBeanExport;
 
 @Configuration
 public class RabbitMQTopicConfig {
@@ -23,6 +24,9 @@ public class RabbitMQTopicConfig {
     }
 
     @Bean
+    Queue userUpdateInfoQueue() { return new Queue("updated-info-queue", true);}
+
+    @Bean
     TopicExchange topicExchange() {
         return new TopicExchange("ACCOUNT_EMAIL_EXCHANGE");
     }
@@ -35,6 +39,11 @@ public class RabbitMQTopicConfig {
     @Bean
     Binding forgotPassBinding() {
         return BindingBuilder.bind(forgotPasswordQueue()).to(topicExchange()).with("email.forgot-pass");
+    }
+
+    @Bean
+    Binding userUpdateInfoBinding() {
+        return BindingBuilder.bind(userUpdateInfoQueue()).to(topicExchange()).with("email.user-info-update");
     }
 
     @Bean
