@@ -149,6 +149,118 @@
                     "start_time": "10:0 am",
                     "end_time": "10:34 am",
                     "description": "Researching RabbitMQ"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "7:0 pm",
+                    "end_time": "10:0 pm",
+                    "description": "Implemeting JWT and RSA into Account API"
+                }
+            ]
+        },
+        "Tuesday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "8:0 am",
+                    "end_time": "10:55 am",
+                    "description": "Account API Start w/ JWT"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "8:0 pm",
+                    "end_time": "8:48 pm",
+                    "description": "Finished RSA Implementation"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "8:48 pm",
+                    "end_time": "9:28 pm",
+                    "description": "Cleaning /authenticate"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "9:28 pm",
+                    "end_time": "10:2 pm",
+                    "description": "Working on POST /account"
+                }
+            ]
+        },
+        "Wednesday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "9:40 am",
+                    "end_time": "10:50 am",
+                    "description": "Working on RabbitMQ Producer"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "4:41 pm",
+                    "end_time": "5:20 pm",
+                    "description": "Cont RabbitMQ Implementation"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "6:20 pm",
+                    "end_time": "7:2 pm",
+                    "description": "Consumer Made for ConfirmationEmail"
+                }
+            ]
+        },
+        "Thursday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "8:0 am",
+                    "end_time": "8:16 am",
+                    "description": "Working on /forogt_password"
+                },
+                {
+                    "activity": "Research",
+                    "start_time": "8:16 am",
+                    "end_time": "8:27 am",
+                    "description": "Redis in Docker/With Java"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "9:25 am",
+                    "end_time": "10:50 am",
+                    "description": "Working on ForgotPassword Consumer"
+                },
+                {
+                    "activity": "Design",
+                    "start_time": "5:30 pm",
+                    "end_time": "6:0 pm",
+                    "description": "Working on Consumer Emails"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "7:0 pm",
+                    "end_time": "8:35 pm",
+                    "description": "Working on finishing User API"
+                },
+                {
+                    "activity": "Bug Fixing",
+                    "start_time": "8:35 pm",
+                    "end_time": "9:35 pm",
+                    "description": "Working On JPA Issues"
+                }
+            ]
+        },
+        "Friday": {
+            "activities": [
+                {
+                    "activity": "Bug Fixing",
+                    "start_time": "9:30 am",
+                    "end_time": "10:36 am",
+                    "description": "Worked on JPA Delete/Update Issue"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "7:0 pm",
+                    "end_time": "7:19 pm",
+                    "description": "Working on Update User Consumer"
                 }
             ]
         }

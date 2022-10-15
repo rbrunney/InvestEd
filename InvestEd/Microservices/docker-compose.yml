@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+
+  forgot_pass_code_database:
+    image: "redis:alpine"
+    container_name: verify-code-database
+    ports:
+      - "6379:6379"
+    networks:
+      - base-net
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - base-net
+
+  account_database:
+    image: "mysql:latest"
+    container_name: invested-account-db
+    environment:
+      - MYSQL_DATABASE=accounts 
+      - MYSQL_USER=rbrunney
+      - MYSQL_PASSWORD=tempPass123!
+      - MYSQL_ROOT_PASSWORD=tempPass123!
+    ports:
+      - "9000:3306"
+    networks:
+      - base-net
+
+networks:
+  base-net:
+    name: "invested_ecosystem"
