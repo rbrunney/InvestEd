@@ -2,26 +2,6 @@ from flask import Flask
 
 stock_api = Flask(__name__)
 
-@stock_api.route("/invested_stock/place_order", methods=["POST"])
-def placeOrder():
-    pass
-
-@stock_api.route("/invested_stock/get_order_info/{order_id}", methods=["GET"])
-def getOrder():
-    pass
-
-@stock_api.route("/invested_stock/get_all_orders", methods=["GET"])
-def getAlllOrders():
-    pass
-
-@stock_api.route("/invested_stock/cancel_order/{order_id}", methods=["DELETE"])
-def cancelOrder():
-    pass
-
-@stock_api.route("/invested_stock/cancel_all_orders", methods=["DELETE"])
-def cancelAllOrders():
-    pass
-
 @stock_api.route("/invested_stock/{ticker}/price", methods=["GET"])
 def getTickerPrice():
     pass
