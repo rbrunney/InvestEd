@@ -261,6 +261,18 @@
                     "start_time": "7:0 pm",
                     "end_time": "7:19 pm",
                     "description": "Working on Update User Consumer"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "7:19 pm",
+                    "end_time": "7:25 pm",
+                    "description": "Working on Base Flask Set Up"
+                },
+                {
+                    "activity": "Research",
+                    "start_time": "7:25 pm",
+                    "end_time": "9:0 pm",
+                    "description": "Finding Better Stock API yfinance SLOW"
                 }
             ]
         }

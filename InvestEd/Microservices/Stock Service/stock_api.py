@@ -1,10 +1,22 @@
 from flask import Flask
 
+import stock
+from datetime import datetime
+
 stock_api = Flask(__name__)
 
 @stock_api.route("/invested_stock/<ticker>/price", methods=["GET"])
-def getTickerPrice():
-    pass
+def getTickerPrice(ticker:str):
+    response = {
+        'message' : f'{ticker} Price Successfuly Fetched!',
+        'results' : {
+            'current_price' : stock.Stock(ticker).get_current_price(),
+            'status_code' : 200 
+        },
+        'date-time' : datetime.now() 
+    }
+
+    return response
 
 @stock_api.route("/invested_stock/{ticker}/basic_info", methods=["GET"])
 def getTickerBasicInfo():

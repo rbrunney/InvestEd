@@ -1,12 +1,14 @@
-import yfinance as yf
+import requests
+
+import json
 
 
 class Stock:
     def __init__(self, ticker : str):
-        self.ticker = yf.Ticker(ticker)
+        self.ticker = ticker
 
     def get_current_price(self):
-        return self.ticker.info['currentPrice']
+        print(json.dumps(getQuotes('AAPL'), indent=2))
     
     def get_basic_info(self):
         pass
