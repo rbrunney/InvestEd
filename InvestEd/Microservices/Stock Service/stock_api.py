@@ -2,7 +2,7 @@ from flask import Flask
 
 stock_api = Flask(__name__)
 
-@stock_api.route("/invested_stock/{ticker}/price", methods=["GET"])
+@stock_api.route("/invested_stock/<ticker>/price", methods=["GET"])
 def getTickerPrice():
     pass
 
