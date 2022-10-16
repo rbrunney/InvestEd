@@ -56,9 +56,15 @@ def getTickerBasicInfo(ticker: str):
 def getTickerEarningCalls():
     pass
 
-@stock_api.route("/invested_stock/{ticker}/news", methods=["GET"])
-def getTickerNews():
-    pass
+@stock_api.route("/invested_stock/<ticker>/news", methods=["GET"])
+def getTickerNews(ticker:str):
+    fetched_data = stock.Stock(ticker).get_news()
+
+    if(fetched_data == {}):
+        return failed_fetch(ticker), 404
+    
+    return fetched_data
+
 
 @stock_api.route("/invested_stock/{ticker}/moving_avg", methods=["GET"])
 def getTickerMovingAverage():

@@ -20,8 +20,10 @@ class Stock:
         pass
 
     def get_news(self):
-        pass
-
+        request = requests.get(f'https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers={self.ticker}&topics=technology&sort=LATEST&apikey={os.getenv("ALPHA_VANTAGE_API_KEY")}')
+        fetched_data = request.json()
+        return fetched_data
+        
     def get_moving_average(self):
         pass
 
