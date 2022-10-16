@@ -20,9 +20,37 @@ def getTickerPrice(ticker:str):
         'date-time' : datetime.now()
     }
 
-@stock_api.route("/invested_stock/{ticker}/basic_info", methods=["GET"])
-def getTickerBasicInfo():
-    pass
+@stock_api.route("/invested_stock/<ticker>/basic_info", methods=["GET"])
+def getTickerBasicInfo(ticker: str):
+    fetched_data = stock.Stock(ticker).get_basic_info()
+
+    if(fetched_data == {}):
+        return failed_fetch(ticker), 404
+
+    return {
+        'message' : f'{ticker} Basic Information Successfuly Fetched!',
+        'results' :         {
+            'ticker' : fetched_data['Symbol'],
+            'open' : '',
+            'high' : '',
+            'low' : '',
+            '52_week_high' : float(fetched_data['52WeekHigh']),
+            '52_week_low' : float(fetched_data['52WeekLow']),
+            'volume' : '',
+            'market_cap' : int(fetched_data['MarketCapitalization']),
+            'pe_ratio' : float(fetched_data['PERatio']),
+            'dividend_yeild' : float(fetched_data['DividendYield']),
+            'description' : fetched_data['Description'],
+            'ceo' : '',
+            'hq_city' : fetched_data['Address'].split(',')[1].replace(' ', ''),
+            'hq_state' : fetched_data['Address'].split(',')[2].replace(' ', ''),
+            'sector' : fetched_data['Sector'],
+            'industry' : fetched_data['Industry'],
+            'num_employees' : '',
+            'year_founded' : '',
+        },
+        'date-time' : datetime.now()
+    }
 
 @stock_api.route("/invested_stock/{ticker}/earning_calls", methods=["GET"])
 def getTickerEarningCalls():

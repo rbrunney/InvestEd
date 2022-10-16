@@ -12,7 +12,9 @@ class Stock:
     
     
     def get_basic_info(self):
-        pass
+        request = requests.get(f'https://www.alphavantage.co/query?function=OVERVIEW&symbol={self.ticker}&apikey={os.getenv("ALPHA_VANTAGE_API_KEY")}')
+        fetched_data = request.json()
+        return fetched_data
 
     def get_earnings_call(self):
         pass
