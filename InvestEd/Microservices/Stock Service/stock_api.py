@@ -7,16 +7,18 @@ stock_api = Flask(__name__)
 
 @stock_api.route("/invested_stock/<ticker>/price", methods=["GET"])
 def getTickerPrice(ticker:str):
-    response = {
-        'message' : f'{ticker} Price Successfuly Fetched!',
-        'results' : {
-            'current_price' : stock.Stock(ticker).get_current_price(),
-            'status_code' : 200 
-        },
-        'date-time' : datetime.now() 
-    }
+    fetched_data = stock.Stock(ticker).get_current_price()
 
-    return response
+    if(fetched_data == {}):
+        return failed_fetch(ticker), 404
+
+    return {
+        'message' : f'{ticker} Price Successfully Fetched!',
+        'results' : {
+            'current_price' : stock.Stock(ticker).get_current_price()
+        },
+        'date-time' : datetime.now()
+    }
 
 @stock_api.route("/invested_stock/{ticker}/basic_info", methods=["GET"])
 def getTickerBasicInfo():
@@ -33,6 +35,12 @@ def getTickerNews():
 @stock_api.route("/invested_stock/{ticker}/moving_avg", methods=["GET"])
 def getTickerMovingAverage():
     pass
+
+def failed_fetch(ticker):
+    return {
+        'message' : f'Stock {ticker} Does Not Exist!',
+        'date-time' : datetime.now()
+    }
 
 if __name__ == '__main__':
     stock_api.run(host='0.0.0.0', port=105)

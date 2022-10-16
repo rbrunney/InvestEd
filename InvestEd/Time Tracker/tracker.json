@@ -275,6 +275,16 @@
                     "description": "Finding Better Stock API yfinance SLOW"
                 }
             ]
+        },
+        "Saturday": {
+            "activities": [
+                {
+                    "activity": "Research",
+                    "start_time": "9:40 pm",
+                    "end_time": "10:20 pm",
+                    "description": "Looking at Alpha Vantage Documentation"
+                }
+            ]
         }
     },
     "Week 3": {},

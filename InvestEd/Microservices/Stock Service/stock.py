@@ -1,14 +1,15 @@
 import requests
-
-import json
-
+import os
 
 class Stock:
     def __init__(self, ticker : str):
         self.ticker = ticker
 
     def get_current_price(self):
-        print(json.dumps(getQuotes('AAPL'), indent=2))
+        request = requests.get(f'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={self.ticker}&apikey={os.getenv("ALPHA_VANTAGE_API_KEY")}')
+        fetched_data = request.json()
+        return float(fetched_data['Global Quote']['05. price'])
+    
     
     def get_basic_info(self):
         pass
