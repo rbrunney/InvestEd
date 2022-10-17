@@ -1,4 +1,3 @@
-from datetime import datetime, date
 import news_article as na
 import requests
 import os
@@ -131,18 +130,26 @@ class Stock:
 
         # Check to see if the current day use date.today() is on list, if so fetched its current price. To use for calculation
         # Else keep checking for previous x days bases on moving_period
-
         moving_avg_data_points = []
 
         for index in range(0, moving_period):
             moving_avg_price = 0
-            # Need to get the first index all the way to the end index of the moving average so we can calculate
-            for key in list(fetched_data['Time Series (Daily)'].keys())[index: index + moving_period]:
-                print(f'{index} -> {key}')
-                moving_avg_price += float(fetched_data['Time Series (Daily)'][key]['4. close'])
 
-            moving_avg_data_points.append(moving_avg_price / moving_period)
+            # Check to see if first one, because then we need to get the current price other wise get the previous day
+            if(index == 0):
+                moving_avg_price = float(requests.get(f'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={self.ticker}&apikey={os.getenv("ALPHA_VANTAGE_API_KEY")}').json()['Global Quote']['05. price'])
+                for key in list(fetched_data['Time Series (Daily)'].keys())[index: index + (moving_period - 1)]:
+                    moving_avg_price += float(fetched_data['Time Series (Daily)'][key]['4. close'])
+
+                moving_avg_data_points.append(moving_avg_price / moving_period)
+            else:
+                # Need to get the first index all the way to the end index of the moving average so we can calculate
+                for key in list(fetched_data['Time Series (Daily)'].keys())[index: index + moving_period]:
+                    print(f'{index} -> {key}')
+                    moving_avg_price += float(fetched_data['Time Series (Daily)'][key]['4. close'])
+
+                moving_avg_data_points.append(moving_avg_price / moving_period)
 
         return {
-            'moving_avg_data_points' : moving_avg_data_points
+            'moving_avg_data' : moving_avg_data_points
         }

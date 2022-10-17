@@ -77,7 +77,11 @@ def getTickerMovingAverage(ticker: str):
     if(fetched_data == {}):
         return failed_fetch(ticker), 404
     
-    return fetched_data
+    return {
+        'message' : f'{ticker} Moving Average Successfuly Fetched!',
+        'results' : fetched_data,
+        'date-time' : datetime.now()
+    }
 
 
 def failed_fetch(ticker):
