@@ -299,7 +299,18 @@
             ]
         }
     },
-    "Week 3": {},
+    "Week 3": {
+        "Sunday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "5:30 pm",
+                    "end_time": "6:5 pm",
+                    "description": "Working on Earning Calls"
+                }
+            ]
+        }
+    },
     "Week 4": {},
     "Week 5": {},
     "Week 6": {},
