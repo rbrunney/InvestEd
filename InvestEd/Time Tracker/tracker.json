@@ -333,6 +333,16 @@
                     "description": "Implementing Moving AVG Calc"
                 }
             ]
+        },
+        "Monday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "9:25 am",
+                    "end_time": "9:45 am",
+                    "description": "Finished Moving AVG"
+                }
+            ]
         }
     },
     "Week 4": {},
