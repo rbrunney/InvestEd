@@ -307,6 +307,12 @@
                     "start_time": "5:30 pm",
                     "end_time": "6:5 pm",
                     "description": "Working on Earning Calls"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "6:15 pm",
+                    "end_time": "6:40 pm",
+                    "description": "Working on getting Basic Information"
                 }
             ]
         }

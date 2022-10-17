@@ -60,7 +60,13 @@ def getTickerNews(ticker:str):
     if(fetched_data == {}):
         return failed_fetch(ticker), 404
     
-    return fetched_data
+    return {
+        'message' : f'{ticker} News Successfuly Fetched!',
+        'results' : {
+            'recent_news' : fetched_data
+        },
+        'date-time' : datetime.now()
+    }
 
 
 @stock_api.route("/invested_stock/{ticker}/moving_avg", methods=["GET"])

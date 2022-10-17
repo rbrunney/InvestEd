@@ -1,3 +1,4 @@
+import news_article as na
 import requests
 import os
 import sys
@@ -97,7 +98,22 @@ class Stock:
     def get_news(self):
         request = requests.get(f'https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers={self.ticker}&topics=technology&sort=LATEST&apikey={os.getenv("ALPHA_VANTAGE_API_KEY")}')
         fetched_data = request.json()
-        return fetched_data
+
+        recent_news_articles = []
+
+        for article in fetched_data['feed']:
+            recent_news_articles.append(na.NewsArticle(
+                    article['title'], 
+                    article['authors'],
+                    article['source'], 
+                    article['time_published'],
+                    article['summary'],
+                    article['url'],
+                    article['banner_image']
+                ).to_json()
+            )
+
+        return recent_news_articles
         
     def get_moving_average(self):
         pass
