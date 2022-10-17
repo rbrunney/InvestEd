@@ -261,11 +261,90 @@
                     "start_time": "7:0 pm",
                     "end_time": "7:19 pm",
                     "description": "Working on Update User Consumer"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "7:19 pm",
+                    "end_time": "7:25 pm",
+                    "description": "Working on Base Flask Set Up"
+                },
+                {
+                    "activity": "Research",
+                    "start_time": "7:25 pm",
+                    "end_time": "9:0 pm",
+                    "description": "Finding Better Stock API yfinance SLOW"
+                }
+            ]
+        },
+        "Saturday": {
+            "activities": [
+                {
+                    "activity": "Research",
+                    "start_time": "9:40 pm",
+                    "end_time": "10:20 pm",
+                    "description": "Looking at Alpha Vantage Documentation"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "10:20 pm",
+                    "end_time": "10:40 pm",
+                    "description": "Worked on getting Current Price and Basic Info"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "10:40 pm",
+                    "end_time": "11:0 pm",
+                    "description": "Working on getting Stock News"
                 }
             ]
         }
     },
-    "Week 3": {},
+    "Week 3": {
+        "Sunday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "5:30 pm",
+                    "end_time": "6:5 pm",
+                    "description": "Working on Earning Calls"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "6:15 pm",
+                    "end_time": "6:40 pm",
+                    "description": "Working on getting Basic Information"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "6:40 pm",
+                    "end_time": "7:0 pm",
+                    "description": "Worked on getting current news"
+                },
+                {
+                    "activity": "Research",
+                    "start_time": "8:17 pm",
+                    "end_time": "8:30 pm",
+                    "description": "Understading Moving AVG"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "8:30 pm",
+                    "end_time": "9:19 pm",
+                    "description": "Implementing Moving AVG Calc"
+                }
+            ]
+        },
+        "Monday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "9:25 am",
+                    "end_time": "9:45 am",
+                    "description": "Finished Moving AVG"
+                }
+            ]
+        }
+    },
     "Week 4": {},
     "Week 5": {},
     "Week 6": {},
