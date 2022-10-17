@@ -1,9 +1,13 @@
+from datetime import datetime, date
 import news_article as na
 import requests
 import os
 import sys
 
 class Stock:
+
+    MAX_MOVING_PERIOD = 50
+
     def __init__(self, ticker : str):
         self.ticker = ticker
 
@@ -115,6 +119,30 @@ class Stock:
 
         return recent_news_articles
         
-    def get_moving_average(self):
-        pass
+    def get_moving_average(self, moving_period):
 
+        moving_period = int(moving_period)
+
+        if(moving_period > self.MAX_MOVING_PERIOD):
+            return 'Moving Period Error'
+        
+        request = requests.get(f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={self.ticker}&apikey={os.getenv("ALPHA_VANTAGE_API_KEY")}')
+        fetched_data = request.json()
+
+        # Check to see if the current day use date.today() is on list, if so fetched its current price. To use for calculation
+        # Else keep checking for previous x days bases on moving_period
+
+        moving_avg_data_points = []
+
+        for index in range(0, moving_period):
+            moving_avg_price = 0
+            # Need to get the first index all the way to the end index of the moving average so we can calculate
+            for key in list(fetched_data['Time Series (Daily)'].keys())[index: index + moving_period]:
+                print(f'{index} -> {key}')
+                moving_avg_price += float(fetched_data['Time Series (Daily)'][key]['4. close'])
+
+            moving_avg_data_points.append(moving_avg_price / moving_period)
+
+        return {
+            'moving_avg_data_points' : moving_avg_data_points
+        }

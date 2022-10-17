@@ -313,6 +313,24 @@
                     "start_time": "6:15 pm",
                     "end_time": "6:40 pm",
                     "description": "Working on getting Basic Information"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "6:40 pm",
+                    "end_time": "7:0 pm",
+                    "description": "Worked on getting current news"
+                },
+                {
+                    "activity": "Research",
+                    "start_time": "8:17 pm",
+                    "end_time": "8:30 pm",
+                    "description": "Understading Moving AVG"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "8:30 pm",
+                    "end_time": "9:19 pm",
+                    "description": "Implementing Moving AVG Calc"
                 }
             ]
         }

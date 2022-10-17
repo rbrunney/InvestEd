@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Flask
+from flask import Flask, request
 import stock
 
 stock_api = Flask(__name__)
@@ -32,8 +32,9 @@ def getTickerBasicInfo(ticker: str):
         'date-time' : datetime.now()
     }
 
-@stock_api.route("/invested_stock/<ticker>/earning_calls/<year>", methods=["GET"])
-def getTickerEarningCalls(ticker: str, year: int):
+@stock_api.route("/invested_stock/<ticker>/earning_calls", methods=["GET"])
+def getTickerEarningCalls(ticker: str):
+    year = request.args['year']
     fetched_data = stock.Stock(ticker).get_earnings_call(year)
 
     if(fetched_data == 'Ticker Invalid'):
@@ -69,9 +70,15 @@ def getTickerNews(ticker:str):
     }
 
 
-@stock_api.route("/invested_stock/{ticker}/moving_avg", methods=["GET"])
-def getTickerMovingAverage():
-    pass
+@stock_api.route("/invested_stock/<ticker>/moving_avg", methods=["GET"])
+def getTickerMovingAverage(ticker: str):
+    fetched_data = stock.Stock(ticker).get_moving_average(request.args['moving_period'])
+
+    if(fetched_data == {}):
+        return failed_fetch(ticker), 404
+    
+    return fetched_data
+
 
 def failed_fetch(ticker):
     return {
