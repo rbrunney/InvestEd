@@ -29,7 +29,7 @@ def getTickerBasicInfo(ticker: str):
 
     return {
         'message' : f'{ticker} Basic Information Successfuly Fetched!',
-        'results' :         {
+        'results' : {
             'ticker' : fetched_data['Symbol'],
             'open' : '',
             'high' : '',
@@ -52,9 +52,26 @@ def getTickerBasicInfo(ticker: str):
         'date-time' : datetime.now()
     }
 
-@stock_api.route("/invested_stock/{ticker}/earning_calls", methods=["GET"])
-def getTickerEarningCalls():
-    pass
+@stock_api.route("/invested_stock/<ticker>/earning_calls/<year>", methods=["GET"])
+def getTickerEarningCalls(ticker: str, year: int):
+    fetched_data = stock.Stock(ticker).get_earnings_call(year)
+
+    if(fetched_data == 'Ticker Invalid'):
+        return failed_fetch(ticker), 404
+    elif(fetched_data == {}):
+        return {
+            'message' : f'{year} is not a valid year',
+            'date-time' : datetime.now()
+        }, 404
+    
+    return {
+        'message' : f'{ticker} Earning Calls Successfuly Fetched!',
+        'results' : {
+            'year' : year,
+            'earning_calls' : fetched_data
+        },
+        'date-time' : datetime.now()
+    }
 
 @stock_api.route("/invested_stock/<ticker>/news", methods=["GET"])
 def getTickerNews(ticker:str):
