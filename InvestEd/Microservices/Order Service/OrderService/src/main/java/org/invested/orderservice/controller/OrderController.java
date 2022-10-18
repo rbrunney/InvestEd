@@ -7,10 +7,7 @@ import org.invested.orderservice.services.BasicOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -24,6 +21,18 @@ public class OrderController {
 
     @Autowired
     private BasicOrderService basicOrderService;
+
+    @GetMapping("/get_order_info/{orderId}")
+    public ResponseEntity<Map<String, Object>> getOrderInformation(Principal principal, @PathVariable String orderId) {
+        if(basicOrderService.isUsersOrder(orderId, principal.getName())) {
+            BasicOrder order = basicOrderService.getUsersOrder(orderId);
+            return new ResponseEntity<>(new HashMap<>() {{
+                put("order-info", order);
+            }}, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 
     @PostMapping("/basic_order")
     public ResponseEntity<Map<String, Object>> placeBasicOrder(Principal principal, @RequestBody JsonNode basicOrder) {

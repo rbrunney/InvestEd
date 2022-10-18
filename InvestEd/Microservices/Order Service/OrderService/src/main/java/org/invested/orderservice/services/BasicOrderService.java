@@ -45,4 +45,13 @@ public class BasicOrderService {
         }}.toString());
         return basicOrder.getId();
     }
+    public boolean isUsersOrder(String orderId, String user) {
+        BasicOrder order = basicOrderRepo.getBasicOrderById(orderId);
+
+        return order != null && order.getUser().equals(user);
+    }
+
+    public BasicOrder getUsersOrder(String orderId) {
+        return basicOrderRepo.getBasicOrderById(orderId);
+    }
 }
