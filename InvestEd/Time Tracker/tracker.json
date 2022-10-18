@@ -353,6 +353,12 @@
                     "start_time": "10:0 am",
                     "end_time": "10:40 am",
                     "description": "Trying to decode JWT"
+                },
+                {
+                    "activity": "Bug Fixing",
+                    "start_time": "7:0 pm",
+                    "end_time": "7:30 pm",
+                    "description": "Fixing JWT Decode"
                 }
             ]
         }

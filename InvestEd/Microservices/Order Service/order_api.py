@@ -1,5 +1,7 @@
 from flask import Flask, request
 from datetime import datetime
+import order
+import json
 import jwt
 import os
 
@@ -9,13 +11,30 @@ order_api = Flask(__name__)
 def place_order():
     decoded_jwt = decode_json_web_token(request.headers["authorization"].replace('Bearer ', ''))
 
+    print(decoded_jwt.keys())
+
     # Check to see if it contains error message if so then just return error
-    if(decoded_jwt.keys().__contains__ == 'message'): 
+    if(list(decoded_jwt.keys())[0] == 'message'): 
         return decoded_jwt
     
-    # Make Order and place in database 
+    # Make Order and place in RabbitMQ
+    order_info = json.loads(request.data)
 
-    return decoded_jwt
+    try:
+        new_order = order.Order(decoded_jwt['sub'], order_info['ticker'], order_info['trade_type'], order_info['stock_quantity'])
+    except KeyError as ke:
+        return {
+            'message' : '[ERROR] Invalid Key in Request Body',
+            'date-time' : datetime.now()
+        }, 400
+        
+    return {
+        'message' : f'{order_info["ticker"]} Order Placed Successully!',
+        'results' : {
+            'order_id' : new_order.id
+        },
+        'date-time' : datetime.now()
+    }, 201
     
 
 @order_api.route('/invested_order/get_order_info/<order_id>', methods=['GET'])
