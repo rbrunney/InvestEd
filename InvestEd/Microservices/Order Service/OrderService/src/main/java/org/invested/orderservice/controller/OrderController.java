@@ -27,26 +27,33 @@ public class OrderController {
 
     @PostMapping("/basic_order")
     public ResponseEntity<Map<String, Object>> placeBasicOrder(Principal principal, @RequestBody JsonNode basicOrder) {
-        // Making new Order and saving to database
-        BasicOrder newOrder =  new BasicOrder(
-                UUID.randomUUID().toString(),
-                principal.getName(),
-                basicOrder.get("ticker").asText(),
-                basicOrder.get("stock_quantity").asDouble(),
-                basicOrder.get("price_per_share").asDouble(),
-                TradeType.valueOf(basicOrder.get("trade_type").asText())
-        );
+        try {
+            // Making new Order and saving to database
+            BasicOrder newOrder =  new BasicOrder(
+                    UUID.randomUUID().toString(),
+                    principal.getName(),
+                    basicOrder.get("ticker").asText(),
+                    basicOrder.get("stock_quantity").asDouble(),
+                    basicOrder.get("price_per_share").asDouble(),
+                    TradeType.valueOf(basicOrder.get("trade_type").asText())
+            );
 
-        // Create in Database
-        basicOrderService.createBasicOrder(newOrder);
+            // Create in Database
+            basicOrderService.createBasicOrder(newOrder);
 
-        // Then here I need to make a call to RabbitMQ Queue
-        return new ResponseEntity<>(new HashMap<>() {{
-            put("message", newOrder.getTicker() + " Order Placed Successfully");
-            put("results", new HashMap<>(){{
-                put("order_id", newOrder.getId());
-            }});
-            put("date-time", LocalDateTime.now());
-        }}, HttpStatus.CREATED);
+            // Then here I need to make a call to RabbitMQ Queue to follow my Architecture Structure
+            return new ResponseEntity<>(new HashMap<>() {{
+                put("message", newOrder.getTicker() + " Order Placed Successfully");
+                put("results", new HashMap<>(){{
+                    put("order_id", newOrder.getId());
+                }});
+                put("date-time", LocalDateTime.now());
+            }}, HttpStatus.CREATED);
+        } catch(Exception e) {
+            return new ResponseEntity<>(new HashMap<>() {{
+                put("message", e.getMessage());
+                put("date-time", LocalDateTime.now());
+            }}, HttpStatus.BAD_REQUEST);
+        }
     }
 }
