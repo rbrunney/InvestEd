@@ -59,4 +59,10 @@ public class BasicOrderService {
     public ArrayList<BasicOrder> getUsersOrders(String user) {
         return basicOrderRepo.getBasicOrdersByUser(user);
     }
+
+    public void cancelOrder(String orderId) {
+        // Need to add check to see it current status. If pending, then we can cancel it.
+        // Canceling it we will update the status to cancel
+        basicOrderRepo.deleteById(orderId);
+    }
 }

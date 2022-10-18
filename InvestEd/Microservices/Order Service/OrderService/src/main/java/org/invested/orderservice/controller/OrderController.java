@@ -22,6 +22,8 @@ public class OrderController {
     @Autowired
     private BasicOrderService basicOrderService;
 
+    // /////////////////////////////////////////////////////////////////////
+    // Basic CRUD with orders
     @GetMapping("/get_order_info/{orderId}")
     public ResponseEntity<Map<String, Object>> getOrderInformation(Principal principal, @PathVariable String orderId) {
         if(basicOrderService.isUsersOrder(orderId, principal.getName())) {
@@ -40,6 +42,19 @@ public class OrderController {
             put("orders", basicOrderService.getUsersOrders(principal.getName()));
         }},HttpStatus.OK);
     }
+
+    @PutMapping("/cancel_order/{orderId}")
+    public ResponseEntity<Map<String, Object>> cancelOrder(Principal principal, @PathVariable String orderId) {
+        if(basicOrderService.isUsersOrder(orderId, principal.getName())) {
+            basicOrderService.cancelOrder(orderId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    // ///////////////////////////////////////////////////////////////////////////////
+    // Making Orders
 
     @PostMapping("/basic_order")
     public ResponseEntity<Map<String, Object>> placeBasicOrder(Principal principal, @RequestBody JsonNode basicOrder) {

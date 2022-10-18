@@ -7,6 +7,5 @@ import java.util.ArrayList;
 
 public interface BasicOrderJPARepo extends JpaRepository<BasicOrder, String> {
     BasicOrder getBasicOrderById(String id);
-
     ArrayList<BasicOrder> getBasicOrdersByUser(String user);
 }
