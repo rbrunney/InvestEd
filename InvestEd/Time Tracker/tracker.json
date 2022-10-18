@@ -341,6 +341,18 @@
                     "start_time": "9:25 am",
                     "end_time": "9:45 am",
                     "description": "Finished Moving AVG"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "9:45 am",
+                    "end_time": "10:0 am",
+                    "description": "Base endpoints made"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "10:0 am",
+                    "end_time": "10:40 am",
+                    "description": "Trying to decode JWT"
                 }
             ]
         }
