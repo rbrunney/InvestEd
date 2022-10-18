@@ -32,6 +32,20 @@ services:
     networks:
       - base-net
 
+  order_database:
+    image: "mysql:latest"
+    container_name: invested-orders-db
+    volumes:
+      - ../Order Service/order_init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - MYSQL_USER=rbrunney
+      - MYSQL_PASSWORD=tempPass123!
+      - MYSQL_ROOT_PASSWORD=tempPass123!
+    ports:
+      - "9001:3306"
+    networks:
+      - base-net
+
 networks:
   base-net:
     name: "invested_ecosystem"

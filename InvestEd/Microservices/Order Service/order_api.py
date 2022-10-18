@@ -1,4 +1,5 @@
 from flask import Flask, request
+import order_sql_commands as mysql_con
 from datetime import datetime
 import order
 import json
@@ -6,13 +7,10 @@ import jwt
 import os
 
 order_api = Flask(__name__)
-
-@order_api.route('/invested_order/place_order', methods=['POST'])
+ 
+@order_api.route('/invested_order/basic_order', methods=['POST'])
 def place_order():
     decoded_jwt = decode_json_web_token(request.headers["authorization"].replace('Bearer ', ''))
-
-    print(decoded_jwt.keys())
-
     # Check to see if it contains error message if so then just return error
     if(list(decoded_jwt.keys())[0] == 'message'): 
         return decoded_jwt
@@ -21,7 +19,8 @@ def place_order():
     order_info = json.loads(request.data)
 
     try:
-        new_order = order.Order(decoded_jwt['sub'], order_info['ticker'], order_info['trade_type'], order_info['stock_quantity'])
+        new_order = order.BasicOrder(decoded_jwt['sub'], order_info['ticker'], order_info['trade_type'], order_info['stock_quantity'])
+        mysql_con.insert_basic_order(new_order)
     except KeyError as ke:
         return {
             'message' : '[ERROR] Invalid Key in Request Body',

@@ -359,6 +359,18 @@
                     "start_time": "7:0 pm",
                     "end_time": "7:30 pm",
                     "description": "Fixing JWT Decode"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "7:30 pm",
+                    "end_time": "8:0 pm",
+                    "description": "Working on Responses for Place Order"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "8:0 pm",
+                    "end_time": "8:45 pm",
+                    "description": "Working on MySQL Connection for Orders"
                 }
             ]
         }
