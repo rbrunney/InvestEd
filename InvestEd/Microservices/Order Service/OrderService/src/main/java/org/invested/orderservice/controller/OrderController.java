@@ -34,6 +34,13 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    @GetMapping("/get_orders")
+    public ResponseEntity<Map<String, Object>> getUsersOrders(Principal principal) {
+        return new ResponseEntity<>(new HashMap<>() {{
+            put("orders", basicOrderService.getUsersOrders(principal.getName()));
+        }},HttpStatus.OK);
+    }
+
     @PostMapping("/basic_order")
     public ResponseEntity<Map<String, Object>> placeBasicOrder(Principal principal, @RequestBody JsonNode basicOrder) {
         try {

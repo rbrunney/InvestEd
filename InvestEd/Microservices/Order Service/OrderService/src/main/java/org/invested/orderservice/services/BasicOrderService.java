@@ -6,6 +6,7 @@ import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Service
@@ -53,5 +54,9 @@ public class BasicOrderService {
 
     public BasicOrder getUsersOrder(String orderId) {
         return basicOrderRepo.getBasicOrderById(orderId);
+    }
+
+    public ArrayList<BasicOrder> getUsersOrders(String user) {
+        return basicOrderRepo.getBasicOrdersByUser(user);
     }
 }
