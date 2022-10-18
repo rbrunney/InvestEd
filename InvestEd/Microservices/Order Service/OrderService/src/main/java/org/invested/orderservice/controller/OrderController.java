@@ -30,14 +30,17 @@ public class OrderController {
         // Making new Order and saving to database
         BasicOrder newOrder =  new BasicOrder(
                 UUID.randomUUID().toString(),
-                "rbrunney",
+                principal.getName(),
                 basicOrder.get("ticker").asText(),
                 basicOrder.get("stock_quantity").asDouble(),
+                basicOrder.get("price_per_share").asDouble(),
                 TradeType.valueOf(basicOrder.get("trade_type").asText())
         );
 
+        // Create in Database
         basicOrderService.createBasicOrder(newOrder);
 
+        // Then here I need to make a call to RabbitMQ Queue
         return new ResponseEntity<>(new HashMap<>() {{
             put("message", newOrder.getTicker() + " Order Placed Successfully");
             put("results", new HashMap<>(){{

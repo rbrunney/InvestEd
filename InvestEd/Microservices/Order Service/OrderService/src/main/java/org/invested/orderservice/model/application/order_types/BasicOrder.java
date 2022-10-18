@@ -5,6 +5,7 @@ import org.invested.orderservice.model.application.order_enums.TradeType;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 
 @Entity
 public class BasicOrder {
@@ -15,17 +16,23 @@ public class BasicOrder {
     private String ticker;
     private TradeType tradeType;
     private double stockQuantity;
+    private double pricePerShare;
     private Status currentStatus;
+    private LocalDateTime orderDate;
+    private LocalDateTime orderFulFilledDate;
 
     public BasicOrder() {}
 
-    public BasicOrder(String id, String user, String ticker, double stockQuantity, TradeType tradeType) {
+    public BasicOrder(String id, String user, String ticker, double stockQuantity, double pricePerShare, TradeType tradeType) {
         this.id = id;
         this.user = user;
         this.ticker = ticker;
         this.stockQuantity = stockQuantity;
+        this.pricePerShare = pricePerShare;
         this.tradeType = tradeType;
         this.currentStatus = Status.PENDING;
+        this.orderDate = LocalDateTime.now();
+        this.orderFulFilledDate = null;
     }
 
     public String getId() {
@@ -74,5 +81,21 @@ public class BasicOrder {
 
     public void setStockQuantity(double stockQuantity) {
         this.stockQuantity = stockQuantity;
+    }
+
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public LocalDateTime getOrderFulFilledDate() {
+        return orderFulFilledDate;
+    }
+
+    public void setOrderFulFilledDate(LocalDateTime orderFulFilledDate) {
+        this.orderFulFilledDate = orderFulFilledDate;
     }
 }

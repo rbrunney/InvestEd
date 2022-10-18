@@ -383,6 +383,12 @@
                     "start_time": "9:45 pm",
                     "end_time": "10:0 pm",
                     "description": "Thinking about Order/Portfolio API to Spring"
+                },
+                {
+                    "activity": "Bug Fixing",
+                    "start_time": "10:0 pm",
+                    "end_time": "10:48 pm",
+                    "description": "Moving Order API from Flask to Spring"
                 }
             ]
         }
