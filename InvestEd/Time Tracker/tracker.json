@@ -391,6 +391,22 @@
                     "description": "Moving Order API from Flask to Spring"
                 }
             ]
+        },
+        "Tuesday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "8:0 am",
+                    "end_time": "8:25 am",
+                    "description": "Working on Basic Order"
+                },
+                {
+                    "activity": "Design",
+                    "start_time": "8:25 am",
+                    "end_time": "9:25 am",
+                    "description": "Order Architecture Structure"
+                }
+            ]
         }
     },
     "Week 4": {},

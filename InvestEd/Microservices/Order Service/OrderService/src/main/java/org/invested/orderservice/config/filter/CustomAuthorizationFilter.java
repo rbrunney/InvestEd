@@ -1,4 +1,4 @@
-package org.invested.orderservice.config;
+package org.invested.orderservice.config.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
