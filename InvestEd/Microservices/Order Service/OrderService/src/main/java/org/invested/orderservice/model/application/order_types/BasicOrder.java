@@ -1,5 +1,6 @@
 package org.invested.orderservice.model.application.order_types;
 
+import org.invested.orderservice.model.application.order_enums.ExpireTime;
 import org.invested.orderservice.model.application.order_enums.Status;
 import org.invested.orderservice.model.application.order_enums.TradeType;
 
@@ -14,9 +15,10 @@ public class BasicOrder {
     private String id;
     private String user;
     private String ticker;
-    private TradeType tradeType;
     private double stockQuantity;
     private double pricePerShare;
+    private TradeType tradeType;
+    private ExpireTime expireTime;
     private Status currentStatus;
     private LocalDateTime orderDate;
     private LocalDateTime orderFulFilledDate;
@@ -30,6 +32,7 @@ public class BasicOrder {
         this.stockQuantity = stockQuantity;
         this.pricePerShare = pricePerShare;
         this.tradeType = tradeType;
+        this.expireTime = ExpireTime.GTC;
         this.currentStatus = Status.PENDING;
         this.orderDate = LocalDateTime.now();
         this.orderFulFilledDate = null;
@@ -97,5 +100,21 @@ public class BasicOrder {
 
     public void setOrderFulFilledDate(LocalDateTime orderFulFilledDate) {
         this.orderFulFilledDate = orderFulFilledDate;
+    }
+
+    public double getPricePerShare() {
+        return pricePerShare;
+    }
+
+    public void setPricePerShare(double pricePerShare) {
+        this.pricePerShare = pricePerShare;
+    }
+
+    public ExpireTime getExpireTime() {
+        return expireTime;
+    }
+
+    public void setExpireTime(ExpireTime expireTime) {
+        this.expireTime = expireTime;
     }
 }

@@ -38,10 +38,9 @@ public class OrderController {
                     TradeType.valueOf(basicOrder.get("trade_type").asText())
             );
 
-            // Create in Database
+            // createBasicOrder
             basicOrderService.createBasicOrder(newOrder);
 
-            // Then here I need to make a call to RabbitMQ Queue to follow my Architecture Structure
             return new ResponseEntity<>(new HashMap<>() {{
                 put("message", newOrder.getTicker() + " Order Placed Successfully");
                 put("results", new HashMap<>(){{

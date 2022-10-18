@@ -22,7 +22,7 @@ public class RabbitMQTopicConfig {
 
     @Bean
     Queue limitOrderQueue() {
-        return new Queue("limit-order-queue'", true);
+        return new Queue("limit-order-queue", true);
     }
 
     @Bean
