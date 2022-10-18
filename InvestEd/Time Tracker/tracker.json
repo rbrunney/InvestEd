@@ -371,6 +371,18 @@
                     "start_time": "8:0 pm",
                     "end_time": "8:45 pm",
                     "description": "Working on MySQL Connection for Orders"
+                },
+                {
+                    "activity": "Research",
+                    "start_time": "8:45 pm",
+                    "end_time": "9:45 pm",
+                    "description": "Docker Compose with MySQL init file"
+                },
+                {
+                    "activity": "Design",
+                    "start_time": "9:45 pm",
+                    "end_time": "10:0 pm",
+                    "description": "Thinking about Order/Portfolio API to Spring"
                 }
             ]
         }
