@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.invested.orderservice.model.application.order_enums.TradeType;
 import org.invested.orderservice.model.application.order_types.BasicOrder;
 import org.invested.orderservice.model.application.order_types.LimitOrder;
+import org.invested.orderservice.model.application.order_types.StopLossOrder;
 import org.invested.orderservice.services.BasicOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -126,5 +127,37 @@ public class OrderController {
             }}, HttpStatus.BAD_REQUEST);
         }
 
+    }
+
+    @PostMapping("/stop_loss_order")
+    public ResponseEntity<Map<String, Object>> placeStopLossOrder(Principal principal, @RequestBody JsonNode stopLossOrder) {
+        try {
+            // Making new Limit Order so we can save to database
+            StopLossOrder newOrder =  new StopLossOrder(
+                    UUID.randomUUID().toString(),
+                    principal.getName(),
+                    stopLossOrder.get("ticker").asText(),
+                    stopLossOrder.get("stock_quantity").asDouble(),
+                    stopLossOrder.get("price_per_share").asDouble(),
+                    TradeType.valueOf(stopLossOrder.get("trade_type").asText()),
+                    stopLossOrder.get("stop_loss_price").asDouble()
+            );
+
+            // Making Limit Order
+            basicOrderService.createBasicOrder(newOrder);
+
+            return new ResponseEntity<>(new HashMap<>() {{
+                put("message", newOrder.getTicker() + " Order Placed Successfully");
+                put("results", new HashMap<>(){{
+                    put("order_id", newOrder.getId());
+                }});
+                put("date-time", LocalDateTime.now());
+            }}, HttpStatus.CREATED);
+        } catch(Exception e) {
+            return new ResponseEntity<>(new HashMap<>() {{
+                put("message", e.getMessage());
+                put("date-time", LocalDateTime.now());
+            }}, HttpStatus.BAD_REQUEST);
+        }
     }
 }
