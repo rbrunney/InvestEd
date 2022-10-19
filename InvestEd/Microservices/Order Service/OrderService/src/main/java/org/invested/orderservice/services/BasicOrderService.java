@@ -1,5 +1,6 @@
 package org.invested.orderservice.services;
 
+import org.invested.orderservice.model.application.order_enums.Status;
 import org.invested.orderservice.model.application.order_types.BasicOrder;
 import org.invested.orderservice.repository.BasicOrderJPARepo;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -63,6 +64,11 @@ public class BasicOrderService {
     public void cancelOrder(String orderId) {
         // Need to add check to see it current status. If pending, then we can cancel it.
         // Canceling it we will update the status to cancel
-        basicOrderRepo.deleteById(orderId);
+        BasicOrder order = basicOrderRepo.getBasicOrderById(orderId);
+        if(order.getCurrentStatus() == Status.CANCELED || order.getCurrentStatus() == Status.COMPLETED) {
+            return;
+        }
+        order.setCurrentStatus(Status.CANCELED);
+        basicOrderRepo.save(order);
     }
 }

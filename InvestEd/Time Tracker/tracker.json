@@ -411,6 +411,12 @@
                     "start_time": "9:25 am",
                     "end_time": "9:45 am",
                     "description": "Implementing RabbitMQ Config"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "9:45 am",
+                    "end_time": "10:55 am",
+                    "description": "Working on Order API Endpoints"
                 }
             ]
         }
