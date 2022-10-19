@@ -1,8 +1,13 @@
 package org.invested.orderservice.model.application.order_types;
 
+import javax.persistence.Entity;
+
+@Entity
 public class StopPriceOrder extends BasicOrder{
     private double stopLossPrice;
     private double limitPrice;
+
+    public StopPriceOrder() {}
 
     public StopPriceOrder(double stopLossPrice, double limitPrice) {
         super();
