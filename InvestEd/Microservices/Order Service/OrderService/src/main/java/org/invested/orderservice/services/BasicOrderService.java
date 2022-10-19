@@ -2,13 +2,18 @@ package org.invested.orderservice.services;
 
 import org.invested.orderservice.model.application.order_enums.Status;
 import org.invested.orderservice.model.application.order_types.BasicOrder;
+import org.invested.orderservice.model.application.order_types.LimitOrder;
+import org.invested.orderservice.model.application.order_types.StopLossOrder;
+import org.invested.orderservice.model.application.order_types.StopPriceOrder;
 import org.invested.orderservice.repository.BasicOrderJPARepo;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class BasicOrderService {
@@ -19,13 +24,28 @@ public class BasicOrderService {
     @Autowired
     private AmqpTemplate amqpTemplate;
 
-    public String createBasicOrder(BasicOrder basicOrder) {
+    private void sendMessageToQueue(Map<String, Object> message, String exchange, String queue) {
+        amqpTemplate.convertAndSend(exchange, queue, message.toString());
+    }
+
+    public void createBasicOrder(BasicOrder basicOrder) {
 
         // Save to database
         basicOrderRepo.save(basicOrder);
 
+        // Checking to see what type of order it is
+        // This way we can send it to the proper queue
+        String queue = "order.market-order";
+        if (LimitOrder.class.equals(basicOrder.getClass())) {
+            queue = "order.limit-order";
+        } else if (StopLossOrder.class.equals(basicOrder.getClass())) {
+            queue = "order.stop-loss-order";
+        } else if (StopPriceOrder.class.equals(basicOrder.getClass())) {
+            queue = "order.stop-price-order";
+        }
+
         // Send to Market Order Queue
-        amqpTemplate.convertAndSend("ORDER_EXCHANGE", "order.market-order", new HashMap<String, Object>() {{
+        sendMessageToQueue(new HashMap<>() {{
             put("order-id", basicOrder.getId());
             put("user", basicOrder.getUser());
             put("ticker", basicOrder.getTicker());
@@ -34,18 +54,17 @@ public class BasicOrderService {
             put("order-date", basicOrder.getOrderDate());
             put("status", basicOrder.getCurrentStatus());
             put("expire-time", basicOrder.getExpireTime());
-        }}.toString());
+        }}, "ORDER_EXCHANGE", queue);
 
         // Send Placed Order Email
-        amqpTemplate.convertAndSend("ORDER-EMAIL-EXCHANGE", "order-email.placed", new HashMap<String, Object>(){{
+        sendMessageToQueue(new HashMap<>(){{
             put("order-id", basicOrder.getId());
             put("user", basicOrder.getUser());
             put("ticker", basicOrder.getTicker());
             put("stock-qty", basicOrder.getStockQuantity());
             put("price-per-share", basicOrder.getPricePerShare());
             put("total-cost", (basicOrder.getPricePerShare() * basicOrder.getStockQuantity()));
-        }}.toString());
-        return basicOrder.getId();
+        }}, "ORDER-EMAIL-EXCHANGE", "order-email.placed");
     }
     public boolean isUsersOrder(String orderId, String user) {
         BasicOrder order = basicOrderRepo.getBasicOrderById(orderId);
@@ -66,8 +85,16 @@ public class BasicOrderService {
             return;
         }
 
+        order.setOrderFulFilledDate(LocalDateTime.now());
         order.setCurrentStatus(Status.CANCELED);
         basicOrderRepo.save(order);
+
+        // Sending Message to Canceled Email Queue
+        sendMessageToQueue(new HashMap<>() {{
+            put("user", order.getUser());
+            put("order_id", order.getId());
+            put("order_status", order.getCurrentStatus());
+        }}, "ORDER-EMAIL-EXCHANGE", "order-email.cancel");
     }
 
     public void cancelOrder(String orderId) {

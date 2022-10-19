@@ -431,6 +431,16 @@
                     "description": "Working on Order Endpoints"
                 }
             ]
+        },
+        "Wednesday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "9:30 am",
+                    "end_time": "10:21 am",
+                    "description": "Refactoring Order Service to be Cleaner"
+                }
+            ]
         }
     },
     "Week 4": {},
