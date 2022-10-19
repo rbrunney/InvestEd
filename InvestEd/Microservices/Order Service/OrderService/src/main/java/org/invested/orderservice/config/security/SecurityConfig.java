@@ -48,6 +48,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET, "/invested_order/get_order_info/**").hasAnyAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.GET, "/invested_order/get_orders").hasAnyAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.PUT, "/invested_order/cancel_order/**").hasAnyAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.PUT, "/invested_order/cancel_all_orders").hasAnyAuthority("ROLE_USER")
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

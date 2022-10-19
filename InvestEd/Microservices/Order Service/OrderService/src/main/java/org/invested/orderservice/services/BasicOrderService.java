@@ -61,14 +61,27 @@ public class BasicOrderService {
         return basicOrderRepo.getBasicOrdersByUser(user);
     }
 
+    public void checkOrderStatus(BasicOrder order) {
+        if(order.getCurrentStatus() == Status.CANCELED || order.getCurrentStatus() == Status.COMPLETED) {
+            return;
+        }
+
+        order.setCurrentStatus(Status.CANCELED);
+        basicOrderRepo.save(order);
+    }
+
     public void cancelOrder(String orderId) {
         // Need to add check to see it current status. If pending, then we can cancel it.
         // Canceling it we will update the status to cancel
         BasicOrder order = basicOrderRepo.getBasicOrderById(orderId);
-        if(order.getCurrentStatus() == Status.CANCELED || order.getCurrentStatus() == Status.COMPLETED) {
-            return;
+        checkOrderStatus(order);
+    }
+
+    public void cancelAllOrders(String user) {
+        ArrayList<BasicOrder> usersOrders = basicOrderRepo.getBasicOrdersByUser(user);
+
+        for(BasicOrder order : usersOrders) {
+            checkOrderStatus(order);
         }
-        order.setCurrentStatus(Status.CANCELED);
-        basicOrderRepo.save(order);
     }
 }

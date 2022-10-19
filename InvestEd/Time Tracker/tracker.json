@@ -417,6 +417,12 @@
                     "start_time": "9:45 am",
                     "end_time": "10:55 am",
                     "description": "Working on Order API Endpoints"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "7:0 pm",
+                    "end_time": "7:17 pm",
+                    "description": "Working on /cancel_order"
                 }
             ]
         }

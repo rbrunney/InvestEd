@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.resource.ResourceUrlProviderExposingInterceptor;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -47,10 +48,17 @@ public class OrderController {
     public ResponseEntity<Map<String, Object>> cancelOrder(Principal principal, @PathVariable String orderId) {
         if(basicOrderService.isUsersOrder(orderId, principal.getName())) {
             basicOrderService.cancelOrder(orderId);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/cancel_all_orders")
+    public ResponseEntity<Map<String, Object>> cancelAllOrder(Principal principal) {
+        basicOrderService.cancelAllOrders(principal.getName());
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // ///////////////////////////////////////////////////////////////////////////////
