@@ -6,9 +6,13 @@ import org.invested.orderservice.model.application.order_enums.TradeType;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import java.time.LocalDateTime;
 
 @Entity
+// Making use of this annotation, so we save each of the different order types into its own table in the database
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class BasicOrder {
 
     @Id

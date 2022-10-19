@@ -1,5 +1,7 @@
 package org.invested.orderservice.model.application.order_types;
 
+import org.invested.orderservice.model.application.order_enums.TradeType;
+
 import javax.persistence.Entity;
 
 @Entity
@@ -10,8 +12,8 @@ public class LimitOrder extends BasicOrder {
     public LimitOrder() {
 
     }
-    public LimitOrder(double limitPrice) {
-        super();
+    public LimitOrder(String id, String user, String ticker, double stockQuantity, double pricePerShare, TradeType tradeType, double limitPrice) {
+        super(id, user, ticker, stockQuantity, pricePerShare, tradeType);
         this.limitPrice = limitPrice;
     }
 

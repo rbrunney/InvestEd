@@ -423,6 +423,12 @@
                     "start_time": "7:0 pm",
                     "end_time": "7:17 pm",
                     "description": "Working on /cancel_order"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "8:30 pm",
+                    "end_time": "9:30 pm",
+                    "description": "Working on Order Endpoints"
                 }
             ]
         }

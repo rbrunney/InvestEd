@@ -3,12 +3,12 @@ package org.invested.orderservice.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.invested.orderservice.model.application.order_enums.TradeType;
 import org.invested.orderservice.model.application.order_types.BasicOrder;
+import org.invested.orderservice.model.application.order_types.LimitOrder;
 import org.invested.orderservice.services.BasicOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.resource.ResourceUrlProviderExposingInterceptor;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -93,5 +93,38 @@ public class OrderController {
                 put("date-time", LocalDateTime.now());
             }}, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PostMapping("/limit_order")
+    public ResponseEntity<Map<String, Object>> placeLimitOrder(Principal principal, @RequestBody JsonNode limitOrder) {
+        try {
+            // Making new Limit Order so we can save to database
+            LimitOrder newOrder =  new LimitOrder(
+                    UUID.randomUUID().toString(),
+                    principal.getName(),
+                    limitOrder.get("ticker").asText(),
+                    limitOrder.get("stock_quantity").asDouble(),
+                    limitOrder.get("price_per_share").asDouble(),
+                    TradeType.valueOf(limitOrder.get("trade_type").asText()),
+                    limitOrder.get("limit_price").asDouble()
+            );
+
+            // Making Limit Order
+            basicOrderService.createBasicOrder(newOrder);
+
+            return new ResponseEntity<>(new HashMap<>() {{
+                put("message", newOrder.getTicker() + " Order Placed Successfully");
+                put("results", new HashMap<>(){{
+                    put("order_id", newOrder.getId());
+                }});
+                put("date-time", LocalDateTime.now());
+            }}, HttpStatus.CREATED);
+        } catch(Exception e) {
+            return new ResponseEntity<>(new HashMap<>() {{
+                put("message", e.getMessage());
+                put("date-time", LocalDateTime.now());
+            }}, HttpStatus.BAD_REQUEST);
+        }
+
     }
 }
