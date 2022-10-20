@@ -5,6 +5,7 @@ import org.invested.orderservice.model.application.order_enums.TradeType;
 import org.invested.orderservice.model.application.order_types.BasicOrder;
 import org.invested.orderservice.model.application.order_types.LimitOrder;
 import org.invested.orderservice.model.application.order_types.StopLossOrder;
+import org.invested.orderservice.model.application.order_types.StopPriceOrder;
 import org.invested.orderservice.services.BasicOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -141,6 +142,39 @@ public class OrderController {
                     stopLossOrder.get("price_per_share").asDouble(),
                     TradeType.valueOf(stopLossOrder.get("trade_type").asText()),
                     stopLossOrder.get("stop_loss_price").asDouble()
+            );
+
+            // Making Limit Order
+            basicOrderService.createBasicOrder(newOrder);
+
+            return new ResponseEntity<>(new HashMap<>() {{
+                put("message", newOrder.getTicker() + " Order Placed Successfully");
+                put("results", new HashMap<>(){{
+                    put("order_id", newOrder.getId());
+                }});
+                put("date-time", LocalDateTime.now());
+            }}, HttpStatus.CREATED);
+        } catch(Exception e) {
+            return new ResponseEntity<>(new HashMap<>() {{
+                put("message", e.getMessage());
+                put("date-time", LocalDateTime.now());
+            }}, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/stop_price_order")
+    public ResponseEntity<Map<String, Object>> placeStopPriceOrder(Principal principal, @RequestBody JsonNode stopPriceOrder) {
+        try {
+            // Making new Limit Order so we can save to database
+            StopPriceOrder newOrder =  new StopPriceOrder(
+                    UUID.randomUUID().toString(),
+                    principal.getName(),
+                    stopPriceOrder.get("ticker").asText(),
+                    stopPriceOrder.get("stock_quantity").asDouble(),
+                    stopPriceOrder.get("price_per_share").asDouble(),
+                    TradeType.valueOf(stopPriceOrder.get("trade_type").asText()),
+                    stopPriceOrder.get("stop_loss_price").asDouble(),
+                    stopPriceOrder.get("limit_price").asDouble()
             );
 
             // Making Limit Order

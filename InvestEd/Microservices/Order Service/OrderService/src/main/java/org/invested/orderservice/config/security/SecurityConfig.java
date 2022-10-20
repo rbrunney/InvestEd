@@ -47,6 +47,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.POST, "/invested_order/basic_order").hasAnyAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.POST, "/invested_order/limit_order").hasAnyAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.POST, "/invested_order/stop_loss_order").hasAnyAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.POST, "/invested_order/stop_price_order").hasAnyAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.GET, "/invested_order/get_order_info/**").hasAnyAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.GET, "/invested_order/get_orders").hasAnyAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.PUT, "/invested_order/cancel_order/**").hasAnyAuthority("ROLE_USER")
