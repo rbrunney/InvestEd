@@ -145,7 +145,6 @@ class Stock:
             else:
                 # Need to get the first index all the way to the end index of the moving average so we can calculate
                 for key in list(fetched_data['Time Series (Daily)'].keys())[index: index + moving_period]:
-                    print(f'{index} -> {key}')
                     moving_avg_price += float(fetched_data['Time Series (Daily)'][key]['4. close'])
 
                 moving_avg_data_points.append(moving_avg_price / moving_period)

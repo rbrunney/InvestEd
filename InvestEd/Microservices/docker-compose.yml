@@ -2,6 +2,9 @@ version: "3.9"
 
 services:
 
+ # ///////////////////////////////////////////////////// 
+ # Email Consumers
+
   confirmation_email_consumer:
     build: ./Email Consumer/BaseEmailConsumer/target
     image: base-email-consumer:1.0
@@ -61,6 +64,69 @@ services:
       - base-net
     deploy:
       replicas: 1
+
+  order_placed_email_consumer:
+    build: ./Email Consumer/BaseEmailConsumer/target
+    image: base-email-consumer:1.0
+    environment:
+      - EMAIL=${EMAIL}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=order-placed-email-queue
+      - EMAIL_BODY=${ORDER_PLACED_EMAIL_BODY}
+      - EMAIL_SUBJECT=${ORDER_PLACED_EMAIL_SUBJECT}
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
+
+  order_canceled_email_consumer:
+    build: ./Email Consumer/BaseEmailConsumer/target
+    image: base-email-consumer:1.0
+    environment:
+      - EMAIL=${EMAIL}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=order-canceled-email-queue
+      - EMAIL_BODY=${ORDER_CANCELED_EMAIL_BODY}
+      - EMAIL_SUBJECT=${ORDER_CANCELED_EMAIL_SUBJECT}
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
+
+  order_fulfilled_email_consumer:
+    build: ./Email Consumer/BaseEmailConsumer/target
+    image: base-email-consumer:1.0
+    environment:
+      - EMAIL=${EMAIL}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=order-fulfilled-email-queue
+      - EMAIL_BODY=${ORDER_FULFILLED_EMAIL_BODY}
+      - EMAIL_SUBJECT=${ORDER_FULFILLED_EMAIL_SUBJECT}
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
+
+  # /////////////////////////////////////////////////////////////
+  # Databases, data stores
 
   forgot_pass_code_database:
     image: "redis:alpine"

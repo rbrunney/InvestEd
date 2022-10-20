@@ -465,6 +465,16 @@
                     "description": "Working on Consumer/Docker"
                 }
             ]
+        },
+        "Thursday": {
+            "activities": [
+                {
+                    "activity": "Other",
+                    "start_time": "8:0 am",
+                    "end_time": "8:50 am",
+                    "description": "Working on Composing Docker File to add Consumers"
+                }
+            ]
         }
     },
     "Week 4": {},
