@@ -445,6 +445,18 @@
                     "start_time": "10:21 am",
                     "end_time": "10:50 am",
                     "description": "Working on other Order Endpoints"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "6:30 pm",
+                    "end_time": "7:30 pm",
+                    "description": "Working on Order Endpoints"
+                },
+                {
+                    "activity": "Bug Fixing",
+                    "start_time": "8:30 pm",
+                    "end_time": "9:11 pm",
+                    "description": "Added Filters and updated Account UUID"
                 }
             ]
         }
