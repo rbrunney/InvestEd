@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
 
-  confirmation_email_queue:
+  confirmation_email_consumer:
     build: ./Email Consumer/BaseEmailConsumer/target
     image: base-email-consumer:1.0
     environment:
@@ -13,10 +13,54 @@ services:
       - RABBITMQ_USERNAME=guest
       - RABBITMQ_PASSWORD=guest
       - RABBITMQ_QUEUE=confirmation-email-queue
-      - EMAIL_BODY=Confirmation Test
-      - EMAIL_SUBJECT=Confirmation Email
+      - EMAIL_BODY=${CONFIRMATION_EMAIL_BODY}
+      - EMAIL_SUBJECT=${CONFIRMATION_EMAIL_SUBJECT}
+    depends_on:
+      - rabbitmq
     networks:
       - base-net
+    deploy:
+      replicas: 1
+
+  forgot_pass_email_consumer:
+    build: ./Email Consumer/BaseEmailConsumer/target
+    image: base-email-consumer:1.0
+    environment:
+      - EMAIL=${EMAIL}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=forgot-pass-queue
+      - EMAIL_BODY=${FORGOT_EMAIL_BODY}
+      - EMAIL_SUBJECT=${FORGOT_EMAIL_SUBJECT}
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
+
+  update_email_consumer:
+    build: ./Email Consumer/BaseEmailConsumer/target
+    image: base-email-consumer:1.0
+    environment:
+      - EMAIL=${EMAIL}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=updated-info-queue
+      - EMAIL_BODY=${UPDATE_EMAIL_BODY}
+      - EMAIL_SUBJECT=${UPDATE_EMAIL_SUBJECT}
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
 
   forgot_pass_code_database:
     image: "redis:alpine"
