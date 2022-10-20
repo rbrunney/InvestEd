@@ -1,6 +1,7 @@
 package org.invested.orderservice.services;
 
 import org.invested.orderservice.model.application.order_enums.Status;
+import org.invested.orderservice.model.application.order_enums.TradeType;
 import org.invested.orderservice.model.application.order_types.BasicOrder;
 import org.invested.orderservice.model.application.order_types.LimitOrder;
 import org.invested.orderservice.model.application.order_types.StopLossOrder;
@@ -76,7 +77,14 @@ public class BasicOrderService {
         return basicOrderRepo.getBasicOrderById(orderId);
     }
 
-    public ArrayList<BasicOrder> getUsersOrders(String user) {
+    public ArrayList<BasicOrder> getUsersOrders(String user, Status currentStatus, TradeType tradeType) {
+        if(currentStatus != null && tradeType != null) {
+            return basicOrderRepo.getBasicOrdersByCurrentStatusAndTradeTypeAndUser(currentStatus, tradeType, user);
+        } else if (currentStatus != null) {
+            return basicOrderRepo.getBasicOrdersByCurrentStatusAndUser(currentStatus, user);
+        } else if (tradeType != null) {
+            return basicOrderRepo.getBasicOrdersByTradeTypeAndUser(tradeType, user);
+        }
         return basicOrderRepo.getBasicOrdersByUser(user);
     }
 

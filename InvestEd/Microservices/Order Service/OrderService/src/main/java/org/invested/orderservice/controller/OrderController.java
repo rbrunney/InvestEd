@@ -1,6 +1,7 @@
 package org.invested.orderservice.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.invested.orderservice.model.application.order_enums.Status;
 import org.invested.orderservice.model.application.order_enums.TradeType;
 import org.invested.orderservice.model.application.order_types.BasicOrder;
 import org.invested.orderservice.model.application.order_types.LimitOrder;
@@ -40,9 +41,11 @@ public class OrderController {
     }
 
     @GetMapping("/get_orders")
-    public ResponseEntity<Map<String, Object>> getUsersOrders(Principal principal) {
+    public ResponseEntity<Map<String, Object>> getUsersOrders(Principal principal,
+                                                              @RequestParam(required = false) Status byStatus,
+                                                              @RequestParam(required = false) TradeType byTradeType) {
         return new ResponseEntity<>(new HashMap<>() {{
-            put("orders", basicOrderService.getUsersOrders(principal.getName()));
+            put("orders", basicOrderService.getUsersOrders(principal.getName(), byStatus, byTradeType));
         }},HttpStatus.OK);
     }
 
