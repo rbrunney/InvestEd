@@ -47,7 +47,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/invested_account").permitAll()
                 .antMatchers(HttpMethod.POST, "/invested_account/authenticate").permitAll()
-                .antMatchers(HttpMethod.GET, "invested_acconut/forgot_password").permitAll()
+                .antMatchers(HttpMethod.GET, "invested_account/forgot_password").permitAll()
                 .antMatchers(HttpMethod.GET, "/invested_account/test").hasAnyAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.DELETE, "/invested_account").hasAnyAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.PUT, "invested_account").hasAnyAuthority("ROLE_USER")

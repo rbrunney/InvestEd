@@ -19,6 +19,7 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/invested_account")
@@ -26,11 +27,6 @@ public class AccountController {
 
     @Autowired
     private AccountService accountService;
-
-    @GetMapping("/test")
-    public String testJWTWorks() {
-        return "JWT Working";
-    }
 
     @GetMapping("/encrypt/{msg}")
     public String encrypt(@PathVariable String msg) {
@@ -66,6 +62,7 @@ public class AccountController {
         if(!(accountService.checkIfAccountExists("username", newAccount.getUsername())
                 || accountService.checkIfAccountExists("email", newAccount.getEmail()))) {
             // Saving user
+            newAccount.setId(UUID.randomUUID().toString());
             accountService.saveUser(newAccount);
 
             return new ResponseEntity<>(HttpStatus.CREATED);

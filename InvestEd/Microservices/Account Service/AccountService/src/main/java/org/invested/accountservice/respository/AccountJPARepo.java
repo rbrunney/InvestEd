@@ -2,8 +2,14 @@ package org.invested.accountservice.respository;
 
 import org.invested.accountservice.models.application.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 public interface AccountJPARepo extends JpaRepository<Account, String> {
+    @Query(value = "SELECT id FROM account WHERE username = ?1", nativeQuery = true)
+    String getIdByUsername(String username);
+
     Account getAccountByUsername(String username);
     Account getAccountByEmail(String email);
+
+    Account getAccountById(String id);
 }

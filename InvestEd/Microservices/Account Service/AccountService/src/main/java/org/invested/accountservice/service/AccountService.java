@@ -52,7 +52,7 @@ public class AccountService {
 
     public Map<String, Object> generateJsonWebTokens(Map<String, String> userCredentials, int expireTimeInMinutes) {
         // Making user detail object so spring can keep track of it for a short term
-        UserDetails authenticatedUser = User.withUsername(userCredentials.get("username"))
+        UserDetails authenticatedUser = User.withUsername(accountRepo.getIdByUsername(userCredentials.get("username")))
                 .password(userCredentials.get("password")).roles("USER").build();
 
         Map<String, Object> tokens = new HashMap<>();
@@ -93,10 +93,9 @@ public class AccountService {
         amqpTemplate.convertAndSend("ACCOUNT_EMAIL_EXCHANGE", "email.confirmation", message.toString());
     }
 
-    public void deleteUser(String username) {
+    public void deleteUser(String id) {
         try {
-            Account accountToDelete = accountRepo.getAccountByUsername(username);
-            accountRepo.deleteById(accountToDelete.getUsername());
+            accountRepo.deleteById(id);
         } catch(Exception e) {
             System.out.println("[ERROR] " + e.getMessage());
         }
@@ -114,8 +113,8 @@ public class AccountService {
         amqpTemplate.convertAndSend("ACCOUNT_EMAIL_EXCHANGE", "email.user-info-update", message.toString());
     }
 
-    public Account updateUserField(String username, String fieldToUpdate, String newInfo) throws InvalidKeyException {
-        Account accountToUpdate = accountRepo.getAccountByUsername(username);
+    public Account updateUserField(String id, String fieldToUpdate, String newInfo) throws InvalidKeyException {
+        Account accountToUpdate = accountRepo.getAccountById(id);
 
         switch (fieldToUpdate) {
             case "first_name" -> {
