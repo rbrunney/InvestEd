@@ -2,6 +2,22 @@ version: "3.9"
 
 services:
 
+  confirmation_email_queue:
+    build: ./Email Consumer/BaseEmailConsumer/target
+    image: base-email-consumer:1.0
+    environment:
+      - EMAIL=${EMAIL}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=confirmation-email-queue
+      - EMAIL_BODY=Confirmation Test
+      - EMAIL_SUBJECT=Confirmation Email
+    networks:
+      - base-net
+
   forgot_pass_code_database:
     image: "redis:alpine"
     container_name: verify-code-database
@@ -24,9 +40,9 @@ services:
     container_name: invested-account-db
     environment:
       - MYSQL_DATABASE=accounts 
-      - MYSQL_USER=rbrunney
-      - MYSQL_PASSWORD=tempPass123!
-      - MYSQL_ROOT_PASSWORD=tempPass123!
+      - MYSQL_USER=${ACCOUNT_MYSQL_USER}
+      - MYSQL_PASSWORD=${ACCOUNT_MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${ACCOUNT_MYSQL_PASSWORD}
     ports:
       - "9000:3306"
     networks:
@@ -37,9 +53,9 @@ services:
     container_name: invested-orders-db
     environment:
       - MYSQL_DATABASE=orders
-      - MYSQL_USER=rbrunney
-      - MYSQL_PASSWORD=tempPass123!
-      - MYSQL_ROOT_PASSWORD=tempPass123!
+      - MYSQL_USER=${ORDER_MYSQL_USER}
+      - MYSQL_PASSWORD=${ORDER_MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${ORDER_MYSQL_PASSWORD}
     ports:
       - "9001:3306"
     networks:
