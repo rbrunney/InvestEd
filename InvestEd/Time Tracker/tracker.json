@@ -341,6 +341,122 @@
                     "start_time": "9:25 am",
                     "end_time": "9:45 am",
                     "description": "Finished Moving AVG"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "9:45 am",
+                    "end_time": "10:0 am",
+                    "description": "Base endpoints made"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "10:0 am",
+                    "end_time": "10:40 am",
+                    "description": "Trying to decode JWT"
+                },
+                {
+                    "activity": "Bug Fixing",
+                    "start_time": "7:0 pm",
+                    "end_time": "7:30 pm",
+                    "description": "Fixing JWT Decode"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "7:30 pm",
+                    "end_time": "8:0 pm",
+                    "description": "Working on Responses for Place Order"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "8:0 pm",
+                    "end_time": "8:45 pm",
+                    "description": "Working on MySQL Connection for Orders"
+                },
+                {
+                    "activity": "Research",
+                    "start_time": "8:45 pm",
+                    "end_time": "9:45 pm",
+                    "description": "Docker Compose with MySQL init file"
+                },
+                {
+                    "activity": "Design",
+                    "start_time": "9:45 pm",
+                    "end_time": "10:0 pm",
+                    "description": "Thinking about Order/Portfolio API to Spring"
+                },
+                {
+                    "activity": "Bug Fixing",
+                    "start_time": "10:0 pm",
+                    "end_time": "10:48 pm",
+                    "description": "Moving Order API from Flask to Spring"
+                }
+            ]
+        },
+        "Tuesday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "8:0 am",
+                    "end_time": "8:25 am",
+                    "description": "Working on Basic Order"
+                },
+                {
+                    "activity": "Design",
+                    "start_time": "8:25 am",
+                    "end_time": "9:25 am",
+                    "description": "Order Architecture Structure"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "9:25 am",
+                    "end_time": "9:45 am",
+                    "description": "Implementing RabbitMQ Config"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "9:45 am",
+                    "end_time": "10:55 am",
+                    "description": "Working on Order API Endpoints"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "7:0 pm",
+                    "end_time": "7:17 pm",
+                    "description": "Working on /cancel_order"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "8:30 pm",
+                    "end_time": "9:30 pm",
+                    "description": "Working on Order Endpoints"
+                }
+            ]
+        },
+        "Wednesday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "9:30 am",
+                    "end_time": "10:21 am",
+                    "description": "Refactoring Order Service to be Cleaner"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "10:21 am",
+                    "end_time": "10:50 am",
+                    "description": "Working on other Order Endpoints"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "6:30 pm",
+                    "end_time": "7:30 pm",
+                    "description": "Working on Order Endpoints"
+                },
+                {
+                    "activity": "Bug Fixing",
+                    "start_time": "8:30 pm",
+                    "end_time": "9:11 pm",
+                    "description": "Added Filters and updated Account UUID"
                 }
             ]
         }

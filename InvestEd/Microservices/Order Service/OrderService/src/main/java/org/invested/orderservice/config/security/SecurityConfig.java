@@ -1,6 +1,6 @@
-package org.invested.accountservice.config.security;
+package org.invested.orderservice.config.security;
 
-import org.invested.accountservice.config.filter.CustomAuthorizationFilter;
+import org.invested.orderservice.config.filter.CustomAuthorizationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -44,14 +44,14 @@ public class SecurityConfig {
         return http.csrf().disable()
                 .httpBasic(Customizer.withDefaults())
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/invested_account").permitAll()
-                .antMatchers(HttpMethod.POST, "/invested_account/authenticate").permitAll()
-                .antMatchers(HttpMethod.GET, "invested_account/forgot_password").permitAll()
-                .antMatchers(HttpMethod.GET, "/invested_account/test").hasAnyAuthority("ROLE_USER")
-                .antMatchers(HttpMethod.DELETE, "/invested_account").hasAnyAuthority("ROLE_USER")
-                .antMatchers(HttpMethod.PUT, "invested_account").hasAnyAuthority("ROLE_USER")
-                .antMatchers(HttpMethod.GET, "/invested_account/encrypt/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/invested_order/basic_order").hasAnyAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.POST, "/invested_order/limit_order").hasAnyAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.POST, "/invested_order/stop_loss_order").hasAnyAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.POST, "/invested_order/stop_price_order").hasAnyAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.GET, "/invested_order/get_order_info/**").hasAnyAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.GET, "/invested_order/get_orders").hasAnyAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.PUT, "/invested_order/cancel_order/**").hasAnyAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.PUT, "/invested_order/cancel_all_orders").hasAnyAuthority("ROLE_USER")
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
