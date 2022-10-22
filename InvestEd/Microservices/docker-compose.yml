@@ -1,0 +1,170 @@
+version: "3.9"
+
+services:
+
+ # ///////////////////////////////////////////////////// 
+ # Email Consumers
+
+  confirmation_email_consumer:
+    build: ./Email Consumers/ConfirmEmailConsumer/target
+    image: confirm-email-consumer:1.0
+    environment:
+      - EMAIL=${EMAIL}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=confirmation-email-queue
+      - EMAIL_SUBJECT=${CONFIRMATION_EMAIL_SUBJECT}
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
+
+  forgot_pass_email_consumer:
+    build: ./Email Consumers/ForgotPassEmailConsumer/target
+    image: forgot-pass-email-consumer:1.0
+    environment:
+      - EMAIL=${EMAIL}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=forgot-pass-queue
+      - EMAIL_SUBJECT=${FORGOT_EMAIL_SUBJECT}
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
+
+  update_email_consumer:
+    build: ./Email Consumers/UpdateInfoEmailConsumer/target
+    image: update-info-email-consumer:1.0
+    environment:
+      - EMAIL=${EMAIL}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=updated-info-queue
+      - EMAIL_SUBJECT=${UPDATE_EMAIL_SUBJECT}
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
+
+  order_placed_email_consumer:
+    build: ./Email Consumers/OrderPlacedEmailConsumer/target
+    image: order-placed-email-consumer:1.0
+    environment:
+      - EMAIL=${EMAIL}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=order-placed-email-queue
+      - EMAIL_SUBJECT=${ORDER_PLACED_EMAIL_SUBJECT}
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
+
+  order_canceled_email_consumer:
+    build: ./Email Consumers/OrderCanceledEmailConsumer/target
+    image: order-canceled-email-consumer:1.0
+    environment:
+      - EMAIL=${EMAIL}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=order-canceled-email-queue
+      - EMAIL_SUBJECT=${ORDER_CANCELED_EMAIL_SUBJECT}
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
+
+  # order_fulfilled_email_consumer:
+  #   build: ./Email Consumer/BaseEmailConsumer/target
+  #   image: base-email-consumer:1.0
+  #   environment:
+  #     - EMAIL=${EMAIL}
+  #     - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+  #     - RABBITMQ_HOST=rabbitmq
+  #     - RABBITMQ_PORT=5672
+  #     - RABBITMQ_USERNAME=guest
+  #     - RABBITMQ_PASSWORD=guest
+  #     - RABBITMQ_QUEUE=order-fulfilled-email-queue
+  #     - EMAIL_SUBJECT=${ORDER_FULFILLED_EMAIL_SUBJECT}
+  #   depends_on:
+  #     - rabbitmq
+  #   networks:
+  #     - base-net
+  #   deploy:
+  #     replicas: 1
+
+  # /////////////////////////////////////////////////////////////
+  # Databases, data stores
+
+  forgot_pass_code_database:
+    image: "redis:alpine"
+    container_name: verify-code-database
+    ports:
+      - "6379:6379"
+    networks:
+      - base-net
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - base-net
+
+  account_database:
+    image: "mysql:latest"
+    container_name: invested-account-db
+    environment:
+      - MYSQL_DATABASE=accounts 
+      - MYSQL_USER=${ACCOUNT_MYSQL_USER}
+      - MYSQL_PASSWORD=${ACCOUNT_MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${ACCOUNT_MYSQL_PASSWORD}
+    ports:
+      - "9000:3306"
+    networks:
+      - base-net
+
+  order_database:
+    image: "mysql:latest"
+    container_name: invested-orders-db
+    environment:
+      - MYSQL_DATABASE=orders
+      - MYSQL_USER=${ORDER_MYSQL_USER}
+      - MYSQL_PASSWORD=${ORDER_MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${ORDER_MYSQL_PASSWORD}
+    ports:
+      - "9001:3306"
+    networks:
+      - base-net
+
+networks:
+  base-net:
+    name: "invested_ecosystem"
