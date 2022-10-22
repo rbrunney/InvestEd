@@ -475,6 +475,16 @@
                     "description": "Working on Composing Docker File to add Consumers"
                 }
             ]
+        },
+        "Friday": {
+            "activities": [
+                {
+                    "activity": "Bug Fixing",
+                    "start_time": "8:30 am",
+                    "end_time": "9:0 am",
+                    "description": "Working on Getting Email in JWT"
+                }
+            ]
         }
     },
     "Week 4": {},

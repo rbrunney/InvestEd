@@ -16,7 +16,6 @@ services:
       - RABBITMQ_USERNAME=guest
       - RABBITMQ_PASSWORD=guest
       - RABBITMQ_QUEUE=confirmation-email-queue
-      - EMAIL_BODY=${CONFIRMATION_EMAIL_BODY}
       - EMAIL_SUBJECT=${CONFIRMATION_EMAIL_SUBJECT}
     depends_on:
       - rabbitmq
@@ -36,7 +35,6 @@ services:
       - RABBITMQ_USERNAME=guest
       - RABBITMQ_PASSWORD=guest
       - RABBITMQ_QUEUE=forgot-pass-queue
-      - EMAIL_BODY=${FORGOT_EMAIL_BODY}
       - EMAIL_SUBJECT=${FORGOT_EMAIL_SUBJECT}
     depends_on:
       - rabbitmq
@@ -56,7 +54,6 @@ services:
       - RABBITMQ_USERNAME=guest
       - RABBITMQ_PASSWORD=guest
       - RABBITMQ_QUEUE=updated-info-queue
-      - EMAIL_BODY=${UPDATE_EMAIL_BODY}
       - EMAIL_SUBJECT=${UPDATE_EMAIL_SUBJECT}
     depends_on:
       - rabbitmq
@@ -76,7 +73,6 @@ services:
       - RABBITMQ_USERNAME=guest
       - RABBITMQ_PASSWORD=guest
       - RABBITMQ_QUEUE=order-placed-email-queue
-      - EMAIL_BODY=${ORDER_PLACED_EMAIL_BODY}
       - EMAIL_SUBJECT=${ORDER_PLACED_EMAIL_SUBJECT}
     depends_on:
       - rabbitmq
@@ -96,7 +92,6 @@ services:
       - RABBITMQ_USERNAME=guest
       - RABBITMQ_PASSWORD=guest
       - RABBITMQ_QUEUE=order-canceled-email-queue
-      - EMAIL_BODY=${ORDER_CANCELED_EMAIL_BODY}
       - EMAIL_SUBJECT=${ORDER_CANCELED_EMAIL_SUBJECT}
     depends_on:
       - rabbitmq
@@ -116,7 +111,6 @@ services:
       - RABBITMQ_USERNAME=guest
       - RABBITMQ_PASSWORD=guest
       - RABBITMQ_QUEUE=order-fulfilled-email-queue
-      - EMAIL_BODY=${ORDER_FULFILLED_EMAIL_BODY}
       - EMAIL_SUBJECT=${ORDER_FULFILLED_EMAIL_SUBJECT}
     depends_on:
       - rabbitmq

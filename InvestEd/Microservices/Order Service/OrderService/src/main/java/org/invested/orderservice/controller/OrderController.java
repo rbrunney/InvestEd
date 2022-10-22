@@ -51,8 +51,9 @@ public class OrderController {
 
     @PutMapping("/cancel_order/{orderId}")
     public ResponseEntity<Map<String, Object>> cancelOrder(Principal principal, @PathVariable String orderId) {
-        if(basicOrderService.isUsersOrder(orderId, principal.getName())) {
-            basicOrderService.cancelOrder(orderId);
+        Map<String, String> userInfo = basicOrderService.convertMsgToMap(principal.getName());
+        if(basicOrderService.isUsersOrder(orderId, userInfo.get("username"))) {
+            basicOrderService.cancelOrder(orderId, userInfo.get("email").replace("\"", ""));
             return new ResponseEntity<>(HttpStatus.OK);
         }
 
@@ -61,7 +62,8 @@ public class OrderController {
 
     @PutMapping("/cancel_all_orders")
     public ResponseEntity<Map<String, Object>> cancelAllOrder(Principal principal) {
-        basicOrderService.cancelAllOrders(principal.getName());
+        Map<String, String> userInfo = basicOrderService.convertMsgToMap(principal.getName());
+        basicOrderService.cancelAllOrders(userInfo.get("user"), userInfo.get("email").replace("\"", ""));
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -71,11 +73,12 @@ public class OrderController {
 
     @PostMapping("/basic_order")
     public ResponseEntity<Map<String, Object>> placeBasicOrder(Principal principal, @RequestBody JsonNode basicOrder) {
+        Map<String, String> userInfo = basicOrderService.convertMsgToMap(principal.getName());
         try {
             // Making new Order and saving to database
             BasicOrder newOrder =  new BasicOrder(
                     UUID.randomUUID().toString(),
-                    principal.getName(),
+                    userInfo.get("username"),
                     basicOrder.get("ticker").asText(),
                     basicOrder.get("stock_quantity").asDouble(),
                     basicOrder.get("price_per_share").asDouble(),
@@ -83,7 +86,7 @@ public class OrderController {
             );
 
             // createBasicOrder
-            basicOrderService.createBasicOrder(newOrder);
+            basicOrderService.createBasicOrder(newOrder, userInfo.get("email").replace("\"", ""));
 
             return new ResponseEntity<>(new HashMap<>() {{
                 put("message", newOrder.getTicker() + " Order Placed Successfully");
@@ -102,11 +105,12 @@ public class OrderController {
 
     @PostMapping("/limit_order")
     public ResponseEntity<Map<String, Object>> placeLimitOrder(Principal principal, @RequestBody JsonNode limitOrder) {
+        Map<String, String> userInfo = basicOrderService.convertMsgToMap(principal.getName());
         try {
             // Making new Limit Order so we can save to database
             LimitOrder newOrder =  new LimitOrder(
                     UUID.randomUUID().toString(),
-                    principal.getName(),
+                    userInfo.get("username"),
                     limitOrder.get("ticker").asText(),
                     limitOrder.get("stock_quantity").asDouble(),
                     limitOrder.get("price_per_share").asDouble(),
@@ -115,7 +119,7 @@ public class OrderController {
             );
 
             // Making Limit Order
-            basicOrderService.createBasicOrder(newOrder);
+            basicOrderService.createBasicOrder(newOrder, userInfo.get("email").replace("\"", ""));
 
             return new ResponseEntity<>(new HashMap<>() {{
                 put("message", newOrder.getTicker() + " Order Placed Successfully");
@@ -135,11 +139,12 @@ public class OrderController {
 
     @PostMapping("/stop_loss_order")
     public ResponseEntity<Map<String, Object>> placeStopLossOrder(Principal principal, @RequestBody JsonNode stopLossOrder) {
+        Map<String, String> userInfo = basicOrderService.convertMsgToMap(principal.getName());
         try {
             // Making new Limit Order so we can save to database
             StopLossOrder newOrder =  new StopLossOrder(
                     UUID.randomUUID().toString(),
-                    principal.getName(),
+                    userInfo.get("username"),
                     stopLossOrder.get("ticker").asText(),
                     stopLossOrder.get("stock_quantity").asDouble(),
                     stopLossOrder.get("price_per_share").asDouble(),
@@ -148,7 +153,7 @@ public class OrderController {
             );
 
             // Making Limit Order
-            basicOrderService.createBasicOrder(newOrder);
+            basicOrderService.createBasicOrder(newOrder, userInfo.get("email").replace("\"", ""));
 
             return new ResponseEntity<>(new HashMap<>() {{
                 put("message", newOrder.getTicker() + " Order Placed Successfully");
@@ -167,11 +172,12 @@ public class OrderController {
 
     @PostMapping("/stop_price_order")
     public ResponseEntity<Map<String, Object>> placeStopPriceOrder(Principal principal, @RequestBody JsonNode stopPriceOrder) {
+        Map<String, String> userInfo = basicOrderService.convertMsgToMap(principal.getName());
         try {
             // Making new Limit Order so we can save to database
             StopPriceOrder newOrder =  new StopPriceOrder(
                     UUID.randomUUID().toString(),
-                    principal.getName(),
+                    userInfo.get("username"),
                     stopPriceOrder.get("ticker").asText(),
                     stopPriceOrder.get("stock_quantity").asDouble(),
                     stopPriceOrder.get("price_per_share").asDouble(),
@@ -181,7 +187,7 @@ public class OrderController {
             );
 
             // Making Limit Order
-            basicOrderService.createBasicOrder(newOrder);
+            basicOrderService.createBasicOrder(newOrder, userInfo.get("email").replace("\"", ""));
 
             return new ResponseEntity<>(new HashMap<>() {{
                 put("message", newOrder.getTicker() + " Order Placed Successfully");

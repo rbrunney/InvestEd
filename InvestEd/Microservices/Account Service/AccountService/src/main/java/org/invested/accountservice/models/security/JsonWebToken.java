@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class JsonWebToken {
     private final String generatedToken;
 
-    public JsonWebToken(UserDetails user, String email,Algorithm algorithm, int expireTimeInMinutes) {
+    public JsonWebToken(UserDetails user, String email, Algorithm algorithm, int expireTimeInMinutes) {
         // Creating JWT
         generatedToken = JWT.create()
                 .withSubject(user.getUsername())

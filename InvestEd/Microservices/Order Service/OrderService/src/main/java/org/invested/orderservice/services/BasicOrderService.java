@@ -29,7 +29,7 @@ public class BasicOrderService {
         amqpTemplate.convertAndSend(exchange, queue, message.toString());
     }
 
-    public void createBasicOrder(BasicOrder basicOrder) {
+    public void createBasicOrder(BasicOrder basicOrder, String email) {
 
         // Save to database
         basicOrderRepo.save(basicOrder);
@@ -61,6 +61,7 @@ public class BasicOrderService {
         sendMessageToQueue(new HashMap<>(){{
             put("order-id", basicOrder.getId());
             put("user", basicOrder.getUser());
+            put("email", email);
             put("ticker", basicOrder.getTicker());
             put("stock-qty", basicOrder.getStockQuantity());
             put("price-per-share", basicOrder.getPricePerShare());
@@ -88,7 +89,7 @@ public class BasicOrderService {
         return basicOrderRepo.getBasicOrdersByUser(user);
     }
 
-    public void checkOrderStatus(BasicOrder order) {
+    public void checkOrderStatus(BasicOrder order, String email) {
         if(order.getCurrentStatus() == Status.CANCELED || order.getCurrentStatus() == Status.COMPLETED) {
             return;
         }
@@ -100,23 +101,41 @@ public class BasicOrderService {
         // Sending Message to Canceled Email Queue
         sendMessageToQueue(new HashMap<>() {{
             put("user", order.getUser());
+            put("email", email);
             put("order_id", order.getId());
             put("order_status", order.getCurrentStatus());
         }}, "ORDER-EMAIL-EXCHANGE", "order-email.cancel");
     }
 
-    public void cancelOrder(String orderId) {
+    public void cancelOrder(String orderId, String email) {
         // Need to add check to see it current status. If pending, then we can cancel it.
         // Canceling it we will update the status to cancel
         BasicOrder order = basicOrderRepo.getBasicOrderById(orderId);
-        checkOrderStatus(order);
+        checkOrderStatus(order, email);
     }
 
-    public void cancelAllOrders(String user) {
+    public void cancelAllOrders(String user, String email) {
         ArrayList<BasicOrder> usersOrders = basicOrderRepo.getBasicOrdersByUser(user);
 
         for(BasicOrder order : usersOrders) {
-            checkOrderStatus(order);
+            checkOrderStatus(order, email);
         }
+    }
+
+    // Adding this so we can decode Principal information
+    public Map<String, String> convertMsgToMap(String msgToConvert) {
+        Map<String, String> finalResult = new HashMap<>();
+
+        // Getting rid of all the unnecessary characters to split the string easier.
+        msgToConvert = msgToConvert.replace("{", "").replace("}", "").replace(" ", "");
+
+        String[] jsonPairs = msgToConvert.split(",");
+
+        for(String pair : jsonPairs) {
+            String[] keyValue = pair.split("=");
+            finalResult.put(keyValue[0], keyValue[1]);
+        }
+
+        return finalResult;
     }
 }
