@@ -75,6 +75,12 @@ public class OrderController {
     public ResponseEntity<Map<String, Object>> placeBasicOrder(Principal principal, @RequestBody JsonNode basicOrder) {
         Map<String, String> userInfo = basicOrderService.convertMsgToMap(principal.getName());
         try {
+            // Check to see if user has enough buying power based of current asking price
+            if (hasEnoughBuyingPower(basicOrder, userInfo)) return new ResponseEntity<>(new HashMap<>() {{
+                put("message", "Not Enough Buying Power!");
+                put("date-time", LocalDateTime.now());
+            }}, HttpStatus.BAD_REQUEST);
+
             // Making new Order and saving to database
             BasicOrder newOrder =  new BasicOrder(
                     UUID.randomUUID().toString(),
@@ -107,6 +113,12 @@ public class OrderController {
     public ResponseEntity<Map<String, Object>> placeLimitOrder(Principal principal, @RequestBody JsonNode limitOrder) {
         Map<String, String> userInfo = basicOrderService.convertMsgToMap(principal.getName());
         try {
+            // Check to see if user has enough buying power based of current asking price
+            if (hasEnoughBuyingPower(limitOrder, userInfo)) return new ResponseEntity<>(new HashMap<>() {{
+                put("message", "Not Enough Buying Power!");
+                put("date-time", LocalDateTime.now());
+            }}, HttpStatus.BAD_REQUEST);
+
             // Making new Limit Order so we can save to database
             LimitOrder newOrder =  new LimitOrder(
                     UUID.randomUUID().toString(),
@@ -137,10 +149,27 @@ public class OrderController {
 
     }
 
+    private boolean hasEnoughBuyingPower(@RequestBody JsonNode limitOrder, Map<String, String> userInfo) {
+        if (!basicOrderService.hasEnoughBuyingPower(Double.parseDouble(userInfo.get("buying_power")),
+                limitOrder.get("stock_quantity").asDouble() * limitOrder.get("price_per_share").asDouble()
+        )) {
+            // Showing message saying they don't have enough buying power
+            return true;
+        }
+        return false;
+    }
+
     @PostMapping("/stop_loss_order")
     public ResponseEntity<Map<String, Object>> placeStopLossOrder(Principal principal, @RequestBody JsonNode stopLossOrder) {
         Map<String, String> userInfo = basicOrderService.convertMsgToMap(principal.getName());
         try {
+            // Check to see if user has enough buying power based of current asking price
+            if (hasEnoughBuyingPower(stopLossOrder, userInfo)) return new ResponseEntity<>(new HashMap<>() {{
+                put("message", "Not Enough Buying Power!");
+                put("date-time", LocalDateTime.now());
+            }}, HttpStatus.BAD_REQUEST);
+
+
             // Making new Limit Order so we can save to database
             StopLossOrder newOrder =  new StopLossOrder(
                     UUID.randomUUID().toString(),
@@ -174,6 +203,12 @@ public class OrderController {
     public ResponseEntity<Map<String, Object>> placeStopPriceOrder(Principal principal, @RequestBody JsonNode stopPriceOrder) {
         Map<String, String> userInfo = basicOrderService.convertMsgToMap(principal.getName());
         try {
+            // Check to see if user has enough buying power based of current asking price
+            if (hasEnoughBuyingPower(stopPriceOrder, userInfo)) return new ResponseEntity<>(new HashMap<>() {{
+                put("message", "Not Enough Buying Power!");
+                put("date-time", LocalDateTime.now());
+            }}, HttpStatus.BAD_REQUEST);
+
             // Making new Limit Order so we can save to database
             StopPriceOrder newOrder =  new StopPriceOrder(
                     UUID.randomUUID().toString(),

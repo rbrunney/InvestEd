@@ -14,13 +14,14 @@ import java.util.stream.Collectors;
 public class JsonWebToken {
     private final String generatedToken;
 
-    public JsonWebToken(UserDetails user, String email, Algorithm algorithm, int expireTimeInMinutes) {
+    public JsonWebToken(UserDetails user, String email, double buyingPower, Algorithm algorithm, int expireTimeInMinutes) {
         // Creating JWT
         generatedToken = JWT.create()
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + (long) expireTimeInMinutes * 60 * 1000)) // Giving it expiration date
                 .withIssuer(System.getenv("JWT_ISSUER"))
                 .withClaim("email", email)
+                .withClaim("buying_power", buyingPower)
                 .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
     }

@@ -29,6 +29,10 @@ public class BasicOrderService {
         amqpTemplate.convertAndSend(exchange, queue, message.toString());
     }
 
+    public boolean hasEnoughBuyingPower(double currentBuyingPower, double purchaseOrderTotal) {
+        return purchaseOrderTotal < currentBuyingPower;
+    }
+
     public void createBasicOrder(BasicOrder basicOrder, String email) {
 
         // Save to database

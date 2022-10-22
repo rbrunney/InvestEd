@@ -44,7 +44,6 @@ public class SecurityConfig {
         return http.csrf().disable()
                 .httpBasic(Customizer.withDefaults())
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/invested_account").permitAll()
                 .antMatchers(HttpMethod.POST, "/invested_account/authenticate").permitAll()
                 .antMatchers(HttpMethod.GET, "invested_account/forgot_password").permitAll()
