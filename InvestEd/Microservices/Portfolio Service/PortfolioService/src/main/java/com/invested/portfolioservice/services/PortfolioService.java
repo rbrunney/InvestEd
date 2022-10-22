@@ -15,14 +15,21 @@ public class PortfolioService {
     @Autowired
     private PortfolioJPARepository portfolioRepo;
 
-    public void createPortfolio(String principalToConvert) {
+    private void createPortfolio(String username) {
+        // Making new portfolio
+        portfolioRepo.save(new Portfolio(username));
+    }
+
+    public boolean hasPortfolio(String principalToConvert) {
         // Getting map from principal
         Map<String, String> userInfo = convertMsgToMap(principalToConvert);
+        if(portfolioRepo.getPortfoliosByUserId(userInfo.get("username")).size() < 1) {
+           createPortfolio(userInfo.get("username"));
+           return false;
+        }
 
-        // Need to check how many Portfolio's they have
-
-        // Making new portfolio
-        portfolioRepo.save(new Portfolio(userInfo.get("username")));
+        // Meaning they have reached the portfolio limit
+        return true;
     }
 
     private Map<String, String> convertMsgToMap(String msgToConvert) {
