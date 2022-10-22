@@ -37,7 +37,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 Map<String, Object> principal = new HashMap<>() {{
                     put("username", decodedJWT.getSubject());
                     put("email", decodedJWT.getClaim("email").toString());
-                    put("buying_power", decodedJWT.getClaim("buying_power").toString());
                 }};
                 String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
                 Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();

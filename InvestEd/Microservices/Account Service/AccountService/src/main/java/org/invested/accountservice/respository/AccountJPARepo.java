@@ -11,9 +11,6 @@ public interface AccountJPARepo extends JpaRepository<Account, String> {
     @Query(value = "SELECT email FROM account WHERE username = ?1", nativeQuery = true)
     String getEmailByUsername(String username);
 
-    @Query(value = "SELECT buying_power FROM account WHERE username = ?1", nativeQuery = true)
-    double getBuyingPowerByUsername(String username);
-
     Account getAccountByUsername(String username);
     Account getAccountByEmail(String email);
 

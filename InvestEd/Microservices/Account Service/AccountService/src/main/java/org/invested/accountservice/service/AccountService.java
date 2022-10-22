@@ -57,8 +57,8 @@ public class AccountService {
 
         Map<String, Object> tokens = new HashMap<>();
         // Generate the actual tokens
-        tokens.put("access-token", new JsonWebToken(authenticatedUser, accountRepo.getEmailByUsername(userCredentials.get("username")), accountRepo.getBuyingPowerByUsername(userCredentials.get("username")), JWTUtil.getAlgorithm(), expireTimeInMinutes).getGeneratedToken());
-        tokens.put("refresh-token", new JsonWebToken(authenticatedUser, accountRepo.getEmailByUsername(userCredentials.get("username")), accountRepo.getBuyingPowerByUsername(userCredentials.get("username")), JWTUtil.getAlgorithm(), expireTimeInMinutes * 2).getGeneratedToken());
+        tokens.put("access-token", new JsonWebToken(authenticatedUser, accountRepo.getEmailByUsername(userCredentials.get("username")), JWTUtil.getAlgorithm(), expireTimeInMinutes).getGeneratedToken());
+        tokens.put("refresh-token", new JsonWebToken(authenticatedUser, accountRepo.getEmailByUsername(userCredentials.get("username")), JWTUtil.getAlgorithm(), expireTimeInMinutes * 2).getGeneratedToken());
 
         return tokens;
     }
