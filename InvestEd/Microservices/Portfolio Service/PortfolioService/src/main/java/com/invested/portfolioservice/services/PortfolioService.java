@@ -63,6 +63,10 @@ public class PortfolioService {
         }};
     }
 
+    public void deletePortfolio(String portfolioId) {
+        portfolioRepo.deleteById(portfolioId);
+    }
+
     private Map<String, String> convertMsgToMap(String msgToConvert) {
         Map<String, String> finalResult = new HashMap<>();
 

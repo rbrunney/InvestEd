@@ -46,6 +46,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/invested_portfolio").hasAnyAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.GET, "/invested_portfolio/**").hasAnyAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.DELETE, "/invested_portfolio/**").hasAnyAuthority("ROLE_USER")
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

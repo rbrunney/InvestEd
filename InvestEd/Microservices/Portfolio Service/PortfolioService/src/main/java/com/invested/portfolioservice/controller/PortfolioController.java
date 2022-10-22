@@ -55,4 +55,27 @@ public class PortfolioController {
             put("date-time", LocalDateTime.now());
         }}, HttpStatus.BAD_REQUEST);
     }
+
+    @DeleteMapping("/{portfolioId}")
+    public ResponseEntity<Map<String, Object>> deletePortfolio(Principal principal, @PathVariable String portfolioId) {
+        if(portfolioService.portfolioExists(portfolioId)) {
+            if (portfolioService.isUsersPortfolio(principal.getName(), portfolioId)) {
+
+                portfolioService.deletePortfolio(portfolioId);
+                return new ResponseEntity<>(new HashMap<>() {{
+                    put("message", portfolioId + " has been deleted!");
+                    put("date-time", LocalDateTime.now());
+                }}, HttpStatus.NO_CONTENT);
+            }
+
+            return new ResponseEntity<>(new HashMap<>(){{
+                put("message", portfolioId + " does not belong to current user");
+            }},HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<>(new HashMap<>(){{
+            put("message", portfolioId + " does not exist!");
+            put("date-time", LocalDateTime.now());
+        }}, HttpStatus.BAD_REQUEST);
+    }
 }
