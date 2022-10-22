@@ -1,0 +1,5 @@
+org\invested\model\email\SendEmail.class
+org\invested\ConsumerMain.class
+org\invested\model\rabbitmq\RabbitMQConsumer.class
+org\invested\model\email\SMTPAuthenticator.class
+org\invested\model\rabbitmq\RabbitMQConsumer$1.class
