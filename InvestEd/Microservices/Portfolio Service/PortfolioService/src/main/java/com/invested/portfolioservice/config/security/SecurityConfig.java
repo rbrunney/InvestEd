@@ -45,6 +45,7 @@ public class SecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/invested_portfolio").hasAnyAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.GET, "/invested_portfolio/**").hasAnyAuthority("ROLE_USER")
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
