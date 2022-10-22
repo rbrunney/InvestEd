@@ -165,6 +165,19 @@ services:
     networks:
       - base-net
 
+  portfolio_database:
+    image: "mysql:latest"
+    container_name: invested-portfolios-db
+    environment:
+      - MYSQL_DATABASE=portfolios
+      - MYSQL_USER=${PORTFOLIO_MYSQL_USER}
+      - MYSQL_PASSWORD=${PORTFOLIO_MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${PORTFOLIO_MYSQL_PASSWORD}
+    ports:
+      - "9002:3306"
+    networks:
+      - base-net
+
 networks:
   base-net:
     name: "invested_ecosystem"
