@@ -141,8 +141,358 @@
             ]
         }
     },
-    "Week 2": {},
-    "Week 3": {},
+    "Week 2": {
+        "Monday": {
+            "activities": [
+                {
+                    "activity": "Research",
+                    "start_time": "10:0 am",
+                    "end_time": "10:34 am",
+                    "description": "Researching RabbitMQ"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "7:0 pm",
+                    "end_time": "10:0 pm",
+                    "description": "Implemeting JWT and RSA into Account API"
+                }
+            ]
+        },
+        "Tuesday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "8:0 am",
+                    "end_time": "10:55 am",
+                    "description": "Account API Start w/ JWT"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "8:0 pm",
+                    "end_time": "8:48 pm",
+                    "description": "Finished RSA Implementation"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "8:48 pm",
+                    "end_time": "9:28 pm",
+                    "description": "Cleaning /authenticate"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "9:28 pm",
+                    "end_time": "10:2 pm",
+                    "description": "Working on POST /account"
+                }
+            ]
+        },
+        "Wednesday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "9:40 am",
+                    "end_time": "10:50 am",
+                    "description": "Working on RabbitMQ Producer"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "4:41 pm",
+                    "end_time": "5:20 pm",
+                    "description": "Cont RabbitMQ Implementation"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "6:20 pm",
+                    "end_time": "7:2 pm",
+                    "description": "Consumer Made for ConfirmationEmail"
+                }
+            ]
+        },
+        "Thursday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "8:0 am",
+                    "end_time": "8:16 am",
+                    "description": "Working on /forogt_password"
+                },
+                {
+                    "activity": "Research",
+                    "start_time": "8:16 am",
+                    "end_time": "8:27 am",
+                    "description": "Redis in Docker/With Java"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "9:25 am",
+                    "end_time": "10:50 am",
+                    "description": "Working on ForgotPassword Consumer"
+                },
+                {
+                    "activity": "Design",
+                    "start_time": "5:30 pm",
+                    "end_time": "6:0 pm",
+                    "description": "Working on Consumer Emails"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "7:0 pm",
+                    "end_time": "8:35 pm",
+                    "description": "Working on finishing User API"
+                },
+                {
+                    "activity": "Bug Fixing",
+                    "start_time": "8:35 pm",
+                    "end_time": "9:35 pm",
+                    "description": "Working On JPA Issues"
+                }
+            ]
+        },
+        "Friday": {
+            "activities": [
+                {
+                    "activity": "Bug Fixing",
+                    "start_time": "9:30 am",
+                    "end_time": "10:36 am",
+                    "description": "Worked on JPA Delete/Update Issue"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "7:0 pm",
+                    "end_time": "7:19 pm",
+                    "description": "Working on Update User Consumer"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "7:19 pm",
+                    "end_time": "7:25 pm",
+                    "description": "Working on Base Flask Set Up"
+                },
+                {
+                    "activity": "Research",
+                    "start_time": "7:25 pm",
+                    "end_time": "9:0 pm",
+                    "description": "Finding Better Stock API yfinance SLOW"
+                }
+            ]
+        },
+        "Saturday": {
+            "activities": [
+                {
+                    "activity": "Research",
+                    "start_time": "9:40 pm",
+                    "end_time": "10:20 pm",
+                    "description": "Looking at Alpha Vantage Documentation"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "10:20 pm",
+                    "end_time": "10:40 pm",
+                    "description": "Worked on getting Current Price and Basic Info"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "10:40 pm",
+                    "end_time": "11:0 pm",
+                    "description": "Working on getting Stock News"
+                }
+            ]
+        }
+    },
+    "Week 3": {
+        "Sunday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "5:30 pm",
+                    "end_time": "6:5 pm",
+                    "description": "Working on Earning Calls"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "6:15 pm",
+                    "end_time": "6:40 pm",
+                    "description": "Working on getting Basic Information"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "6:40 pm",
+                    "end_time": "7:0 pm",
+                    "description": "Worked on getting current news"
+                },
+                {
+                    "activity": "Research",
+                    "start_time": "8:17 pm",
+                    "end_time": "8:30 pm",
+                    "description": "Understading Moving AVG"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "8:30 pm",
+                    "end_time": "9:19 pm",
+                    "description": "Implementing Moving AVG Calc"
+                }
+            ]
+        },
+        "Monday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "9:25 am",
+                    "end_time": "9:45 am",
+                    "description": "Finished Moving AVG"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "9:45 am",
+                    "end_time": "10:0 am",
+                    "description": "Base endpoints made"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "10:0 am",
+                    "end_time": "10:40 am",
+                    "description": "Trying to decode JWT"
+                },
+                {
+                    "activity": "Bug Fixing",
+                    "start_time": "7:0 pm",
+                    "end_time": "7:30 pm",
+                    "description": "Fixing JWT Decode"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "7:30 pm",
+                    "end_time": "8:0 pm",
+                    "description": "Working on Responses for Place Order"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "8:0 pm",
+                    "end_time": "8:45 pm",
+                    "description": "Working on MySQL Connection for Orders"
+                },
+                {
+                    "activity": "Research",
+                    "start_time": "8:45 pm",
+                    "end_time": "9:45 pm",
+                    "description": "Docker Compose with MySQL init file"
+                },
+                {
+                    "activity": "Design",
+                    "start_time": "9:45 pm",
+                    "end_time": "10:0 pm",
+                    "description": "Thinking about Order/Portfolio API to Spring"
+                },
+                {
+                    "activity": "Bug Fixing",
+                    "start_time": "10:0 pm",
+                    "end_time": "10:48 pm",
+                    "description": "Moving Order API from Flask to Spring"
+                }
+            ]
+        },
+        "Tuesday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "8:0 am",
+                    "end_time": "8:25 am",
+                    "description": "Working on Basic Order"
+                },
+                {
+                    "activity": "Design",
+                    "start_time": "8:25 am",
+                    "end_time": "9:25 am",
+                    "description": "Order Architecture Structure"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "9:25 am",
+                    "end_time": "9:45 am",
+                    "description": "Implementing RabbitMQ Config"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "9:45 am",
+                    "end_time": "10:55 am",
+                    "description": "Working on Order API Endpoints"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "7:0 pm",
+                    "end_time": "7:17 pm",
+                    "description": "Working on /cancel_order"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "8:30 pm",
+                    "end_time": "9:30 pm",
+                    "description": "Working on Order Endpoints"
+                }
+            ]
+        },
+        "Wednesday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "9:30 am",
+                    "end_time": "10:21 am",
+                    "description": "Refactoring Order Service to be Cleaner"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "10:21 am",
+                    "end_time": "10:50 am",
+                    "description": "Working on other Order Endpoints"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "6:30 pm",
+                    "end_time": "7:30 pm",
+                    "description": "Working on Order Endpoints"
+                },
+                {
+                    "activity": "Bug Fixing",
+                    "start_time": "8:30 pm",
+                    "end_time": "9:11 pm",
+                    "description": "Added Filters and updated Account UUID"
+                },
+                {
+                    "activity": "Bug Fixing",
+                    "start_time": "9:30 pm",
+                    "end_time": "10:30 pm",
+                    "description": "Working on Consumer/Docker"
+                }
+            ]
+        },
+        "Thursday": {
+            "activities": [
+                {
+                    "activity": "Other",
+                    "start_time": "8:0 am",
+                    "end_time": "8:50 am",
+                    "description": "Working on Composing Docker File to add Consumers"
+                }
+            ]
+        },
+        "Friday": {
+            "activities": [
+                {
+                    "activity": "Bug Fixing",
+                    "start_time": "8:30 am",
+                    "end_time": "9:0 am",
+                    "description": "Working on Getting Email in JWT"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "8:30 pm",
+                    "end_time": "9:30 pm",
+                    "description": "Working on Updating Email Consumers"
+                }
+            ]
+        }
+    },
     "Week 4": {},
     "Week 5": {},
     "Week 6": {},
