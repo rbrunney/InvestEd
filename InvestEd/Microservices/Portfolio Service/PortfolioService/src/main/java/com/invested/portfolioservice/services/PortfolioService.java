@@ -85,7 +85,7 @@ public class PortfolioService {
 
     // ////////////////////////////////////////////////////////////////////////////////////
     // Methods with dealing with stock's within a portfolio
-    public void saveStock(String ticker, String portfolioId, double totalShares, double totalPurchasePrice) {
+    public void buyStock(String ticker, String portfolioId, double totalShares, double totalPurchasePrice) {
         // Check to see if stock exists
         PortfolioStock portfolioStock = portfolioStockRepo.getPortfolioStockByPortfolioIdAndTicker(portfolioId, ticker);
         if(portfolioStock == null) {

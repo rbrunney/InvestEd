@@ -84,12 +84,12 @@ public class PortfolioController {
     // ///////////////////////////////////////////////////////////
     // Dealing with the stocks within the portfolio
 
-    @PostMapping("/add_stock")
+    @PostMapping("/buy_stock")
     public ResponseEntity<Map<String, Object>> addStockToPortfolio(Principal principal, @RequestBody JsonNode stock) {
         String portfolioId = portfolioService.getPortfolioId(principal.getName());
 
         // Saving Incoming Stock
-        portfolioService.saveStock(stock.get("ticker").asText(),
+        portfolioService.buyStock(stock.get("ticker").asText(),
                 portfolioId,
                 stock.get("stock-qty").asDouble(),
                 stock.get("stock-qty").asDouble() * stock.get("price-per-share").asDouble()
