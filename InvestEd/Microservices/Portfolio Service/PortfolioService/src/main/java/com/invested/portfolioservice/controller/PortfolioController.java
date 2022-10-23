@@ -84,7 +84,7 @@ public class PortfolioController {
     // ///////////////////////////////////////////////////////////
     // Dealing with the stocks within the portfolio
 
-    @PostMapping("/buy_stock")
+    @PutMapping("/buy_stock")
     public ResponseEntity<Map<String, Object>> addStockToPortfolio(Principal principal, @RequestBody JsonNode stock) {
         String portfolioId = portfolioService.getPortfolioId(principal.getName());
 

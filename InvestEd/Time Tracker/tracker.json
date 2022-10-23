@@ -511,6 +511,12 @@
                     "start_time": "2:15 pm",
                     "end_time": "3:35 pm",
                     "description": "Started on Portoflio API"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "7:0 pm",
+                    "end_time": "8:10 pm",
+                    "description": "Working on buy_stock"
                 }
             ]
         }
