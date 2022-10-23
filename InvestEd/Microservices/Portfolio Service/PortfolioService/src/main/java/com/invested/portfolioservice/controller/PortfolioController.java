@@ -19,6 +19,8 @@ public class PortfolioController {
     @Autowired
     private PortfolioService portfolioService;
 
+    // /////////////////////////////////////////////////////////////////////////////
+    // Dealing with the portfolio itself
     @PostMapping()
     public ResponseEntity<Map<String, Object>> makePortfolio(Principal principal) {
         if (!portfolioService.hasPortfolio(principal.getName())) {
@@ -77,5 +79,22 @@ public class PortfolioController {
             put("message", portfolioId + " does not exist!");
             put("date-time", LocalDateTime.now());
         }}, HttpStatus.BAD_REQUEST);
+    }
+
+    // ///////////////////////////////////////////////////////////
+    // Dealing with the stocks within the portfolio
+
+    @PostMapping("/add_stock")
+    public ResponseEntity<Map<String, Object>> addStockToPortfolio(Principal principal, @RequestBody JsonNode stock) {
+        String portfolioId = portfolioService.getPortfolioId(principal.getName());
+
+        // Saving Incoming Stock
+        portfolioService.saveStock(stock.get("ticker").asText(),
+                portfolioId,
+                stock.get("stock-qty").asDouble(),
+                stock.get("stock-qty").asDouble() * stock.get("price-per-share").asDouble()
+                );
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

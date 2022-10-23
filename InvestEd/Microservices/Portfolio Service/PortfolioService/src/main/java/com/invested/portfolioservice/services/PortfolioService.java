@@ -21,6 +21,9 @@ public class PortfolioService {
     @Autowired
     private PortfolioStockJPARepository portfolioStockRepo;
 
+
+    // ///////////////////////////////////////////////////////////////
+    // Dealing with portfolio information
     private void createPortfolio(String username) {
         // Making new portfolio
         portfolioRepo.save(new Portfolio(username));
@@ -47,6 +50,12 @@ public class PortfolioService {
         return portfolioRepo.getPortfolioById(portfolioId).getUserId().equals(userInfo.get("username"));
     }
 
+    public String getPortfolioId(String msgToConvert) {
+        Map<String, String> userInfo = convertMsgToMap(msgToConvert);
+
+        return portfolioRepo.getPortfolioIdByUsername(userInfo.get("username"));
+    }
+
     public Map<String, Object> getPortfolio(String portfolioId) {
         // Getting all stock information
         Portfolio portfolio = portfolioRepo.getPortfolioById(portfolioId);
@@ -67,6 +76,34 @@ public class PortfolioService {
         portfolioRepo.deleteById(portfolioId);
     }
 
+    public void updatePortfolioValue(String portfolioId, double stockPurchaseValue) {
+        // Updating portfolio value so when orders go through portfolio value goes up
+        Portfolio portfolio = portfolioRepo.getPortfolioById(portfolioId);
+        portfolio.setTotalValue(portfolio.getTotalValue() + stockPurchaseValue);
+        portfolioRepo.save(portfolio);
+    }
+
+    // ////////////////////////////////////////////////////////////////////////////////////
+    // Methods with dealing with stock's within a portfolio
+    public void saveStock(String ticker, String portfolioId, double totalShares, double totalPurchasePrice) {
+        // Check to see if stock exists
+        PortfolioStock portfolioStock = portfolioStockRepo.getPortfolioStockByPortfolioIdAndTicker(portfolioId, ticker);
+        if(portfolioStock == null) {
+            portfolioStockRepo.save(new PortfolioStock(ticker, portfolioId, totalShares, totalPurchasePrice));
+        } else {
+            // If it does exist then add to the current stats
+            portfolioStock.setInitialBuyIn(portfolioStock.getInitialBuyIn() + totalPurchasePrice);
+            portfolioStock.setTotalShareQuantity(portfolioStock.getTotalShareQuantity() + totalShares);
+            portfolioStockRepo.save(portfolioStock);
+        }
+
+        // Update portfolio value
+        updatePortfolioValue(portfolioId, totalPurchasePrice);
+    }
+
+
+    // ////////////////////////////////////////////////////////////////////////////////////
+    // Util Methods
     private Map<String, String> convertMsgToMap(String msgToConvert) {
         Map<String, String> finalResult = new HashMap<>();
 

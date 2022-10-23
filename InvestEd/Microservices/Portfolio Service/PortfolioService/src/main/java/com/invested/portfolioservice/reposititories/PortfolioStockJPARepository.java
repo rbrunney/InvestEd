@@ -7,4 +7,6 @@ import java.util.ArrayList;
 
 public interface PortfolioStockJPARepository extends JpaRepository<PortfolioStock, String> {
     ArrayList<PortfolioStock> getPortfolioStocksByPortfolioId(String portfolioId);
+
+    PortfolioStock getPortfolioStockByPortfolioIdAndTicker(String portfolioId, String ticker);
 }

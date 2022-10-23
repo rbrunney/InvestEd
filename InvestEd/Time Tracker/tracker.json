@@ -505,6 +505,12 @@
                     "start_time": "1:45 pm",
                     "end_time": "2:15 pm",
                     "description": "Starting Portfolio API"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "2:15 pm",
+                    "end_time": "3:35 pm",
+                    "description": "Started on Portoflio API"
                 }
             ]
         }
