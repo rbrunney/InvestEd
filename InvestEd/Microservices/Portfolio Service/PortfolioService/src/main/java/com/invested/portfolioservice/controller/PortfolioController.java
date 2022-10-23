@@ -95,6 +95,20 @@ public class PortfolioController {
                 stock.get("stock-qty").asDouble() * stock.get("price-per-share").asDouble()
                 );
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/sell_stock")
+    public ResponseEntity<Map<String, Object>> removeStockFromPortfolio(Principal principal, @RequestBody JsonNode stock) {
+        String portfolioId = portfolioService.getPortfolioId(principal.getName());
+
+        Map<String, Object> response = portfolioService.sellStock(
+            stock.get("ticker").asText(),
+            portfolioId,
+            stock.get("stock-qty").asDouble(),
+            stock.get("stock-qty").asDouble() * stock.get("price-per-share").asDouble()
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -7,7 +7,9 @@ import com.invested.portfolioservice.reposititories.PortfolioStockJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.InvalidKeyException;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -92,13 +94,46 @@ public class PortfolioService {
             portfolioStockRepo.save(new PortfolioStock(ticker, portfolioId, totalShares, totalPurchasePrice));
         } else {
             // If it does exist then add to the current stats
-            portfolioStock.setInitialBuyIn(portfolioStock.getInitialBuyIn() + totalPurchasePrice);
+            portfolioStock.setTotalEquity(portfolioStock.getTotalEquity() + totalPurchasePrice);
             portfolioStock.setTotalShareQuantity(portfolioStock.getTotalShareQuantity() + totalShares);
             portfolioStockRepo.save(portfolioStock);
         }
 
         // Update portfolio value
         updatePortfolioValue(portfolioId, totalPurchasePrice);
+    }
+
+
+    public Map<String, Object> sellStock(String ticker, String portfolioId, double totalShares, double totalSellPrice) {
+        // Check to see if ticker exists
+        PortfolioStock portfolioStock = portfolioStockRepo.getPortfolioStockByPortfolioIdAndTicker(portfolioId, ticker);
+        if(portfolioStock != null) {
+            // Calculate avgPricePerShare
+            double avgPricePerShare = portfolioStock.getTotalEquity() / portfolioStock.getTotalShareQuantity();
+            // Get the profit total
+            double profit = totalSellPrice - (totalShares * avgPricePerShare);
+
+            // Get difference and then update the initial buy in price
+            portfolioStock.setTotalShareQuantity(portfolioStock.getTotalShareQuantity() - totalShares);
+            portfolioStock.setTotalEquity(portfolioStock.getTotalEquity() - totalSellPrice);
+            portfolioStockRepo.save(portfolioStock);
+
+            // Updating portfolio information
+            updatePortfolioValue(portfolioId, -totalSellPrice);
+
+            return new HashMap<>() {{
+                put("message", ticker + " successfully sold!");
+                put("results", new HashMap<>() {{
+                    put("total-profit", profit);
+                }});
+                put("date-time", LocalDateTime.now());
+            }};
+        }
+
+        return new HashMap<>() {{
+            put("message", portfolioId + " does not contain " + ticker);
+            put("date-time", LocalDateTime.now());
+        }};
     }
 
 

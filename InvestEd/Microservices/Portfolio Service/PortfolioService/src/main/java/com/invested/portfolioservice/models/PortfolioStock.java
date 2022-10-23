@@ -12,7 +12,7 @@ public class PortfolioStock {
     private String ticker;
     private String portfolioId;
     private double totalShareQuantity;
-    private double initialBuyIn;
+    private double totalEquity;
 
     public PortfolioStock() {
     }
@@ -22,7 +22,7 @@ public class PortfolioStock {
         this.ticker = ticker;
         this.portfolioId = portfolioId;
         this.totalShareQuantity = getTotalShareQuantity() + totalShares;
-        this.initialBuyIn = getInitialBuyIn() + totalPurchasePrice;
+        this.totalEquity = getTotalEquity() + totalPurchasePrice;
     }
 
     public String getId() {
@@ -57,11 +57,11 @@ public class PortfolioStock {
         this.totalShareQuantity = totalShareQuantity;
     }
 
-    public double getInitialBuyIn() {
-        return initialBuyIn;
+    public double getTotalEquity() {
+        return totalEquity;
     }
 
-    public void setInitialBuyIn(double initialBuyIn) {
-        this.initialBuyIn = initialBuyIn;
+    public void setTotalEquity(double totalEquity) {
+        this.totalEquity = totalEquity;
     }
 }
