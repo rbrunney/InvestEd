@@ -2,6 +2,19 @@ version: "3.9"
 
 services:
 
+ # /////////////////////////////////////////////////////
+ # API's
+
+  stock_api:
+    build: ./Stock Service
+    image: invested-stock-api:1.0
+    depends_on:
+      - registration_service
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
+
  # ///////////////////////////////////////////////////// 
  # Email Consumers
 
@@ -119,16 +132,27 @@ services:
   #   deploy:
   #     replicas: 1
 
+  
   # /////////////////////////////////////////////////////////////
-  # Databases, data stores
+  # Distrubuted System Helpers
 
-  forgot_pass_code_database:
-    image: "redis:alpine"
-    container_name: verify-code-database
+  gateway_service:
+    build: "./Gateway"
+    image: "invested-gateway:1.0"
+    depends_on:
+      - stock_api
     ports:
-      - "6379:6379"
+      - "8888:8888"
     networks:
       - base-net
+
+  registration_service:
+    image: "steeltoeoss/eureka-server"
+    container_name: "eureka"
+    ports:
+      - "8761:8761"
+    networks:
+    - base-net
 
   rabbitmq:
     image: "rabbitmq:3-management"
@@ -136,6 +160,17 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    networks:
+      - base-net
+
+  # /////////////////////////////////////////////////////////////
+  # Databases
+
+  forgot_pass_code_database:
+    image: "redis:alpine"
+    container_name: verify-code-database
+    ports:
+      - "6379:6379"
     networks:
       - base-net
 

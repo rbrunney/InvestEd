@@ -1,6 +1,11 @@
+import py_eureka_client.eureka_client as eureka_client
 from datetime import datetime
 from flask import Flask, request
 import stock
+
+eureka_client.init(eureka_server="http://eureka:8761/eureka",
+                   app_name="stock-api",
+                   instance_port=105)
 
 stock_api = Flask(__name__)
 
