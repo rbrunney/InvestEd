@@ -58,6 +58,12 @@ public class AccountController {
 
     @PostMapping()
     public ResponseEntity<Map<String, Object>> createUser(@RequestBody Account newAccount) {
+        
+        // Decoding user information
+        Map<String, String> userCredentials = accountService.decryptUserCredentials(newAccount.getUsername(), newAccount.getPassword());
+        newAccount.setUsername(userCredentials.get("username"));
+        newAccount.setPassword(userCredentials.get("password"));
+
         // Check to see if username or email us taken
         if(!(accountService.checkIfAccountExists("username", newAccount.getUsername())
                 || accountService.checkIfAccountExists("email", newAccount.getEmail()))) {
