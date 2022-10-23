@@ -517,6 +517,12 @@
                     "start_time": "7:0 pm",
                     "end_time": "8:10 pm",
                     "description": "Working on buy_stock"
+                },
+                {
+                    "activity": "Design",
+                    "start_time": "8:10 pm",
+                    "end_time": "9:27 pm",
+                    "description": "Working on sell_stock"
                 }
             ]
         }

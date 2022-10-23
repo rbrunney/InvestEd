@@ -26,21 +26,23 @@ public class PortfolioService {
 
     // ///////////////////////////////////////////////////////////////
     // Dealing with portfolio information
-    private void createPortfolio(String username) {
+    public Map<String, Object> createPortfolio(String msgToConvert) {
+        Map<String, String> userInfo = convertMsgToMap(msgToConvert);
         // Making new portfolio
-        portfolioRepo.save(new Portfolio(username));
+        Portfolio portfolio = new Portfolio(userInfo.get("username"));
+        portfolioRepo.save(portfolio);
+
+        return new HashMap<>(){{
+           put("portfolio-id", portfolio.getId());
+        }};
     }
 
     public boolean hasPortfolio(String principalToConvert) {
         // Getting map from principal
         Map<String, String> userInfo = convertMsgToMap(principalToConvert);
-        if(portfolioRepo.getPortfoliosByUserId(userInfo.get("username")).size() < 1) {
-           createPortfolio(userInfo.get("username"));
-           return false;
-        }
+        return portfolioRepo.getPortfoliosByUserId(userInfo.get("username")).size() >= 1;
 
         // Meaning they have reached the portfolio limit
-        return true;
     }
 
     public boolean portfolioExists(String portfolioId) {
@@ -115,6 +117,8 @@ public class PortfolioService {
 
             // Get difference and then update the initial buy in price
             portfolioStock.setTotalShareQuantity(portfolioStock.getTotalShareQuantity() - totalShares);
+
+            // Need to update current total_equity based off of current sell
             portfolioStock.setTotalEquity(portfolioStock.getTotalEquity() - totalSellPrice);
             portfolioStockRepo.save(portfolioStock);
 

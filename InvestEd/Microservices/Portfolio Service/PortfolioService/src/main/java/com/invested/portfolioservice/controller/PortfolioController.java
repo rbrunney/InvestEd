@@ -24,8 +24,10 @@ public class PortfolioController {
     @PostMapping()
     public ResponseEntity<Map<String, Object>> makePortfolio(Principal principal) {
         if (!portfolioService.hasPortfolio(principal.getName())) {
+            Map<String, Object> portfolioInfo = portfolioService.createPortfolio(principal.getName());
             return new ResponseEntity<>(new HashMap<>() {{
                 put("message", "Portfolio Successfully Created!");
+                put("results", portfolioInfo);
                 put("date-time", LocalDateTime.now());
             }}, HttpStatus.CREATED);
         }
