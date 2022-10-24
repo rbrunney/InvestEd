@@ -527,7 +527,18 @@
             ]
         }
     },
-    "Week 4": {},
+    "Week 4": {
+        "Sunday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "5:0 pm",
+                    "end_time": "7:5 pm",
+                    "description": "Working on Scheduled Update Service for Stonks"
+                }
+            ]
+        }
+    },
     "Week 5": {},
     "Week 6": {},
     "Week 7": {},

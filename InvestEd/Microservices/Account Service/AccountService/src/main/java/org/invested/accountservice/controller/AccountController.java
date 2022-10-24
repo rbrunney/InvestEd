@@ -58,7 +58,7 @@ public class AccountController {
 
     @PostMapping()
     public ResponseEntity<Map<String, Object>> createUser(@RequestBody Account newAccount) {
-        
+
         // Decoding user information
         Map<String, String> userCredentials = accountService.decryptUserCredentials(newAccount.getUsername(), newAccount.getPassword());
         newAccount.setUsername(userCredentials.get("username"));
