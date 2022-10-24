@@ -14,7 +14,7 @@ public class CheckStockController {
     private CheckStockService checkService;
 
     // Do check every five seconds
-    @Scheduled(fixedRate = 12000)
+    @Scheduled(fixedRate = 30000)
     public void checkPortfolioStockPrice() {
         checkService.checkStockPrices();
     }

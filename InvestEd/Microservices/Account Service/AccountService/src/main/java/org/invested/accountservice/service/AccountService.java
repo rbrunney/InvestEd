@@ -133,8 +133,8 @@ public class AccountService {
                 accountToUpdate.setPhone(newInfo);
                 return accountToUpdate;
             }
-            case "buying_power" -> {
-                accountToUpdate.setBuyingPower(Double.parseDouble(newInfo));
+            case "buying_power_to_add" -> {
+                accountToUpdate.setBuyingPower(accountToUpdate.getBuyingPower() + Double.parseDouble(newInfo));
                 return accountToUpdate;
             }
             default -> throw new InvalidKeyException("Invalid Property in Json");
