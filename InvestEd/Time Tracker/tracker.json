@@ -551,6 +551,12 @@
                     "start_time": "11:0 am",
                     "end_time": "11:30 am",
                     "description": "Working on trying to make request to order service"
+                },
+                {
+                    "activity": "Bug Fixing",
+                    "start_time": "7:0 pm",
+                    "end_time": "8:40 pm",
+                    "description": "Working on Fixing User Portfolio Issue"
                 }
             ]
         }

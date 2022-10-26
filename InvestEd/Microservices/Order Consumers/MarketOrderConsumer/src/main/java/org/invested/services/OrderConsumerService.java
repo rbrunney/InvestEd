@@ -11,6 +11,11 @@ public class OrderConsumerService {
         makePutRequest("http://localhost:8082/invested_portfolio/buy_stock/" + userId,
                 "{\"ticker\":\"" + ticker + "\", \"stock-qty\":" + stockQty + ", \"price-per-share\":" + pricePerShare + "}", false);
     }
+
+    public static void sellStock(String userId, String ticker, double stockQty, double pricePerShare) {
+        makePutRequest("http://localhost:8082/invested_portfolio/sell_stock/" + userId,
+                "{\"ticker\":\"" + ticker + "\", \"stock-qty\":" + stockQty + ", \"price-per-share\":" + pricePerShare + "}", false);
+    }
     // /////////////////////////////////////////////////////////
     // Util Methods
 

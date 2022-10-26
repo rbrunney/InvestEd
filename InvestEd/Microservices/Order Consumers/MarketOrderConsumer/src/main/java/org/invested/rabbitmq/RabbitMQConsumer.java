@@ -51,6 +51,8 @@ public class RabbitMQConsumer {
                             buyingPowerBody = "{\"total-purchase-price\": -" + Double.parseDouble(msgToMap.get("stock-qty")) * Double.parseDouble(msgToMap.get("price-per-share"))+ "}";
                         }
                         case "SELL" -> {
+                            OrderConsumerService.sellStock(msgToMap.get("user"), msgToMap.get("ticker"), Double.parseDouble(msgToMap.get("stock-qty")), Double.parseDouble(msgToMap.get("price-per-share")));
+                            System.out.println("[SELL] " + msgToMap.get("ticker") + " " + msgToMap.get("order-id"));
                             buyingPowerBody = "{\"total-purchase-price\":" + Double.parseDouble(msgToMap.get("stock-qty")) * Double.parseDouble(msgToMap.get("price-per-share"))+ "}";
                         }
                     }

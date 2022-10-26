@@ -46,6 +46,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/invested_portfolio").hasAnyAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.PUT, "/invested_portfolio/buy_stock/**").permitAll()
+                .antMatchers(HttpMethod.PUT, "/invested_portfolio/sell_stock/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/invested_portfolio/**").hasAnyAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.DELETE, "/invested_portfolio/**").hasAnyAuthority("ROLE_USER")
                 .and()

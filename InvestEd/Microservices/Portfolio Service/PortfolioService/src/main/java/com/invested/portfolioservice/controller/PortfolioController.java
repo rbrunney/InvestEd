@@ -100,9 +100,9 @@ public class PortfolioController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/sell_stock")
-    public ResponseEntity<Map<String, Object>> removeStockFromPortfolio(Principal principal, @RequestBody JsonNode stock) {
-        String portfolioId = portfolioService.getPortfolioId(principal.getName());
+    @PutMapping("/sell_stock/{userId}")
+    public ResponseEntity<Map<String, Object>> removeStockFromPortfolio(@PathVariable String userId, @RequestBody JsonNode stock) {
+        String portfolioId = portfolioService.getPortfolioId(userId);
 
         Map<String, Object> response = portfolioService.sellStock(
             stock.get("ticker").asText(),

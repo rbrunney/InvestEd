@@ -5,12 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="551c2867-427b-4431-b84d-584c19b4e632" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/java/org/invested/accountservice/config/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/java/org/invested/accountservice/config/security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/java/org/invested/accountservice/controller/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/java/org/invested/accountservice/controller/AccountController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/java/org/invested/accountservice/service/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/java/org/invested/accountservice/service/AccountService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/invested/rabbitmq/RabbitMQConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/invested/rabbitmq/RabbitMQConsumer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/invested/services/OrderConsumerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/invested/services/OrderConsumerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/java/com/invested/portfolioservice/config/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/java/com/invested/portfolioservice/config/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/java/com/invested/portfolioservice/controller/PortfolioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/java/com/invested/portfolioservice/controller/PortfolioController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Time Tracker/tracker.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Time Tracker/tracker.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +89,7 @@
       <workItem from="1666706288995" duration="10257000" />
       <workItem from="1666721867603" duration="2211000" />
       <workItem from="1666731424124" duration="3021000" />
-      <workItem from="1666746339107" duration="4582000" />
+      <workItem from="1666746339107" duration="6677000" />
     </task>
     <servers />
   </component>
@@ -106,21 +106,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/invested/services/OrderConsumerService.java</url>
-          <line>10</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/invested/rabbitmq/RabbitMQConsumer.java</url>
-          <line>57</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
