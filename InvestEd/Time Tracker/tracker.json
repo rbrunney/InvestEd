@@ -557,6 +557,18 @@
                     "start_time": "7:0 pm",
                     "end_time": "8:40 pm",
                     "description": "Working on Fixing User Portfolio Issue"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "10:0 pm",
+                    "end_time": "10:30 pm",
+                    "description": "Worked on finishing base order consumer"
+                },
+                {
+                    "activity": "Design",
+                    "start_time": "10:30 pm",
+                    "end_time": "11:3 pm",
+                    "description": "Working on Email Design"
                 }
             ]
         }
