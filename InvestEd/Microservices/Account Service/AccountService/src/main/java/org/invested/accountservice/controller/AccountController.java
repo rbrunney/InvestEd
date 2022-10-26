@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.InvalidKeyException;
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/invested_account")
@@ -95,6 +92,18 @@ public class AccountController {
 
         if(userToUpdate != null) {
             accountService.updateUser(userToUpdate);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/buying_power/{userId}")
+    public ResponseEntity<Map<String, Object>> updateUserBuyingPower(@RequestHeader(value = "Authorization") String authHead, @PathVariable String userId, @RequestBody JsonNode requestBody) {
+        // Check Auth
+        String[] requestAuthInfo = accountService.decodeAuth(authHead);
+        if(requestAuthInfo[0].equals(System.getenv("CUSTOM_USERNAME")) && requestAuthInfo[1].equals(System.getenv("CUSTOM_PASSWORD"))) {
+            accountService.updateUserBuyingPower(userId, requestBody.get("total-purchase-price").asDouble());
             return new ResponseEntity<>(HttpStatus.OK);
         }
 

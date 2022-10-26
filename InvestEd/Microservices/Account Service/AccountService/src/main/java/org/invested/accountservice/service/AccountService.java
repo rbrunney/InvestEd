@@ -12,8 +12,10 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.security.InvalidKeyException;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -139,6 +141,19 @@ public class AccountService {
             }
             default -> throw new InvalidKeyException("Invalid Property in Json");
         }
+    }
+
+    public void updateUserBuyingPower(String userId, double totalPurchasePrice) {
+        Account account = accountRepo.getAccountById(userId);
+        account.setBuyingPower(account.getBuyingPower() + totalPurchasePrice);
+        accountRepo.save(account);
+    }
+
+    public String[] decodeAuth(String encodedString) {
+        encodedString = encodedString.substring(encodedString.indexOf(" ") + 1);
+        byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
+        String decodedString = new String(decodedBytes);
+        return decodedString.split(":", 2);
     }
 
     public void sendCode(String email) {

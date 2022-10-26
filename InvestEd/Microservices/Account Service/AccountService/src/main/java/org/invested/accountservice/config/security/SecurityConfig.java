@@ -3,6 +3,7 @@ package org.invested.accountservice.config.security;
 import org.invested.accountservice.config.filter.CustomAuthorizationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableMBeanExport;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
@@ -11,6 +12,8 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -46,10 +49,11 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/invested_account").permitAll()
                 .antMatchers(HttpMethod.POST, "/invested_account/authenticate").permitAll()
-                .antMatchers(HttpMethod.GET, "invested_account/forgot_password").permitAll()
+                .antMatchers(HttpMethod.GET, "/invested_account/forgot_password").permitAll()
+                .antMatchers(HttpMethod.PUT, "/invested_account/buying_power/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/invested_account/test").hasAnyAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.DELETE, "/invested_account").hasAnyAuthority("ROLE_USER")
-                .antMatchers(HttpMethod.PUT, "invested_account").hasAnyAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.PUT, "/invested_account").hasAnyAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.GET, "/invested_account/encrypt/**").permitAll()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -65,6 +69,11 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
+        UserDetails newUser = User.withUsername(System.getenv("CUSTOM_USERNAME"))
+                .password(passwordEncoder().encode(System.getenv("CUSTOM_PASSWORD")))
+                .roles("ADMIN").build();
+
+        memAuth.createUser(newUser);
         return memAuth;
     }
 }
