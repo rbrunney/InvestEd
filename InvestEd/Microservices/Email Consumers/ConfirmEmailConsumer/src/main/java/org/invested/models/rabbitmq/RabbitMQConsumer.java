@@ -44,7 +44,7 @@ public class RabbitMQConsumer {
                     String emailBody = "<link href=\"https://fonts.googleapis.com/css2?family=Rammetto+One&family=Work+Sans&display=swap\" rel=\"stylesheet\">\n" +
                             "    <div style=\"border:2px solid #1f1f1f; margin-left: 10; margin-right: 10;\">\n" +
                             "        <div style=\"background-color: #1f1f1f; text-align: center;\">\n" +
-                            "            <img src=\"https://lh3.google.com/u/0/d/1YuW-_HEn1zRs6TZPTApO4DEo5gyzjF2I=w1920-h1007-iv1\" width=\"150\" height=\"100\" >\n" +
+                            "            <img src=\"logo.png\" width=\"150\" height=\"100\">\n" +
                             "        </div>\n" +
                             "        <div>\n" +
                             "            <h1 style=\"text-align:center;font-size: larger; font-family: 'Work Sans', sans-serif;\">Welcome to InvestEd!</h1>\n" +
