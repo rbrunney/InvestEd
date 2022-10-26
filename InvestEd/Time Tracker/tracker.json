@@ -545,7 +545,11 @@
                     "start_time": "7:55 pm",
                     "end_time": "10:55 pm",
                     "description": "Working on Order Consumer and making request to my other services in attempt to have it work"
-                },
+                }
+            ]
+        },
+        "Tuesday": {
+            "activities" : [
                 {
                     "activity": "Bug Fixing",
                     "start_time": "11:0 am",

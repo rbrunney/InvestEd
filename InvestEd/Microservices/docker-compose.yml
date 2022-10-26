@@ -19,7 +19,7 @@ services:
  # Email Consumers
 
   confirmation_email_consumer:
-    build: ./Email Consumers/ConfirmEmailConsumer/target
+    build: ./Email Consumers/ConfirmEmailConsumer
     image: confirm-email-consumer:1.0
     environment:
       - EMAIL=${EMAIL}
