@@ -54,10 +54,8 @@ public class PortfolioService {
         return portfolioRepo.getPortfolioById(portfolioId).getUserId().equals(userInfo.get("username"));
     }
 
-    public String getPortfolioId(String msgToConvert) {
-        Map<String, String> userInfo = convertMsgToMap(msgToConvert);
-
-        return portfolioRepo.getPortfolioIdByUsername(userInfo.get("username"));
+    public String getPortfolioId(String username) {
+        return portfolioRepo.getPortfolioIdByUsername(username);
     }
 
     public Map<String, Object> getPortfolio(String portfolioId) {

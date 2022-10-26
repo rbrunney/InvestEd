@@ -29,8 +29,11 @@ public class BasicOrderService {
         amqpTemplate.convertAndSend(exchange, queue, message.toString());
     }
 
-    public boolean hasEnoughBuyingPower(double currentBuyingPower, double purchaseOrderTotal) {
-        return purchaseOrderTotal < currentBuyingPower;
+    public void fulfillOrder(String orderId) {
+        BasicOrder order = basicOrderRepo.getBasicOrderById(orderId);
+        order.setCurrentStatus(Status.COMPLETED);
+        order.setOrderFulFilledDate(LocalDateTime.now());
+        basicOrderRepo.save(order);
     }
 
     public void createBasicOrder(BasicOrder basicOrder, String email) {
@@ -59,6 +62,7 @@ public class BasicOrderService {
             put("order-date", basicOrder.getOrderDate());
             put("status", basicOrder.getCurrentStatus());
             put("expire-time", basicOrder.getExpireTime());
+            put("trade-type", basicOrder.getTradeType());
         }}, "ORDER_EXCHANGE", queue);
 
         // Send Placed Order Email

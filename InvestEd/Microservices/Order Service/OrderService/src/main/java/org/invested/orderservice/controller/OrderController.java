@@ -49,6 +49,12 @@ public class OrderController {
         }},HttpStatus.OK);
     }
 
+    @PutMapping("/fulfill_order/{orderId}")
+    public ResponseEntity<Map<String, Object>> fulfillOrder(@PathVariable String orderId) {
+        basicOrderService.fulfillOrder(orderId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PutMapping("/cancel_order/{orderId}")
     public ResponseEntity<Map<String, Object>> cancelOrder(Principal principal, @PathVariable String orderId) {
         Map<String, String> userInfo = basicOrderService.convertMsgToMap(principal.getName());
