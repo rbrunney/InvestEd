@@ -49,9 +49,9 @@ public class OrderController {
         }},HttpStatus.OK);
     }
 
-    @PutMapping("/fulfill_order/{orderId}")
-    public ResponseEntity<Map<String, Object>> fulfillOrder(@PathVariable String orderId) {
-        basicOrderService.fulfillOrder(orderId);
+    @PutMapping("/fulfill_order/{orderId}/{email}")
+    public ResponseEntity<Map<String, Object>> fulfillOrder(@PathVariable String orderId, @PathVariable String email) {
+        basicOrderService.fulfillOrder(orderId, email);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

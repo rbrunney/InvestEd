@@ -29,11 +29,20 @@ public class BasicOrderService {
         amqpTemplate.convertAndSend(exchange, queue, message.toString());
     }
 
-    public void fulfillOrder(String orderId) {
+    public void fulfillOrder(String orderId, String email) {
         BasicOrder order = basicOrderRepo.getBasicOrderById(orderId);
         order.setCurrentStatus(Status.COMPLETED);
         order.setOrderFulFilledDate(LocalDateTime.now());
         basicOrderRepo.save(order);
+
+        sendMessageToQueue(new HashMap<>(){{
+            put("order-id", order.getId());
+            put("status", order.getCurrentStatus());
+            put("ticker", order.getTicker());
+            put("trade-type", order.getTradeType());
+            put("total-cost", order.getStockQuantity() * order.getPricePerShare());
+            put("email", email);
+        }}, "ORDER-EMAIL-EXCHANGE", "order-email.fulfilled");
     }
 
     public void createBasicOrder(BasicOrder basicOrder, String email) {
