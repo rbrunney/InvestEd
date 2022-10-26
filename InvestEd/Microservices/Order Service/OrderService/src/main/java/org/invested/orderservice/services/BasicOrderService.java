@@ -74,6 +74,8 @@ public class BasicOrderService {
             put("stock-qty", basicOrder.getStockQuantity());
             put("price-per-share", basicOrder.getPricePerShare());
             put("total-cost", (basicOrder.getPricePerShare() * basicOrder.getStockQuantity()));
+            put("trade-type", basicOrder.getTradeType());
+            put("status", basicOrder.getCurrentStatus());
         }}, "ORDER-EMAIL-EXCHANGE", "order-email.placed");
     }
     public boolean isUsersOrder(String orderId, String user) {

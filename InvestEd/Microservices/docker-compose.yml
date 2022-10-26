@@ -76,7 +76,7 @@ services:
       replicas: 1
 
   order_placed_email_consumer:
-    build: ./Email Consumers/OrderPlacedEmailConsumer/target
+    build: ./Email Consumers/OrderPlacedEmailConsumer
     image: order-placed-email-consumer:1.0
     environment:
       - EMAIL=${EMAIL}

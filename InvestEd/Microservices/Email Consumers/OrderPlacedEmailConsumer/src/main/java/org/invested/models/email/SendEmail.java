@@ -1,11 +1,13 @@
 package org.invested.models.email;
 
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
 
 public class SendEmail {
@@ -38,10 +40,23 @@ public class SendEmail {
             Authenticator auth = new SMTPAuthenticator();
             Session session = Session.getInstance(props, auth);
             MimeMessage msg = new MimeMessage(session);
-            msg.setContent(emailBody, "text/html");
             msg.setSubject(emailSubject);
             msg.setFrom(new InternetAddress(senderEmail, "InvestEd"));
             msg.addRecipient(Message.RecipientType.TO, new InternetAddress(receiverEmail));
+
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setContent(emailBody, "text/html");
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+            messageBodyPart = new MimeBodyPart();
+            DataSource source = new FileDataSource("/user/local/imgs/logo.png");
+            messageBodyPart.setDataHandler(new DataHandler(source));
+            messageBodyPart.setFileName("logo.png");
+            messageBodyPart.setDisposition(MimeBodyPart.INLINE);
+            multipart.addBodyPart(messageBodyPart);
+
+            msg.setContent(multipart);
+
             Transport.send(msg);
             System.out.println("Email Sent Successfully");
         } catch(Exception e) {
