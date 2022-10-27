@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="551c2867-427b-4431-b84d-584c19b4e632" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/java/org/invested/accountservice/controller/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/java/org/invested/accountservice/controller/AccountController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/java/org/invested/accountservice/models/application/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/java/org/invested/accountservice/models/application/Account.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/java/org/invested/accountservice/service/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/java/org/invested/accountservice/service/AccountService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../Email Consumers/OrderPlacedEmailConsumer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Email Consumers/OrderPlacedEmailConsumer/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../Time Tracker/tracker.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Time Tracker/tracker.json" afterDir="false" />

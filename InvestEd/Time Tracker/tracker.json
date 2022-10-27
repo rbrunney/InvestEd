@@ -595,6 +595,12 @@
                     "start_time": "7:0 pm",
                     "end_time": "7:42 pm",
                     "description": "Working on trying to get sell working"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "7:42 pm",
+                    "end_time": "8:13 pm",
+                    "description": "Working on finializing account api"
                 }
             ]
         }

@@ -15,6 +15,31 @@ services:
     deploy:
       replicas: 1
 
+  account_api:
+    build: ./Account Service/AccountService
+    image: invested-account-api:1.0
+    environment:
+      - CUSTOM_PASSWORD=${CUSTOM_PASSWORD}
+      - CUSTOM_USERNAME=${CUSTOM_USERNAME}
+      - DB_HOST=${DB_HOST}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - JWT_ISSUER=${JWT_ISSUER}
+      - JWT_SECRET=${JWT_SECRET}
+      - RABBITMQ_HOST=${RABBITMQ_HOST}
+      - RABBITMQ_PORT=${RABBITMQ_PORT}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - RSA_PRIVATE_KEY=${RSA_PRIVATE_KEY}
+      - RSA_PUBLIC_KEY=${RSA_PUBLIC_KEY}
+    depends_on:
+      - registration_service
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
+
  # ///////////////////////////////////////////////////// 
  # Email Consumers
 
