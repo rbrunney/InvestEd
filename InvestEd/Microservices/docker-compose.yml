@@ -82,7 +82,7 @@ services:
       replicas: 1
 
   update_email_consumer:
-    build: ./Email Consumers/UpdateInfoEmailConsumer/target
+    build: ./Email Consumers/UpdateInfoEmailConsumer
     image: update-info-email-consumer:1.0
     environment:
       - EMAIL=${EMAIL}

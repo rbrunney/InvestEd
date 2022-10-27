@@ -5,13 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="551c2867-427b-4431-b84d-584c19b4e632" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../Email Consumers/OrderCanceledEmailConsumer/src/main/java/org/invested/models/email/SendEmail.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Email Consumers/OrderCanceledEmailConsumer/src/main/java/org/invested/models/email/SendEmail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Email Consumers/OrderCanceledEmailConsumer/src/main/java/org/invested/models/rabbitmq/RabbitMQConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Email Consumers/OrderCanceledEmailConsumer/src/main/java/org/invested/models/rabbitmq/RabbitMQConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Email Consumers/OrderCanceledEmailConsumer/target/Dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Email Consumers/OrderCanceledEmailConsumer/target/OrderCanceledEmailConsumer-1.0.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/../../Email Consumers/OrderCanceledEmailConsumer/target/OrderCanceledEmailConsumer-1.0.jar.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Email Consumers/OrderCanceledEmailConsumer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Email Consumers/OrderCanceledEmailConsumer/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../Email Consumers/OrderPlacedEmailConsumer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Email Consumers/OrderPlacedEmailConsumer/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Email Consumers/UpdateInfoEmailConsumer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Email Consumers/UpdateInfoEmailConsumer/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Email Consumers/UpdateInfoEmailConsumer/src/main/java/org/invested/models/email/SendEmail.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Email Consumers/UpdateInfoEmailConsumer/src/main/java/org/invested/models/email/SendEmail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Email Consumers/UpdateInfoEmailConsumer/src/main/java/org/invested/models/rabbitmq/RabbitMQConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Email Consumers/UpdateInfoEmailConsumer/src/main/java/org/invested/models/rabbitmq/RabbitMQConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Email Consumers/UpdateInfoEmailConsumer/target/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Email Consumers/UpdateInfoEmailConsumer/target/UpdateInfoEmailConsumer-1.0.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/../../Email Consumers/UpdateInfoEmailConsumer/target/UpdateInfoEmailConsumer-1.0.jar.original" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Time Tracker/confirm.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Time Tracker/confirm.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +95,7 @@
       <workItem from="1666731424124" duration="3021000" />
       <workItem from="1666746339107" duration="7295000" />
       <workItem from="1666809629756" duration="1955000" />
-      <workItem from="1666832316466" duration="4129000" />
+      <workItem from="1666832316466" duration="4381000" />
     </task>
     <servers />
   </component>
