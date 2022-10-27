@@ -627,6 +627,16 @@
                     "description": "Cloud RDS MySQL Database"
                 }
             ]
+        },
+        "Thursday": {
+            "activities": [
+                {
+                    "activity": "Other",
+                    "start_time": "8:0 am",
+                    "end_time": "8:36 am",
+                    "description": "Working on Updateing API's to connect to cloud"
+                }
+            ]
         }
     },
     "Week 5": {},

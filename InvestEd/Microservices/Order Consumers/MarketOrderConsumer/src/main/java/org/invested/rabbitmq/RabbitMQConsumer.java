@@ -36,31 +36,44 @@ public class RabbitMQConsumer {
             DefaultConsumer consumer = new DefaultConsumer(channel) {
                 @Override
                 public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) {
-                    String rabbitmqMessage = new String(body, StandardCharsets.UTF_8);
-                    // Get message and convert to a map object
-                    Map<String, String> msgToMap = convertMsgToMap(rabbitmqMessage.replace("{", "")
-                            .replace("}", "")
-                            .replace(" ", ""));
 
-                    // Check to see if its buy or sell
-                    String buyingPowerBody = "";
-                    switch (msgToMap.get("trade-type")) {
-                        case "BUY" -> {
-                            OrderConsumerService.buyStock(msgToMap.get("user"), msgToMap.get("ticker"), Double.parseDouble(msgToMap.get("stock-qty")), Double.parseDouble(msgToMap.get("price-per-share")));
-                            System.out.println("[BUY] " + msgToMap.get("ticker") + " " + msgToMap.get("order-id"));
-                            buyingPowerBody = "{\"total-purchase-price\": -" + Double.parseDouble(msgToMap.get("stock-qty")) * Double.parseDouble(msgToMap.get("price-per-share"))+ "}";
+                    // Add if check here to see if its within a trading day
+                    if (OrderConsumerService.isTradingHours()) {
+
+                        String rabbitmqMessage = new String(body, StandardCharsets.UTF_8);
+                        // Get message and convert to a map object
+                        Map<String, String> msgToMap = convertMsgToMap(rabbitmqMessage.replace("{", "")
+                                .replace("}", "")
+                                .replace(" ", ""));
+
+                        // Check to see if its buy or sell
+                        String buyingPowerBody = "";
+                        switch (msgToMap.get("trade-type")) {
+                            case "BUY" -> {
+                                OrderConsumerService.buyStock(msgToMap.get("user"), msgToMap.get("ticker"), Double.parseDouble(msgToMap.get("stock-qty")), Double.parseDouble(msgToMap.get("price-per-share")));
+                                System.out.println("[BUY] " + msgToMap.get("ticker") + " " + msgToMap.get("order-id"));
+                                buyingPowerBody = "{\"total-purchase-price\": -" + Double.parseDouble(msgToMap.get("stock-qty")) * Double.parseDouble(msgToMap.get("price-per-share")) + "}";
+                            }
+                            case "SELL" -> {
+                                OrderConsumerService.sellStock(msgToMap.get("user"), msgToMap.get("ticker"), Double.parseDouble(msgToMap.get("stock-qty")), Double.parseDouble(msgToMap.get("price-per-share")));
+                                System.out.println("[SELL] " + msgToMap.get("ticker") + " " + msgToMap.get("order-id"));
+                                buyingPowerBody = "{\"total-purchase-price\":" + Double.parseDouble(msgToMap.get("stock-qty")) * Double.parseDouble(msgToMap.get("price-per-share")) + "}";
+                            }
                         }
-                        case "SELL" -> {
-                            OrderConsumerService.sellStock(msgToMap.get("user"), msgToMap.get("ticker"), Double.parseDouble(msgToMap.get("stock-qty")), Double.parseDouble(msgToMap.get("price-per-share")));
-                            System.out.println("[SELL] " + msgToMap.get("ticker") + " " + msgToMap.get("order-id"));
-                            buyingPowerBody = "{\"total-purchase-price\":" + Double.parseDouble(msgToMap.get("stock-qty")) * Double.parseDouble(msgToMap.get("price-per-share"))+ "}";
+                        // Update Users buying power from here
+                        OrderConsumerService.makePutRequest(
+                                "http://localhost:8888/invested_account/buying_power/" + msgToMap.get("user"), buyingPowerBody, true);
+                        // Update Order to FulFilled
+                        OrderConsumerService.makePutRequest("http://localhost:8080/invested_order/fulfill_order/" + msgToMap.get("order-id") + "/" + msgToMap.get("email"), "", false);
+                    } else {
+                        // Need to resend message into queue if not during trading hours
+                        try {
+                            channel.basicPublish("ORDER_EXCHANGE", "order.market-order", null, body);
+                        } catch(IOException ioe) {
+                            System.out.println("[ERROR] " + ioe.getMessage());
                         }
+
                     }
-                    // Update Users buying power from here
-                    OrderConsumerService.makePutRequest(
-                            "http://localhost:8888/invested_account/buying_power/" + msgToMap.get("user"), buyingPowerBody, true);
-                    // Update Order to FulFilled
-                    OrderConsumerService.makePutRequest("http://localhost:8080/invested_order/fulfill_order/" + msgToMap.get("order-id") + "/" + msgToMap.get("email"), "", false);
                 }
             };
 

@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="551c2867-427b-4431-b84d-584c19b4e632" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/invested/rabbitmq/RabbitMQConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/invested/rabbitmq/RabbitMQConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/invested/services/OrderConsumerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/invested/services/OrderConsumerService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../Time Tracker/tracker.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Time Tracker/tracker.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -88,6 +90,9 @@
       <workItem from="1666746339107" duration="7295000" />
       <workItem from="1666809629756" duration="1955000" />
       <workItem from="1666832316466" duration="5488000" />
+      <workItem from="1666880717288" duration="1550000" />
+      <workItem from="1666882826716" duration="736000" />
+      <workItem from="1666884711476" duration="3319000" />
     </task>
     <servers />
   </component>
