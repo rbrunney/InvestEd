@@ -120,7 +120,7 @@ services:
       replicas: 1
 
   order_canceled_email_consumer:
-    build: ./Email Consumers/OrderCanceledEmailConsumer/target
+    build: ./Email Consumers/OrderCanceledEmailConsumer
     image: order-canceled-email-consumer:1.0
     environment:
       - EMAIL=${EMAIL}

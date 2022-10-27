@@ -41,16 +41,21 @@ public class RabbitMQConsumer {
                             .replace("}", "")
                             .replace(" ", ""));
 
-                    String emailBody = "<div style=\"border:2px solid black;\">\n" +
-                            "        <div>\n" +
-                            "            <h1 style=\"text-align:center;font-size: larger;\">Order Canceled!</h1>\n" +
+                    String emailBody = "<link href=\"https://fonts.googleapis.com/css2?family=Rammetto+One&family=Work+Sans&display=swap\" rel=\"stylesheet\">\n" +
+                            "    <div style=\"border:2px solid #1f1f1f; margin-left: 10; margin-right: 10;\">\n" +
+                            "        <div style=\"background-color: #1f1f1f; text-align: center;\">\n" +
+                            "            <img src=\"logo.png\" width=\"150\" height=\"100\" >\n" +
                             "        </div>\n" +
                             "        <div>\n" +
-                            "            <h3 style=\"text-align:center;font-size: large;\">Order Information</h3>\n" +
+                            "            <h1 style=\"text-align:center;font-size: larger; font-family: 'Work Sans', sans-serif;\">Order Canceled!</h1>\n" +
+                            "        </div>\n" +
+                            "        <div>\n" +
+                            "            <p style=\"font-weight: bold; margin-left: 1%; font-family: 'Work Sans', sans-serif;\">Hello,</p>\n" +
+                            "            <p style=\"font-weight: bold; margin-left: 1%; font-family: 'Work Sans', sans-serif;\">Your order has been canceled! Information is below!</p>\n" +
                             "        </div> \n" +
                             "        <div>\n" +
-                            "            <h5 style=\"text-align:left;font-size: large;\">Order Id: " + msgToMap.get("order_id") + "</h5>\n" +
-                            "            <h5 style=\"text-align:left;font-size: large;\">Order Status: " + msgToMap.get("order_status") + "</h5>\n" +
+                            "            <p style=\"font-weight: bold; margin-left: 1%; font-family: 'Work Sans', sans-serif;\">Order Id: " + msgToMap.get("order_id")+ "</p>\n" +
+                            "            <p style=\"font-weight: bold; margin-left: 1%; font-family: 'Work Sans', sans-serif;\">Order Status: "+ msgToMap.get("order_status")+"</p>\n" +
                             "        </div>\n" +
                             "    </div>";
 

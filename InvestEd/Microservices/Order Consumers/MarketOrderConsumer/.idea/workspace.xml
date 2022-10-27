@@ -5,11 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="551c2867-427b-4431-b84d-584c19b4e632" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../Email Consumers/ForgotPassEmailConsumer/src/main/java/org/invested/model/rabbitmq/RabbitMQConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Email Consumers/ForgotPassEmailConsumer/src/main/java/org/invested/model/rabbitmq/RabbitMQConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Email Consumers/ForgotPassEmailConsumer/target/Dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Email Consumers/ForgotPassEmailConsumer/target/ForgotPassEmailConsumer-1.0.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/../../Email Consumers/ForgotPassEmailConsumer/target/ForgotPassEmailConsumer-1.0.jar.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Email Consumers/OrderCanceledEmailConsumer/src/main/java/org/invested/models/email/SendEmail.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Email Consumers/OrderCanceledEmailConsumer/src/main/java/org/invested/models/email/SendEmail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Email Consumers/OrderCanceledEmailConsumer/src/main/java/org/invested/models/rabbitmq/RabbitMQConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Email Consumers/OrderCanceledEmailConsumer/src/main/java/org/invested/models/rabbitmq/RabbitMQConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Email Consumers/OrderCanceledEmailConsumer/target/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Email Consumers/OrderCanceledEmailConsumer/target/OrderCanceledEmailConsumer-1.0.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/../../Email Consumers/OrderCanceledEmailConsumer/target/OrderCanceledEmailConsumer-1.0.jar.original" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../Email Consumers/OrderPlacedEmailConsumer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Email Consumers/OrderPlacedEmailConsumer/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +92,7 @@
       <workItem from="1666731424124" duration="3021000" />
       <workItem from="1666746339107" duration="7295000" />
       <workItem from="1666809629756" duration="1955000" />
-      <workItem from="1666832316466" duration="3368000" />
+      <workItem from="1666832316466" duration="4129000" />
     </task>
     <servers />
   </component>

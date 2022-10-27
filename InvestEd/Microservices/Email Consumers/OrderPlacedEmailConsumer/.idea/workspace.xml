@@ -5,11 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cd25bde9-c091-4174-94f5-a74500edd076" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../ForgotPassEmailConsumer/src/main/java/org/invested/model/rabbitmq/RabbitMQConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ForgotPassEmailConsumer/src/main/java/org/invested/model/rabbitmq/RabbitMQConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ForgotPassEmailConsumer/target/Dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ForgotPassEmailConsumer/target/ForgotPassEmailConsumer-1.0.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/../ForgotPassEmailConsumer/target/ForgotPassEmailConsumer-1.0.jar.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OrderCanceledEmailConsumer/src/main/java/org/invested/models/email/SendEmail.java" beforeDir="false" afterPath="$PROJECT_DIR$/../OrderCanceledEmailConsumer/src/main/java/org/invested/models/email/SendEmail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OrderCanceledEmailConsumer/src/main/java/org/invested/models/rabbitmq/RabbitMQConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../OrderCanceledEmailConsumer/src/main/java/org/invested/models/rabbitmq/RabbitMQConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OrderCanceledEmailConsumer/target/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../OrderCanceledEmailConsumer/target/OrderCanceledEmailConsumer-1.0.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/../OrderCanceledEmailConsumer/target/OrderCanceledEmailConsumer-1.0.jar.original" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../Order Consumers/MarketOrderConsumer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Order Consumers/MarketOrderConsumer/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
