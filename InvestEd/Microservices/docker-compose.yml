@@ -21,10 +21,10 @@ services:
     environment:
       - CUSTOM_PASSWORD=${CUSTOM_PASSWORD}
       - CUSTOM_USERNAME=${CUSTOM_USERNAME}
-      - DB_HOST=${ACCOUNT_DB_HOST}
-      - DB_PASSWORD=${ACCOUNT_DB_PASSWORD}
-      - DB_PORT=${ACCOUNT_DB_PORT}
-      - DB_USER=${ACCOUNT_DB_USER}
+      - DB_HOST=${MYSQL_HOST}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+      - DB_PORT=${MYSQL_PORT}
+      - DB_USER=${MYSQL_USER}
       - JWT_ISSUER=${JWT_ISSUER}
       - JWT_SECRET=${JWT_SECRET}
       - RABBITMQ_HOST=${RABBITMQ_HOST}
@@ -44,10 +44,10 @@ services:
     build: ./Portfolio Service/PortfolioService
     image: invested-portfolio-api:1.0
     environment:
-      - DB_USER=${PORTFOLIO_DB_USERNAME}
-      - DB_PASSWORD=${PORTFOLIO_DB_PASSWORD}
-      - DB_PORT=${PORTFOLIO_DB_PORT}
-      - DB_HOST=${PORTFOLIO_DB_HOST}
+      - DB_USER=${MYSQL_USER}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+      - DB_PORT=${MYSQL_PORT}
+      - DB_HOST=${MYSQL_HOST}
       - JWT_SECRET=${JWT_SECRET}
     depends_on:
       - registration_service
@@ -215,44 +215,44 @@ services:
     networks:
       - base-net
 
-  account_database:
-    image: "mysql:latest"
-    container_name: invested-account-db
-    environment:
-      - MYSQL_DATABASE=accounts 
-      - MYSQL_USER=${ACCOUNT_MYSQL_USER}
-      - MYSQL_PASSWORD=${ACCOUNT_MYSQL_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${ACCOUNT_MYSQL_PASSWORD}
-    ports:
-      - "9000:3306"
-    networks:
-      - base-net
+  # account_database:
+  #   image: "mysql:latest"
+  #   container_name: invested-account-db
+  #   environment:
+  #     - MYSQL_DATABASE=accounts 
+  #     - MYSQL_USER=${ACCOUNT_MYSQL_USER}
+  #     - MYSQL_PASSWORD=${ACCOUNT_MYSQL_PASSWORD}
+  #     - MYSQL_ROOT_PASSWORD=${ACCOUNT_MYSQL_PASSWORD}
+  #   ports:
+  #     - "9000:3306"
+  #   networks:
+  #     - base-net
 
-  order_database:
-    image: "mysql:latest"
-    container_name: invested-orders-db
-    environment:
-      - MYSQL_DATABASE=orders
-      - MYSQL_USER=${ORDER_MYSQL_USER}
-      - MYSQL_PASSWORD=${ORDER_MYSQL_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${ORDER_MYSQL_PASSWORD}
-    ports:
-      - "9001:3306"
-    networks:
-      - base-net
+  # order_database:
+  #   image: "mysql:latest"
+  #   container_name: invested-orders-db
+  #   environment:
+  #     - MYSQL_DATABASE=orders
+  #     - MYSQL_USER=${ORDER_MYSQL_USER}
+  #     - MYSQL_PASSWORD=${ORDER_MYSQL_PASSWORD}
+  #     - MYSQL_ROOT_PASSWORD=${ORDER_MYSQL_PASSWORD}
+  #   ports:
+  #     - "9001:3306"
+  #   networks:
+  #     - base-net
 
-  portfolio_database:
-    image: "mysql:latest"
-    container_name: invested-portfolios-db
-    environment:
-      - MYSQL_DATABASE=portfolios
-      - MYSQL_USER=${PORTFOLIO_MYSQL_USER}
-      - MYSQL_PASSWORD=${PORTFOLIO_MYSQL_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${PORTFOLIO_MYSQL_PASSWORD}
-    ports:
-      - "9002:3306"
-    networks:
-      - base-net
+  # portfolio_database:
+  #   image: "mysql:latest"
+  #   container_name: invested-portfolios-db
+  #   environment:
+  #     - MYSQL_DATABASE=portfolios
+  #     - MYSQL_USER=${PORTFOLIO_MYSQL_USER}
+  #     - MYSQL_PASSWORD=${PORTFOLIO_MYSQL_PASSWORD}
+  #     - MYSQL_ROOT_PASSWORD=${PORTFOLIO_MYSQL_PASSWORD}
+  #   ports:
+  #     - "9002:3306"
+  #   networks:
+  #     - base-net
 
 networks:
   base-net:
