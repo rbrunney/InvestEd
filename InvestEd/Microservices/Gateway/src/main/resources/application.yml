@@ -17,8 +17,11 @@ spring:
           uri: lb://stock-api
           predicates:
             - Path=/invested_stock/**
-
         - id: account-api
           uri: lb://account-api
           predicates:
             - Path=/invested_account/**
+        - id: portfolio-api
+          uri: lb://portfolio-api
+          predicates:
+            - Path=/invested_portfolio/**

@@ -5,16 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cd25bde9-c091-4174-94f5-a74500edd076" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../OrderCanceledEmailConsumer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../OrderCanceledEmailConsumer/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../UpdateInfoEmailConsumer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../UpdateInfoEmailConsumer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../UpdateInfoEmailConsumer/src/main/java/org/invested/models/email/SendEmail.java" beforeDir="false" afterPath="$PROJECT_DIR$/../UpdateInfoEmailConsumer/src/main/java/org/invested/models/email/SendEmail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../UpdateInfoEmailConsumer/src/main/java/org/invested/models/rabbitmq/RabbitMQConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../UpdateInfoEmailConsumer/src/main/java/org/invested/models/rabbitmq/RabbitMQConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../UpdateInfoEmailConsumer/target/Dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../UpdateInfoEmailConsumer/target/UpdateInfoEmailConsumer-1.0.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/../UpdateInfoEmailConsumer/target/UpdateInfoEmailConsumer-1.0.jar.original" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../Order Consumers/MarketOrderConsumer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Order Consumers/MarketOrderConsumer/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Time Tracker/confirm.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Time Tracker/confirm.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
