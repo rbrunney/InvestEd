@@ -58,7 +58,7 @@ public class RabbitMQConsumer {
                     }
                     // Update Users buying power from here
                     OrderConsumerService.makePutRequest(
-                            "http://localhost:8081/invested_account/buying_power/" + msgToMap.get("user"), buyingPowerBody, true);
+                            "http://localhost:8888/invested_account/buying_power/" + msgToMap.get("user"), buyingPowerBody, true);
                     // Update Order to FulFilled
                     OrderConsumerService.makePutRequest("http://localhost:8080/invested_order/fulfill_order/" + msgToMap.get("order-id") + "/" + msgToMap.get("email"), "", false);
                 }

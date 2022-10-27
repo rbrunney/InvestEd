@@ -65,6 +65,7 @@ public class BasicOrderService {
         sendMessageToQueue(new HashMap<>() {{
             put("order-id", basicOrder.getId());
             put("user", basicOrder.getUser());
+            put("email", email);
             put("ticker", basicOrder.getTicker());
             put("stock-qty", basicOrder.getStockQuantity());
             put("price-per-share", basicOrder.getPricePerShare());

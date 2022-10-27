@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cd25bde9-c091-4174-94f5-a74500edd076" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Gateway/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../Order Consumers/MarketOrderConsumer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Order Consumers/MarketOrderConsumer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Time Tracker/tracker.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Time Tracker/tracker.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Order Consumers/MarketOrderConsumer/src/main/java/org/invested/rabbitmq/RabbitMQConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Order Consumers/MarketOrderConsumer/src/main/java/org/invested/rabbitmq/RabbitMQConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Order Service/OrderService/src/main/java/org/invested/orderservice/services/BasicOrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Order Service/OrderService/src/main/java/org/invested/orderservice/services/BasicOrderService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
