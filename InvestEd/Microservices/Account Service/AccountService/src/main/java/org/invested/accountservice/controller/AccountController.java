@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.InvalidKeyException;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -57,9 +58,22 @@ public class AccountController {
     public ResponseEntity<Map<String, Object>> createUser(@RequestBody Account newAccount) {
 
         // Decoding user information
-        Map<String, String> userCredentials = accountService.decryptUserCredentials(newAccount.getUsername(), newAccount.getPassword());
+        Map<String, String> userCredentials = accountService.decryptUserInformation(
+                newAccount.getUsername(),
+                newAccount.getPassword(),
+                newAccount.getFirstName(),
+                newAccount.getLastName(),
+                newAccount.getBirthdate().toString(),
+                newAccount.getEmail(),
+                newAccount.getPhone());
+
         newAccount.setUsername(userCredentials.get("username"));
         newAccount.setPassword(userCredentials.get("password"));
+        newAccount.setFirstName(userCredentials.get("fname"));
+        newAccount.setLastName(userCredentials.get("lname"));
+        newAccount.setBirthdate(userCredentials.get("birthdate"));
+        newAccount.setEmail(userCredentials.get("email"));
+        newAccount.setPhone(userCredentials.get("phone"));
 
         // Check to see if username or email us taken
         if(!(accountService.checkIfAccountExists("username", newAccount.getUsername())

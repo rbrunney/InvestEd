@@ -583,6 +583,18 @@
                     "start_time": "9:30 am",
                     "end_time": "10:50 am",
                     "description": "Woring on Email Consumer and getting img to show"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "1:0 pm",
+                    "end_time": "2:30 pm",
+                    "description": "Worked on upgrading Email Consumers"
+                },
+                {
+                    "activity": "Bug Fixing",
+                    "start_time": "7:0 pm",
+                    "end_time": "7:42 pm",
+                    "description": "Working on trying to get sell working"
                 }
             ]
         }

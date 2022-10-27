@@ -15,7 +15,7 @@ public class Account {
     private String password;
     private String firstName;
     private String lastName;
-    private Date birthdate;
+    private String birthdate;
     private String email;
     private String phone;
 
@@ -29,7 +29,7 @@ public class Account {
 
     }
 
-    public Account(String username, String password, String firstName, String lastName, Date birthdate, String email, String phone, double buyingPower) {
+    public Account(String username, String password, String firstName, String lastName, String birthdate, String email, String phone, double buyingPower) {
         this.id = UUID.randomUUID().toString();
         this.buyingPower = buyingPower;
         this.username = username;
@@ -87,11 +87,11 @@ public class Account {
         this.lastName = lastName;
     }
 
-    public Date getBirthdate() {
+    public String getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
     }
 

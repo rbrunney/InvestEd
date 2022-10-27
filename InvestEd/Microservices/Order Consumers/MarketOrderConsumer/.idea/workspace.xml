@@ -5,10 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="551c2867-427b-4431-b84d-584c19b4e632" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/java/org/invested/accountservice/controller/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/java/org/invested/accountservice/controller/AccountController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/java/org/invested/accountservice/models/application/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/java/org/invested/accountservice/models/application/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/java/org/invested/accountservice/service/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/java/org/invested/accountservice/service/AccountService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../Email Consumers/OrderPlacedEmailConsumer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Email Consumers/OrderPlacedEmailConsumer/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/java/com/invested/portfolioservice/reposititories/PortfolioStockJPARepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/java/com/invested/portfolioservice/reposititories/PortfolioStockJPARepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/java/com/invested/portfolioservice/services/PortfolioService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/java/com/invested/portfolioservice/services/PortfolioService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Time Tracker/tracker.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Time Tracker/tracker.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +91,7 @@
       <workItem from="1666731424124" duration="3021000" />
       <workItem from="1666746339107" duration="7295000" />
       <workItem from="1666809629756" duration="1955000" />
-      <workItem from="1666832316466" duration="951000" />
+      <workItem from="1666832316466" duration="1212000" />
     </task>
     <servers />
   </component>

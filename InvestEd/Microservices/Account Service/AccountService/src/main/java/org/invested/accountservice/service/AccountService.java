@@ -42,6 +42,29 @@ public class AccountService {
         return decryptedUserInfo;
     }
 
+    public Map<String, String> decryptUserInformation(String username, String password, String fname, String lname, String birthdate, String email, String phone) {
+        // Having to Decrypt User Information using RSA
+        RSA rsa = new RSA();
+        String decryptedUsername = rsa.decrypt(username);
+        String decryptedPassword = rsa.decrypt(password);
+        String decryptedFirstName = rsa.decrypt(fname);
+        String decryptedLastName = rsa.decrypt(lname);
+        String decryptedBirthdate = rsa.decrypt(birthdate);
+        String decryptedEmail = rsa.decrypt(email);
+        String decryptedPhone = rsa.decrypt(phone);
+
+        Map<String, String> decryptedUserInfo = new HashMap<>();
+        decryptedUserInfo.put("username", decryptedUsername);
+        decryptedUserInfo.put("password", decryptedPassword);
+        decryptedUserInfo.put("fname", decryptedFirstName);
+        decryptedUserInfo.put("lname", decryptedLastName);
+        decryptedUserInfo.put("birthdate", decryptedBirthdate);
+        decryptedUserInfo.put("email", decryptedEmail);
+        decryptedUserInfo.put("phone", decryptedPhone);
+
+        return decryptedUserInfo;
+    }
+
     public boolean validateUserCredentials(Map<String, String> userCredentials) {
         Account foundUser = accountRepo.getAccountByUsername(userCredentials.get("username"));
 

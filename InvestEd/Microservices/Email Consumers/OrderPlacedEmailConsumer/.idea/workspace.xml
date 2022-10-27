@@ -5,10 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cd25bde9-c091-4174-94f5-a74500edd076" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/java/org/invested/accountservice/controller/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/java/org/invested/accountservice/controller/AccountController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/java/org/invested/accountservice/models/application/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/java/org/invested/accountservice/models/application/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/java/org/invested/accountservice/service/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Account Service/AccountService/src/main/java/org/invested/accountservice/service/AccountService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../Order Consumers/MarketOrderConsumer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Order Consumers/MarketOrderConsumer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/java/com/invested/portfolioservice/reposititories/PortfolioStockJPARepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/java/com/invested/portfolioservice/reposititories/PortfolioStockJPARepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/java/com/invested/portfolioservice/services/PortfolioService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/java/com/invested/portfolioservice/services/PortfolioService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Time Tracker/tracker.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Time Tracker/tracker.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
