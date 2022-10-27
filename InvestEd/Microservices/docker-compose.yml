@@ -63,7 +63,7 @@ services:
       replicas: 1
 
   forgot_pass_email_consumer:
-    build: ./Email Consumers/ForgotPassEmailConsumer/target
+    build: ./Email Consumers/ForgotPassEmailConsumer
     image: forgot-pass-email-consumer:1.0
     environment:
       - EMAIL=${EMAIL}
