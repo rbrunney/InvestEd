@@ -5,24 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cd25bde9-c091-4174-94f5-a74500edd076" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../OrderFulfilledConsumer/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../OrderFulfilledConsumer/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../OrderFulfilledConsumer/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../OrderFulfilledConsumer/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../OrderFulfilledConsumer/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../OrderFulfilledConsumer/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../OrderFulfilledConsumer/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../OrderFulfilledConsumer/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../OrderFulfilledConsumer/src/main/java/org/invested/ConsumerMain.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../OrderFulfilledConsumer/src/main/java/org/invested/models/email/SMTPAuthenticator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../OrderFulfilledConsumer/src/main/java/org/invested/models/email/SendEmail.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../OrderFulfilledConsumer/src/main/java/org/invested/models/rabbitmq/RabbitMQConsumer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../Order Consumers/MarketOrderConsumer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Order Consumers/MarketOrderConsumer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Order Consumers/MarketOrderConsumer/src/main/java/org/invested/rabbitmq/RabbitMQConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Order Consumers/MarketOrderConsumer/src/main/java/org/invested/rabbitmq/RabbitMQConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Order Service/OrderService/src/main/java/org/invested/orderservice/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Order Service/OrderService/src/main/java/org/invested/orderservice/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Order Service/OrderService/src/main/java/org/invested/orderservice/services/BasicOrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Order Service/OrderService/src/main/java/org/invested/orderservice/services/BasicOrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/java/com/invested/portfolioservice/reposititories/PortfolioStockJPARepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/java/com/invested/portfolioservice/reposititories/PortfolioStockJPARepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/java/com/invested/portfolioservice/services/PortfolioService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/java/com/invested/portfolioservice/services/PortfolioService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,6 +62,7 @@
       <workItem from="1666408029655" duration="707000" />
       <workItem from="1666807351618" duration="1976000" />
       <workItem from="1666810032100" duration="1709000" />
+      <workItem from="1666831603299" duration="1165000" />
     </task>
     <servers />
   </component>

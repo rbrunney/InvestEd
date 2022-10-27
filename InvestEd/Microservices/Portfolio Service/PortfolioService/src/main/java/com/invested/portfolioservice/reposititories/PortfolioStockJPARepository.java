@@ -9,4 +9,6 @@ public interface PortfolioStockJPARepository extends JpaRepository<PortfolioStoc
     ArrayList<PortfolioStock> getPortfolioStocksByPortfolioId(String portfolioId);
 
     PortfolioStock getPortfolioStockByPortfolioIdAndTicker(String portfolioId, String ticker);
+
+    void deletePortfolioStockByPortfolioIdAndTicker(String portfolioId, String ticker);
 }

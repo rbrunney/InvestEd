@@ -7,6 +7,7 @@ import com.invested.portfolioservice.reposititories.PortfolioStockJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.security.InvalidKeyException;
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -104,6 +105,7 @@ public class PortfolioService {
     }
 
 
+    @Transactional
     public Map<String, Object> sellStock(String ticker, String portfolioId, double totalShares, double totalSellPrice) {
         // Check to see if ticker exists
         PortfolioStock portfolioStock = portfolioStockRepo.getPortfolioStockByPortfolioIdAndTicker(portfolioId, ticker);
@@ -122,6 +124,11 @@ public class PortfolioService {
 
             // Updating portfolio information
             updatePortfolioValue(portfolioId, -totalSellPrice);
+
+            // Check to see share qty
+            if (portfolioStock.getTotalShareQuantity() <= 0) {
+                portfolioStockRepo.deletePortfolioStockByPortfolioIdAndTicker(portfolioStock.getPortfolioId(), portfolioStock.getTicker());
+            }
 
             return new HashMap<>() {{
                 put("message", ticker + " successfully sold!");
