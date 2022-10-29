@@ -1,3 +1,6 @@
+from polygon import RESTClient
+from datetime import datetime as current_dt
+import datetime as dt
 import news_article as na
 import requests
 import os
@@ -9,11 +12,26 @@ class Stock:
 
     def __init__(self, ticker : str):
         self.ticker = ticker
+        self.client = RESTClient(os.getenv("POLYGON_API_KEY"))
 
     def get_current_price(self):
-        request = requests.get(f'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={self.ticker}&apikey={os.getenv("ALPHA_VANTAGE_API_KEY")}')
-        fetched_data = request.json()
-        return float(fetched_data['Global Quote']['05. price'])
+
+        def check_date(current_date=current_dt.today()):
+            saturday = 5
+            sunday = 6
+            date_value = current_date.weekday()
+
+            if date_value == saturday:
+                return current_date - dt.timedelta(days=1)
+            elif date_value == sunday:
+                return current_date - dt.timedelta(days=2)
+
+            return current_date
+        
+        # Getting the date and then checking to get the the current price, at least close to it
+        date_to_retrieve = check_date()
+        aggs = self.client.get_aggs(self.ticker, 1, "day", date_to_retrieve, date_to_retrieve)
+        return aggs[0].vwap
     
     
     def get_basic_info(self):
