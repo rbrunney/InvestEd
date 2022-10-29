@@ -12,8 +12,10 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.security.InvalidKeyException;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -36,6 +38,29 @@ public class AccountService {
         Map<String, String> decryptedUserInfo = new HashMap<>();
         decryptedUserInfo.put("username", decryptedUsername);
         decryptedUserInfo.put("password", decryptedPassword);
+
+        return decryptedUserInfo;
+    }
+
+    public Map<String, String> decryptUserInformation(String username, String password, String fname, String lname, String birthdate, String email, String phone) {
+        // Having to Decrypt User Information using RSA
+        RSA rsa = new RSA();
+        String decryptedUsername = rsa.decrypt(username);
+        String decryptedPassword = rsa.decrypt(password);
+        String decryptedFirstName = rsa.decrypt(fname);
+        String decryptedLastName = rsa.decrypt(lname);
+        String decryptedBirthdate = rsa.decrypt(birthdate);
+        String decryptedEmail = rsa.decrypt(email);
+        String decryptedPhone = rsa.decrypt(phone);
+
+        Map<String, String> decryptedUserInfo = new HashMap<>();
+        decryptedUserInfo.put("username", decryptedUsername);
+        decryptedUserInfo.put("password", decryptedPassword);
+        decryptedUserInfo.put("fname", decryptedFirstName);
+        decryptedUserInfo.put("lname", decryptedLastName);
+        decryptedUserInfo.put("birthdate", decryptedBirthdate);
+        decryptedUserInfo.put("email", decryptedEmail);
+        decryptedUserInfo.put("phone", decryptedPhone);
 
         return decryptedUserInfo;
     }
@@ -133,12 +158,25 @@ public class AccountService {
                 accountToUpdate.setPhone(newInfo);
                 return accountToUpdate;
             }
-            case "buying_power" -> {
-                accountToUpdate.setBuyingPower(Double.parseDouble(newInfo));
+            case "buying_power_to_add" -> {
+                accountToUpdate.setBuyingPower(accountToUpdate.getBuyingPower() + Double.parseDouble(newInfo));
                 return accountToUpdate;
             }
             default -> throw new InvalidKeyException("Invalid Property in Json");
         }
+    }
+
+    public void updateUserBuyingPower(String userId, double totalPurchasePrice) {
+        Account account = accountRepo.getAccountById(userId);
+        account.setBuyingPower(account.getBuyingPower() + totalPurchasePrice);
+        accountRepo.save(account);
+    }
+
+    public String[] decodeAuth(String encodedString) {
+        encodedString = encodedString.substring(encodedString.indexOf(" ") + 1);
+        byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
+        String decodedString = new String(decodedBytes);
+        return decodedString.split(":", 2);
     }
 
     public void sendCode(String email) {

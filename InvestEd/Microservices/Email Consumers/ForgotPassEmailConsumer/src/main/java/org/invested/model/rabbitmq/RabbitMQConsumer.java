@@ -41,13 +41,21 @@ public class RabbitMQConsumer {
                             .replace("}", "")
                             .replace(" ", ""));
 
-                    String emailBody = "<div style=\"border:2px solid black;\">\n" +
-                            "        <div>\n" +
-                            "            <h1 style=\"text-align:center;font-size: larger;\">Forgot Password</h1>\n" +
+                    String emailBody = "<link href=\"https://fonts.googleapis.com/css2?family=Rammetto+One&family=Work+Sans&display=swap\" rel=\"stylesheet\">\n" +
+                            "    <div style=\"border:2px solid #1f1f1f; margin-left: 10; margin-right: 10;\">\n" +
+                            "        <div style=\"background-color: #1f1f1f; text-align: center;\">\n" +
+                            "            <img src=\"logo.png\" width=\"150\" height=\"100\" >\n" +
                             "        </div>\n" +
                             "        <div>\n" +
-                            "            <h2 style=\"text-align:center;font-size: large;\"> Verification Code:" + msgToMap.get("verification-code") + "</h3>\n" +
+                            "            <h1 style=\"text-align:center;font-size: larger; font-family: 'Work Sans', sans-serif;\">Forgot Password!</h1>\n" +
+                            "        </div>\n" +
+                            "        <div>\n" +
+                            "            <p style=\"font-weight: bold; margin-left: 1%; font-family: 'Work Sans', sans-serif;\">Hello!</p>\n" +
+                            "            <p style=\"font-weight: bold; margin-left: 1%; font-family: 'Work Sans', sans-serif;\">If you asked for a verification code informaton is below! Otherwise ignore this email.</p>\n" +
                             "        </div> \n" +
+                            "        <div>\n" +
+                            "            <p style=\"font-weight: bold; margin-left: 1%; font-family: 'Work Sans', sans-serif;\">Verification Code: " + msgToMap.get("verification-code") + "</p>\n" +
+                            "        </div>\n" +
                             "    </div>";
 
                     new SendEmail(msgToMap.get("email"), System.getenv("EMAIL_SUBJECT"), emailBody);

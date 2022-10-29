@@ -16,10 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.InvalidKeyException;
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RestController
 @RequestMapping("/invested_account")
@@ -58,6 +56,25 @@ public class AccountController {
 
     @PostMapping()
     public ResponseEntity<Map<String, Object>> createUser(@RequestBody Account newAccount) {
+
+        // Decoding user information
+        Map<String, String> userCredentials = accountService.decryptUserInformation(
+                newAccount.getUsername(),
+                newAccount.getPassword(),
+                newAccount.getFirstName(),
+                newAccount.getLastName(),
+                newAccount.getBirthdate().toString(),
+                newAccount.getEmail(),
+                newAccount.getPhone());
+
+        newAccount.setUsername(userCredentials.get("username"));
+        newAccount.setPassword(userCredentials.get("password"));
+        newAccount.setFirstName(userCredentials.get("fname"));
+        newAccount.setLastName(userCredentials.get("lname"));
+        newAccount.setBirthdate(userCredentials.get("birthdate"));
+        newAccount.setEmail(userCredentials.get("email"));
+        newAccount.setPhone(userCredentials.get("phone"));
+
         // Check to see if username or email us taken
         if(!(accountService.checkIfAccountExists("username", newAccount.getUsername())
                 || accountService.checkIfAccountExists("email", newAccount.getEmail()))) {
@@ -89,6 +106,18 @@ public class AccountController {
 
         if(userToUpdate != null) {
             accountService.updateUser(userToUpdate);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/buying_power/{userId}")
+    public ResponseEntity<Map<String, Object>> updateUserBuyingPower(@RequestHeader(value = "Authorization") String authHead, @PathVariable String userId, @RequestBody JsonNode requestBody) {
+        // Check Auth
+        String[] requestAuthInfo = accountService.decodeAuth(authHead);
+        if(requestAuthInfo[0].equals(System.getenv("CUSTOM_USERNAME")) && requestAuthInfo[1].equals(System.getenv("CUSTOM_PASSWORD"))) {
+            accountService.updateUserBuyingPower(userId, requestBody.get("total-purchase-price").asDouble());
             return new ResponseEntity<>(HttpStatus.OK);
         }
 

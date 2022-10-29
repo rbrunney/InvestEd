@@ -41,19 +41,27 @@ public class RabbitMQConsumer {
                             .replace("}", "")
                             .replace(" ", ""));
 
-                    String emailBody = "<div style=\"border:2px solid black;\">\n" +
-                            "        <div>\n" +
-                            "            <h1 style=\"text-align:center;font-size: larger;\">Order Placed!</h1>\n" +
+                    String emailBody = "<link href=\"https://fonts.googleapis.com/css2?family=Rammetto+One&family=Work+Sans&display=swap\" rel=\"stylesheet\">\n" +
+                            "    <div style=\"border:2px solid #1f1f1f; margin-left: 10; margin-right: 10;\">\n" +
+                            "        <div style=\"background-color: #1f1f1f; text-align: center;\">\n" +
+                            "            <img src=\"logo.png\" width=\"150\" height=\"100\" >\n" +
                             "        </div>\n" +
                             "        <div>\n" +
-                            "            <h3 style=\"text-align:center;font-size: large;\">Order Information</h3>\n" +
+                            "            <h1 style=\"text-align:center;font-size: larger; font-family: 'Work Sans', sans-serif;\">Order Placed!</h1>\n" +
+                            "        </div>\n" +
+                            "        <div>\n" +
+                            "            <p style=\"font-weight: bold; margin-left: 1%; font-family: 'Work Sans', sans-serif;\">Hello!</p>\n" +
+                            "            <p style=\"font-weight: bold; margin-left: 1%; font-family: 'Work Sans', sans-serif;\">You placed an order for " + msgToMap.get("ticker") + "! Information is below!</p>\n" +
                             "        </div> \n" +
                             "        <div>\n" +
-                            "            <h5 style=\"text-align:left;font-size: large;\">Order Id: " + msgToMap.get("order-id") + "</h5>\n" +
-                            "            <h5 style=\"text-align:left;font-size: large;\">Ticker: " + msgToMap.get("ticker") + "</h5>\n" +
-                            "            <h5 style=\"text-align:left;font-size: large;\">Stock Quantity: " + msgToMap.get("stock-qty") +"</h5>\n" +
-                            "            <h5 style=\"text-align:left;font-size: large;\">Price per Share: " + msgToMap.get("price-per-share") + "</h5>\n" +
-                            "            <h5 style=\"text-align:left;font-size: large;\">Total Price: " + msgToMap.get("total-cost") + "</h5>\n" +
+                            "            <p style=\"font-weight: bold; margin-left: 1%; font-family: 'Work Sans', sans-serif;\">Order Id: "+ msgToMap.get("order-id") +"</p>\n" +
+                            "            <p style=\"font-weight: bold; margin-left: 1%; font-family: 'Work Sans', sans-serif;\">Trade Type: "+ msgToMap.get("trade-type") +"</p>\n" +
+                            "            <p style=\"font-weight: bold; margin-left: 1%; font-family: 'Work Sans', sans-serif;\">Ticker: "+ msgToMap.get("ticker") +"</p>\n" +
+                            "            <p style=\"font-weight: bold; margin-left: 1%; font-family: 'Work Sans', sans-serif;\">Stock Quantity: "+ msgToMap.get("stock-qty")+"</p>\n" +
+                            "            <p style=\"font-weight: bold; margin-left: 1%; font-family: 'Work Sans', sans-serif;\">Price Per Share: "+ msgToMap.get("price-per-share")+"</p>\n" +
+                            "            <p style=\"font-weight: bold; margin-left: 1%; font-family: 'Work Sans', sans-serif;\">Total Price: " + msgToMap.get("total-cost")+"</p>\n" +
+                            "            <p style=\"font-weight: bold; margin-left: 1%; font-family: 'Work Sans', sans-serif;\">Trade Type: "+ msgToMap.get("trade-type") +"</p>\n" +
+                            "            <p style=\"font-weight: bold; margin-left: 1%; font-family: 'Work Sans', sans-serif;\">Trade Type: "+ msgToMap.get("status") +"</p>\n" +
                             "        </div>\n" +
                             "    </div>";
 

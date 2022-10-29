@@ -29,8 +29,20 @@ public class BasicOrderService {
         amqpTemplate.convertAndSend(exchange, queue, message.toString());
     }
 
-    public boolean hasEnoughBuyingPower(double currentBuyingPower, double purchaseOrderTotal) {
-        return purchaseOrderTotal < currentBuyingPower;
+    public void fulfillOrder(String orderId, String email) {
+        BasicOrder order = basicOrderRepo.getBasicOrderById(orderId);
+        order.setCurrentStatus(Status.COMPLETED);
+        order.setOrderFulFilledDate(LocalDateTime.now());
+        basicOrderRepo.save(order);
+
+        sendMessageToQueue(new HashMap<>(){{
+            put("order-id", order.getId());
+            put("status", order.getCurrentStatus());
+            put("ticker", order.getTicker());
+            put("trade-type", order.getTradeType());
+            put("total-cost", order.getStockQuantity() * order.getPricePerShare());
+            put("email", email);
+        }}, "ORDER-EMAIL-EXCHANGE", "order-email.fulfilled");
     }
 
     public void createBasicOrder(BasicOrder basicOrder, String email) {
@@ -53,12 +65,14 @@ public class BasicOrderService {
         sendMessageToQueue(new HashMap<>() {{
             put("order-id", basicOrder.getId());
             put("user", basicOrder.getUser());
+            put("email", email);
             put("ticker", basicOrder.getTicker());
             put("stock-qty", basicOrder.getStockQuantity());
             put("price-per-share", basicOrder.getPricePerShare());
             put("order-date", basicOrder.getOrderDate());
             put("status", basicOrder.getCurrentStatus());
             put("expire-time", basicOrder.getExpireTime());
+            put("trade-type", basicOrder.getTradeType());
         }}, "ORDER_EXCHANGE", queue);
 
         // Send Placed Order Email
@@ -70,6 +84,8 @@ public class BasicOrderService {
             put("stock-qty", basicOrder.getStockQuantity());
             put("price-per-share", basicOrder.getPricePerShare());
             put("total-cost", (basicOrder.getPricePerShare() * basicOrder.getStockQuantity()));
+            put("trade-type", basicOrder.getTradeType());
+            put("status", basicOrder.getCurrentStatus());
         }}, "ORDER-EMAIL-EXCHANGE", "order-email.placed");
     }
     public boolean isUsersOrder(String orderId, String user) {
