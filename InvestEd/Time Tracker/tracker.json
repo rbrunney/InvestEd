@@ -671,6 +671,16 @@
                     "description": "Working on ECR Image uploads and trying to set up gateway"
                 }
             ]
+        },
+        "Saturday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "6:0 pm",
+                    "end_time": "7:45 pm",
+                    "description": "Making the transfer to Alpha Vantage"
+                }
+            ]
         }
     },
     "Week 5": {},

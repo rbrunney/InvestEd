@@ -4,15 +4,15 @@ import datetime as dt
 import news_article as na
 import requests
 import os
-import sys
 
 class Stock:
 
-    MAX_MOVING_PERIOD = 50
+    MAX_MOVING_PERIOD = 200
 
     def __init__(self, ticker : str):
         self.ticker = ticker
-        self.client = RESTClient()
+        self.polygon_client = RESTClient(os.getenv("POLYGON_API_KEY"))
+        self.alpha_vantage_api_key = os.getenv("ALPHA_VANTAGE_API_KEY")
 
     def check_date(self, current_date=current_dt.today()):
         saturday = 5
@@ -30,14 +30,14 @@ class Stock:
 
         # Getting the date and then checking to get the the current price, at least close to it
         date_to_retrieve = self.check_date()
-        aggs = self.client.get_aggs(self.ticker, 1, "day", date_to_retrieve, date_to_retrieve)
+        aggs = self.polygon_client.get_aggs(self.ticker, 1, "day", date_to_retrieve, date_to_retrieve)
         return aggs[0].vwap
     
     def get_data_points(self, period):
 
         # Getting the aggreagate data so we can return array of datapoints later
         def period_data_points(from_date, end_date, timespan):
-            aggregates = self.client.get_aggs(self.ticker, multiplier=1, from_=from_date, to=end_date, timespan=timespan,limit=250)
+            aggregates = self.polygon_client.get_aggs(self.ticker, multiplier=1, from_=from_date, to=end_date, timespan=timespan,limit=250)
             data_points = []
 
             for aggreagate in aggregates:
@@ -67,28 +67,38 @@ class Stock:
         basic_info = {}
 
         # Getting first request data for part of basic info
-        ticker_details = self.client.get_ticker_details(ticker=self.ticker)
+        ticker_details = self.polygon_client.get_ticker_details(ticker=self.ticker)
 
         # Adding information into basic_info
         basic_info['ticker'] = ticker_details.ticker
         basic_info['name'] = ticker_details.name
         # basic_info['52_week_high'] = float(fetched_data['52WeekHigh'])
         # basic_info['52_week_low'] = float(fetched_data['52WeekLow'])
-        basic_info['market_cap'] = float(ticker_details.market_cap)
+        basic_info['market_cap'] = ticker_details.market_cap
         # basic_info['pe_ratio'] = float(fetched_data['PERatio'])
-        # basic_info['dividend_yeild'] = float(fetched_data['DividendYield'])
         basic_info['description'] = ticker_details.description
         basic_info['list_date'] = ticker_details.list_date
         basic_info['total_employees'] = ticker_details.total_employees
-        basic_info['hq_address'] = {
-            "street" : ticker_details.address.address1,
-            "city" : ticker_details.address.city,
-            "state" : ticker_details.address.state,
-            "zipcode" : ticker_details.address.postal_code
-        }
+
+        try:
+            basic_info['hq_address'] = {
+                "street" : ticker_details.address.address1,
+                "city" : ticker_details.address.city,
+                "state" : ticker_details.address.state,
+                "zipcode" : ticker_details.address.postal_code
+            }
+        except:
+            pass
+
+        # Get last dividend amount and add to basic info
+        dividend_amount = self.polygon_client.list_dividends(ticker=self.ticker)
+        for dividend in dividend_amount:
+            last_dividend = dividend.cash_amount
+            break
+        basic_info['last_dividend'] = last_dividend
 
         # Making second request for current days open, high, and low
-        daily_info = self.client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date())
+        daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date())
         
         # Adding open, high, low, and volume to basic information
         basic_info['open'] = daily_info.open
@@ -127,7 +137,7 @@ class Stock:
         return final_earning_calls
         
     def get_news(self):
-        news_articles = self.client.list_ticker_news(ticker=self.ticker, limit=5)
+        news_articles = self.polygon_client.list_ticker_news(ticker=self.ticker, limit=5)
 
         recent_news_articles = []
 
@@ -152,32 +162,16 @@ class Stock:
         if(moving_period > self.MAX_MOVING_PERIOD):
             return 'Moving Period Error'
         
-        request = requests.get(f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={self.ticker}&apikey={os.getenv("ALPHA_VANTAGE_API_KEY")}')
-        fetched_data = request.json()
-
-        # Check to see if the current day use date.today() is on list, if so fetched its current price. To use for calculation
-        # Else keep checking for previous x days bases on moving_period
         moving_avg_data_points = []
 
-        for index in range(0, moving_period):
-            moving_avg_price = 0
+        sma_data_points = self.polygon_client.get_sma(ticker=self.ticker, window=moving_period)
 
-            # Check to see if first one, because then we need to get the current price other wise get the previous day
-            if(index == 0):
-                moving_avg_price = float(requests.get(f'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={self.ticker}&apikey={os.getenv("ALPHA_VANTAGE_API_KEY")}').json()['Global Quote']['05. price'])
-                for key in list(fetched_data['Time Series (Daily)'].keys())[index: index + (moving_period - 1)]:
-                    moving_avg_price += float(fetched_data['Time Series (Daily)'][key]['4. close'])
-
-                moving_avg_data_points.append(moving_avg_price / moving_period)
-            else:
-                # Need to get the first index all the way to the end index of the moving average so we can calculate
-                for key in list(fetched_data['Time Series (Daily)'].keys())[index: index + moving_period]:
-                    moving_avg_price += float(fetched_data['Time Series (Daily)'][key]['4. close'])
-
-                moving_avg_data_points.append(moving_avg_price / moving_period)
+        for data_point in sma_data_points.values:
+            moving_avg_data_points.append({
+                "date" : data_point.timestamp,
+                "value" : data_point.value
+            })
 
         return {
             'moving_avg_data' : moving_avg_data_points
         }
-    
-print(Stock("AAPL").get_news())
