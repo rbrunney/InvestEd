@@ -127,21 +127,20 @@ class Stock:
         return final_earning_calls
         
     def get_news(self):
-        request = requests.get(f'https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers={self.ticker}&topics=technology&sort=LATEST&apikey={os.getenv("ALPHA_VANTAGE_API_KEY")}')
-        fetched_data = request.json()
+        news_articles = self.client.list_ticker_news(ticker=self.ticker, limit=5)
 
         recent_news_articles = []
 
-        for article in fetched_data['feed']:
+        for news_article in news_articles:
             recent_news_articles.append(na.NewsArticle(
-                    article['title'], 
-                    article['authors'],
-                    article['source'], 
-                    article['time_published'],
-                    article['summary'],
-                    article['url'],
-                    article['banner_image']
-                ).to_json()
+                title=news_article.title,
+                authors=news_article.author,
+                publisher=news_article.publisher,
+                publish_date=news_article.published_utc,
+                summary=news_article.description,
+                story_link=news_article.article_url,
+                thumbnail_link=news_article.image_url
+            ).to_json()
             )
 
         return recent_news_articles
@@ -181,4 +180,4 @@ class Stock:
             'moving_avg_data' : moving_avg_data_points
         }
     
-print(Stock("AAPL").get_basic_info())
+print(Stock("AAPL").get_news())
