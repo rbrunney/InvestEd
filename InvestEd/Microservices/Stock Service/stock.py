@@ -33,6 +33,45 @@ class Stock:
         aggs = self.client.get_aggs(self.ticker, 1, "day", date_to_retrieve, date_to_retrieve)
         return aggs[0].vwap
     
+    def get_data_points(self, period):
+
+        def check_date(current_date=current_dt.today()):
+            saturday = 5
+            sunday = 6
+            date_value = current_date.weekday()
+
+            if date_value == saturday:
+                return current_date - dt.timedelta(days=1)
+            elif date_value == sunday:
+                return current_date - dt.timedelta(days=2)
+
+            return current_date
+
+        def period_data_points(from_date, end_date, timespan):
+            aggregates = self.client.get_aggs(self.ticker, multiplier=1, from_=from_date, to=end_date, timespan=timespan,limit=250)
+            data_points = []
+
+            for aggreagate in aggregates:
+                data_points.append(aggreagate.vwap)
+            
+            return data_points
+
+        if period == "DAY":
+            return period_data_points(check_date(), check_date(), "minute")
+        elif period == "WEEK":
+            return period_data_points(check_date() - dt.timedelta(days=7), check_date(), "minute")
+        elif period == "MONTH":
+            return period_data_points(check_date() - dt.timedelta(days=31), check_date(), "minute")
+        elif period == "3-MONTH":
+            return period_data_points(check_date() - dt.timedelta(days=93), check_date(), "minute")
+        elif period == "YEAR":
+            return period_data_points(check_date() - dt.timedelta(days=365), check_date(), "day")
+        elif period == "5-YEAR":
+            return period_data_points(check_date() - dt.timedelta(days=1825), check_date(), "day")
+        else:
+            # Return 400 so we know we have to send a bad request
+            return 400
+    
     
     def get_basic_info(self):
 
@@ -170,3 +209,5 @@ class Stock:
         return {
             'moving_avg_data' : moving_avg_data_points
         }
+    
+print(Stock("VOO").get_data_points(""))
