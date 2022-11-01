@@ -38,7 +38,7 @@ public class RabbitMQConsumer {
                 public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) {
 
                     // Add if check here to see if its within a trading day
-//                    if (OrderConsumerService.isTradingHours()) {
+                    if (OrderConsumerService.isTradingHours()) {
 
                         String rabbitmqMessage = new String(body, StandardCharsets.UTF_8);
                         // Get message and convert to a map object
@@ -65,15 +65,15 @@ public class RabbitMQConsumer {
                                 "http://localhost:8888/invested_account/buying_power/" + msgToMap.get("user"), buyingPowerBody, true);
                         // Update Order to FulFilled
                         OrderConsumerService.makePutRequest("http://localhost:8080/invested_order/fulfill_order/" + msgToMap.get("order-id") + "/" + msgToMap.get("email"), "", false);
-//                    } else {
-//                        // Need to resend message into queue if not during trading hours
-//                        try {
-//                            channel.basicPublish("ORDER_EXCHANGE", "order.market-order", null, body);
-//                        } catch(IOException ioe) {
-//                            System.out.println("[ERROR] " + ioe.getMessage());
-//                        }
-//
-//                    }
+                    } else {
+                        // Need to resend message into queue if not during trading hours
+                        try {
+                            channel.basicPublish("ORDER_EXCHANGE", "order.market-order", null, body);
+                        } catch(IOException ioe) {
+                            System.out.println("[ERROR] " + ioe.getMessage());
+                        }
+
+                    }
                 }
             };
 

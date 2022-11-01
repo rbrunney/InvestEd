@@ -3,8 +3,10 @@ package com.invested.checkportfoliostocks.services;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.invested.checkportfoliostocks.models.Portfolio;
+import com.invested.checkportfoliostocks.models.PortfolioSnapshot;
 import com.invested.checkportfoliostocks.models.PortfolioStock;
 import com.invested.checkportfoliostocks.repositories.PortfolioJPARepository;
+import com.invested.checkportfoliostocks.repositories.PortfolioSnapshotJPARepository;
 import com.invested.checkportfoliostocks.repositories.PortfolioStockJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,9 @@ public class CheckStockService {
     @Autowired
     private PortfolioStockJPARepository portfolioStockRepo;
 
+    @Autowired
+    private PortfolioSnapshotJPARepository portfolioSnapshotRepo;
+
     public void checkStockPrices() {
         // Get Current Stocks in Portfolio's
         for (String ticker : getStocksInPortfolios()) {
@@ -36,13 +41,22 @@ public class CheckStockService {
             double current_price = getTickerPrice(ticker);
             portfolioStockRepo.updateTickerTotalEquity(current_price, ticker);
         }
+    }
 
+    public void updatePortfolioValue() {
         // Then go through and update the portfolio values for everyone after check
         for(String portfolioId : portfolioStockRepo.getPortfolioIds()) {
             // Go through and get portfolio stock and add sum and update portfolio with new value
             double newEquityValue = getNewTotalValue(portfolioId);
             // Go through and get portfolio stock initial buy in and then
-            updatePortfolioValue(portfolioId, 0, newEquityValue);
+            updatePortfolioValueOnDatabase(portfolioId, 0, newEquityValue);
+        }
+    }
+
+    public void takePortfolioSnapshot() {
+        for(String portfolioId : portfolioStockRepo.getPortfolioIds()) {
+            Portfolio portfolio = portfolioRepo.getPortfolioById(portfolioId);
+            portfolioSnapshotRepo.save(new PortfolioSnapshot(portfolioId, portfolio.getTotalValue()));
         }
     }
 
@@ -73,7 +87,7 @@ public class CheckStockService {
         return currentPrice;
     }
 
-    public void updatePortfolioValue(String portfolioId, double newTotalGain, double newTotalEquityValue) {
+    public void updatePortfolioValueOnDatabase(String portfolioId, double newTotalGain, double newTotalEquityValue) {
         // Updating Portfolio totalEquity and totalGain
         Portfolio portfolioToUpdate = portfolioRepo.getPortfolioById(portfolioId);
         portfolioToUpdate.setTotalValue(newTotalEquityValue);

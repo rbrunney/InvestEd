@@ -13,9 +13,18 @@ public class CheckStockController {
     @Autowired
     private CheckStockService checkService;
 
-    // Do check every five seconds
     @Scheduled(fixedRate = 30000)
     public void checkPortfolioStockPrice() {
         checkService.checkStockPrices();
+    }
+
+    @Scheduled(fixedRate = 30000)
+    public void updatePortfolioValue() {
+        checkService.updatePortfolioValue();
+    }
+
+    @Scheduled(fixedRate = 30000)
+    public void takePortfolioSnapShot() {
+        checkService.takePortfolioSnapshot();
     }
 }
