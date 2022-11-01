@@ -683,7 +683,30 @@
             ]
         }
     },
-    "Week 5": {},
+    "Week 5": {
+        "Monday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "6:45 pm",
+                    "end_time": "8:45 pm",
+                    "description": "Working on updating Market Consumer and Check Portfolio"
+                },
+                {
+                    "activity": "Bug Fixing",
+                    "start_time": "8:45 pm",
+                    "end_time": "10:45 pm",
+                    "description": "Fixing Stock API if Delay"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "10:45 pm",
+                    "end_time": "11:20 pm",
+                    "description": "Working on Check Current Prices Stock"
+                }
+            ]
+        }
+    },
     "Week 6": {},
     "Week 7": {},
     "Week 8": {},

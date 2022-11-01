@@ -1,5 +1,7 @@
 package com.invested.checkportfoliostocks.services;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.invested.checkportfoliostocks.models.Portfolio;
 import com.invested.checkportfoliostocks.models.PortfolioStock;
 import com.invested.checkportfoliostocks.repositories.PortfolioJPARepository;
@@ -31,7 +33,16 @@ public class CheckStockService {
         // Get Current Stocks in Portfolio's
         for (String ticker : getStocksInPortfolios()) {
             // Get current price for ticker
-            getTickerPrice(ticker);
+            double current_price = getTickerPrice(ticker);
+            portfolioStockRepo.updateTickerTotalEquity(current_price, ticker);
+        }
+
+        // Then go through and update the portfolio values for everyone after check
+        for(String portfolioId : portfolioStockRepo.getPortfolioIds()) {
+            // Go through and get portfolio stock and add sum and update portfolio with new value
+            double newEquityValue = getNewTotalValue(portfolioId);
+            // Go through and get portfolio stock initial buy in and then
+            updatePortfolioValue(portfolioId, 0, newEquityValue);
         }
     }
 
@@ -48,7 +59,10 @@ public class CheckStockService {
             HttpURLConnection httpCon = (HttpURLConnection) currentPriceConnection;
 
             // Get Response Information
-            System.out.println(getResponse(httpCon));
+            JsonNode response = new ObjectMapper().readTree(getResponse(httpCon));
+
+            // Get the current price from
+            currentPrice = response.get("results").get("current_price").asDouble();
 
             httpCon.disconnect();
 
@@ -58,6 +72,36 @@ public class CheckStockService {
 
         return currentPrice;
     }
+
+    public void updatePortfolioValue(String portfolioId, double newTotalGain, double newTotalEquityValue) {
+        // Updating Portfolio totalEquity and totalGain
+        Portfolio portfolioToUpdate = portfolioRepo.getPortfolioById(portfolioId);
+        portfolioToUpdate.setTotalValue(newTotalEquityValue);
+        portfolioToUpdate.setTotalGain(newTotalGain);
+
+        // Save back to database
+        portfolioRepo.save(portfolioToUpdate);
+    }
+
+    public double getNewTotalValue(String portfolioId) {
+        // Getting all total equity value
+        double totalEquityValue = 0;
+        for(PortfolioStock stock : portfolioStockRepo.getPortfolioStocksByPortfolioId(portfolioId)) {
+            totalEquityValue += stock.getTotalEquity();
+        }
+        return totalEquityValue;
+    }
+
+//    public double getNewInitialBuyInValue(String portfolioId) {
+//        double totalBuyInValue = 0;
+//        for(PortfolioStock stock : portfolioStockRepo.getPortfolioStocksByPortfolioId(portfolioId)) {
+//            totalBuyInValue += stock.
+//        }
+//    }
+
+//    public double getNewTotalGain(double initialBuyInValue, double currentEquityValue) {
+//
+//    }
 
     // /////////////////////////////////////////////////////////////////////////////////////////
     // Util Methods for helping get price
@@ -75,21 +119,5 @@ public class CheckStockService {
         in.close();
 
         return response.toString();
-    }
-
-    public Map<String, String> convertMsgToMap(String msgToConvert) {
-        Map<String, String> finalResult = new HashMap<>();
-
-        // Getting rid of all the unnecessary characters to split the string easier.
-        msgToConvert = msgToConvert.replace("{", "").replace("}", "").replace(" ", "");
-
-        String[] jsonPairs = msgToConvert.split(",");
-
-        for(String pair : jsonPairs) {
-            String[] keyValue = pair.split("=");
-            finalResult.put(keyValue[0], keyValue[1]);
-        }
-
-        return finalResult;
     }
 }

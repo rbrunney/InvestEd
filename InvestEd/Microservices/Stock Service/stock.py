@@ -1,5 +1,5 @@
 from polygon import RESTClient
-from datetime import datetime as current_dt
+from datetime import date, datetime as current_dt
 import datetime as dt
 import news_article as na
 import requests
@@ -27,10 +27,16 @@ class Stock:
         return current_date
 
     def get_current_price(self):
-
         # Getting the date and then checking to get the the current price, at least close to it
-        date_to_retrieve = self.check_date()
-        aggs = self.polygon_client.get_aggs(self.ticker, 1, "day", date_to_retrieve, date_to_retrieve)
+        date_to_retrieve = self.check_date().date()
+
+        try:
+            aggs = self.polygon_client.get_aggs(self.ticker, 1, "day", date_to_retrieve, date_to_retrieve)
+        except:
+            # If we get error means there is no resuls so we have to go back a few days
+            date_to_retrieve = self.check_date(current_date=date_to_retrieve - dt.timedelta(days=1))
+            aggs = self.polygon_client.get_aggs(ticker=self.ticker, multiplier=1, timespan="day", from_=date_to_retrieve, to=date_to_retrieve)
+            
         return aggs[0].vwap
     
     def get_data_points(self, period):
