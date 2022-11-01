@@ -46,10 +46,14 @@ public class CheckStockService {
     public void updatePortfolioValue() {
         // Then go through and update the portfolio values for everyone after check
         for(String portfolioId : portfolioStockRepo.getPortfolioIds()) {
+            Portfolio portfolioToUpdate = portfolioRepo.getPortfolioById(portfolioId);
             // Go through and get portfolio stock and add sum and update portfolio with new value
             double newEquityValue = getNewTotalValue(portfolioId);
-            // Go through and get portfolio stock initial buy in and then
-            updatePortfolioValueOnDatabase(portfolioId, 0, newEquityValue);
+            // Go through and get portfolio stock initial buy in and then update
+            double totalGain = getNewTotalGain(getTotalInitialBuyInValue(portfolioId), portfolioToUpdate.getTotalValue());
+
+            // Updating portfolio
+            updatePortfolioValueOnDatabase(portfolioId, totalGain, newEquityValue);
         }
     }
 
@@ -106,16 +110,26 @@ public class CheckStockService {
         return totalEquityValue;
     }
 
-//    public double getNewInitialBuyInValue(String portfolioId) {
-//        double totalBuyInValue = 0;
-//        for(PortfolioStock stock : portfolioStockRepo.getPortfolioStocksByPortfolioId(portfolioId)) {
-//            totalBuyInValue += stock.
-//        }
-//    }
+    public double getTotalInitialBuyInValue(String portfolioId) {
+        double totalBuyInValue = 0;
+        for(PortfolioStock stock : portfolioStockRepo.getPortfolioStocksByPortfolioId(portfolioId)) {
+            totalBuyInValue += stock.getTotalInitialBuyIn();
+        }
 
-//    public double getNewTotalGain(double initialBuyInValue, double currentEquityValue) {
-//
-//    }
+        return totalBuyInValue;
+    }
+
+    public double getNewTotalGain(double initialBuyInValue, double currentEquityValue) {
+
+        if (currentEquityValue < initialBuyInValue) {
+            return (-(Math.abs(currentEquityValue - initialBuyInValue))/initialBuyInValue) * 100;
+        } else if (currentEquityValue > initialBuyInValue) {
+            return ((Math.abs(currentEquityValue - initialBuyInValue))/initialBuyInValue) * 100;
+        }
+
+        // Returning zero because that means there is no change in portfolio value
+        return 0;
+    }
 
     // /////////////////////////////////////////////////////////////////////////////////////////
     // Util Methods for helping get price

@@ -95,6 +95,7 @@ public class PortfolioService {
             portfolioStockRepo.save(new PortfolioStock(ticker, portfolioId, totalShares, totalPurchasePrice));
         } else {
             // If it does exist then add to the current stats
+            portfolioStock.setTotalInitialBuyIn(portfolioStock.getTotalInitialBuyIn() + totalPurchasePrice);
             portfolioStock.setTotalEquity(portfolioStock.getTotalEquity() + totalPurchasePrice);
             portfolioStock.setTotalShareQuantity(portfolioStock.getTotalShareQuantity() + totalShares);
             portfolioStockRepo.save(portfolioStock);
@@ -118,8 +119,10 @@ public class PortfolioService {
             // Get difference and then update the initial buy in price
             portfolioStock.setTotalShareQuantity(portfolioStock.getTotalShareQuantity() - totalShares);
 
+            // Need to update the initial buy in price
+            portfolioStock.setTotalInitialBuyIn(portfolioStock.getTotalInitialBuyIn() - (totalShares * avgPricePerShare));
             // Need to update current total_equity based off of current sell
-            portfolioStock.setTotalEquity(portfolioStock.getTotalEquity() - totalSellPrice);
+            portfolioStock.setTotalEquity((portfolioStock.getTotalEquity() - totalSellPrice) + (profit * (portfolioStock.getTotalShareQuantity() + totalShares)));
             portfolioStockRepo.save(portfolioStock);
 
             // Updating portfolio information

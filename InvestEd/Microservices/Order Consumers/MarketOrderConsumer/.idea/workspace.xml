@@ -5,12 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="551c2867-427b-4431-b84d-584c19b4e632" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../../Portfolio Service/CheckPortfolioStocks/src/main/java/com/invested/checkportfoliostocks/models/PortfolioSnapshot.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Portfolio Service/CheckPortfolioStocks/src/main/java/com/invested/checkportfoliostocks/repositories/PortfolioSnapshotJPARepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../Portfolio Service/CheckPortfolioStocks/src/main/java/com/invested/checkportfoliostocks/controller/CheckStockController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Portfolio Service/CheckPortfolioStocks/src/main/java/com/invested/checkportfoliostocks/controller/CheckStockController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Portfolio Service/CheckPortfolioStocks/src/main/java/com/invested/checkportfoliostocks/models/PortfolioStock.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Portfolio Service/CheckPortfolioStocks/src/main/java/com/invested/checkportfoliostocks/models/PortfolioStock.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../Portfolio Service/CheckPortfolioStocks/src/main/java/com/invested/checkportfoliostocks/services/CheckStockService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Portfolio Service/CheckPortfolioStocks/src/main/java/com/invested/checkportfoliostocks/services/CheckStockService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/java/com/invested/portfolioservice/models/PortfolioStock.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/java/com/invested/portfolioservice/models/PortfolioStock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/java/com/invested/portfolioservice/services/PortfolioService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/java/com/invested/portfolioservice/services/PortfolioService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +102,7 @@
       <workItem from="1667232486527" duration="793000" />
       <workItem from="1667266861937" duration="1412000" />
       <workItem from="1667277297641" duration="1584000" />
-      <workItem from="1667311035528" duration="803000" />
+      <workItem from="1667311035528" duration="3047000" />
     </task>
     <servers />
   </component>

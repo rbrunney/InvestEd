@@ -14,6 +14,8 @@ public class PortfolioStock {
     private double totalShareQuantity;
     private double totalEquity;
 
+    private double totalInitialBuyIn;
+
     public PortfolioStock() {
     }
 
@@ -63,5 +65,13 @@ public class PortfolioStock {
 
     public void setTotalEquity(double totalEquity) {
         this.totalEquity = totalEquity;
+    }
+
+    public double getTotalInitialBuyIn() {
+        return totalInitialBuyIn;
+    }
+
+    public void setTotalInitialBuyIn(double totalInitialBuyIn) {
+        this.totalInitialBuyIn = totalInitialBuyIn;
     }
 }
