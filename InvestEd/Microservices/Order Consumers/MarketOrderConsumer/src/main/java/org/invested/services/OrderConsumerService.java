@@ -3,7 +3,6 @@ package org.invested.services;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.Time;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
