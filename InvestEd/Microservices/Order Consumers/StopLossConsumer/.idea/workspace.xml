@@ -4,18 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2694d7d4-e6a0-4e15-8bbf-06ff05550f85" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../StopLossConsumer/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../StopLossConsumer/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../StopLossConsumer/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../StopLossConsumer/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../StopLossConsumer/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../StopLossConsumer/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../StopLossConsumer/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../StopLossConsumer/src/main/java/org/invested/ConsumerMain.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../StopLossConsumer/src/main/java/org/invested/rabbitmq/RabbitMQConsumer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../StopLossConsumer/src/main/java/org/invested/services/OrderConsumerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="bc7249fa-f18e-49c9-be28-2ed87a896dc3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/invested/ConsumerMain.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/invested/rabbitmq/RabbitMQConsumer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/invested/services/OrderConsumerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LimitOrderConsumer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../LimitOrderConsumer/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../MarketOrderConsumer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../MarketOrderConsumer/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -36,34 +36,35 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2GxAmZvImBXQtHbHPgjaGMYH6Q8" />
+  <component name="ProjectId" id="2GyVSHsMhB5pcFO9QrW96Vwvwl7" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="ConsumerMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <envs>
         <env name="RABBITMQ_HOST" value="localhost" />
         <env name="RABBITMQ_PASSWORD" value="guest" />
         <env name="RABBITMQ_PORT" value="5672" />
-        <env name="RABBITMQ_QUEUE" value="limit-order-queue" />
+        <env name="RABBITMQ_QUEUE" value="stop-loss-order-queue" />
         <env name="RABBITMQ_USERNAME" value="guest" />
       </envs>
       <option name="MAIN_CLASS_NAME" value="org.invested.ConsumerMain" />
-      <module name="LimitOrderConsumer" />
+      <module name="StopLossConsumer" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="org.invested.*" />
@@ -83,14 +84,12 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="2694d7d4-e6a0-4e15-8bbf-06ff05550f85" name="Changes" comment="" />
-      <created>1667320021604</created>
+      <changelist id="bc7249fa-f18e-49c9-be28-2ed87a896dc3" name="Changes" comment="" />
+      <created>1667360809470</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1667320021604</updated>
-      <workItem from="1667320023574" duration="1643000" />
-      <workItem from="1667327064776" duration="2603000" />
-      <workItem from="1667358340495" duration="3154000" />
+      <updated>1667360809470</updated>
+      <workItem from="1667360811454" duration="737000" />
     </task>
     <servers />
   </component>
