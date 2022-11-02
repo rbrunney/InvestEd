@@ -96,4 +96,5 @@ def failed_fetch(ticker):
     }
 
 if __name__ == '__main__':
-    stock_api.run(host='0.0.0.0', port=105)
+    from waitress import serve
+    serve(stock_api, host='0.0.0.0', port=105)
