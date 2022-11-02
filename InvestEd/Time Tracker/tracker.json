@@ -719,6 +719,12 @@
                     "start_time": "9:48 am",
                     "end_time": "10:21 am",
                     "description": "Lesson Stucture and Other Order Pseudo Code"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "10:21 am",
+                    "end_time": "10:55 am",
+                    "description": "Working on Limit Order Consumer"
                 }
             ]
         }

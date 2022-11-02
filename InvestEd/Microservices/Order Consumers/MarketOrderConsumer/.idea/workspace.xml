@@ -5,18 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="551c2867-427b-4431-b84d-584c19b4e632" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../LimitOrderConsumer/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LimitOrderConsumer/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LimitOrderConsumer/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LimitOrderConsumer/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LimitOrderConsumer/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LimitOrderConsumer/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LimitOrderConsumer/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LimitOrderConsumer/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LimitOrderConsumer/src/main/java/org/invested/ConsumerMain.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LimitOrderConsumer/src/main/java/org/invested/rabbitmq/RabbitMQConsumer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LimitOrderConsumer/src/main/java/org/invested/services/OrderConsumerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LimitOrderConsumer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../LimitOrderConsumer/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LimitOrderConsumer/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../LimitOrderConsumer/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LimitOrderConsumer/src/main/java/org/invested/ConsumerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LimitOrderConsumer/src/main/java/org/invested/ConsumerMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LimitOrderConsumer/src/main/java/org/invested/rabbitmq/RabbitMQConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LimitOrderConsumer/src/main/java/org/invested/rabbitmq/RabbitMQConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LimitOrderConsumer/src/main/java/org/invested/services/OrderConsumerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LimitOrderConsumer/src/main/java/org/invested/services/OrderConsumerService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Order Service/OrderService/src/main/java/org/invested/orderservice/services/BasicOrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Order Service/OrderService/src/main/java/org/invested/orderservice/services/BasicOrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Time Tracker/tracker.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Time Tracker/tracker.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +104,10 @@
       <workItem from="1667232486527" duration="793000" />
       <workItem from="1667266861937" duration="1412000" />
       <workItem from="1667277297641" duration="1584000" />
-      <workItem from="1667311035528" duration="4280000" />
+      <workItem from="1667311035528" duration="5587000" />
+      <workItem from="1667327056120" duration="606000" />
+      <workItem from="1667349630556" duration="101000" />
+      <workItem from="1667358550275" duration="998000" />
     </task>
     <servers />
   </component>

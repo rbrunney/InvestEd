@@ -50,19 +50,8 @@ public class BasicOrderService {
         // Save to database
         basicOrderRepo.save(basicOrder);
 
-        // Checking to see what type of order it is
-        // This way we can send it to the proper queue
-        String queue = "order.market-order";
-        if (LimitOrder.class.equals(basicOrder.getClass())) {
-            queue = "order.limit-order";
-        } else if (StopLossOrder.class.equals(basicOrder.getClass())) {
-            queue = "order.stop-loss-order";
-        } else if (StopPriceOrder.class.equals(basicOrder.getClass())) {
-            queue = "order.stop-price-order";
-        }
-
-        // Send to Market Order Queue
-        sendMessageToQueue(new HashMap<>() {{
+        // Setting base Hash Map
+        Map<String, Object> orderMessage = new HashMap<>() {{
             put("order-id", basicOrder.getId());
             put("user", basicOrder.getUser());
             put("email", email);
@@ -73,7 +62,25 @@ public class BasicOrderService {
             put("status", basicOrder.getCurrentStatus());
             put("expire-time", basicOrder.getExpireTime());
             put("trade-type", basicOrder.getTradeType());
-        }}, "ORDER_EXCHANGE", queue);
+        }};
+
+        // Checking to see what type of order it is
+        // This way we can send it to the proper queue
+        String queue = "order.market-order";
+        if (LimitOrder.class.equals(basicOrder.getClass())) {
+            queue = "order.limit-order";
+            orderMessage.put("limit-price", ((LimitOrder) basicOrder).getLimitPrice());
+        } else if (StopLossOrder.class.equals(basicOrder.getClass())) {
+            queue = "order.stop-loss-order";
+            orderMessage.put("stop-loss-price", ((StopLossOrder) basicOrder).getStopLossPrice());
+        } else if (StopPriceOrder.class.equals(basicOrder.getClass())) {
+            queue = "order.stop-price-order";
+            orderMessage.put("limit-price", ((StopPriceOrder) basicOrder).getLimitPrice());
+            orderMessage.put("stop-loss-price", ((StopPriceOrder) basicOrder).getStopLossPrice());
+        }
+
+        // Send to Market Order Queue
+        sendMessageToQueue(orderMessage, "ORDER_EXCHANGE", queue);
 
         // Send Placed Order Email
         sendMessageToQueue(new HashMap<>(){{

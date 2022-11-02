@@ -46,9 +46,48 @@ public class RabbitMQConsumer {
                                 .replace("}", "")
                                 .replace(" ", ""));
 
+                        double currentPrice = OrderConsumerService.getPriceRequest("http://localhost:8888/invested_stock/" + msgToMap.get("ticker") + "/price");
                         // Check to see if buy or sell
-                            // Check to see meets condition
-                            // If it doesn't send back into queue
+                        switch(msgToMap.get("trade-type")) {
+                            case "BUY":
+                                if(OrderConsumerService.hasHitBuyLimit(Double.parseDouble(msgToMap.get("limit-price")), currentPrice)) {
+                                    OrderConsumerService.putIntoQueue(channel, "order.market-order", new HashMap<>(){{
+                                        put("order-id", msgToMap.get("order-id"));
+                                        put("user", msgToMap.get("user"));
+                                        put("email", msgToMap.get("email"));
+                                        put("ticker", msgToMap.get("ticker"));
+                                        put("stock-qty", msgToMap.get("stock-qty"));
+                                        put("price-per-share", currentPrice);
+                                        put("order-date", msgToMap.get("order-date"));
+                                        put("status", msgToMap.get("status"));
+                                        put("expire-time", msgToMap.get("expire-time"));
+                                        put("trade-type", msgToMap.get("trade-type"));
+                                    }}.toString().getBytes());
+                                } else {
+                                    OrderConsumerService.putIntoQueue(channel, "order.limit-order", body);
+                                }
+                                break;
+                            case "SELL":
+                                if(OrderConsumerService.hasHitSellLimit(Double.parseDouble(msgToMap.get("limit-price")), currentPrice)) {
+                                    OrderConsumerService.putIntoQueue(channel, "order.market-order", new HashMap<>(){{
+                                        put("order-id", msgToMap.get("order-id"));
+                                        put("user", msgToMap.get("user"));
+                                        put("email", msgToMap.get("email"));
+                                        put("ticker", msgToMap.get("ticker"));
+                                        put("stock-qty", msgToMap.get("stock-qty"));
+                                        put("price-per-share", currentPrice);
+                                        put("order-date", msgToMap.get("order-date"));
+                                        put("status", msgToMap.get("status"));
+                                        put("expire-time", msgToMap.get("expire-time"));
+                                        put("trade-type", msgToMap.get("trade-type"));
+                                    }}.toString().getBytes());
+                                } else {
+                                    OrderConsumerService.putIntoQueue(channel, "order.limit-order", body);
+                                }
+                                break;
+                        }
+                    } else {
+                        OrderConsumerService.putIntoQueue(channel, "order.limit-order", body);
                     }
                 }
             };
