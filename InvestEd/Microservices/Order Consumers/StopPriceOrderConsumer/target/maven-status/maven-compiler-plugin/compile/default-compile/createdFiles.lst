@@ -1,0 +1,5 @@
+org\invested\ConsumerMain.class
+org\invested\rabbitmq\RabbitMQConsumer$1.class
+org\invested\services\OrderConsumerService.class
+org\invested\rabbitmq\RabbitMQConsumer.class
+org\invested\rabbitmq\RabbitMQConsumer$1$1.class

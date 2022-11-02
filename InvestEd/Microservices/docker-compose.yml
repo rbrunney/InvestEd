@@ -59,6 +59,75 @@ services:
     deploy:
       replicas: 1
 
+  # ////////////////////////////////////////////////////
+  # Order Consumers
+
+  market_order_consumer:
+    build: ./Order Consumers/MarketOrderConsumer
+    image: market-order-consumer:1.0
+    environment:
+      - CUSTOM_PASSWORD=${CUSTOM_PASSWORD}
+      - CUSTOM_USERNAME=${CUSTOM_USERNAME}
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=market-order-queue
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
+
+  limit_order_consumer:
+    build: ./Order Consumers/LimitOrderConsumer
+    image: limit-order-consumer:1.0
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=limit-order-queue
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
+
+  stop_loss_order_consumer:
+    build: ./Order Consumers/StopLossConsumer
+    image: stop-loss-order-consumer:1.0
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=stop-loss-order-queue
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
+  
+  stop_price_order_consumer:
+    build: ./Order Consumers/StopPriceOrderConsumer
+    image: stop-price-order-consumer:1.0
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=stop-price-order-queue
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
+
  # ///////////////////////////////////////////////////// 
  # Email Consumers
 

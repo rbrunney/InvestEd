@@ -725,6 +725,12 @@
                     "start_time": "10:21 am",
                     "end_time": "10:55 am",
                     "description": "Working on Limit Order Consumer"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "8:30 pm",
+                    "end_time": "10:31 pm",
+                    "description": "Working on Finishing Order Consumers"
                 }
             ]
         }
