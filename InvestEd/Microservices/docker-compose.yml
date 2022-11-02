@@ -59,6 +59,40 @@ services:
     deploy:
       replicas: 1
 
+  order_api:
+    build: ./Order Service/OrderService
+    image: invested-order-api:1.0
+    environment:
+      - DB_USER=${MYSQL_USER}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+      - DB_PORT=${MYSQL_PORT}
+      - DB_HOST=${MYSQL_HOST}
+      - RABBITMQ_HOST=${RABBITMQ_HOST}
+      - RABBITMQ_PORT=${RABBITMQ_PORT}
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      - registration_service
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
+
+  # ////////////////////////////////////////////////////
+  # Services
+  check_portfolio_stock:
+    build: ./Portfolio Service/CheckPortfolioStocks
+    image: check-portfolio-stock:1.0
+    environment:
+      - DB_USER=${MYSQL_USER}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+      - DB_PORT=${MYSQL_PORT}
+      - DB_HOST=${MYSQL_HOST}
+    networks:
+    - base-net
+    deploy:
+      replicas: 1
+
+
   # ////////////////////////////////////////////////////
   # Order Consumers
 
