@@ -24,69 +24,69 @@ def getTickerPrice(ticker:str):
         'date-time' : datetime.now()
     }
 
-# @stock_api.route("/invested_stock/<ticker>/basic_info", methods=["GET"])
-# def getTickerBasicInfo(ticker: str):
-#     fetched_data = stock.Stock(ticker).get_basic_info()
+@stock_api.route("/invested_stock/<ticker>/basic_info", methods=["GET"])
+def getTickerBasicInfo(ticker: str):
+    fetched_data = stock.Stock(ticker).get_basic_info()
 
-#     if(fetched_data == {}):
-#         return failed_fetch(ticker), 404
+    if(fetched_data == {}):
+        return failed_fetch(ticker), 404
 
-#     return {
-#         'message' : f'{ticker} Basic Information Successfuly Fetched!',
-#         'results' : fetched_data,
-#         'date-time' : datetime.now()
-#     }
+    return {
+        'message' : f'{ticker} Basic Information Successfuly Fetched!',
+        'results' : fetched_data,
+        'date-time' : datetime.now()
+    }
 
-# @stock_api.route("/invested_stock/<ticker>/earning_calls", methods=["GET"])
-# def getTickerEarningCalls(ticker: str):
-#     year = request.args['year']
-#     fetched_data = stock.Stock(ticker).get_earnings_call(year)
+@stock_api.route("/invested_stock/<ticker>/earning_calls", methods=["GET"])
+def getTickerEarningCalls(ticker: str):
+    year = request.args['year']
+    fetched_data = stock.Stock(ticker).get_earnings_call(year)
 
-#     if(fetched_data == 'Ticker Invalid'):
-#         return failed_fetch(ticker), 404
-#     elif(fetched_data == {}):
-#         return {
-#             'message' : f'{year} is not a valid year',
-#             'date-time' : datetime.now()
-#         }, 404
+    if(fetched_data == 'Ticker Invalid'):
+        return failed_fetch(ticker), 404
+    elif(fetched_data == {}):
+        return {
+            'message' : f'{year} is not a valid year',
+            'date-time' : datetime.now()
+        }, 404
     
-#     return {
-#         'message' : f'{ticker} Earning Calls Successfuly Fetched!',
-#         'results' : {
-#             'year' : year,
-#             'earning_calls' : fetched_data
-#         },
-#         'date-time' : datetime.now()
-#     }
+    return {
+        'message' : f'{ticker} Earning Calls Successfuly Fetched!',
+        'results' : {
+            'year' : year,
+            'earning_calls' : fetched_data
+        },
+        'date-time' : datetime.now()
+    }
 
-# @stock_api.route("/invested_stock/<ticker>/news", methods=["GET"])
-# def getTickerNews(ticker:str):
-#     fetched_data = stock.Stock(ticker).get_news()
+@stock_api.route("/invested_stock/<ticker>/news", methods=["GET"])
+def getTickerNews(ticker:str):
+    fetched_data = stock.Stock(ticker).get_news()
 
-#     if(fetched_data == {}):
-#         return failed_fetch(ticker), 404
+    if(fetched_data == {}):
+        return failed_fetch(ticker), 404
     
-#     return {
-#         'message' : f'{ticker} News Successfuly Fetched!',
-#         'results' : {
-#             'recent_news' : fetched_data
-#         },
-#         'date-time' : datetime.now()
-#     }
+    return {
+        'message' : f'{ticker} News Successfuly Fetched!',
+        'results' : {
+            'recent_news' : fetched_data
+        },
+        'date-time' : datetime.now()
+    }
 
 
-# @stock_api.route("/invested_stock/<ticker>/moving_avg", methods=["GET"])
-# def getTickerMovingAverage(ticker: str):
-#     fetched_data = stock.Stock(ticker).get_moving_average(request.args['moving_period'])
+@stock_api.route("/invested_stock/<ticker>/moving_avg", methods=["GET"])
+def getTickerMovingAverage(ticker: str):
+    fetched_data = stock.Stock(ticker).get_moving_average(request.args['moving_period'])
 
-#     if(fetched_data == {}):
-#         return failed_fetch(ticker), 404
+    if(fetched_data == {}):
+        return failed_fetch(ticker), 404
     
-#     return {
-#         'message' : f'{ticker} Moving Average Successfuly Fetched!',
-#         'results' : fetched_data,
-#         'date-time' : datetime.now()
-#     }
+    return {
+        'message' : f'{ticker} Moving Average Successfuly Fetched!',
+        'results' : fetched_data,
+        'date-time' : datetime.now()
+    }
 
 
 def failed_fetch(ticker):
