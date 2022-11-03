@@ -731,6 +731,28 @@
                     "start_time": "8:30 pm",
                     "end_time": "10:31 pm",
                     "description": "Working on Finishing Order Consumers"
+                },
+                {
+                    "activity": "Other",
+                    "start_time": "10:31 pm",
+                    "end_time": "11:52 pm",
+                    "description": "Worked on Dockerizing Remaining Services and Upgrade Python Server to Production Level"
+                }
+            ]
+        },
+        "Wednesday": {
+            "activities": [
+                {
+                    "activity": "Research",
+                    "start_time": "9:5 am",
+                    "end_time": "10:26 am",
+                    "description": "Finding Documentation for Lessons and Writing"
+                },
+                {
+                    "activity": "Research",
+                    "start_time": "10:26 am",
+                    "end_time": "10:45 am",
+                    "description": "Finding more documents to put towards lessons"
                 }
             ]
         }
