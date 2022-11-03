@@ -753,6 +753,12 @@
                     "start_time": "10:26 am",
                     "end_time": "10:45 am",
                     "description": "Finding more documents to put towards lessons"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "7:0 pm",
+                    "end_time": "8:46 pm",
+                    "description": "Working on Lesson API"
                 }
             ]
         }
