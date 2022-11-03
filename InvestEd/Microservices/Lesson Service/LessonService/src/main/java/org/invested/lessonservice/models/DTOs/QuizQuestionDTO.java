@@ -1,55 +1,31 @@
-package org.invested.lessonservice.models;
+package org.invested.lessonservice.models.DTOs;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
-import java.util.UUID;
-
-@Entity
-public class QuizQuestion {
-
-    @Id
-    private String id;
+public class QuizQuestionDTO {
     private String question;
     private String correctAnswer;
     private String incorrectAnswer_1;
     private String incorrectAnswer_2;
     private String incorrectAnswer_3;
     private String incorrectAnswer_4;
+    private String quizId;
 
-
-    @ManyToOne
-    @JoinColumn(name = "quiz_id", nullable = false)
-    @JsonIgnore
-    private LessonQuiz lessonQuiz;
-
-    // /////////////////////////////////////////////////
+    // //////////////////////////////////////////////
     // Constructors
+    public QuizQuestionDTO() {}
 
-    public QuizQuestion() {}
-
-    public QuizQuestion(String question, String correctAnswer, String incorrectAnswer_1, String incorrectAnswer_2, String incorrectAnswer_3, String incorrectAnswer_4, LessonQuiz lessonQuiz) {
-        this.id = UUID.randomUUID().toString();
+    public QuizQuestionDTO(String question, String correctAnswer, String incorrectAnswer_1, String incorrectAnswer_2, String incorrectAnswer_3, String incorrectAnswer_4, String quizId) {
         this.question = question;
         this.correctAnswer = correctAnswer;
         this.incorrectAnswer_1 = incorrectAnswer_1;
         this.incorrectAnswer_2 = incorrectAnswer_2;
         this.incorrectAnswer_3 = incorrectAnswer_3;
         this.incorrectAnswer_4 = incorrectAnswer_4;
-        this.lessonQuiz = lessonQuiz;
+        this.quizId = quizId;
     }
 
 
-    // /////////////////////////////////////////////////
+    // //////////////////////////////////////////////
     // Getters and Setters
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getQuestion() {
         return question;
@@ -99,11 +75,11 @@ public class QuizQuestion {
         this.incorrectAnswer_4 = incorrectAnswer_4;
     }
 
-    public LessonQuiz getLessonQuiz() {
-        return lessonQuiz;
+    public String getQuizId() {
+        return quizId;
     }
 
-    public void setLessonQuiz(LessonQuiz lessonQuiz) {
-        this.lessonQuiz = lessonQuiz;
+    public void setQuizId(String quizId) {
+        this.quizId = quizId;
     }
 }

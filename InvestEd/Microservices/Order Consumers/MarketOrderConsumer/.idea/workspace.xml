@@ -5,35 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="551c2867-427b-4431-b84d-584c19b4e632" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../LimitOrderConsumer/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LimitOrderConsumer/target/LimitOrderConsumer-1.0.jar.original" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LimitOrderConsumer/target/maven-archiver/pom.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LimitOrderConsumer/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LimitOrderConsumer/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LimitOrderConsumer/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/MarketOrderConsumer-1.0.jar.original" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../StopLossConsumer/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../StopLossConsumer/target/StopLossConsumer-1.0.jar.original" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../StopLossConsumer/target/maven-archiver/pom.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../StopLossConsumer/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../StopLossConsumer/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../StopLossConsumer/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../StopPriceOrderConsumer/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../StopPriceOrderConsumer/target/StopPriceOrderConsumer-1.0.jar.original" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../StopPriceOrderConsumer/target/maven-archiver/pom.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../StopPriceOrderConsumer/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../StopPriceOrderConsumer/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../StopPriceOrderConsumer/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Lesson Service/LessonService/src/main/java/org/invested/lessonservice/services/LessonSnippetService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Lesson Service/LessonService/src/main/java/org/invested/lessonservice/services/QuizQuestionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Lesson Service/LessonService/src/main/java/org/invested/lessonservice/controllers/LessonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Lesson Service/LessonService/src/main/java/org/invested/lessonservice/controllers/LessonController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Lesson Service/LessonService/src/main/java/org/invested/lessonservice/models/Lesson.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Lesson Service/LessonService/src/main/java/org/invested/lessonservice/models/Lesson.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../LimitOrderConsumer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../LimitOrderConsumer/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../StopLossConsumer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../StopLossConsumer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../StopPriceOrderConsumer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../StopPriceOrderConsumer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker-compose.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../Time Tracker/tracker.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Time Tracker/tracker.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -134,6 +111,7 @@
       <workItem from="1667349630556" duration="101000" />
       <workItem from="1667358550275" duration="1527000" />
       <workItem from="1667365320622" duration="666000" />
+      <workItem from="1667486986246" duration="1267000" />
     </task>
     <servers />
   </component>

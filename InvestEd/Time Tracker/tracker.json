@@ -759,6 +759,12 @@
                     "start_time": "7:0 pm",
                     "end_time": "8:46 pm",
                     "description": "Working on Lesson API"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "10:30 pm",
+                    "end_time": "11:20 pm",
+                    "description": "Working on relationships on entities and making endpoints"
                 }
             ]
         }

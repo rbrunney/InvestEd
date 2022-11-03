@@ -20,9 +20,10 @@ public class LessonSnippet {
 
     public LessonSnippet() {}
 
-    public LessonSnippet(String infoSnippet) {
+    public LessonSnippet(String infoSnippet, Lesson lesson) {
         this.id = UUID.randomUUID().toString();
         this.infoSnippet = infoSnippet;
+        this.lesson = lesson;
     }
 
     // ///////////////////////////////////////////////////
@@ -41,5 +42,13 @@ public class LessonSnippet {
 
     public void setInfoSnippet(String infoSnippet) {
         this.infoSnippet = infoSnippet;
+    }
+
+    public Lesson getLesson() {
+        return lesson;
+    }
+
+    public void setLesson(Lesson lesson) {
+        this.lesson = lesson;
     }
 }
