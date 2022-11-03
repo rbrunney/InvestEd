@@ -1,7 +1,8 @@
 package org.invested.lessonservice.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
@@ -9,6 +10,11 @@ public class LessonSnippet {
     @Id
     private String id;
     private String infoSnippet;
+
+    @ManyToOne
+    @JoinColumn(name = "lesson_name", nullable = false)
+    @JsonIgnore
+    private Lesson lesson;
     // ///////////////////////////////////////////////////
     // Constructors
 

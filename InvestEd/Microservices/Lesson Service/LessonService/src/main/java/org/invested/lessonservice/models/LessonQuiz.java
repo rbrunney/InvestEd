@@ -1,9 +1,8 @@
 package org.invested.lessonservice.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -15,7 +14,9 @@ public class LessonQuiz {
     private String id;
     private double investmentReward;
 
-    @OneToOne()
+    @ManyToOne
+    @JoinColumn(name="lesson_name", nullable = false)
+    @JsonIgnore
     private Lesson lesson;
 
     @OneToMany(mappedBy = "lessonQuiz")

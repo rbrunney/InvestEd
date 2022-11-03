@@ -2,7 +2,8 @@ package org.invested.lessonservice.models;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Entity
 public class Lesson {
@@ -10,19 +11,15 @@ public class Lesson {
     @Id
     private String name;
     private String description;
+    @OneToMany(mappedBy = "lesson")
+    private List<LessonQuiz> quizzes;
 
-    @OneToOne(mappedBy = "lesson")
-    private LessonQuiz quizId;
+    @OneToMany(mappedBy = "lesson")
+    private List<LessonSnippet> info;
 
     // ////////////////////////////////////////////////////
 
     public Lesson() {}
-
-    public Lesson(String name, String description, LessonQuiz quizId) {
-        this.name = name;
-        this.description = description;
-        this.quizId = quizId;
-    }
 
     // ////////////////////////////////////////////////////
     // Getters and Setters
@@ -42,11 +39,19 @@ public class Lesson {
         this.description = description;
     }
 
-    public LessonQuiz getQuizId() {
-        return quizId;
+    public List<LessonQuiz> getQuizzes() {
+        return quizzes;
     }
 
-    public void setQuizId(LessonQuiz quizId) {
-        this.quizId = quizId;
+    public void setQuizzes(List<LessonQuiz> quiz) {
+        this.quizzes = quiz;
+    }
+
+    public List<LessonSnippet> getInfo() {
+        return info;
+    }
+
+    public void setInfo(List<LessonSnippet> info) {
+        this.info = info;
     }
 }

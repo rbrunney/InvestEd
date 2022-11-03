@@ -1,8 +1,8 @@
 package org.invested.lessonservice.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
@@ -19,6 +19,8 @@ public class QuizQuestion {
 
 
     @ManyToOne
+    @JoinColumn(name = "lesson_quiz_id", nullable = false)
+    @JsonIgnore
     private LessonQuiz lessonQuiz;
 
     // /////////////////////////////////////////////////
