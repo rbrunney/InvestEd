@@ -767,6 +767,16 @@
                     "description": "Working on relationships on entities and making endpoints"
                 }
             ]
+        },
+        "Thursday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "11:0 am",
+                    "end_time": "11:30 am",
+                    "description": "Working on DTO's"
+                }
+            ]
         }
     },
     "Week 6": {},
