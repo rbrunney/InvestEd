@@ -4,18 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="34b0933f-a64e-48e2-8809-470778d74221" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../OrderPlacedEmailConsumer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../OrderPlacedEmailConsumer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../UpdateInfoEmailConsumer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../UpdateInfoEmailConsumer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../UpdateInfoEmailConsumer/src/main/java/org/invested/models/email/SendEmail.java" beforeDir="false" afterPath="$PROJECT_DIR$/../UpdateInfoEmailConsumer/src/main/java/org/invested/models/email/SendEmail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../UpdateInfoEmailConsumer/src/main/java/org/invested/models/rabbitmq/RabbitMQConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../UpdateInfoEmailConsumer/src/main/java/org/invested/models/rabbitmq/RabbitMQConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../UpdateInfoEmailConsumer/target/Dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../UpdateInfoEmailConsumer/target/UpdateInfoEmailConsumer-1.0.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/../UpdateInfoEmailConsumer/target/UpdateInfoEmailConsumer-1.0.jar.original" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Order Consumers/MarketOrderConsumer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Order Consumers/MarketOrderConsumer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Time Tracker/confirm.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Time Tracker/confirm.html" afterDir="false" />
-    </list>
+    <list default="true" id="34b0933f-a64e-48e2-8809-470778d74221" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -63,6 +52,7 @@
       <workItem from="1666408870051" duration="331000" />
       <workItem from="1666806809647" duration="1250000" />
       <workItem from="1666842079017" duration="1079000" />
+      <workItem from="1667674546818" duration="10000" />
     </task>
     <servers />
   </component>
