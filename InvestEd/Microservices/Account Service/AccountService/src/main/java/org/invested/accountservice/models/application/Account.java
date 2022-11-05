@@ -15,9 +15,11 @@ public class Account {
     private String password;
     private String firstName;
     private String lastName;
-    private Date birthdate;
+    private String birthdate;
     private String email;
     private String phone;
+
+    private double buyingPower;
 
 
     // /////////////////////////////////////////////////////////////////
@@ -27,8 +29,9 @@ public class Account {
 
     }
 
-    public Account(String username, String password, String firstName, String lastName, Date birthdate, String email, String phone) {
+    public Account(String username, String password, String firstName, String lastName, String birthdate, String email, String phone, double buyingPower) {
         this.id = UUID.randomUUID().toString();
+        this.buyingPower = buyingPower;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -84,11 +87,11 @@ public class Account {
         this.lastName = lastName;
     }
 
-    public Date getBirthdate() {
+    public String getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
     }
 
@@ -106,5 +109,13 @@ public class Account {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public double getBuyingPower() {
+        return buyingPower;
+    }
+
+    public void setBuyingPower(double buyingPower) {
+        this.buyingPower = buyingPower;
     }
 }

@@ -1,19 +1,71 @@
+from polygon import RESTClient
+from datetime import date, datetime as current_dt
+import datetime as dt
 import news_article as na
 import requests
 import os
-import sys
 
 class Stock:
 
-    MAX_MOVING_PERIOD = 50
+    MAX_MOVING_PERIOD = 200
 
     def __init__(self, ticker : str):
         self.ticker = ticker
+        self.polygon_client = RESTClient(os.getenv("POLYGON_API_KEY"))
+        self.alpha_vantage_api_key = os.getenv("ALPHA_VANTAGE_API_KEY")
+
+    def check_date(self, current_date=current_dt.today()):
+        saturday = 5
+        sunday = 6
+        date_value = current_date.weekday()
+
+        if date_value == saturday:
+            return current_date - dt.timedelta(days=1)
+        elif date_value == sunday:
+            return current_date - dt.timedelta(days=2)
+
+        return current_date
 
     def get_current_price(self):
-        request = requests.get(f'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={self.ticker}&apikey={os.getenv("ALPHA_VANTAGE_API_KEY")}')
-        fetched_data = request.json()
-        return float(fetched_data['Global Quote']['05. price'])
+        # Getting the date and then checking to get the the current price, at least close to it
+        date_to_retrieve = self.check_date().date()
+
+        try:
+            aggs = self.polygon_client.get_aggs(self.ticker, 1, "day", date_to_retrieve, date_to_retrieve)
+        except:
+            # If we get error means there is no resuls so we have to go back a few days
+            date_to_retrieve = self.check_date(current_date=date_to_retrieve - dt.timedelta(days=1))
+            aggs = self.polygon_client.get_aggs(ticker=self.ticker, multiplier=1, timespan="day", from_=date_to_retrieve, to=date_to_retrieve)
+            
+        return aggs[0].vwap
+    
+    def get_data_points(self, period):
+
+        # Getting the aggreagate data so we can return array of datapoints later
+        def period_data_points(from_date, end_date, timespan):
+            aggregates = self.polygon_client.get_aggs(self.ticker, multiplier=1, from_=from_date, to=end_date, timespan=timespan,limit=250)
+            data_points = []
+
+            for aggreagate in aggregates:
+                data_points.append(aggreagate.vwap)
+            
+            return data_points
+
+        if period == "DAY":
+            return period_data_points(self.check_date(), self.check_date(), "minute")
+        elif period == "WEEK":
+            return period_data_points(self.check_date() - dt.timedelta(days=7), self.check_date(), "minute")
+        elif period == "MONTH":
+            return period_data_points(self.check_date() - dt.timedelta(days=31), self.check_date(), "minute")
+        elif period == "3-MONTH":
+            return period_data_points(self.check_date() - dt.timedelta(days=93), self.check_date(), "minute")
+        elif period == "YEAR":
+            return period_data_points(self.check_date() - dt.timedelta(days=365), self.check_date(), "day")
+        elif period == "5-YEAR":
+            return period_data_points(self.check_date() - dt.timedelta(days=1825), self.check_date(), "day")
+        else:
+            # Return 400 so we know we have to send a bad request
+            return 400
     
     
     def get_basic_info(self):
@@ -21,52 +73,44 @@ class Stock:
         basic_info = {}
 
         # Getting first request data for part of basic info
-        first_request = requests.get(f'https://www.alphavantage.co/query?function=OVERVIEW&symbol={self.ticker}&apikey={os.getenv("ALPHA_VANTAGE_API_KEY")}')
-        fetched_data = first_request.json()
+        ticker_details = self.polygon_client.get_ticker_details(ticker=self.ticker)
 
         # Adding information into basic_info
-        basic_info['ticker'] = fetched_data['Symbol']
-        basic_info['52_week_high'] = float(fetched_data['52WeekHigh'])
-        basic_info['52_week_low'] = float(fetched_data['52WeekLow'])
-        basic_info['market_cap'] = int(fetched_data['MarketCapitalization'])
-        basic_info['pe_ratio'] = float(fetched_data['PERatio'])
-        basic_info['dividend_yeild'] = float(fetched_data['DividendYield'])
-        basic_info['description'] = fetched_data['Description']
-        basic_info['hq_city'] = fetched_data['Address'].split(',')[1].replace(' ', '')
-        basic_info['hq_state'] = fetched_data['Address'].split(',')[2].replace(' ', '')
-        basic_info['sector'] = fetched_data['Sector']
-        basic_info['industry'] = fetched_data['Industry']
+        basic_info['ticker'] = ticker_details.ticker
+        basic_info['name'] = ticker_details.name
+        # basic_info['52_week_high'] = float(fetched_data['52WeekHigh'])
+        # basic_info['52_week_low'] = float(fetched_data['52WeekLow'])
+        basic_info['market_cap'] = ticker_details.market_cap
+        # basic_info['pe_ratio'] = float(fetched_data['PERatio'])
+        basic_info['description'] = ticker_details.description
+        basic_info['list_date'] = ticker_details.list_date
+        basic_info['total_employees'] = ticker_details.total_employees
+
+        try:
+            basic_info['hq_address'] = {
+                "street" : ticker_details.address.address1,
+                "city" : ticker_details.address.city,
+                "state" : ticker_details.address.state,
+                "zipcode" : ticker_details.address.postal_code
+            }
+        except:
+            pass
+
+        # Get last dividend amount and add to basic info
+        dividend_amount = self.polygon_client.list_dividends(ticker=self.ticker)
+        for dividend in dividend_amount:
+            last_dividend = dividend.cash_amount
+            break
+        basic_info['last_dividend'] = last_dividend
 
         # Making second request for current days open, high, and low
-        second_request = requests.get(f'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={self.ticker}&interval=5min&apikey={os.getenv("ALPHA_VANTAGE_API_KEY")}')
-        fetched_data = second_request.json()
-
-        open = 0
-        high = 0
-        low = sys.maxsize
-        volume = 0
-
-        # Need to loop through all keys
-        for key in fetched_data["Time Series (5min)"].keys():
-            if (open == 0):
-                open = float(fetched_data["Time Series (5min)"][key]["1. open"])
-
-            # Check to see if its hit the highest yet
-            if (high < float(fetched_data["Time Series (5min)"][key]["2. high"])):
-                high = float(fetched_data["Time Series (5min)"][key]["2. high"])
-
-            # Check to see if its hit the lowest yet
-            if (low > float(fetched_data["Time Series (5min)"][key]["3. low"])):
-                low = float(fetched_data["Time Series (5min)"][key]["3. low"])
-
-            # Adding volume traded to the total volue traded
-            volume += float(fetched_data["Time Series (5min)"][key]["5. volume"])
+        daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date())
         
         # Adding open, high, low, and volume to basic information
-        basic_info['open'] = open
-        basic_info['high'] = high
-        basic_info['low'] = low
-        basic_info['volume'] = volume
+        basic_info['open'] = daily_info.open
+        basic_info['high'] = daily_info.high
+        basic_info['low'] = daily_info.close
+        basic_info['volume'] = daily_info.volume
 
         return basic_info
 
@@ -99,21 +143,20 @@ class Stock:
         return final_earning_calls
         
     def get_news(self):
-        request = requests.get(f'https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers={self.ticker}&topics=technology&sort=LATEST&apikey={os.getenv("ALPHA_VANTAGE_API_KEY")}')
-        fetched_data = request.json()
+        news_articles = self.polygon_client.list_ticker_news(ticker=self.ticker, limit=5)
 
         recent_news_articles = []
 
-        for article in fetched_data['feed']:
+        for news_article in news_articles:
             recent_news_articles.append(na.NewsArticle(
-                    article['title'], 
-                    article['authors'],
-                    article['source'], 
-                    article['time_published'],
-                    article['summary'],
-                    article['url'],
-                    article['banner_image']
-                ).to_json()
+                title=news_article.title,
+                authors=news_article.author,
+                publisher=news_article.publisher,
+                publish_date=news_article.published_utc,
+                summary=news_article.description,
+                story_link=news_article.article_url,
+                thumbnail_link=news_article.image_url
+            ).to_json()
             )
 
         return recent_news_articles
@@ -125,29 +168,15 @@ class Stock:
         if(moving_period > self.MAX_MOVING_PERIOD):
             return 'Moving Period Error'
         
-        request = requests.get(f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={self.ticker}&apikey={os.getenv("ALPHA_VANTAGE_API_KEY")}')
-        fetched_data = request.json()
-
-        # Check to see if the current day use date.today() is on list, if so fetched its current price. To use for calculation
-        # Else keep checking for previous x days bases on moving_period
         moving_avg_data_points = []
 
-        for index in range(0, moving_period):
-            moving_avg_price = 0
+        sma_data_points = self.polygon_client.get_sma(ticker=self.ticker, window=moving_period)
 
-            # Check to see if first one, because then we need to get the current price other wise get the previous day
-            if(index == 0):
-                moving_avg_price = float(requests.get(f'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={self.ticker}&apikey={os.getenv("ALPHA_VANTAGE_API_KEY")}').json()['Global Quote']['05. price'])
-                for key in list(fetched_data['Time Series (Daily)'].keys())[index: index + (moving_period - 1)]:
-                    moving_avg_price += float(fetched_data['Time Series (Daily)'][key]['4. close'])
-
-                moving_avg_data_points.append(moving_avg_price / moving_period)
-            else:
-                # Need to get the first index all the way to the end index of the moving average so we can calculate
-                for key in list(fetched_data['Time Series (Daily)'].keys())[index: index + moving_period]:
-                    moving_avg_price += float(fetched_data['Time Series (Daily)'][key]['4. close'])
-
-                moving_avg_data_points.append(moving_avg_price / moving_period)
+        for data_point in sma_data_points.values:
+            moving_avg_data_points.append({
+                "date" : data_point.timestamp,
+                "value" : data_point.value
+            })
 
         return {
             'moving_avg_data' : moving_avg_data_points

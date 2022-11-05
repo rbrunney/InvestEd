@@ -29,33 +29,58 @@ public class BasicOrderService {
         amqpTemplate.convertAndSend(exchange, queue, message.toString());
     }
 
+    public void fulfillOrder(String orderId, String email) {
+        BasicOrder order = basicOrderRepo.getBasicOrderById(orderId);
+        order.setCurrentStatus(Status.COMPLETED);
+        order.setOrderFulFilledDate(LocalDateTime.now());
+        basicOrderRepo.save(order);
+
+        sendMessageToQueue(new HashMap<>(){{
+            put("order-id", order.getId());
+            put("status", order.getCurrentStatus());
+            put("ticker", order.getTicker());
+            put("trade-type", order.getTradeType());
+            put("total-cost", order.getStockQuantity() * order.getPricePerShare());
+            put("email", email);
+        }}, "ORDER-EMAIL-EXCHANGE", "order-email.fulfilled");
+    }
+
     public void createBasicOrder(BasicOrder basicOrder, String email) {
 
         // Save to database
         basicOrderRepo.save(basicOrder);
 
-        // Checking to see what type of order it is
-        // This way we can send it to the proper queue
-        String queue = "order.market-order";
-        if (LimitOrder.class.equals(basicOrder.getClass())) {
-            queue = "order.limit-order";
-        } else if (StopLossOrder.class.equals(basicOrder.getClass())) {
-            queue = "order.stop-loss-order";
-        } else if (StopPriceOrder.class.equals(basicOrder.getClass())) {
-            queue = "order.stop-price-order";
-        }
-
-        // Send to Market Order Queue
-        sendMessageToQueue(new HashMap<>() {{
+        // Setting base Hash Map
+        Map<String, Object> orderMessage = new HashMap<>() {{
             put("order-id", basicOrder.getId());
             put("user", basicOrder.getUser());
+            put("email", email);
             put("ticker", basicOrder.getTicker());
             put("stock-qty", basicOrder.getStockQuantity());
             put("price-per-share", basicOrder.getPricePerShare());
             put("order-date", basicOrder.getOrderDate());
             put("status", basicOrder.getCurrentStatus());
             put("expire-time", basicOrder.getExpireTime());
-        }}, "ORDER_EXCHANGE", queue);
+            put("trade-type", basicOrder.getTradeType());
+        }};
+
+        // Checking to see what type of order it is
+        // This way we can send it to the proper queue
+        String queue = "order.market-order";
+        if (LimitOrder.class.equals(basicOrder.getClass())) {
+            queue = "order.limit-order";
+            orderMessage.put("limit-price", ((LimitOrder) basicOrder).getLimitPrice());
+        } else if (StopLossOrder.class.equals(basicOrder.getClass())) {
+            queue = "order.stop-loss-order";
+            orderMessage.put("stop-loss-price", ((StopLossOrder) basicOrder).getStopLossPrice());
+        } else if (StopPriceOrder.class.equals(basicOrder.getClass())) {
+            queue = "order.stop-price-order";
+            orderMessage.put("limit-price", ((StopPriceOrder) basicOrder).getLimitPrice());
+            orderMessage.put("stop-loss-price", ((StopPriceOrder) basicOrder).getStopLossPrice());
+        }
+
+        // Send to Market Order Queue
+        sendMessageToQueue(orderMessage, "ORDER_EXCHANGE", queue);
 
         // Send Placed Order Email
         sendMessageToQueue(new HashMap<>(){{
@@ -66,6 +91,8 @@ public class BasicOrderService {
             put("stock-qty", basicOrder.getStockQuantity());
             put("price-per-share", basicOrder.getPricePerShare());
             put("total-cost", (basicOrder.getPricePerShare() * basicOrder.getStockQuantity()));
+            put("trade-type", basicOrder.getTradeType());
+            put("status", basicOrder.getCurrentStatus());
         }}, "ORDER-EMAIL-EXCHANGE", "order-email.placed");
     }
     public boolean isUsersOrder(String orderId, String user) {

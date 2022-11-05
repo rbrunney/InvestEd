@@ -1,6 +1,11 @@
+import py_eureka_client.eureka_client as eureka_client
 from datetime import datetime
 from flask import Flask, request
 import stock
+
+eureka_client.init(eureka_server="http://eureka:8761/eureka",
+                   app_name="stock-api",
+                   instance_port=105)
 
 stock_api = Flask(__name__)
 
@@ -91,4 +96,5 @@ def failed_fetch(ticker):
     }
 
 if __name__ == '__main__':
-    stock_api.run(host='0.0.0.0', port=105)
+    from waitress import serve
+    serve(stock_api, host='0.0.0.0', port=105)

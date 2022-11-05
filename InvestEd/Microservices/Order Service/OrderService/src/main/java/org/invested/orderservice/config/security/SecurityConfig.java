@@ -44,6 +44,7 @@ public class SecurityConfig {
         return http.csrf().disable()
                 .httpBasic(Customizer.withDefaults())
                 .authorizeRequests()
+                .antMatchers(HttpMethod.PUT, "/invested_order/fulfill_order/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/invested_order/basic_order").hasAnyAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.POST, "/invested_order/limit_order").hasAnyAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.POST, "/invested_order/stop_loss_order").hasAnyAuthority("ROLE_USER")
