@@ -89,3 +89,14 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
   assets:
     - assets/images/logo.png
+    - assets/fonts/Rammetto_One/RammettoOne-Regular.ttf
+    - assets/fonts/Work_Sans/static/WorkSans-Regular.ttf
+
+  fonts:
+    - family: RammetoOne
+      fonts:  
+        - asset: assets/fonts/Rammetto_One/RammettoOne-Regular.ttf
+
+    - family: WorkSans
+      fonts:
+        - asset: assets/fonts/Work_Sans/static/WorkSans-Regular.ttf

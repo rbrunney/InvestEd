@@ -4,14 +4,20 @@ class CustomTextField extends StatefulWidget {
   // Setting base properties
   final String hintText;
   final String labelText;
-  final IconData icon;
+  final bool hasSuffixIcon;
+  final bool isObscure;
+  final IconData prefixIcon;
+  final IconData suffixIcon;
   final TextEditingController textController;
 
   const CustomTextField({
         Key? key,
     this.hintText = '',
     this.labelText = '',
-    this.icon = Icons.abc_outlined,
+    this.hasSuffixIcon = false,
+    this.isObscure = false,
+    this.prefixIcon = Icons.abc_outlined,
+    this.suffixIcon = Icons.abc_outlined,
     required this.textController
   }) : super(key: key);
 
@@ -26,8 +32,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
         margin: const EdgeInsets.only(top: 10, bottom: 10, left: 15, right: 15),
         child: TextField(
           controller: widget.textController,
+          obscureText: widget.isObscure,
           decoration: InputDecoration(
-              prefixIcon: Icon(widget.icon, color: Colors.grey),
+              prefixIcon: Icon(widget.prefixIcon, color: Colors.grey),
+              suffixIcon: widget.hasSuffixIcon ? Icon(widget.suffixIcon, color: Colors.grey) : null,
               focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey)
               ),

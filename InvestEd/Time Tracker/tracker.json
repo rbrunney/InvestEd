@@ -777,6 +777,22 @@
                     "description": "Working on DTO's"
                 }
             ]
+        },
+        "Saturday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "1:0 pm",
+                    "end_time": "3:35 pm",
+                    "description": "Working on Login Page"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "4:30 pm",
+                    "end_time": "5:13 pm",
+                    "description": "Continue Work on Login Screen"
+                }
+            ]
         }
     },
     "Week 6": {},
