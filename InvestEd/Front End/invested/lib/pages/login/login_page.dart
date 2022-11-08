@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:invested/pages/login/forgot_password_page.dart';
+import 'package:invested/pages/login/register_page.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:invested/pages/login/page_image.dart';
 import 'package:invested/pages/login/page_title.dart';
 import 'package:invested/util/custom_text_field.dart';
@@ -48,7 +51,15 @@ class _LoginPageState extends State<LoginPage> {
               textController: _passwordController,
             ),
             InkWell(
-              onTap: () => {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                      child: const ForgotPasswordPage(),
+                      type: PageTransitionType.rightToLeftWithFade
+                  )
+                );
+              },
               child: Container(
                 margin: const EdgeInsets.symmetric(vertical: 15),
                   child: Text(
@@ -66,7 +77,15 @@ class _LoginPageState extends State<LoginPage> {
               child: SizedBox(
                   width: MediaQuery.of(context).size.width - 30,
                   child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            PageTransition(
+                                child: const RegisterPage(),
+                                type: PageTransitionType.rightToLeftWithFade
+                            )
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                         primary: Color(global_styling.LOGO_COLOR),
                       ),
@@ -95,7 +114,15 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   InkWell(
-                    onTap: () => {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              child: const RegisterPage(),
+                              type: PageTransitionType.rightToLeftWithFade
+                          )
+                      );
+                    },
                     child: Text(
                         "Register",
                       style: TextStyle(
