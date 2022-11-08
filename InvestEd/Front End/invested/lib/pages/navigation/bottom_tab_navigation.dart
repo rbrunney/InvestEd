@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:invested/pages/account/account_page.dart';
 import 'package:invested/pages/home/home_page.dart';
 import 'package:invested/pages/lesson/lesson_page.dart';
@@ -41,13 +42,15 @@ class _PageNavigationState extends State<PageNavigation>  {
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.insert_chart_outlined),
+              icon: Icon(MaterialCommunityIcons.chart_line),
               label: 'Portfolio',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.note_alt_outlined),
+              icon: Icon(MaterialCommunityIcons.book_education_outline),
               label: 'Lesson',
             ),
             BottomNavigationBarItem(
@@ -55,7 +58,7 @@ class _PageNavigationState extends State<PageNavigation>  {
               label: 'Search',
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.account_circle_outlined),
+                icon: Icon(MaterialCommunityIcons.account_circle_outline),
                 label: 'Account'
             ),
           ],

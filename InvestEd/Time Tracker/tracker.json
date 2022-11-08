@@ -815,6 +815,28 @@
                     "start_time": "8:30 pm",
                     "end_time": "9:30 pm",
                     "description": "Working on Login Page"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "10:0 pm",
+                    "end_time": "11:59 pm",
+                    "description": "Working on different screens"
+                }
+            ]
+        },
+        "Tuesday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "12:0 am",
+                    "end_time": "12:15 am",
+                    "description": "Working on Bottom Tab Navigation"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "9:30 am",
+                    "end_time": "10:30 am",
+                    "description": "Working on Bottom Nav / Register Pages"
                 }
             ]
         }
