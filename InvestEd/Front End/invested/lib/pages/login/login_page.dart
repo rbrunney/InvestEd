@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:invested/pages/login/page_image.dart';
+import 'package:invested/pages/login/page_title.dart';
 import 'package:invested/util/custom_text_field.dart';
 import '../../util/global_styling.dart' as global_styling;
 
@@ -27,21 +29,8 @@ class _LoginPageState extends State<LoginPage> {
       Scaffold(
         body: Column(
           children: [
-            Container(
-              margin: const EdgeInsets.only(top: 55),
-              child: const Image(image: AssetImage('assets/images/icon.png')), // Display Logo
-            ),
-            Container(
-              alignment: Alignment.centerLeft,
-              margin: const EdgeInsets.only(left: 15, bottom: 15),
-              child: Text(
-                  "Login",
-                style: TextStyle(
-                  fontFamily: global_styling.FONT,
-                  fontSize: 40
-                ),
-              )
-            ),
+            const PageImage(assetImg: 'assets/images/icon.png', marginTop: 55),
+            const PageTitle(title: "Login"),
             CustomTextField(
               hintText: "Enter Username...",
               labelText: "Enter Username",
@@ -67,29 +56,29 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(
                       decoration: TextDecoration.underline,
                       color: Colors.blue,
-                    fontFamily: global_styling.FONT
+                    fontFamily: global_styling.TITLE_FONT
                   )
                 )
               )
             ),
-            Container(
+          Container(
               margin: const EdgeInsets.symmetric(vertical: 10),
               child: SizedBox(
                   width: MediaQuery.of(context).size.width - 30,
                   child: ElevatedButton(
-                      onPressed: printInfo,
+                      onPressed: () {},
                       style: ElevatedButton.styleFrom(
                         primary: Color(global_styling.LOGO_COLOR),
                       ),
                       child: Text(
-                          "Login",
+                        "Login",
                         style: TextStyle(
-                            fontFamily: global_styling.FONT
+                            fontFamily: global_styling.TITLE_FONT
                         ),
                       )
                   )
               )
-            ),
+          ),
             Container(
               margin: const EdgeInsets.only(top: 15),
               alignment: Alignment.center,
@@ -101,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                     child:Text(
                       "New to InvestEd?",
                       style: TextStyle(
-                        fontFamily: global_styling.FONT,
+                        fontFamily: global_styling.TITLE_FONT,
                       ),
                     ),
                   ),
@@ -112,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(
                         decoration: TextDecoration.underline,
                         color: Colors.blue,
-                          fontFamily: global_styling.FONT
+                          fontFamily: global_styling.TITLE_FONT
                       ),
                     )
                   )

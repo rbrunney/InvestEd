@@ -809,6 +809,12 @@
                     "start_time": "10:45 am",
                     "end_time": "11:09 am",
                     "description": "Working on Login Page"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "8:30 pm",
+                    "end_time": "9:30 pm",
+                    "description": "Working on Login Page"
                 }
             ]
         }

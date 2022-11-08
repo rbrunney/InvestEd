@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:invested/pages/login/forgot_password_page.dart';
 import 'package:invested/pages/login/login_page.dart';
 
 void main() {
