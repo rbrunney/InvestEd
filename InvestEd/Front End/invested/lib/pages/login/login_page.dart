@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:invested/pages/login/forgot_password_page.dart';
 import 'package:invested/pages/login/register_page.dart';
+import 'package:invested/pages/navigation/bottom_tab_navigation.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:invested/pages/login/page_image.dart';
 import 'package:invested/pages/login/page_title.dart';
@@ -81,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.push(
                             context,
                             PageTransition(
-                                child: const RegisterPage(),
+                                child: const PageNavigation(),
                                 type: PageTransitionType.rightToLeftWithFade
                             )
                         );
