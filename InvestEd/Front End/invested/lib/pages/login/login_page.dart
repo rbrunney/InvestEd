@@ -29,14 +29,16 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             Container(
               margin: const EdgeInsets.only(top: 55),
-              child: const Image(image: AssetImage('assets/images/logo.png')), // Display Logo
+              child: const Image(image: AssetImage('assets/images/icon.png')), // Display Logo
             ),
             Container(
               alignment: Alignment.centerLeft,
+              margin: const EdgeInsets.only(left: 15, bottom: 15),
               child: const Text(
                   "Login",
                 style: TextStyle(
-                  fontFamily: "WorkSans"
+                  fontFamily: "WorkSans",
+                  fontSize: 40
                 ),
               )
             ),
@@ -53,15 +55,20 @@ class _LoginPageState extends State<LoginPage> {
               hasSuffixIcon: true,
               prefixIcon: Icons.lock_outline,
               suffixIcon: Icons.visibility_off_outlined,
+              pressedSuffixIcon: Icons.visibility_outlined,
               textController: _passwordController,
             ),
             InkWell(
               onTap: () => {},
-              child: const Text(
-                "Forgot Password?",
-                style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    color: Colors.blue
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 15),
+                  child: const Text(
+                  "Forgot Password?",
+                  style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: Colors.blue,
+                    fontFamily: "WorkSans"
+                  )
                 )
               )
             ),
@@ -74,7 +81,12 @@ class _LoginPageState extends State<LoginPage> {
                       style: ElevatedButton.styleFrom(
                         primary: Color(global_styling.LOGO_COLOR),
                       ),
-                      child: const Text("Login")
+                      child: const Text(
+                          "Login",
+                        style: TextStyle(
+                            fontFamily: "WorkSans"
+                        ),
+                      )
                   )
               )
             ),
@@ -84,14 +96,23 @@ class _LoginPageState extends State<LoginPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("New to InvestEd?",),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 5),
+                    child: const Text(
+                      "New to InvestEd?",
+                      style: TextStyle(
+                        fontFamily: "WorkSans",
+                      ),
+                    ),
+                  ),
                   InkWell(
                     onTap: () => {},
                     child: const Text(
                         "Register",
                       style: TextStyle(
                         decoration: TextDecoration.underline,
-                        color: Colors.blue
+                        color: Colors.blue,
+                          fontFamily: "WorkSans"
                       ),
                     )
                   )

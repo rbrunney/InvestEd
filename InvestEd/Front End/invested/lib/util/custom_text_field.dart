@@ -8,6 +8,7 @@ class CustomTextField extends StatefulWidget {
   final bool isObscure;
   final IconData prefixIcon;
   final IconData suffixIcon;
+  final IconData pressedSuffixIcon;
   final TextEditingController textController;
 
   const CustomTextField({
@@ -18,6 +19,7 @@ class CustomTextField extends StatefulWidget {
     this.isObscure = false,
     this.prefixIcon = Icons.abc_outlined,
     this.suffixIcon = Icons.abc_outlined,
+    this.pressedSuffixIcon = Icons.abc_outlined,
     required this.textController
   }) : super(key: key);
 
@@ -26,16 +28,27 @@ class CustomTextField extends StatefulWidget {
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
+  bool isVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.only(top: 10, bottom: 10, left: 15, right: 15),
+        margin: const EdgeInsets.only(top: 15, bottom: 15, left: 15, right: 15),
         child: TextField(
           controller: widget.textController,
-          obscureText: widget.isObscure,
+          obscureText: !isVisible,
           decoration: InputDecoration(
               prefixIcon: Icon(widget.prefixIcon, color: Colors.grey),
-              suffixIcon: widget.hasSuffixIcon ? Icon(widget.suffixIcon, color: Colors.grey) : null,
+              suffixIcon: widget.hasSuffixIcon ? IconButton(
+                  icon: isVisible ? Icon(widget.pressedSuffixIcon) : Icon(widget.suffixIcon),
+                  color: Colors.grey,
+                onPressed: () {
+                  setState(() {
+                    // Changing State
+                    isVisible != isVisible;
+                  });
+                },
+              ) : null,
               focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey)
               ),

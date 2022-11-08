@@ -795,7 +795,24 @@
             ]
         }
     },
-    "Week 6": {},
+    "Week 6": {
+        "Monday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "9:0 am",
+                    "end_time": "9:45 am",
+                    "description": "Working on Login Screen"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "10:45 am",
+                    "end_time": "11:09 am",
+                    "description": "Working on Login Page"
+                }
+            ]
+        }
+    },
     "Week 7": {},
     "Week 8": {},
     "Week 9": {},
