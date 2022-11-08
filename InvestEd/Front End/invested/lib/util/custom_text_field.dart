@@ -44,8 +44,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   color: Colors.grey,
                 onPressed: () {
                   setState(() {
-                    // Changing State
-                    isVisible != isVisible;
+                    isVisible = !isVisible;
                   });
                 },
               ) : null,

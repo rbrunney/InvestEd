@@ -34,10 +34,10 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               alignment: Alignment.centerLeft,
               margin: const EdgeInsets.only(left: 15, bottom: 15),
-              child: const Text(
+              child: Text(
                   "Login",
                 style: TextStyle(
-                  fontFamily: "WorkSans",
+                  fontFamily: global_styling.FONT,
                   fontSize: 40
                 ),
               )
@@ -62,12 +62,12 @@ class _LoginPageState extends State<LoginPage> {
               onTap: () => {},
               child: Container(
                 margin: const EdgeInsets.symmetric(vertical: 15),
-                  child: const Text(
+                  child: Text(
                   "Forgot Password?",
                   style: TextStyle(
                       decoration: TextDecoration.underline,
                       color: Colors.blue,
-                    fontFamily: "WorkSans"
+                    fontFamily: global_styling.FONT
                   )
                 )
               )
@@ -81,10 +81,10 @@ class _LoginPageState extends State<LoginPage> {
                       style: ElevatedButton.styleFrom(
                         primary: Color(global_styling.LOGO_COLOR),
                       ),
-                      child: const Text(
+                      child: Text(
                           "Login",
                         style: TextStyle(
-                            fontFamily: "WorkSans"
+                            fontFamily: global_styling.FONT
                         ),
                       )
                   )
@@ -98,21 +98,21 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 5),
-                    child: const Text(
+                    child:Text(
                       "New to InvestEd?",
                       style: TextStyle(
-                        fontFamily: "WorkSans",
+                        fontFamily: global_styling.FONT,
                       ),
                     ),
                   ),
                   InkWell(
                     onTap: () => {},
-                    child: const Text(
+                    child: Text(
                         "Register",
                       style: TextStyle(
                         decoration: TextDecoration.underline,
                         color: Colors.blue,
-                          fontFamily: "WorkSans"
+                          fontFamily: global_styling.FONT
                       ),
                     )
                   )
