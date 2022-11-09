@@ -33,7 +33,6 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
   void onSubmit() {
     if (verificationCodeErrorText == null) {
       // Send code off to get validated
-      print('Yes');
       Navigator.push(
           context,
           PageTransition(
