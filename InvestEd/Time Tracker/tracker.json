@@ -843,6 +843,34 @@
                     "start_time": "6:15 pm",
                     "end_time": "7:15 pm",
                     "description": "Working on Login Page Pixel Overflow"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "7:15 pm",
+                    "end_time": "10:56 pm",
+                    "description": "Working on Begining Pages, and adding validation"
+                }
+            ]
+        },
+        "Wednesday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "9:30 am",
+                    "end_time": "10:0 am",
+                    "description": "Working on Portfolio Page"
+                },
+                {
+                    "activity": "Research",
+                    "start_time": "10:0 am",
+                    "end_time": "10:30 am",
+                    "description": "Doing Research on how to make Line Chart"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "10:30 am",
+                    "end_time": "11:38 am",
+                    "description": "Implmeneting FL Chart for my visual"
                 }
             ]
         }

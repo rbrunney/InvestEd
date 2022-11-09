@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:invested/pages/account/account_page.dart';
-import 'package:invested/pages/home/home_page.dart';
 import 'package:invested/pages/lesson/lesson_page.dart';
+import 'package:invested/pages/portfolio/portfolio_page.dart';
 import 'package:invested/pages/search/search_page.dart';
 
 class PageNavigation extends StatefulWidget {
@@ -35,7 +35,7 @@ class _PageNavigationState extends State<PageNavigation>  {
             });
           },
           children: const [
-            HomePage(),
+            PortfolioPage(),
             LessonPage(),
             SearchPage(),
             AccountPage()
