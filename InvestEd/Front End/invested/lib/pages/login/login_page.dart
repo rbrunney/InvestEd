@@ -8,9 +8,8 @@ import 'package:invested/pages/login/page_title.dart';
 import 'package:invested/util/custom_text_field.dart';
 import '../../util/global_styling.dart' as global_styling;
 
-
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key:key);
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -22,6 +21,26 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  String? get usernameErrorText {
+    final text = _usernameController.text;
+
+    if (text.isEmpty) {
+      return 'Field is Empty!';
+    }
+
+    return null;
+  }
+
+  String? get passwordErrorText {
+    final text = _passwordController.text;
+
+    if (text.isEmpty) {
+      return 'Field is Empty!';
+    }
+
+    return null;
+  }
+
   void printInfo() {
     print(_usernameController.text);
     print(_passwordController.text);
@@ -29,50 +48,46 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child:
-      Scaffold(
-        body: Column(
-          children: [
-            const PageImage(assetImg: 'assets/images/icon.png', marginTop: 55),
-            const PageTitle(title: "Login"),
-            CustomTextField(
-              hintText: "Enter Username...",
-              labelText: "Enter Username",
-              prefixIcon: Icons.account_circle_outlined,
-              textController: _usernameController,
-            ),
-            CustomTextField(
-              hintText: "Enter Password...",
-              labelText: "Enter Password",
-              isObscure: true,
-              hasSuffixIcon: true,
-              prefixIcon: Icons.lock_outline,
-              suffixIcon: Icons.visibility_off_outlined,
-              pressedSuffixIcon: Icons.visibility_outlined,
-              textController: _passwordController,
-            ),
-            InkWell(
+    return SafeArea(
+        child: Scaffold(
+            body: SingleChildScrollView(
+      child: Column(
+        children: [
+          const PageImage(assetImg: 'assets/images/icon.png', marginTop: 55),
+          const PageTitle(title: "Login"),
+          CustomTextField(
+            hintText: "Enter Username...",
+            labelText: "Enter Username",
+            prefixIcon: Icons.account_circle_outlined,
+            textController: _usernameController,
+            errorText: usernameErrorText,
+          ),
+          CustomTextField(
+            hintText: "Enter Password...",
+            labelText: "Enter Password",
+            isObscure: true,
+            hasSuffixIcon: true,
+            prefixIcon: Icons.lock_outline,
+            suffixIcon: Icons.visibility_off_outlined,
+            pressedSuffixIcon: Icons.visibility_outlined,
+            textController: _passwordController,
+            errorText: passwordErrorText,
+          ),
+          InkWell(
               onTap: () {
                 Navigator.push(
-                  context,
-                  PageTransition(
-                      child: const ForgotPasswordPage(),
-                      type: PageTransitionType.rightToLeftWithFade
-                  )
-                );
+                    context,
+                    PageTransition(
+                        child: const ForgotPasswordPage(),
+                        type: PageTransitionType.rightToLeftWithFade));
               },
               child: Container(
-                margin: const EdgeInsets.symmetric(vertical: 15),
-                  child: Text(
-                  "Forgot Password?",
-                  style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      color: Colors.blue,
-                    fontFamily: global_styling.TITLE_FONT
-                  )
-                )
-              )
-            ),
+                  margin: const EdgeInsets.symmetric(vertical: 15),
+                  child: Text("Forgot Password?",
+                      style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.blue,
+                          fontFamily: global_styling.TITLE_FONT)))),
           Container(
               margin: const EdgeInsets.symmetric(vertical: 10),
               child: SizedBox(
@@ -83,23 +98,16 @@ class _LoginPageState extends State<LoginPage> {
                             context,
                             PageTransition(
                                 child: const PageNavigation(),
-                                type: PageTransitionType.rightToLeftWithFade
-                            )
-                        );
+                                type: PageTransitionType.rightToLeftWithFade));
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Color(global_styling.LOGO_COLOR),
                       ),
                       child: Text(
                         "Login",
-                        style: TextStyle(
-                            fontFamily: global_styling.TITLE_FONT
-                        ),
-                      )
-                  )
-              )
-          ),
-            Container(
+                        style: TextStyle(fontFamily: global_styling.TITLE_FONT),
+                      )))),
+          Container(
               margin: const EdgeInsets.only(top: 15),
               alignment: Alignment.center,
               child: Row(
@@ -107,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 5),
-                    child:Text(
+                    child: Text(
                       "New to InvestEd?",
                       style: TextStyle(
                         fontFamily: global_styling.TITLE_FONT,
@@ -115,31 +123,24 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          PageTransition(
-                              child: const RegisterPage(),
-                              type: PageTransitionType.rightToLeftWithFade
-                          )
-                      );
-                    },
-                    child: Text(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            PageTransition(
+                                child: const RegisterPage(),
+                                type: PageTransitionType.rightToLeftWithFade));
+                      },
+                      child: Text(
                         "Register",
-                      style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        color: Colors.blue,
-                          fontFamily: global_styling.TITLE_FONT
-                      ),
-                    )
-                  )
+                        style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: Colors.blue,
+                            fontFamily: global_styling.TITLE_FONT),
+                      ))
                 ],
-              )
-
-            )
-          ],
-        ),
-      )
-    );
+              ))
+        ],
+      ),
+    )));
   }
 }

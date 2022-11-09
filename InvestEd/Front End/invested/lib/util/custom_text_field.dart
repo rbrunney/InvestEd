@@ -4,18 +4,20 @@ class CustomTextField extends StatefulWidget {
   // Setting base properties
   final String hintText;
   final String labelText;
+  final String? errorText;
   final bool hasSuffixIcon;
-  final bool isObscure;
+  bool isObscure;
   final double verticalMargin;
   final IconData prefixIcon;
   final IconData suffixIcon;
   final IconData pressedSuffixIcon;
   final TextEditingController textController;
 
-  const CustomTextField({
+  CustomTextField({
         Key? key,
     this.hintText = '',
     this.labelText = '',
+    this.errorText = '',
     this.hasSuffixIcon = false,
     this.isObscure = false,
     this.verticalMargin = 15,
@@ -30,7 +32,6 @@ class CustomTextField extends StatefulWidget {
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
-  bool isVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -38,15 +39,15 @@ class _CustomTextFieldState extends State<CustomTextField> {
         margin: EdgeInsets.symmetric(vertical: widget.verticalMargin, horizontal: 15),
         child: TextField(
           controller: widget.textController,
-          obscureText: !isVisible,
+          obscureText: widget.isObscure,
           decoration: InputDecoration(
               prefixIcon: Icon(widget.prefixIcon, color: Colors.grey),
               suffixIcon: widget.hasSuffixIcon ? IconButton(
-                  icon: isVisible ? Icon(widget.pressedSuffixIcon) : Icon(widget.suffixIcon),
+                  icon: widget.isObscure ? Icon(widget.suffixIcon)  : Icon(widget.pressedSuffixIcon),
                   color: Colors.grey,
                 onPressed: () {
                   setState(() {
-                    isVisible = !isVisible;
+                    widget.isObscure = !widget.isObscure;
                   });
                 },
               ) : null,
@@ -58,6 +59,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               ),
               hintText: widget.hintText,
               labelText: widget.labelText,
+              errorText: widget.textController.text.isEmpty ? null : widget.errorText,
               labelStyle: const TextStyle(color: Colors.grey)
           ),
         )
