@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomTextField extends StatefulWidget {
   // Setting base properties
@@ -11,6 +12,8 @@ class CustomTextField extends StatefulWidget {
   final IconData prefixIcon;
   final IconData suffixIcon;
   final IconData pressedSuffixIcon;
+  final TextInputType textInputType;
+  final List<TextInputFormatter> textFormatters;
   final TextEditingController textController;
 
   CustomTextField({
@@ -21,6 +24,8 @@ class CustomTextField extends StatefulWidget {
     this.hasSuffixIcon = false,
     this.isObscure = false,
     this.verticalMargin = 15,
+    this.textInputType = TextInputType.text,
+    this.textFormatters = const [],
     this.prefixIcon = Icons.abc_outlined,
     this.suffixIcon = Icons.abc_outlined,
     this.pressedSuffixIcon = Icons.abc_outlined,
@@ -40,6 +45,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
         child: TextField(
           controller: widget.textController,
           obscureText: widget.isObscure,
+          keyboardType: widget.textInputType,
+          inputFormatters: widget.textFormatters,
           decoration: InputDecoration(
               prefixIcon: Icon(widget.prefixIcon, color: Colors.grey),
               suffixIcon: widget.hasSuffixIcon ? IconButton(

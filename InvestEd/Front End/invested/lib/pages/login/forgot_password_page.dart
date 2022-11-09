@@ -19,18 +19,27 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   String? get emailErrorText {
     final text = emailController.text;
-
     RegExp emailCheck = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
-    // Simple checks to see if empty or doesn;t match regex
-    if(text.isEmpty) {
-      return 'Field is Empty!';
-    } else if (!emailCheck.hasMatch(text)) {
+    // Simple checks to see if empty or doesn't match regex
+    if (!emailCheck.hasMatch(text)) {
       return 'Invalid Email!';
     }
 
     // Return null is string is valid
     return null;
+  }
+
+  void onSubmit() {
+    if (emailErrorText == null) {
+      Navigator.push(
+          context,
+          PageTransition(
+              child: const VerificationCodePage(),
+              type: PageTransitionType.rightToLeftWithFade
+          )
+      );
+    }
   }
 
   @override
@@ -66,17 +75,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     child: SizedBox(
                         width: MediaQuery.of(context).size.width - 30,
                         child: ElevatedButton(
-                            onPressed: () {
-                              // Make request to send get digit and send to next page
-                              Navigator.push(
-                                  context,
-                                  PageTransition(
-                                      child: const VerificationCodePage(),
-                                      type: PageTransitionType.rightToLeftWithFade
-                                  )
-                              );
-                              // Need to update the Enter Email Box to Red and say is Required
-                            },
+                            onPressed: emailController.value.text.isNotEmpty ?
+                            onSubmit :
+                            () {},
                             style: ElevatedButton.styleFrom(
                               primary: Color(global_styling.LOGO_COLOR),
                             ),
