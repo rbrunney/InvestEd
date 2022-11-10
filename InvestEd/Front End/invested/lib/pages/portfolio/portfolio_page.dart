@@ -36,6 +36,10 @@ class _PortfolioPageState extends State<PortfolioPage> {
                   margin: const EdgeInsets.symmetric(vertical: 15),
                   child: const PortfolioGraph()
                 ),
+                const Divider(
+                  thickness: 1.5,
+                  color: Colors.grey,
+                ),
                 CustomText(
                   text: 'Buying Power: \$5,000.00',
                   topMargin: 10,

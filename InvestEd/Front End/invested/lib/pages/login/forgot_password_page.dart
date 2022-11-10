@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:invested/pages/login/page_image.dart';
 import 'package:invested/pages/login/page_title.dart';
 import 'package:invested/pages/login/verification_code_page.dart';
+import 'package:invested/util/custom_text.dart';
 import 'package:invested/util/custom_text_field.dart';
 import 'package:invested/util/to_previous_page.dart';
 import 'package:page_transition/page_transition.dart';
@@ -53,15 +54,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 const PageImage(assetImg: 'assets/images/icon.png', marginTop: 7),
                 const PageTitle(title: "Forgot"),
                 const PageTitle(title: "Password?"),
-                Container(
-                    margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                    child: Text(
-                      "Don't worry! We will send you a one time code! Please enter your email.",
-                      style: TextStyle(
-                          fontFamily: global_styling.TEXT_FONT,
-                          fontSize: 15
-                      ),
-                    )
+                CustomText(
+                  leftMargin: 15,
+                  rightMargin: 15,
+                  topMargin: 10,
+                  bottomMargin: 10,
+                  text: "Don't worry! We will send you a one time code! Please enter your email.",
+                  fontSize: 15,
                 ),
                 CustomTextField(
                   hintText: 'Enter Email...',

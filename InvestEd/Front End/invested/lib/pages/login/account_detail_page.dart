@@ -5,6 +5,7 @@ import 'package:invested/pages/login/page_image.dart';
 import 'package:invested/pages/login/page_title.dart';
 import 'package:invested/util/custom_text_field.dart';
 import 'package:invested/util/to_previous_page.dart';
+import '../../util/custom_text.dart';
 import '../../util/global_styling.dart' as global_styling;
 
 class AccountDetailsPage extends StatefulWidget {
@@ -79,15 +80,13 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                 const ToPrevPage(),
                 const PageImage(assetImg: 'assets/images/icon.png', marginTop: 7),
                 const PageTitle(title: 'Final Steps'),
-                Container(
-                    margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                    child: Text(
-                      "Almost Finished! We just need a little bit more information about you!",
-                      style: TextStyle(
-                          fontFamily: global_styling.TEXT_FONT,
-                          fontSize: 15
-                      ),
-                    )
+                CustomText(
+                  leftMargin: 15,
+                  rightMargin: 15,
+                  topMargin: 10,
+                  bottomMargin: 10,
+                  text: "Almost Finished! We just need a little bit more information about you!",
+                  fontSize: 15,
                 ),
                 CustomTextField(
                     labelText: 'Enter First Name',

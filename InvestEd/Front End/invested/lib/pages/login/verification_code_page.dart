@@ -6,6 +6,7 @@ import 'package:invested/pages/login/page_title.dart';
 import 'package:invested/util/custom_text_field.dart';
 import 'package:invested/util/to_previous_page.dart';
 import 'package:page_transition/page_transition.dart';
+import '../../util/custom_text.dart';
 import '../../util/global_styling.dart' as global_styling;
 
 class VerificationCodePage extends StatefulWidget {
@@ -53,15 +54,13 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                   const ToPrevPage(),
                   const PageImage(assetImg: 'assets/images/icon.png', marginTop: 7),
                   const PageTitle(title: "Enter Code"),
-                  Container(
-                      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                      child: Text(
-                        "We have sent an email with your verification code! Please check your email.",
-                        style: TextStyle(
-                            fontFamily: global_styling.TEXT_FONT,
-                            fontSize: 15
-                        ),
-                      )
+                  CustomText(
+                    leftMargin: 15,
+                    rightMargin: 15,
+                    topMargin: 10,
+                    bottomMargin: 10,
+                    text: "We have sent an email with your verification code! Please check your email.",
+                    fontSize: 15,
                   ),
                   CustomTextField(
                       hintText: 'Enter Verification Code...',
