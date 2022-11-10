@@ -871,6 +871,12 @@
                     "start_time": "10:30 am",
                     "end_time": "11:38 am",
                     "description": "Implmeneting FL Chart for my visual"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "7:0 pm",
+                    "end_time": "8:46 pm",
+                    "description": "Working on Portfolio Page and Graph"
                 }
             ]
         }
