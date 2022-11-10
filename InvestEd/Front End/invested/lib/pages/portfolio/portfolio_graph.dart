@@ -78,6 +78,29 @@ class _PortfolioGraphState extends State<PortfolioGraph> {
             borderData: FlBorderData(show: false),
             // Removing Grid Information to be visually cleaner
             gridData: FlGridData(show: false),
+            lineTouchData: LineTouchData(
+              enabled: true,
+              // Makes phone stay within view of the phone
+              touchTooltipData: LineTouchTooltipData(
+                fitInsideHorizontally: true,
+              ),
+              getTouchedSpotIndicator:
+                  (LineChartBarData barData, List<int> indicators) {
+                return indicators.map(
+                      (int index) {
+                    final line = FlLine(
+                        color: Colors.grey,
+                        strokeWidth: 1,
+                        dashArray: [2, 4]);
+                    return TouchedSpotIndicatorData(
+                      line,
+                      FlDotData(show: true),
+                    );
+                  },
+                ).toList();
+              },
+                getTouchLineEnd: (_, __) => double.infinity
+            )
           ),
         ));
   }

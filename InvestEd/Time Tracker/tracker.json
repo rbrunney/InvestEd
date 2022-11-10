@@ -877,6 +877,46 @@
                     "start_time": "7:0 pm",
                     "end_time": "8:46 pm",
                     "description": "Working on Portfolio Page and Graph"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "8:46 pm",
+                    "end_time": "9:55 pm",
+                    "description": "Working on Portfolio Graph"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "9:55 pm",
+                    "end_time": "10:23 pm",
+                    "description": "Working on Portfolio Graph somemore"
+                },
+                {
+                    "activity": "Research",
+                    "start_time": "10:23 pm",
+                    "end_time": "11:30 pm",
+                    "description": "Looking for a way to imporve Portoflio Grpah Touch"
+                },
+                {
+                    "activity": "Research",
+                    "start_time": "1:0 pm",
+                    "end_time": "2:5 pm",
+                    "description": "Watching videos since first chart deoendency wasn;t great"
+                }
+            ]
+        },
+        "Thursday": {
+            "activities": [
+                {
+                    "activity": "Research",
+                    "start_time": "6:30 am",
+                    "end_time": "8:30 am",
+                    "description": "Looking for a way to imporve Portoflio Grpah Touch"
+                },
+                {
+                    "activity": "Design",
+                    "start_time": "8:0 am",
+                    "end_time": "8:30 am",
+                    "description": "Drawing Visuals for Portfolio App"
                 }
             ]
         }
