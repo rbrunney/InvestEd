@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:invested/util/page_title.dart';
-import 'package:invested/pages/portfolio/line_graph.dart';
+import 'package:invested/util/line_graph.dart';
 import 'package:invested/pages/portfolio/portfolio_gain.dart';
 import 'package:invested/pages/portfolio/stock_info.dart';
 import 'package:invested/util/custom_text.dart';
