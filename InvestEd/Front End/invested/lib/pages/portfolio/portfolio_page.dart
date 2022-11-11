@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:invested/util/page_title.dart';
-import 'package:invested/pages/portfolio/portfolio_graph.dart';
+import 'package:invested/pages/portfolio/line_graph.dart';
 import 'package:invested/pages/portfolio/portfolio_gain.dart';
 import 'package:invested/pages/portfolio/stock_info.dart';
 import 'package:invested/util/custom_text.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:invested/util/global_styling.dart' as global_styling;
 
 class PortfolioPage extends StatefulWidget {
   const PortfolioPage({Key? key}) : super(key: key);
@@ -34,7 +35,39 @@ class _PortfolioPageState extends State<PortfolioPage> {
                 DisplayPortfolioGain(),
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 15),
-                  child: const PortfolioGraph()
+                  child: LineGraph(
+                    width: MediaQuery.of(context).size.width - 15,
+                    maxX: 20,
+                    maxY: 6,
+                    graphLineColor: Color(global_styling.LOGO_COLOR),
+                    previousCloseData: const [
+                      FlSpot(0, 2.75),
+                      FlSpot(20, 2.75),
+                    ],
+                    graphLineData: const [
+                      FlSpot(0, 3),
+                      FlSpot(1, 4),
+                      FlSpot(2, 3),
+                      FlSpot(3, 2),
+                      FlSpot(4, 0.5),
+                      FlSpot(5, 5),
+                      FlSpot(6, 3),
+                      FlSpot(7, 4.3),
+                      FlSpot(8, 2.75),
+                      FlSpot(9, 3.75),
+                      FlSpot(10, 1.45),
+                      FlSpot(11, 2.6),
+                      FlSpot(12, 5),
+                      FlSpot(13, 3),
+                      FlSpot(14, 4.3),
+                      FlSpot(15, 2.75),
+                      FlSpot(16, 3.75),
+                      FlSpot(17, 1.45),
+                      FlSpot(18, 2.6),
+                      FlSpot(19, 2.6),
+                      FlSpot(20, 3.0),
+                    ],
+                  )
                 ),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 10),

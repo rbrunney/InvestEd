@@ -1,26 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:invested/util/global_styling.dart' as global_styling;
 
-class PortfolioGraph extends StatefulWidget {
-  const PortfolioGraph({Key? key}) : super(key: key);
+class LineGraph extends StatefulWidget {
+  final double height;
+  final double width;
+  final double maxX;
+  final double maxY;
+  final int previousCloseLineSize;
+  final List<FlSpot> previousCloseData;
+  final List<FlSpot> graphLineData;
+  final Color graphLineColor;
+  const LineGraph({
+    Key? key,
+    this.height = 200,
+    this.width = 0,
+    this.maxX = 0,
+    this.maxY = 0,
+    this.previousCloseLineSize = 8,
+    this.previousCloseData = const [],
+    this.graphLineData = const [],
+    this.graphLineColor = Colors.grey
+  }) : super(key: key);
 
   @override
-  State<PortfolioGraph> createState() => _PortfolioGraphState();
+  State<LineGraph> createState() => _LineGraphState();
 }
 
-class _PortfolioGraphState extends State<PortfolioGraph> {
+class _LineGraphState extends State<LineGraph> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 200,
-        width: MediaQuery.of(context).size.width - 15,
+        height: widget.height,
+        width: widget.width,
         child: LineChart(
           LineChartData(
             minX: 0,
-            maxX: 20,
+            maxX: widget.maxX,
             minY: 0,
-            maxY: 6,
+            maxY: widget.maxY,
             // Removing all of the label axis for information
             titlesData: FlTitlesData(
               leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
@@ -32,11 +49,8 @@ class _PortfolioGraphState extends State<PortfolioGraph> {
             ),
             lineBarsData: [
               LineChartBarData(
-                dashArray: [8, 8],
-                spots: const [
-                  FlSpot(0, 2.75),
-                  FlSpot(20, 2.75),
-                ],
+                dashArray: [widget.previousCloseLineSize, widget.previousCloseLineSize],
+                spots: widget.previousCloseData,
                 color: Colors.grey,
                 // This is here to remove the disgusting data points
                 dotData: FlDotData(
@@ -44,30 +58,8 @@ class _PortfolioGraphState extends State<PortfolioGraph> {
                 ),
               ),
               LineChartBarData(
-                  spots: const [
-                    FlSpot(0, 3),
-                    FlSpot(1, 4),
-                    FlSpot(2, 3),
-                    FlSpot(3, 2),
-                    FlSpot(4, 0.5),
-                    FlSpot(5, 5),
-                    FlSpot(6, 3),
-                    FlSpot(7, 4.3),
-                    FlSpot(8, 2.75),
-                    FlSpot(9, 3.75),
-                    FlSpot(10, 1.45),
-                    FlSpot(11, 2.6),
-                    FlSpot(12, 5),
-                    FlSpot(13, 3),
-                    FlSpot(14, 4.3),
-                    FlSpot(15, 2.75),
-                    FlSpot(16, 3.75),
-                    FlSpot(17, 1.45),
-                    FlSpot(18, 2.6),
-                    FlSpot(19, 2.6),
-                    FlSpot(20, 3.0),
-                  ],
-                  color: Color(global_styling.LOGO_COLOR),
+                  spots: widget.graphLineData,
+                  color: widget.graphLineColor,
                   // This is here to remove the disgusting data points
                   dotData: FlDotData(
                     show: false,

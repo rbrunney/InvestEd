@@ -1,5 +1,7 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:invested/pages/portfolio/line_graph.dart';
 import 'package:invested/util/custom_text.dart';
 import 'package:invested/util/global_styling.dart' as global_styling;
 
@@ -48,6 +50,35 @@ class _StockInfoState extends State<StockInfo> {
                     )
                   ],
                 ),
+              ),
+              const Spacer(),
+              LineGraph(
+                height: 10,
+                width: 125,
+                maxX: 20,
+                maxY: 6,
+                previousCloseLineSize: 2,
+                graphLineColor: Color(global_styling.LOGO_COLOR),
+                previousCloseData: const [
+                  FlSpot(0, 10),
+                  FlSpot(20, 10)
+                ],
+                graphLineData: const [
+                  FlSpot(0, 3),
+                  FlSpot(1, 4),
+                  FlSpot(2, 3),
+                  FlSpot(3, 2),
+                  FlSpot(4, 0.5),
+                  FlSpot(5, 5),
+                  FlSpot(6, 3),
+                  FlSpot(7, 4.3),
+                  FlSpot(8, 2.75),
+                  FlSpot(9, 3.75),
+                  FlSpot(10, 1.45),
+                  FlSpot(13, 5.45),
+                  FlSpot(17, 17.00),
+                  FlSpot(20, 15.75)
+                ],
               ),
               const Spacer(),
               Container(
