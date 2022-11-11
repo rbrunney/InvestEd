@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:invested/pages/login/page_title.dart';
+import 'package:invested/util/page_title.dart';
 import 'package:invested/pages/portfolio/portfolio_graph.dart';
-import 'package:invested/pages/portfolio/portoflio_gain.dart';
+import 'package:invested/pages/portfolio/portfolio_gain.dart';
+import 'package:invested/pages/portfolio/stock_info.dart';
 import 'package:invested/util/custom_text.dart';
-import '../../util/global_styling.dart' as global_styling;
 
 class PortfolioPage extends StatefulWidget {
   const PortfolioPage({Key? key}) : super(key: key);
@@ -71,6 +71,38 @@ class _PortfolioPageState extends State<PortfolioPage> {
                       thickness: 1.5,
                       color: Colors.grey,
                     )
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 30),
+                  child: const PageTitle(
+                    title: "Stocks",
+                    fontSize: 30,
+                  ),
+                ),
+                const StockInfo(
+                  ticker: "MSFT",
+                  totalShares: 1236.72183,
+                  currentPrice: 1120.75,
+                ),
+                const StockInfo(
+                  ticker: "AAPL",
+                  totalShares: 32.05,
+                  currentPrice: 132.75,
+                ),
+                const StockInfo(
+                  ticker: "VOO",
+                  totalShares: 32.05,
+                  currentPrice: 132.75,
+                ),
+                const StockInfo(
+                  ticker: "SPHD",
+                  totalShares: 32.05,
+                  currentPrice: 132.75,
+                ),
+                const StockInfo(
+                  ticker: "XOM",
+                  totalShares: 32.05,
+                  currentPrice: 132.75,
                 ),
               ],
             )

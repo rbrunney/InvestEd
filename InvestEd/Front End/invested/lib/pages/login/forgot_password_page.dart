@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:invested/pages/login/page_image.dart';
-import 'package:invested/pages/login/page_title.dart';
+import 'package:invested/util/page_image.dart';
+import 'package:invested/util/page_title.dart';
 import 'package:invested/pages/login/verification_code_page.dart';
 import 'package:invested/util/custom_text.dart';
 import 'package:invested/util/custom_text_field.dart';

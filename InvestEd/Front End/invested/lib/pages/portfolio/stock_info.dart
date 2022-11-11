@@ -1,0 +1,89 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:invested/util/custom_text.dart';
+import 'package:invested/util/global_styling.dart' as global_styling;
+
+class StockInfo extends StatefulWidget {
+  final String ticker;
+  final double totalShares;
+  final double currentPrice;
+  final IconData iconData;
+  const StockInfo({
+    Key? key,
+    this.ticker = '',
+    this.totalShares = 0,
+    this.currentPrice = 0,
+    this.iconData = MaterialCommunityIcons.arrow_up
+  }) : super(key: key);
+
+  @override
+  State<StockInfo> createState() => _StockInfoState();
+}
+
+class _StockInfoState extends State<StockInfo> {
+  double tickerTextSize = 20;
+  double gainTextSize = 15;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(left: 15, right: 10, top: 5),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Container(
+                alignment: Alignment.centerLeft,
+                child:  Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      text: widget.ticker,
+                      fontSize: tickerTextSize,
+                    ),
+                    CustomText(
+                      topMargin: 5,
+                      text: "${widget.totalShares} Shares",
+                      fontSize: 12,
+                    )
+                  ],
+                ),
+              ),
+              const Spacer(),
+              Container(
+                  margin: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      color: Color(global_styling.LOGO_COLOR),
+                      borderRadius: const BorderRadius.all(Radius.circular(5))
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        widget.iconData,
+                        color: Color(global_styling.GREY_LOGO_COLOR),
+                        size: gainTextSize,
+                      ),
+                      CustomText(
+                        text: "\$${widget.currentPrice}",
+                        fontSize: gainTextSize,
+                        color: Color(global_styling.GREY_LOGO_COLOR),
+                        alignment: Alignment.centerRight,
+                      )
+                    ],
+                  )
+              ),
+            ],
+          ),
+          Container(
+              margin: const EdgeInsets.symmetric(horizontal: 2.5),
+              child: const Divider(
+                thickness: 0.5,
+                color: Colors.grey,
+              )
+          ),
+        ],
+      )
+    );
+  }
+}

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:invested/pages/login/account_detail_page.dart';
 import 'package:invested/util/custom_text_field.dart';
 import 'package:invested/util/to_previous_page.dart';
-import 'package:invested/pages/login/page_image.dart';
-import 'package:invested/pages/login/page_title.dart';
+import 'package:invested/util/page_image.dart';
+import 'package:invested/util/page_title.dart';
 import 'package:page_transition/page_transition.dart';
 import '../../util/global_styling.dart' as global_styling;
 

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import '../../util/global_styling.dart' as global_styling;
+import 'global_styling.dart' as global_styling;
 
 class PageTitle extends StatelessWidget {
   final String title;
+  final double fontSize;
   const PageTitle({
     Key? key,
-    this.title = ''
+    this.title = '',
+    this.fontSize = 40
   }) : super(key: key);
 
   @override
@@ -17,7 +19,7 @@ class PageTitle extends StatelessWidget {
           title,
           style: TextStyle(
               fontFamily: global_styling.TITLE_FONT,
-              fontSize: 40
+              fontSize: fontSize
           ),
         )
     );

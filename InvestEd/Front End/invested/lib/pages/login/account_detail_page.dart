@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:invested/pages/login/login_page.dart';
-import 'package:invested/pages/login/page_image.dart';
-import 'package:invested/pages/login/page_title.dart';
+import 'package:invested/util/page_image.dart';
+import 'package:invested/util/page_title.dart';
 import 'package:invested/util/custom_text_field.dart';
 import 'package:invested/util/to_previous_page.dart';
 import '../../util/custom_text.dart';
