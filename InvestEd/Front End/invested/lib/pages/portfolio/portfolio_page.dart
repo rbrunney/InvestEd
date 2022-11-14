@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:invested/pages/portfolio/period_choice_picker.dart';
 import 'package:invested/util/page_title.dart';
 import 'package:invested/util/line_graph.dart';
 import 'package:invested/pages/portfolio/portfolio_gain.dart';
@@ -15,6 +16,8 @@ class PortfolioPage extends StatefulWidget {
 }
 
 class _PortfolioPageState extends State<PortfolioPage> {
+  String gainPeriod = "Today";
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -32,7 +35,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
                   text: '\$5,000.00',
                   fontSize: 30,
                 ),
-                DisplayPortfolioGain(),
+                DisplayPortfolioGain(gainPeriod: gainPeriod),
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 15),
                   child: LineGraph(
@@ -69,6 +72,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
                     ],
                   )
                 ),
+                PeriodChoicePicker(gainPeriod: gainPeriod),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 10),
                   child: const Divider(

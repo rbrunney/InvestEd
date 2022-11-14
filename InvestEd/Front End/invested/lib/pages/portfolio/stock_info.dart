@@ -2,7 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:invested/util/line_graph.dart';
-import 'package:invested/pages/stock/BasicStockInfo.dart';
+import 'package:invested/pages/stock/basic_stock_info.dart';
 import 'package:invested/util/custom_text.dart';
 import 'package:invested/util/global_styling.dart' as global_styling;
 import 'package:page_transition/page_transition.dart';
