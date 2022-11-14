@@ -1,0 +1,14 @@
+{
+    'ticker': 'MSFT', 
+    'name': 'Microsoft Corp', 
+    'market_cap': 1842074858613.84, 
+    'description': 'Microsoft develops and licenses consumer and enterprise software. It is known for its Windows operating systems and Office productivity suite. The company is organized into three equally sized broad segments: productivity and business processes (legacy Microsoft Office, cloud-based Office 365, Exchange, SharePoint, Skype, LinkedIn, Dynamics), intelligence cloud (infrastructure- and platform-as-a-service offerings Azure, Windows Server OS, SQL Server), and more personal computing (Windows Client, Xbox, Bing search, display advertising, and Surface laptops, tablets, and desktops).', 
+    'list_date': '1986-03-13', 
+    'total_employees': 221000, 
+    'hq_address': {'street': 'ONE MICROSOFT WAY', 'city': 'REDMOND', 'state': 'WA', 'zipcode': '98052-6399'}, 
+    'last_dividend': 0.68, 
+    'open': 242.99, 
+    'high': 247.99, 
+    'low': 247.11, 
+    volume': 34620246.0
+}

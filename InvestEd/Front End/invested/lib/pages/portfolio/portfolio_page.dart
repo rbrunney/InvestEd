@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:invested/pages/portfolio/period_choice_picker.dart';
+import 'package:invested/util/custom_divider.dart';
 import 'package:invested/util/page_title.dart';
 import 'package:invested/util/line_graph.dart';
 import 'package:invested/pages/portfolio/portfolio_gain.dart';
@@ -16,7 +17,6 @@ class PortfolioPage extends StatefulWidget {
 }
 
 class _PortfolioPageState extends State<PortfolioPage> {
-  String gainPeriod = "Today";
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +35,9 @@ class _PortfolioPageState extends State<PortfolioPage> {
                   text: '\$5,000.00',
                   fontSize: 30,
                 ),
-                DisplayPortfolioGain(gainPeriod: gainPeriod),
+                DisplayPortfolioGain(),
                 Container(
-                  margin: const EdgeInsets.symmetric(vertical: 15),
+                  margin: const EdgeInsets.symmetric(vertical: 40),
                   child: LineGraph(
                     width: MediaQuery.of(context).size.width - 15,
                     maxX: 20,
@@ -72,14 +72,8 @@ class _PortfolioPageState extends State<PortfolioPage> {
                     ],
                   )
                 ),
-                PeriodChoicePicker(gainPeriod: gainPeriod),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: const Divider(
-                    thickness: 1.5,
-                    color: Colors.grey,
-                  )
-                ),
+                PeriodChoicePicker(),
+                const CustomDivider(),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 10),
                   child: Row(
@@ -102,13 +96,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
                     ],
                   ),
                 ),
-                Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    child: const Divider(
-                      thickness: 1.5,
-                      color: Colors.grey,
-                    )
-                ),
+                const CustomDivider(),
                 Container(
                   margin: const EdgeInsets.only(top: 30),
                   child: const PageTitle(

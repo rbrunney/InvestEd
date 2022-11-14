@@ -927,7 +927,24 @@
             ]
         }
     },
-    "Week 7": {},
+    "Week 7": {
+        "Sunday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "5:30 pm",
+                    "end_time": "8:30 pm",
+                    "description": "Working on Portfolio Picker"
+                },
+                {
+                    "activity": "Bug Fixing",
+                    "start_time": "8:30 pm",
+                    "end_time": "10:3 pm",
+                    "description": "Working on fixing visual graph error"
+                }
+            ]
+        }
+    },
     "Week 8": {},
     "Week 9": {},
     "Week 10": {}

@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:invested/util/custom_divider.dart';
 import 'package:invested/util/line_graph.dart';
 import 'package:invested/pages/stock/basic_stock_info.dart';
 import 'package:invested/util/custom_text.dart';
@@ -109,13 +110,7 @@ class _StockInfoState extends State<StockInfo> {
                   ),
                 ],
               ),
-              Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 2.5),
-                  child: const Divider(
-                    thickness: 0.5,
-                    color: Colors.grey,
-                  )
-              ),
+              const CustomDivider(thickness: 0.5)
             ],
           )
       ),
@@ -123,7 +118,10 @@ class _StockInfoState extends State<StockInfo> {
         Navigator.push(
             context,
             PageTransition(
-                child: BasicStockInfo(ticker: widget.ticker),
+                child: BasicStockInfo(
+                    ticker: widget.ticker,
+                  companyName: "Microsoft Corp",
+                ),
                 type: PageTransitionType.rightToLeftWithFade));
       },
     );
