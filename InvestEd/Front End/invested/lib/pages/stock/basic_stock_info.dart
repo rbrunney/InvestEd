@@ -1,5 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:invested/pages/stock/bottom_trade_bar.dart';
+import 'package:invested/pages/stock/total_position.dart';
 import 'package:invested/util/custom_divider.dart';
 import 'package:invested/util/custom_text.dart';
 import 'package:invested/util/page_title.dart';
@@ -87,47 +89,30 @@ class _BasicStockInfoState extends State<BasicStockInfo> {
                       ),
                       PeriodChoicePicker(),
                       const CustomDivider(),
-                      CustomText(
-                        topMargin: 5,
-                        bottomMargin: 5,
-                        fontSize: 18,
-                        text: widget.companyName,
-                        alignment: Alignment.center,
+                      const TotalPosition(),
+                      PageTitle(
+                        title: "About ${widget.ticker}",
+                        fontSize: 25,
                       ),
-                      const CustomDivider(),
-                      Container(
-                        margin: const EdgeInsets.only(top: 30),
-                        child: const PageTitle(
-                          title: "Total Position",
-                          fontSize: 25,
-                        ),
+                      const PageTitle(
+                        title: 'Description',
+                        fontSize: 18,
+                      ),
+                      CustomText(
+                        leftMargin: 15,
+                        rightMargin: 15,
+                        bottomMargin: 15,
+                        text: '     Microsoft develops and licenses consumer and enterprise software. It is known for its Windows operating systems and Office productivity suite. The company is organized into three equally sized broad segments: productivity and business processes (legacy Microsoft Office, cloud-based Office 365, Exchange, SharePoint, Skype, LinkedIn, Dynamics), intelligence cloud (infrastructure- and platform-as-a-service offerings Azure, Windows Server OS, SQL Server), and more personal computing (Windows Client, Xbox, Bing search, display advertising, and Surface laptops, tablets, and desktops).',
+                      ),
+                      const PageTitle(
+                        title: 'Stats',
+                        fontSize: 18,
                       ),
                     ],
                   )
               )
             ),
-            SizedBox(
-              height: 50,
-              width: MediaQuery.of(context).size.width,
-              child: Container(
-                alignment: Alignment.bottomCenter,
-                child: Row(
-                  children: [
-
-                    CustomText(
-                      text: "Shares",
-                    ),
-                    const Spacer(),
-                    InkWell(
-                      onTap: () {},
-                      child: CustomText(
-                        text: "Trade",
-                      )
-                    )
-                  ],
-                ),
-              ),
-            )
+            const BottomTradeBar()
           ],
         )
       )
