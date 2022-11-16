@@ -23,6 +23,7 @@ class SettingsTab extends StatelessWidget {
             CustomText(
               leftMargin: 20,
               text: name,
+              fontSize: 18,
             ),
             const Spacer(),
             const Icon(Icons.arrow_forward_outlined)
