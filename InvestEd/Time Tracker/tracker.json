@@ -957,6 +957,12 @@
                     "start_time": "9:0 pm",
                     "end_time": "10:30 pm",
                     "description": "Working on Stock Basic Info Page"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "9:30 pm",
+                    "end_time": "10:47 pm",
+                    "description": "Finished up portfolio page and stock basic page"
                 }
             ]
         }
