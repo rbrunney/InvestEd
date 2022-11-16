@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:invested/pages/account/settings_tab.dart';
 
-import '../../util/page_title.dart';
+import '../../../util/page_title.dart';
 
 class SupportSettings extends StatelessWidget {
   const SupportSettings({Key? key}) : super(key: key);
@@ -19,17 +19,20 @@ class SupportSettings extends StatelessWidget {
                 fontSize: 20,
               ),
             ),
-            const SettingsTab(
+            SettingsTab(
               iconData: Icons.email_outlined,
               name: "Contact",
+              onTap: () {},
             ),
-            const SettingsTab(
+            SettingsTab(
               iconData: Icons.notes_outlined,
               name: "Terms of Service",
+              onTap: () {},
             ),
-            const SettingsTab(
+            SettingsTab(
               iconData: Icons.history,
               name: "Privacy Policy",
+              onTap: () {},
             )
           ],
         )

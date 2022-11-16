@@ -5,10 +5,12 @@ import '../../util/custom_text.dart';
 class SettingsTab extends StatelessWidget {
   final IconData iconData;
   final String name;
+  final VoidCallback onTap;
   const SettingsTab({
     Key? key,
     this.iconData = Icons.abc_outlined,
-    this.name = ''
+    this.name = '',
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -16,7 +18,7 @@ class SettingsTab extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: InkWell(
-        onTap: () {},
+        onTap: onTap,
         child: Row(
           children: [
             Icon(iconData),

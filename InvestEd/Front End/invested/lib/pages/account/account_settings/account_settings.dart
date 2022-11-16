@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:invested/pages/account/settings_tab.dart';
 
-import '../../util/page_title.dart';
+import '../../../util/page_title.dart';
 
 class AccountSettings extends StatelessWidget {
   const AccountSettings({Key? key}) : super(key: key);
@@ -19,21 +19,25 @@ class AccountSettings extends StatelessWidget {
               fontSize: 20,
             ),
           ),
-          const SettingsTab(
+          SettingsTab(
             iconData: Icons.account_circle_outlined,
             name: "Account Info",
+            onTap: () {},
           ),
-          const SettingsTab(
+          SettingsTab(
             iconData: Icons.history,
             name: "Order History",
+            onTap: () {},
           ),
-          const SettingsTab(
+          SettingsTab(
             iconData: Icons.bubble_chart_outlined,
             name: "Appearance",
+            onTap: () {},
           ),
-          const SettingsTab(
+          SettingsTab(
             iconData: Icons.lock_outline,
             name: "Password",
+            onTap: () {},
           ),
         ],
       )
