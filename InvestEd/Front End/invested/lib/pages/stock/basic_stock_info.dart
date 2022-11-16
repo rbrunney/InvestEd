@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:invested/pages/stock/bottom_trade_bar.dart';
+import 'package:invested/pages/stock/stock_stat_row.dart';
 import 'package:invested/pages/stock/total_position.dart';
 import 'package:invested/util/custom_divider.dart';
 import 'package:invested/util/custom_text.dart';
@@ -108,6 +109,12 @@ class _BasicStockInfoState extends State<BasicStockInfo> {
                         title: 'Stats',
                         fontSize: 18,
                       ),
+                      const CustomDivider(),
+                      const StatRow(rowName: "Open Price", rowData: "\$242.99"),
+                      const StatRow(rowName: "Today's High", rowData: "\$247.99"),
+                      const StatRow(rowName: "Today's Low", rowData: "\$241.11"),
+                      const StatRow(rowName: "Today's Volume", rowData: "34620246"),
+                      const StatRow(rowName: "Dividend Per Share", rowData: "\$0.68")
                     ],
                   )
               )
