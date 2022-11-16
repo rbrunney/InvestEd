@@ -18,11 +18,23 @@ class BottomTradeBar extends StatelessWidget {
             children: [
               const CustomDivider(thickness: 0.5),
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10),
+                margin: const EdgeInsets.symmetric(horizontal: 25),
                 child: Row(
                   children: [
-                    CustomText(
-                      text: "Shares",
+                    Container(
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 50),
+                        decoration: BoxDecoration(
+                            color: Color(global_styling.LOGO_COLOR),
+                            borderRadius: BorderRadius.circular(5)
+                        ),
+                        child: InkWell(
+                            onTap: () {},
+                            child: CustomText(
+                              text: "Sell",
+                              color: Color(global_styling.GREY_LOGO_COLOR),
+                            )
+                        )
                     ),
                     const Spacer(),
                     Container(
@@ -35,7 +47,7 @@ class BottomTradeBar extends StatelessWidget {
                         child: InkWell(
                             onTap: () {},
                             child: CustomText(
-                              text: "Trade",
+                              text: "Buy",
                               color: Color(global_styling.GREY_LOGO_COLOR),
                             )
                         )
