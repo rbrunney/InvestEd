@@ -26,7 +26,15 @@ class AccountSettings extends StatelessWidget {
           const SettingsTab(
             iconData: Icons.history,
             name: "Order History",
-          )
+          ),
+          const SettingsTab(
+            iconData: Icons.bubble_chart_outlined,
+            name: "Appearance",
+          ),
+          const SettingsTab(
+            iconData: Icons.lock_outline,
+            name: "Password",
+          ),
         ],
       )
     );

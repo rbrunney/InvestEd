@@ -14,7 +14,7 @@ class SettingsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 30),
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: InkWell(
         onTap: () {},
         child: Row(
