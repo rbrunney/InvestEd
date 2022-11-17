@@ -991,6 +991,24 @@
                     "start_time": "6:0 am",
                     "end_time": "8:11 am",
                     "description": "Privacy Policy Page"
+                },
+                {
+                    "activity": "Design",
+                    "start_time": "1:30 pm",
+                    "end_time": "2:30 pm",
+                    "description": "Working on Lesson Page Design"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "1:30 am",
+                    "end_time": "2:30 am",
+                    "description": "Implmenting Lesson Marker Design"
+                },
+                {
+                    "activity": "Design",
+                    "start_time": "3:30 pm",
+                    "end_time": "4:30 pm",
+                    "description": "Looking for more Lesson UI Desing Choices"
                 }
             ]
         }

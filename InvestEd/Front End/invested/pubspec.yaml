@@ -37,6 +37,7 @@ dependencies:
   page_transition: ^2.0.9
   flutter_vector_icons: ^2.0.0
   fl_chart: ^0.55.2
+  syncfusion_flutter_gauges: ^20.3.57
 
 dev_dependencies:
   flutter_test:
