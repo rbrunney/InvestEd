@@ -5,7 +5,11 @@ import 'package:invested/util/global_styling.dart' as global_styling;
 import '../../util/custom_text.dart';
 
 class ProgressRadial extends StatelessWidget {
-  const ProgressRadial({Key? key}) : super(key: key);
+  final double percentageComplete;
+  const ProgressRadial({
+    Key? key,
+    this.percentageComplete = 0
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +31,7 @@ class ProgressRadial extends StatelessWidget {
           pointers: <GaugePointer>[
             RangePointer(
               color: Color(global_styling.LOGO_COLOR),
-              value: 50,
+              value: percentageComplete,
               cornerStyle: CornerStyle.bothCurve,
               width: 0.2,
               sizeUnit: GaugeSizeUnit.factor,
@@ -37,7 +41,8 @@ class ProgressRadial extends StatelessWidget {
             GaugeAnnotation(
               positionFactor: 0.1,
                 widget: CustomText(
-                  text: "50%"
+                  text: "$percentageComplete%",
+                  fontSize: 13,
                 )
             )
           ],

@@ -7,10 +7,12 @@ class LessonMarker extends StatelessWidget {
   final String name;
   final double reward;
   final IconData iconData;
+  final double percentageComplete;
   const LessonMarker({
     Key? key,
     this.name = '',
     this.reward = 0,
+    this.percentageComplete = 0,
     this.iconData = Icons.abc_outlined
   }) : super(key: key);
 
@@ -39,7 +41,7 @@ class LessonMarker extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          const ProgressRadial()
+          ProgressRadial(percentageComplete: percentageComplete)
         ],
       ),
     );

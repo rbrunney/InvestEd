@@ -925,6 +925,16 @@
                     "description": "Working on Stock Info Card"
                 }
             ]
+        },
+        "Friday": {
+            "activities": [
+                {
+                    "activity": "Design",
+                    "start_time": "7:0 pm",
+                    "end_time": "8:30 pm",
+                    "description": "Working on Account Setting Layout"
+                }
+            ]
         }
     },
     "Week 7": {
