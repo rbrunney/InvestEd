@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:invested/pages/account/settings_tab.dart';
+import 'package:invested/pages/account/support_settings/contact_page.dart';
+import 'package:invested/pages/account/support_settings/privacy_policy.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../../../util/page_title.dart';
 
@@ -22,7 +25,13 @@ class SupportSettings extends StatelessWidget {
             SettingsTab(
               iconData: Icons.email_outlined,
               name: "Contact",
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        child: const ContactPage(),
+                        type: PageTransitionType.leftToRightWithFade));
+              },
             ),
             SettingsTab(
               iconData: Icons.notes_outlined,
@@ -32,7 +41,13 @@ class SupportSettings extends StatelessWidget {
             SettingsTab(
               iconData: Icons.history,
               name: "Privacy Policy",
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        child: const PrivacyPolicy(),
+                        type: PageTransitionType.leftToRightWithFade));
+              },
             )
           ],
         )

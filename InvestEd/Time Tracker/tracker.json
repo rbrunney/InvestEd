@@ -977,6 +977,22 @@
                     "description": "Implmenting Design"
                 }
             ]
+        },
+        "Wednesday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "9:30 am",
+                    "end_time": "11:59 am",
+                    "description": "Working on Account Page Design and Code"
+                },
+                {
+                    "activity": "Design",
+                    "start_time": "6:0 am",
+                    "end_time": "8:11 am",
+                    "description": "Privacy Policy Page"
+                }
+            ]
         }
     },
     "Week 8": {},
