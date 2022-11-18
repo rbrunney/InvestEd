@@ -20,30 +20,35 @@ class LessonMarker extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-      child: Row(
-        children: [
-          Icon(iconData),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomText(
-                  text: name,
-                  fontSize: 20,
-                ),
-                CustomText(
-                  text: "Reward: \$$reward",
-                  fontSize: 14,
-                  color: Colors.grey,
-                )
-              ],
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Row(
+          children: [
+            Icon(iconData),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomText(
+                    text: name,
+                    fontSize: 20,
+                  ),
+                  CustomText(
+                    text: "Reward: \$$reward",
+                    fontSize: 14,
+                    color: Colors.grey,
+                  )
+                ],
+              ),
             ),
-          ),
-          const Spacer(),
-          ProgressRadial(percentageComplete: percentageComplete)
-        ],
-      ),
+            const Spacer(),
+            ProgressRadial(percentageComplete: percentageComplete)
+          ],
+        ),
+        )
+      )
     );
   }
 }
