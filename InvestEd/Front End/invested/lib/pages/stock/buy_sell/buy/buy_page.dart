@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:invested/pages/stock/buy_sell/util/buy_sell_info_row.dart';
 import 'package:invested/util/close_page_icon.dart';
@@ -21,13 +23,29 @@ class BuyPage extends StatefulWidget {
 }
 
 class _BuyPageState extends State<BuyPage> {
-  double totalShares = 21.75;
-  String orderType = "Market Order";
+  double totalShares = 0;
+  String orderType = "market_order";
+  double estimatedOrderPrice = 0;
+
+  TextEditingController numberOfSharesController = TextEditingController();
+
+  String? get numOfSharesErrorText {
+    final String text = numberOfSharesController.text;
+
+    try {
+      // Try to parse to double if fail then it is not a valid number
+      setState(() {
+        totalShares = double.parse(text);
+        estimatedOrderPrice = totalShares * widget.currentPrice;
+      });
+      return null;
+    } catch(error) {
+      return "Invalid Total Shares!";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController numberOfSharesController = TextEditingController();
-
     return SafeArea(
         child: Scaffold(
           body: SingleChildScrollView(
@@ -42,23 +60,49 @@ class _BuyPageState extends State<BuyPage> {
                     fontSize: 30,
                   )
                 ),
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 15),
+                  child: DropdownButton(
+                    value: orderType,
+                    items: [
+                      DropdownMenuItem(
+                        value: "market_order",
+                        child: CustomText(text: "Market Order"),
+                      ),
+                      DropdownMenuItem(
+                          value: "limit_order",
+                          child: CustomText(text: "Limit Order")
+                      ),
+                      DropdownMenuItem(
+                          value: "stop_loss_order",
+                          child: CustomText(text: "Stop Loss Order")
+                      ),
+                      DropdownMenuItem(
+                          value: "stop_price_order",
+                          child: CustomText(text: "Stop Price Order")
+                      ),
+                    ],
+                    onChanged: (value) {  },
+                  ),
+                ),
                 CustomTextField(
                   prefixIcon: Icons.numbers_outlined,
                   textInputType: TextInputType.number,
                   labelText: "Number of Shares",
                   hintText: "Number of Shares...",
+                  errorText: numOfSharesErrorText,
                   textController: numberOfSharesController,
                 ),
                 BuySellInfoRow(
                   infoPrefixText: "Market Price:",
-                  infoSuffixText: "\$${widget.currentPrice}",
+                  infoSuffixText: "\$${widget.currentPrice.toStringAsFixed(2)}",
                 ),
                 BuySellInfoRow(
                   infoPrefixText: "Estimate Order Price:",
-                  infoSuffixText: "\$${(widget.currentPrice * totalShares)}",
+                  infoSuffixText: "\$${estimatedOrderPrice.toStringAsFixed(2)}",
                 ),
                 Container(
-                  margin: const EdgeInsets.symmetric(vertical: 75),
+                  margin: const EdgeInsets.symmetric(vertical: 85),
                   child: InkWell(
                     onTap: () {},
                     child: SizedBox(

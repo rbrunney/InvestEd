@@ -24,7 +24,7 @@ class _BuySellInfoRowState extends State<BuySellInfoRow> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
       child: Container(
         child: Row(
           children: [
