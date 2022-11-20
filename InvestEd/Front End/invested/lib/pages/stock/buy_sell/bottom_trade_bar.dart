@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:invested/pages/stock/buy_page.dart';
-import 'package:invested/pages/stock/sell_page.dart';
+import 'package:invested/pages/stock/buy_sell/buy/buy_page.dart';
+import 'package:invested/pages/stock/buy_sell/sell/sell_page.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../../util/global_styling.dart' as global_styling;
-import '../../util/custom_divider.dart';
-import '../../util/custom_text.dart';
+import '../../../util/global_styling.dart' as global_styling;
+import '../../../util/custom_divider.dart';
+import '../../../util/custom_text.dart';
 
 class BottomTradeBar extends StatelessWidget {
-  const BottomTradeBar({Key? key}) : super(key: key);
+  final String ticker;
+  final double currentPrice;
+  const BottomTradeBar({
+    Key? key,
+    this.ticker = "",
+    this.currentPrice = 0
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +36,7 @@ class BottomTradeBar extends StatelessWidget {
                               context,
                               PageTransition(
                                   child: const SellPage(),
-                                  type: PageTransitionType.rightToLeftWithFade));
+                                  type: PageTransitionType.bottomToTop));
                         },
                         child: Container(
                             margin: const EdgeInsets.symmetric(vertical: 10),
@@ -51,8 +57,11 @@ class BottomTradeBar extends StatelessWidget {
                         Navigator.push(
                             context,
                             PageTransition(
-                                child: const BuyPage(),
-                                type: PageTransitionType.rightToLeftWithFade));
+                                child: BuyPage(
+                                  ticker: ticker,
+                                  currentPrice: currentPrice,
+                                ),
+                                type: PageTransitionType.bottomToTop));
                       },
                       child: Container(
                         margin: const EdgeInsets.symmetric(vertical: 10),

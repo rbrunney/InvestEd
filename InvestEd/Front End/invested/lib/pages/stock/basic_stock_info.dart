@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:invested/pages/stock/additional_info.dart';
-import 'package:invested/pages/stock/bottom_trade_bar.dart';
+import 'package:invested/pages/stock/buy_sell/bottom_trade_bar.dart';
 import 'package:invested/pages/stock/stock_stat_row.dart';
 import 'package:invested/pages/stock/total_position.dart';
 import 'package:invested/util/custom_divider.dart';
@@ -124,7 +124,10 @@ class _BasicStockInfoState extends State<BasicStockInfo> {
                   )
               )
             ),
-            const BottomTradeBar()
+            BottomTradeBar(
+              ticker: widget.ticker,
+              currentPrice: 253.4545,
+            )
           ],
         )
       )
