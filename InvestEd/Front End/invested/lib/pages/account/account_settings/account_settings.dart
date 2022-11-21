@@ -43,7 +43,7 @@ class _AccountSettingsState extends State<AccountSettings> {
                 margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
               child: Row(
                   children: [
-                    Icon(darkMode ? Ionicons.md_moon_outline : Ionicons.md_sunny_outline),
+                    Icon(global_styling.ThemeChanger.isDark ? Ionicons.md_moon_outline : Ionicons.md_sunny_outline),
                     CustomText(
                       leftMargin: 20,
                       text: "Appearance",
@@ -55,6 +55,7 @@ class _AccountSettingsState extends State<AccountSettings> {
                         value: false,
                         onChanged: (value) => setState(() {
                           darkMode = !darkMode;
+                          global_styling.currentTheme.switchTheme();
                         })
                     )
                   ],
