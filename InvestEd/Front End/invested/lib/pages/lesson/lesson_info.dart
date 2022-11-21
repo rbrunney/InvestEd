@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:invested/pages/lesson/lesson_sub_category.dart';
+import 'package:invested/pages/lesson/subcategory/lesson_sub_category.dart';
 import 'package:invested/pages/lesson/progress_radial.dart';
 import 'package:invested/util/close_page_icon.dart';
 import 'package:invested/util/custom_divider.dart';
 import 'package:invested/util/page_title.dart';
-import 'package:invested/util/to_previous_page.dart';
 
 import '../../util/custom_text.dart';
 

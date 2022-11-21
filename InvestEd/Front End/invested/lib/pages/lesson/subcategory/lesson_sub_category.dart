@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:invested/pages/lesson/subcategory/subcategory_info_page.dart';
 import 'package:invested/util/custom_text.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:invested/util/global_styling.dart' as global_styling;
 
 class LessonSubCategory extends StatelessWidget {
   final String subCategoryName;
@@ -14,7 +17,13 @@ class LessonSubCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.push(
+              context,
+              PageTransition(
+                  child: SubCategoryInfo(title: subCategoryName),
+                  type: PageTransitionType.fade));
+        },
         child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
             child: Card(
@@ -27,7 +36,7 @@ class LessonSubCategory extends StatelessWidget {
                               text: subCategoryName,
                             ),
                             const Spacer(),
-                            hasFinished ? const Icon(MaterialCommunityIcons.checkbox_marked_outline)
+                            hasFinished ? Icon(MaterialCommunityIcons.checkbox_marked_outline, color: Color(global_styling.LOGO_COLOR))
                                 : const Icon(MaterialCommunityIcons.checkbox_blank_outline)
                           ],
                         )
