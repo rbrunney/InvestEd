@@ -46,7 +46,7 @@ class SupportSettings extends StatelessWidget {
                     context,
                     PageTransition(
                         child: const PrivacyPolicy(),
-                        type: PageTransitionType.leftToRightWithFade));
+                        type: PageTransitionType.rightToLeftWithFade));
               },
             )
           ],

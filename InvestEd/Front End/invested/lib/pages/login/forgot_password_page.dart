@@ -9,7 +9,11 @@ import 'package:page_transition/page_transition.dart';
 import '../../util/global_styling.dart' as global_styling;
 
 class ForgotPasswordPage extends StatefulWidget {
-  const ForgotPasswordPage({Key? key}) : super(key: key);
+  final String title;
+  const ForgotPasswordPage({
+    Key? key,
+    this.title = "",
+  }) : super(key: key);
 
   @override
   State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
@@ -52,7 +56,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               children: [
                 const ToPrevPage(),
                 const PageImage(assetImg: 'assets/images/icon.png', marginTop: 7),
-                const PageTitle(title: "Forgot"),
+                PageTitle(title: widget.title),
                 const PageTitle(title: "Password?"),
                 CustomText(
                   leftMargin: 15,

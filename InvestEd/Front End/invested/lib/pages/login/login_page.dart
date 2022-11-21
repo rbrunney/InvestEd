@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                 Navigator.push(
                     context,
                     PageTransition(
-                        child: const ForgotPasswordPage(),
+                        child: const ForgotPasswordPage(title: "Forgot",),
                         type: PageTransitionType.rightToLeftWithFade));
               },
               child: Container(

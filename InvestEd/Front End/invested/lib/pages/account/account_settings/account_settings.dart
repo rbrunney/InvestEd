@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:invested/pages/account/settings_tab.dart';
+import 'package:invested/pages/login/change_password_page.dart';
+import 'package:invested/pages/login/forgot_password_page.dart';
+import 'package:invested/pages/login/verification_code_page.dart';
 import 'package:invested/util/global_styling.dart' as global_styling;
+import 'package:page_transition/page_transition.dart';
 
 import '../../../util/custom_text.dart';
 import '../../../util/page_title.dart';
@@ -64,7 +68,13 @@ class _AccountSettingsState extends State<AccountSettings> {
             SettingsTab(
               iconData: Icons.lock_outline,
               name: "Password",
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        child: const ForgotPasswordPage(title: "Update",),
+                        type: PageTransitionType.rightToLeftWithFade));
+              },
             ),
           ],
         )
