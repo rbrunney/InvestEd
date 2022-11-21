@@ -35,7 +35,10 @@ class BottomTradeBar extends StatelessWidget {
                           Navigator.push(
                               context,
                               PageTransition(
-                                  child: const SellPage(),
+                                  child: SellPage(
+                                    ticker: ticker,
+                                    currentPrice: currentPrice,
+                                  ),
                                   type: PageTransitionType.bottomToTop));
                         },
                         child: Container(
