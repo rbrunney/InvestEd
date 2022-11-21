@@ -1037,6 +1037,12 @@
                     "start_time": "8:30 pm",
                     "end_time": "11:59 pm",
                     "description": "Working on Lesson Page and Account Page"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "1:0 am",
+                    "end_time": "2:36 am",
+                    "description": "Working on Contact Page"
                 }
             ]
         }

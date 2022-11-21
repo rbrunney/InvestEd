@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:invested/pages/account/account_settings/order_history_page.dart';
 import 'package:invested/pages/account/settings_tab.dart';
 import 'package:invested/pages/login/change_password_page.dart';
 import 'package:invested/pages/login/forgot_password_page.dart';
@@ -41,7 +42,13 @@ class _AccountSettingsState extends State<AccountSettings> {
             SettingsTab(
               iconData: Icons.history,
               name: "Order History",
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        child: const OrderHistoryPage(),
+                        type: PageTransitionType.rightToLeftWithFade));
+              },
             ),
             Container(
                 margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
@@ -56,11 +63,12 @@ class _AccountSettingsState extends State<AccountSettings> {
                     const Spacer(),
                     Switch(
                       activeColor: Color(global_styling.LOGO_COLOR),
-                        value: false,
+                        value: darkMode,
                         onChanged: (value) => setState(() {
                           darkMode = !darkMode;
                           global_styling.currentTheme.switchTheme();
-                        })
+                        }
+                      )
                     )
                   ],
               )
