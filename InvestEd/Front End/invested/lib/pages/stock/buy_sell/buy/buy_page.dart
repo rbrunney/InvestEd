@@ -1,10 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:invested/pages/stock/buy_sell/order_complete/order_complete_page.dart';
 import 'package:invested/pages/stock/buy_sell/util/buy_sell_info_row.dart';
 import 'package:invested/util/close_page_icon.dart';
 import 'package:invested/util/custom_text_field.dart';
 import 'package:invested/util/global_styling.dart' as global_styling;
+import 'package:page_transition/page_transition.dart';
 
 import '../../../../util/custom_text.dart';
 import '../../../../util/page_title.dart';
@@ -160,7 +162,21 @@ class _BuyPageState extends State<BuyPage> {
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 35),
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              child: OrderCompletePage(
+                                ticker: widget.ticker,
+                                tradeType: "BUY",
+                                orderType: orderType,
+                                totalShares: totalShares,
+                                currentPrice: widget.currentPrice,
+                                finalPrice: estimatedOrderPrice,
+                                orderId: "123d-da23-232s-oi78",
+                              ),
+                              type: PageTransitionType.bottomToTop));
+                    },
                     child: SizedBox(
                         height: 40,
                         width: 200,
