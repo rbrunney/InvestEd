@@ -89,6 +89,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                   fontSize: 15,
                 ),
                 CustomTextField(
+                    textCallBack: (value) {},
                     labelText: 'Enter First Name',
                     hintText: 'Enter First Name...',
                     errorText: null,
@@ -96,6 +97,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                     textController: fnameController
                 ),
                 CustomTextField(
+                    textCallBack: (value) {},
                     labelText: 'Enter Last Name',
                     hintText: 'Enter Last Name...',
                     errorText: null,
@@ -103,6 +105,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                     textController: lnameController
                 ),
                 CustomTextField(
+                    textCallBack: (value) {},
                     labelText: 'Enter Birthday',
                     hintText: 'MM-DD-YYYY',
                     errorText: birthdayErrorText,

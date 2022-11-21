@@ -4,13 +4,11 @@ import 'package:invested/util/custom_text.dart';
 
 class BuySellInfoRow extends StatefulWidget {
   final String infoPrefixText;
-  final String infoSuffixText;
-  final bool hasTextField;
-  const BuySellInfoRow({
+  String infoSuffixText;
+  BuySellInfoRow({
     Key? key,
     this.infoPrefixText = '',
-    this.infoSuffixText = '',
-    this.hasTextField = false
+    this.infoSuffixText = ''
   }) : super(key: key);
 
   @override
@@ -33,8 +31,7 @@ class _BuySellInfoRowState extends State<BuySellInfoRow> {
                 text: widget.infoPrefixText
             ),
             const Spacer(),
-            widget.hasTextField ?
-            TextFormField() : CustomText(
+            CustomText(
               fontSize: textSize,
               text: widget.infoSuffixText,
             ),

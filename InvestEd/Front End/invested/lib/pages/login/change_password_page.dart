@@ -68,6 +68,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   const PageImage(assetImg: 'assets/images/icon.png', marginTop: 7),
                   const PageTitle(title: 'Reset Password'),
                   CustomTextField(
+                      textCallBack: (value) {},
                       labelText: 'Enter New Password',
                       hintText: 'Enter New Password...',
                       isObscure: true,
@@ -79,6 +80,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       textController: newPasswordController
                   ),
                   CustomTextField(
+                      textCallBack: (value) {},
                       labelText: 'Confirm New Password',
                       hintText: 'Confirm New Password...',
                       isObscure: true,

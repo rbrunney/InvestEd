@@ -63,6 +63,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                     fontSize: 15,
                   ),
                   CustomTextField(
+                      textCallBack: (value) {},
                       hintText: 'Enter Verification Code...',
                       labelText: 'Enter Verification Code',
                       errorText: verificationCodeErrorText,

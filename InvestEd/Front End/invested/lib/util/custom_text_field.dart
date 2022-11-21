@@ -13,6 +13,7 @@ class CustomTextField extends StatefulWidget {
   final IconData suffixIcon;
   final IconData pressedSuffixIcon;
   final TextInputType textInputType;
+  final Function(String value) textCallBack;
   final List<TextInputFormatter> textFormatters;
   final TextEditingController textController;
 
@@ -29,6 +30,7 @@ class CustomTextField extends StatefulWidget {
     this.prefixIcon = Icons.abc_outlined,
     this.suffixIcon = Icons.abc_outlined,
     this.pressedSuffixIcon = Icons.abc_outlined,
+    required this.textCallBack,
     required this.textController
   }) : super(key: key);
 
@@ -43,6 +45,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return Container(
         margin: EdgeInsets.symmetric(vertical: widget.verticalMargin, horizontal: 15),
         child: TextField(
+          onChanged: widget.textCallBack,
           controller: widget.textController,
           obscureText: widget.isObscure,
           keyboardType: widget.textInputType,

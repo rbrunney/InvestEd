@@ -96,6 +96,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   const PageImage(assetImg: 'assets/images/icon.png', marginTop: 7),
                   const PageTitle(title: 'Sign Up'),
                   CustomTextField(
+                      textCallBack: (value) {},
                       hintText: "Enter Username...",
                       labelText: "Enter Username",
                       errorText: null,
@@ -104,6 +105,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       textController: usernameController
                   ),
                   CustomTextField(
+                      textCallBack: (value) {},
                       hintText: "Enter Email...",
                       labelText: "Enter Email",
                       errorText: emailErrorText,
@@ -112,6 +114,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       textController: emailController
                   ),
                   CustomTextField(
+                      textCallBack: (value) {},
                       hintText: "Enter Password...",
                       labelText: "Enter Password",
                       errorText: newPassErrorText,
@@ -124,6 +127,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       textController: newPasswordController
                   ),
                   CustomTextField(
+                      textCallBack: (value) {},
                       hintText: "Confirm Password...",
                       labelText: "Confirm Password",
                       errorText: confirmNewPassErrorText,

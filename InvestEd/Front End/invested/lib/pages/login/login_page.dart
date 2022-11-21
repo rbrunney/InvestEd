@@ -56,6 +56,7 @@ class _LoginPageState extends State<LoginPage> {
           const PageImage(assetImg: 'assets/images/icon.png', marginTop: 55),
           const PageTitle(title: "Login"),
           CustomTextField(
+            textCallBack: (value) {},
             hintText: "Enter Username...",
             labelText: "Enter Username",
             prefixIcon: Icons.account_circle_outlined,
@@ -63,6 +64,7 @@ class _LoginPageState extends State<LoginPage> {
             errorText: usernameErrorText,
           ),
           CustomTextField(
+            textCallBack: (value) {},
             hintText: "Enter Password...",
             labelText: "Enter Password",
             isObscure: true,

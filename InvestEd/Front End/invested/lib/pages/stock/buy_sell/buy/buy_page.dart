@@ -24,10 +24,15 @@ class BuyPage extends StatefulWidget {
 
 class _BuyPageState extends State<BuyPage> {
   double totalShares = 0;
-  String orderType = "market_order";
   double estimatedOrderPrice = 0;
+  String estimatedOrderDisplay = "0.00";
+  String orderType = "market_order";
+  bool hasLimitPrice = false;
+  bool hasStopPrice = false;
 
   TextEditingController numberOfSharesController = TextEditingController();
+  TextEditingController limitPriceController = TextEditingController();
+  TextEditingController stopPriceController = TextEditingController();
 
   String? get numOfSharesErrorText {
     final String text = numberOfSharesController.text;
@@ -37,6 +42,7 @@ class _BuyPageState extends State<BuyPage> {
       setState(() {
         totalShares = double.parse(text);
         estimatedOrderPrice = totalShares * widget.currentPrice;
+        estimatedOrderDisplay = estimatedOrderPrice.toStringAsFixed(2);
       });
       return null;
     } catch(error) {
@@ -53,7 +59,7 @@ class _BuyPageState extends State<BuyPage> {
               children: [
                 const ClosePageIcon(),
                 Container(
-                  margin: const EdgeInsets.only(top: 110, bottom: 20),
+                  margin: const EdgeInsets.only(top: 50, bottom: 20),
                   child: PageTitle(
                     alignment: Alignment.centerLeft,
                     title: "Buy ${widget.ticker}",
@@ -82,10 +88,40 @@ class _BuyPageState extends State<BuyPage> {
                           child: CustomText(text: "Stop Price Order")
                       ),
                     ],
-                    onChanged: (value) {  },
+                    onChanged: (String? value) {
+                      setState(() {
+                        orderType = value!;
+
+                        if(orderType == "market_order") {
+                          hasLimitPrice = false;
+                          hasStopPrice = false;
+                        } else if (orderType == "limit_order") {
+                          hasLimitPrice = true;
+                          hasStopPrice = false;
+                        } else if (orderType == "stop_loss_order") {
+                          hasLimitPrice = false;
+                          hasStopPrice = true;
+                        } else if (orderType == "stop_price_order") {
+                         hasLimitPrice = true;
+                         hasStopPrice = true;
+                        }
+                      });
+                    },
                   ),
                 ),
                 CustomTextField(
+                  textCallBack: (value) {
+                    try {
+                      totalShares = double.parse(value);
+                    } catch(error) {
+                      totalShares = 0;
+                    }
+
+                    setState(() {
+                      estimatedOrderPrice = totalShares * widget.currentPrice;
+                      estimatedOrderDisplay = estimatedOrderPrice.toStringAsFixed(2);
+                    });
+                  },
                   prefixIcon: Icons.numbers_outlined,
                   textInputType: TextInputType.number,
                   labelText: "Number of Shares",
@@ -93,16 +129,36 @@ class _BuyPageState extends State<BuyPage> {
                   errorText: numOfSharesErrorText,
                   textController: numberOfSharesController,
                 ),
+                Visibility(
+                  visible: hasLimitPrice,
+                    child: CustomTextField(
+                        textCallBack: (value) {},
+                      prefixIcon: Icons.attach_money_outlined,
+                      labelText: "Enter Limit Price",
+                      hintText: "Enter Limit Price...",
+                        textController: limitPriceController
+                    )
+                ),
+                Visibility(
+                  visible: hasStopPrice,
+                    child: CustomTextField(
+                        textCallBack: (value) {},
+                        prefixIcon: Icons.attach_money_outlined,
+                        labelText: "Enter Stop Price",
+                        hintText: "Enter Stop Price...",
+                        textController: stopPriceController
+                    )
+                ),
                 BuySellInfoRow(
                   infoPrefixText: "Market Price:",
                   infoSuffixText: "\$${widget.currentPrice.toStringAsFixed(2)}",
                 ),
                 BuySellInfoRow(
                   infoPrefixText: "Estimate Order Price:",
-                  infoSuffixText: "\$${estimatedOrderPrice.toStringAsFixed(2)}",
+                  infoSuffixText: "\$$estimatedOrderDisplay",
                 ),
                 Container(
-                  margin: const EdgeInsets.symmetric(vertical: 85),
+                  margin: const EdgeInsets.symmetric(vertical: 35),
                   child: InkWell(
                     onTap: () {},
                     child: SizedBox(

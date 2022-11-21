@@ -63,6 +63,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   fontSize: 15,
                 ),
                 CustomTextField(
+                  textCallBack: (value) {},
                   hintText: 'Enter Email...',
                   labelText: 'Enter Email',
                   prefixIcon: Icons.email_outlined,
