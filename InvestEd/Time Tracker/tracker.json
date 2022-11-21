@@ -1023,7 +1023,24 @@
             ]
         }
     },
-    "Week 8": {},
+    "Week 8": {
+        "Sunday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "5:0 pm",
+                    "end_time": "7:5 pm",
+                    "description": "Working on Buy Sell Page"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "8:30 pm",
+                    "end_time": "11:59 pm",
+                    "description": "Working on Lesson Page and Account Page"
+                }
+            ]
+        }
+    },
     "Week 9": {},
     "Week 10": {}
 }

@@ -15,13 +15,9 @@ class PrivacyPolicy extends StatelessWidget {
             child: Column(
               children: [
                 const ToPrevPage(),
+                const Image(image: AssetImage("assets/images/logo.png")),
                 const PageTitle(
                   title: "Privacy Policy",
-                  alignment: Alignment.center,
-                ),
-                const PageTitle(
-                  title: "InvestEd",
-                  fontSize: 25,
                   alignment: Alignment.center,
                 ),
                 const PolicyText(

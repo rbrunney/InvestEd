@@ -35,11 +35,6 @@ class SupportSettings extends StatelessWidget {
             ),
             SettingsTab(
               iconData: Icons.notes_outlined,
-              name: "Terms of Service",
-              onTap: () {},
-            ),
-            SettingsTab(
-              iconData: Icons.history,
               name: "Privacy Policy",
               onTap: () {
                 Navigator.push(
