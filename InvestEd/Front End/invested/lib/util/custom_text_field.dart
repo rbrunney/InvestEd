@@ -9,6 +9,7 @@ class CustomTextField extends StatefulWidget {
   final bool hasSuffixIcon;
   bool isObscure;
   final double verticalMargin;
+  final int maxLines;
   final IconData prefixIcon;
   final IconData suffixIcon;
   final IconData pressedSuffixIcon;
@@ -25,6 +26,7 @@ class CustomTextField extends StatefulWidget {
     this.hasSuffixIcon = false,
     this.isObscure = false,
     this.verticalMargin = 15,
+    this.maxLines = 1,
     this.textInputType = TextInputType.text,
     this.textFormatters = const [],
     this.prefixIcon = Icons.abc_outlined,
@@ -45,6 +47,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return Container(
         margin: EdgeInsets.symmetric(vertical: widget.verticalMargin, horizontal: 15),
         child: TextField(
+          maxLines: widget.maxLines,
           onChanged: widget.textCallBack,
           controller: widget.textController,
           obscureText: widget.isObscure,

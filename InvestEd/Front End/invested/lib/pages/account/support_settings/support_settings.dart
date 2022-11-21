@@ -30,7 +30,7 @@ class SupportSettings extends StatelessWidget {
                     context,
                     PageTransition(
                         child: const ContactPage(),
-                        type: PageTransitionType.leftToRightWithFade));
+                        type: PageTransitionType.rightToLeftWithFade));
               },
             ),
             SettingsTab(
