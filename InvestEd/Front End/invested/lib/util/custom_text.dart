@@ -38,7 +38,7 @@ class _CustomTextState extends State<CustomText> {
           style: TextStyle(
               fontFamily: global_styling.TEXT_FONT,
               fontSize: widget.fontSize,
-            color: widget.color
+            color: global_styling.ThemeChanger.isDark ? widget.color : (widget.color == Colors.white ? Colors.black : widget.color)
           ),
         )
     );

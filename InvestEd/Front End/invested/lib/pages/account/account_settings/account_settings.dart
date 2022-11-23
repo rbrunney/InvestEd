@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:invested/pages/account/account_settings/order_history_page.dart';
 import 'package:invested/pages/account/settings_tab.dart';
-import 'package:invested/pages/login/change_password_page.dart';
 import 'package:invested/pages/login/forgot_password_page.dart';
-import 'package:invested/pages/login/verification_code_page.dart';
 import 'package:invested/util/global_styling.dart' as global_styling;
 import 'package:page_transition/page_transition.dart';
 
 import '../../../util/custom_text.dart';
 import '../../../util/page_title.dart';
+import 'account_info_page.dart';
 
 class AccountSettings extends StatefulWidget {
   const AccountSettings({Key? key}) : super(key: key);
@@ -19,8 +18,6 @@ class AccountSettings extends StatefulWidget {
 }
 
 class _AccountSettingsState extends State<AccountSettings> {
-  bool darkMode = true;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,7 +34,13 @@ class _AccountSettingsState extends State<AccountSettings> {
             SettingsTab(
               iconData: Icons.account_circle_outlined,
               name: "Account Info",
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        child: const AccountInfoPage(),
+                        type: PageTransitionType.rightToLeftWithFade));
+              },
             ),
             SettingsTab(
               iconData: Icons.history,
@@ -63,9 +66,8 @@ class _AccountSettingsState extends State<AccountSettings> {
                     const Spacer(),
                     Switch(
                       activeColor: Color(global_styling.LOGO_COLOR),
-                        value: darkMode,
+                        value: global_styling.ThemeChanger.isDark,
                         onChanged: (value) => setState(() {
-                          darkMode = !darkMode;
                           global_styling.currentTheme.switchTheme();
                         }
                       )
