@@ -1,14 +1,126 @@
 {
-    'ticker': 'MSFT', 
-    'name': 'Microsoft Corp', 
-    'market_cap': 1842074858613.84, 
-    'description': 'Microsoft develops and licenses consumer and enterprise software. It is known for its Windows operating systems and Office productivity suite. The company is organized into three equally sized broad segments: productivity and business processes (legacy Microsoft Office, cloud-based Office 365, Exchange, SharePoint, Skype, LinkedIn, Dynamics), intelligence cloud (infrastructure- and platform-as-a-service offerings Azure, Windows Server OS, SQL Server), and more personal computing (Windows Client, Xbox, Bing search, display advertising, and Surface laptops, tablets, and desktops).', 
-    'list_date': '1986-03-13', 
-    'total_employees': 221000, 
-    'hq_address': {'street': 'ONE MICROSOFT WAY', 'city': 'REDMOND', 'state': 'WA', 'zipcode': '98052-6399'}, 
-    'last_dividend': 0.68, 
-    'open': 242.99, 
-    'high': 247.99, 
-    'low': 247.11, 
-    volume': 34620246.0
-}
+    "results": [
+    {
+    "id": "Iwb9xwSPZSL9vFE3B0u9gFrJGigLZvzHp58-EUaVLOo",
+    "publisher": {
+    "name": "MarketWatch",
+    "homepage_url": "https://www.marketwatch.com/",
+    "logo_url": "https://s3.polygon.io/public/assets/news/logos/marketwatch.svg",
+    "favicon_url": "https://s3.polygon.io/public/assets/news/favicons/marketwatch.ico"
+    },
+    "title": "'It's almost like the Roaring Twenties after the 1918 flu': This Thanksgiving, people are traveling as if it's 2019",
+    "author": "MarketWatch",
+    "published_utc": "2022-11-23T04:16:00Z",
+    "article_url": "https://www.marketwatch.com/story/this-thanksgiving-weekend-americans-are-traveling-as-if-they-never-heard-the-words-pandemic-or-recession-11669124696",
+    "tickers": [
+    "DAL",
+    "AAL",
+    "META",
+    "GOOG",
+    "MSFT"
+    ],
+    "amp_url": "https://www.marketwatch.com/amp/story/this-thanksgiving-weekend-americans-are-traveling-as-if-they-never-heard-the-words-pandemic-or-recession-11669124696",
+    "image_url": "https://images.mktw.net/im-669348/social",
+    "description": "People are taking to the roads and the skies this weekend in numbers not seen since 2019."
+    },
+    {
+    "id": "PIekttYWr-BmValgMVAPy5ptsxyWxOxN8SP6Keb-J90",
+    "publisher": {
+    "name": "MarketWatch",
+    "homepage_url": "https://www.marketwatch.com/",
+    "logo_url": "https://s3.polygon.io/public/assets/news/logos/marketwatch.svg",
+    "favicon_url": "https://s3.polygon.io/public/assets/news/favicons/marketwatch.ico"
+    },
+    "title": "Tech hiring is slowing down — these two charts explain how and why",
+    "author": "MarketWatch",
+    "published_utc": "2022-11-23T04:13:00Z",
+    "article_url": "https://www.marketwatch.com/story/tech-hiring-is-slowing-down-this-chart-explains-how-and-why-11669057738",
+    "tickers": [
+    "META",
+    "GOOGL",
+    "AMZN",
+    "MSFT"
+    ],
+    "amp_url": "https://www.marketwatch.com/amp/story/tech-hiring-is-slowing-down-this-chart-explains-how-and-why-11669057738",
+    "image_url": "https://images.mktw.net/im-611622/social",
+    "description": "Shares of Meta, Alphabet Inc., Amazon, Microsoft and others have all suffered after a string of earnings that disappointed Wall Street."
+    },
+    {
+    "id": "0X4g8bMZWopYqkkqWyo9bvCO6U45zMeTrbyFSYld9DU",
+    "publisher": {
+    "name": "Investing.com",
+    "homepage_url": "https://www.investing.com/",
+    "logo_url": "https://s3.polygon.io/public/assets/news/logos/investing.png",
+    "favicon_url": "https://s3.polygon.io/public/assets/news/favicons/investing.ico"
+    },
+    "title": "Zoom Stock Looks Attractive Amid Extreme Bearish Sentiment",
+    "author": "Haris Anwar/Investing.com",
+    "published_utc": "2022-11-22T17:33:00Z",
+    "article_url": "https://www.investing.com/analysis/zoom-stock-looks-attractive-amid-extreme-bearish-sentiment-200632671",
+    "tickers": [
+    "ZM",
+    "MSFT",
+    "GOOGL"
+    ],
+    "amp_url": "https://m.investing.com/analysis/zoom-stock-looks-attractive-amid-extreme-bearish-sentiment-200632671?ampMode=1",
+    "image_url": "https://i-invdn-com.investing.com/redesign/images/seo/investingcom_analysis_og.jpg"
+    },
+    {
+    "id": "s7Fe383P6R40NW_rG1LL5ojw4J9qQU48k3WJG_iahlc",
+    "publisher": {
+    "name": "Benzinga",
+    "homepage_url": "https://www.benzinga.com/",
+    "logo_url": "https://s3.polygon.io/public/assets/news/logos/benzinga.svg",
+    "favicon_url": "https://s3.polygon.io/public/assets/news/favicons/benzinga.ico"
+    },
+    "title": "Why This Activision Blizzard Analyst Is Turning Bullish Ahead Of Microsoft Deal",
+    "author": "Priya Nigam",
+    "published_utc": "2022-11-22T16:20:09Z",
+    "article_url": "https://www.benzinga.com/analyst-ratings/analyst-color/22/11/29825176/why-this-activision-blizzard-analyst-is-turning-bullish-ahead-of-microsoft-deal",
+    "tickers": [
+    "ATVI",
+    "MSFT"
+    ],
+    "amp_url": "https://www.benzinga.com/amp/content/29825176",
+    "image_url": "https://cdn.benzinga.com/files/images/story/2022/11/22/activision_blizzard.jpg?width=1200&height=800&fit=crop",
+    "description": "Even as the world shifts its focus to FIFA, Activision Blizzard Inc. (NASDAQ: ATVI) remains a leader in rapidly evolving esports market.\nThe Santa Monica, California-based company has witnessed improving product momentum and is among the few names that are likely to be less impacted by recession, according to Baird Equity Research analyst ...Full story available on Benzinga.com",
+    "keywords": [
+    "News",
+    "M&A",
+    "Analyst Color",
+    "Entertainment",
+    "Upgrades",
+    "Top Stories",
+    "Analyst Ratings",
+    "Tech",
+    "General"
+    ]
+    },
+    {
+    "id": "4keT-kfbvfYs2RDdcjwm3Gr-nkTtzxlTOct00_BqKPE",
+    "publisher": {
+    "name": "The Motley Fool",
+    "homepage_url": "https://www.fool.com/",
+    "logo_url": "https://s3.polygon.io/public/assets/news/logos/themotleyfool.svg",
+    "favicon_url": "https://s3.polygon.io/public/assets/news/favicons/themotleyfool.ico"
+    },
+    "title": "1 Growth Stock Down 28% to Buy Right Now",
+    "author": "newsfeedback@fool.com (Dani Cook)",
+    "published_utc": "2022-11-22T15:08:42Z",
+    "article_url": "https://www.fool.com/investing/2022/11/22/1-growth-stock-down-28-to-buy-right-now/",
+    "tickers": [
+    "MSFT",
+    "ATVI"
+    ],
+    "image_url": "https://g.foolcdn.com/editorial/images/710231/data-processing-cables-cloud-computing.jpg",
+    "description": "Microsoft shares took a hit in 2022, but that hasn't stopped its stock from seeing a triple-digit rise over the last five years.",
+    "keywords": [
+    "investing"
+    ]
+    }
+    ],
+    "status": "OK",
+    "request_id": "eb8d0ce6e42ba690652ab7e53ad5a5f5",
+    "count": 5,
+    "next_url": "https://api.polygon.io/v2/reference/news?cursor=YXA9MjAyMi0xMS0yMlQxNSUzQTA4JTNBNDJaJmFzPTRrZVQta2ZidmZZczJSRGRjandtM0dyLW5rVHR6eGxUT2N0MDBfQnFLUEUmbGltaXQ9NSZvcmRlcj1kZXNjZW5kaW5nJnRpY2tlcj1NU0ZU"
+    }
