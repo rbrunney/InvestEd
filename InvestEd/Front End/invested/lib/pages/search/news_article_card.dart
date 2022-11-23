@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../util/custom_text.dart';
 
@@ -25,13 +23,13 @@ class NewsArticleCard extends StatelessWidget {
         ),
       child: GestureDetector(
         onTap: () {
-          Navigator.push(
-              context,
-              PageTransition(
-                  child: const WebView(
-                    initialUrl: "https://www.investing.com/analysis/zoom-stock-looks-attractive-amid-extreme-bearish-sentiment-200632671",
-                  ),
-                  type: PageTransitionType.rightToLeftWithFade));
+          // Navigator.push(
+          //     context,
+          //     PageTransition(
+          //         child: const WebView(
+          //           initialUrl: "https://www.investing.com/analysis/zoom-stock-looks-attractive-amid-extreme-bearish-sentiment-200632671",
+          //         ),
+          //         type: PageTransitionType.rightToLeftWithFade));
         },
         child: Card(
           margin: const EdgeInsets.all(10),
