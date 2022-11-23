@@ -29,7 +29,12 @@ class OrderHistoryPage extends StatelessWidget {
               ),
               Column(
                 children: const [
-                  OrderCardInfo()
+                  OrderCardInfo(
+                    orderId: "123b-345b-567m",
+                    ticker: "MSFT",
+                    tradeType: "BUY",
+                    orderType: "Market Order",
+                  )
                 ],
               ),
               Column(
@@ -42,7 +47,7 @@ class OrderHistoryPage extends StatelessWidget {
                 child: const PageTitle(
                   alignment: Alignment.center,
                   fontSize: 20,
-                  title: "Past Order",
+                  title: "Past Orders",
                 ),
               )
             ],
