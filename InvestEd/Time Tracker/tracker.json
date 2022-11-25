@@ -1045,6 +1045,32 @@
                     "description": "Working on Contact Page"
                 }
             ]
+        },
+        "Thursday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "5:0 pm",
+                    "end_time": "11:59 pm",
+                    "description": "Working on AWS Cloud Hosting"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "1:0 am",
+                    "end_time": "2:12 am",
+                    "description": "Working on AWS Cloud Hosting"
+                }
+            ]
+        },
+        "Wednesday": {
+            "activities": [
+                {
+                    "activity": "Bug Fixing",
+                    "start_time": "6:0 pm",
+                    "end_time": "11:59 pm",
+                    "description": "Trying to fix hosting issues"
+                }
+            ]
         }
     },
     "Week 9": {},
