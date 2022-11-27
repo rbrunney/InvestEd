@@ -1,5 +1,4 @@
 flask
 waitress
 requests
-py-eureka-client
 polygon-api-client

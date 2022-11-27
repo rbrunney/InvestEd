@@ -34,9 +34,9 @@ docker push 884873584882.dkr.ecr.us-west-1.amazonaws.com/invested:lesson-api
 docker tag invested-gateway:1.0 884873584882.dkr.ecr.us-west-1.amazonaws.com/invested:gateway
 docker push 884873584882.dkr.ecr.us-west-1.amazonaws.com/invested:gateway
 
-:: Eureka
-docker tag steeltoeoss/eureka-server:latest 884873584882.dkr.ecr.us-west-1.amazonaws.com/invested:eureka
-docker push 884873584882.dkr.ecr.us-west-1.amazonaws.com/invested:eureka
+@REM :: Eureka
+@REM docker tag steeltoeoss/eureka-server:latest 884873584882.dkr.ecr.us-west-1.amazonaws.com/invested:eureka
+@REM docker push 884873584882.dkr.ecr.us-west-1.amazonaws.com/invested:eureka
 
 @REM :: RabbitMQ
 @REM docker tag rabbitmq:3-management 884873584882.dkr.ecr.us-west-1.amazonaws.com/invested:rabbitmq

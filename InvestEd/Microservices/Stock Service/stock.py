@@ -11,7 +11,7 @@ class Stock:
 
     def __init__(self, ticker : str):
         self.ticker = ticker
-        self.polygon_client = RESTClient("POLYGON_API_KEY")
+        self.polygon_client = RESTClient(os.getenv("POLYGON_API_KEY"))
         self.alpha_vantage_api_key = os.getenv("ALPHA_VANTAGE_API_KEY")
 
     def check_date(self, current_date=current_dt.today()):
