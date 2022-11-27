@@ -11,7 +11,7 @@ class Stock:
 
     def __init__(self, ticker : str):
         self.ticker = ticker
-        self.polygon_client = RESTClient(os.getenv("POLYGON_API_KEY"))
+        self.polygon_client = RESTClient("POLYGON_API_KEY")
         self.alpha_vantage_api_key = os.getenv("ALPHA_VANTAGE_API_KEY")
 
     def check_date(self, current_date=current_dt.today()):
@@ -34,9 +34,13 @@ class Stock:
             aggs = self.polygon_client.get_aggs(self.ticker, 1, "day", date_to_retrieve, date_to_retrieve)
         except:
             # If we get error means there is no resuls so we have to go back a few days
-            date_to_retrieve = self.check_date(current_date=date_to_retrieve - dt.timedelta(days=1))
-            aggs = self.polygon_client.get_aggs(ticker=self.ticker, multiplier=1, timespan="day", from_=date_to_retrieve, to=date_to_retrieve)
-            
+            try:
+                date_to_retrieve = self.check_date(current_date=date_to_retrieve - dt.timedelta(days=1))
+                aggs = self.polygon_client.get_aggs(ticker=self.ticker, multiplier=1, timespan="day", from_=date_to_retrieve, to=date_to_retrieve)
+            except:
+                date_to_retrieve = self.check_date(current_date=date_to_retrieve - dt.timedelta(days=1))
+                aggs = self.polygon_client.get_aggs(ticker=self.ticker, multiplier=1, timespan="day", from_=date_to_retrieve, to=date_to_retrieve)
+
         return aggs[0].vwap
     
     def get_data_points(self, period):
@@ -104,8 +108,14 @@ class Stock:
         basic_info['last_dividend'] = last_dividend
 
         # Making second request for current days open, high, and low
-        daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date())
-        
+        try: 
+            daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date())
+        except:
+            try: 
+                daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date() - dt.timedelta(days=1))
+            except:
+                daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date() - dt.timedelta(days=2))
+
         # Adding open, high, low, and volume to basic information
         basic_info['open'] = daily_info.open
         basic_info['high'] = daily_info.high

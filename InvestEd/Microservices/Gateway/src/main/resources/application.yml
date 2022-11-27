@@ -1,6 +1,11 @@
 server:
   port: 8888
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${EUREKA_IP}:8761/eureka
+
 spring:
   application:
     name: gateway-service
@@ -8,22 +13,22 @@ spring:
     gateway:
       routes:
         - id: lesson-api
-          uri: lb://lesson-api.invested-ecosystem
+          uri: lb://lesson-service
           predicates:
             - Path=/invested_lesson/**
         - id: account-api
-          uri: lb://account-api.invested-ecosystem
+          uri: lb://account-service
           predicates:
             - Path=/invested_account/**
         - id: portfolio-api
-          uri: lb://portfolio-api.invested-ecosystem
+          uri: lb://portfolio-service
           predicates:
             - Path=/invested_portfolio/**
         - id: order-api
-          uri: lb://order-api.invested-ecosystem
+          uri: lb://order-service
           predicates:
             - Path=/invested_order/**
         - id: stock-api
-          uri: lb://stock-api.invested-ecosystem
+          uri: lb://stock-service
           predicates:
             - Path=/invested_stock/**
