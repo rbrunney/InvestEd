@@ -7,13 +7,15 @@ class Alert extends StatelessWidget {
   String buttonMessage;
   double height;
   double width;
+  bool popExtra;
   Alert({
     Key? key,
     this.title = '',
     this.message = '',
     this.buttonMessage = '',
     this.height = 0,
-    this.width = 0
+    this.width = 0,
+    this.popExtra = false
   }) : super(key: key);
 
   @override
@@ -28,6 +30,9 @@ class Alert extends StatelessWidget {
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
+                if(popExtra) {
+                  Navigator.pop(context);
+                }
               },
               child: Text(buttonMessage, style: TextStyle(fontFamily: global_styling.TEXT_FONT)),
             ),

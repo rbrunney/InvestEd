@@ -36,6 +36,24 @@ public class AccountController {
         }
     }
 
+    @GetMapping("/check_taken")
+    public ResponseEntity<Map<String, Object>> checkTaken(@RequestParam String email, @RequestParam String username){
+        // Check to see if username or email us taken
+        if(accountService.checkIfAccountExists("username", username)) {
+            return new ResponseEntity<>(new Response("Username Already Taken!", new HashMap<>(){{
+                put("status-code", HttpStatus.BAD_REQUEST.value());
+            }}).getResponseBody(), HttpStatus.BAD_REQUEST);
+        } else if(accountService.checkIfAccountExists("email", email)) {
+            return new ResponseEntity<>(new Response("Email Already Taken!", new HashMap<>(){{
+                put("status-code", HttpStatus.BAD_REQUEST.value());
+            }}).getResponseBody(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(new Response("Username and Email valid!", new HashMap<>(){{
+            put("status-code", HttpStatus.OK.value());
+        }}).getResponseBody(), HttpStatus.OK);
+    }
+
     @PostMapping("/authenticate")
     public ResponseEntity<Map<String, Object>> authenticateUser(@RequestBody JsonNode userCredentials) {
         // Decrypt incoming body
@@ -133,7 +151,7 @@ public class AccountController {
         }}).getResponseBody(), HttpStatus.OK);
     }
 
-    @GetMapping("/verify_code")
+    @PostMapping("/verify_code")
     public ResponseEntity<Map<String, Object>> verifyCode(@RequestBody JsonNode requestBody) {
 
         // Verifying Code

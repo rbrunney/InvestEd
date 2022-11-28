@@ -49,7 +49,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           Navigator.push(
               context,
               PageTransition(
-                  child: const VerificationCodePage(),
+                  child: VerificationCodePage(userEmail: emailController.text),
                   type: PageTransitionType.rightToLeftWithFade
               )
           );

@@ -203,16 +203,12 @@ services:
   #   environment:
   #     - EMAIL=${EMAIL}
   #     - EMAIL_PASSWORD=${EMAIL_PASSWORD}
-  #     - RABBITMQ_HOST=rabbitmq
-  #     - RABBITMQ_PORT=5672
-  #     - RABBITMQ_USERNAME=guest
-  #     - RABBITMQ_PASSWORD=guest
+  #     - RABBITMQ_HOST=${RABBITMQ_HOST}
+  #     - RABBITMQ_PORT=${RABBITMQ_PORT}
+  #     - RABBITMQ_USERNAME=${RABBITMQ_USER}
+  #     - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
   #     - RABBITMQ_QUEUE=forgot-pass-queue
   #     - EMAIL_SUBJECT=${FORGOT_EMAIL_SUBJECT}
-  #   depends_on:
-  #     - rabbitmq
-  #   networks:
-  #     - base-net
   #   deploy:
   #     replicas: 1
 

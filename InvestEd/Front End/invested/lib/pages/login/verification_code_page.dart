@@ -1,16 +1,25 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:invested/pages/login/change_password_page.dart';
 import 'package:invested/util/page_image.dart';
 import 'package:invested/util/page_title.dart';
 import 'package:invested/util/custom_text_field.dart';
+import 'package:invested/util/requests.dart';
 import 'package:invested/util/to_previous_page.dart';
 import 'package:page_transition/page_transition.dart';
+import '../../util/alert.dart';
 import '../../util/custom_text.dart';
 import '../../util/global_styling.dart' as global_styling;
+import '../../util/global_info.dart' as global_info;
 
 class VerificationCodePage extends StatefulWidget {
-  const VerificationCodePage({Key? key}) : super(key: key);
+  final String userEmail;
+  const VerificationCodePage({
+    Key? key,
+    this.userEmail = ''
+  }) : super(key: key);
 
   @override
   State<VerificationCodePage> createState() => _VerificationCodePageState();
@@ -33,14 +42,39 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
 
   void onSubmit() {
     if (verificationCodeErrorText == null) {
-      // Send code off to get validated
-      Navigator.push(
-          context,
-          PageTransition(
-              child: const ChangePasswordPage(),
-              type: PageTransitionType.rightToLeftWithFade
-          )
-      );
+
+      Map<String, dynamic> requestBody = {
+        "user_email" : widget.userEmail,
+        "verification_code" : codeController.text
+      };
+
+      Requests.makePostRequest('${global_info.url}/invested_account/verify_code', requestBody)
+      .then((value) async {
+        var response = json.decode(value);
+        if(response['results']['status-code'] == 400) {
+          await showDialog<void>(
+              context: context,
+              builder: (BuildContext context) {
+                return Alert(
+                  title: "Verification Failed!",
+                  message: "Please try again!",
+                  buttonMessage: "Retry",
+                  width: 50,
+                  popExtra: true,
+                );
+              }
+          );
+        } else if (response['results']['status-code'] == 200) {
+          // Send code off to get validated
+          Navigator.push(
+              context,
+              PageTransition(
+                  child: const ChangePasswordPage(),
+                  type: PageTransitionType.rightToLeftWithFade
+              )
+          );
+        }
+      });
     }
   }
 
