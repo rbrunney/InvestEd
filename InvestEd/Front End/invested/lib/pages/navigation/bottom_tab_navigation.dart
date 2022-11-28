@@ -5,6 +5,8 @@ import 'package:invested/pages/lesson/lesson_page.dart';
 import 'package:invested/pages/portfolio/portfolio_page.dart';
 import 'package:invested/pages/search/search_page.dart';
 
+import '../../util/global_styling.dart' as global_styling;
+
 class PageNavigation extends StatefulWidget {
   const PageNavigation({Key? key}) : super(key: key);
 
@@ -63,7 +65,7 @@ class _PageNavigationState extends State<PageNavigation>  {
             ),
           ],
           currentIndex: _selectedIndex,
-          selectedItemColor: Colors.white,
+          selectedItemColor: global_styling.ThemeChanger.isDark ? Colors.white : Colors.black,
           unselectedItemColor: Colors.blueGrey,
           onTap: onTapped,
         ),

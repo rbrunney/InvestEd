@@ -6,9 +6,14 @@ import 'package:page_transition/page_transition.dart';
 
 import '../../../util/page_title.dart';
 
-class SupportSettings extends StatelessWidget {
+class SupportSettings extends StatefulWidget {
   const SupportSettings({Key? key}) : super(key: key);
 
+  @override
+  State<SupportSettings> createState() => _SupportSettingsState();
+}
+
+class _SupportSettingsState extends State<SupportSettings> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -49,3 +54,4 @@ class SupportSettings extends StatelessWidget {
     );
   }
 }
+
