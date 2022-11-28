@@ -124,10 +124,10 @@ public class AccountController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/forgot_password")
-    public ResponseEntity<Map<String, Object>> forgotPassword(@RequestBody JsonNode requestBody) {
+    @GetMapping("/forgot_password/{email}")
+    public ResponseEntity<Map<String, Object>> forgotPassword(@PathVariable String email) {
 
-        accountService.sendCode(requestBody.get("user_email").asText());
+        accountService.sendCode(email);
         return new ResponseEntity<>(new Response("Verification Code Sent", new HashMap<>(){{
             put("status-code", HttpStatus.OK.value());
         }}).getResponseBody(), HttpStatus.OK);
