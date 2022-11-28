@@ -1,12 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:invested/pages/login/forgot_password_page.dart';
 import 'package:invested/pages/login/register_page.dart';
-import 'package:invested/pages/navigation/bottom_tab_navigation.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:invested/util/page_image.dart';
 import 'package:invested/util/page_title.dart';
 import 'package:invested/util/custom_text_field.dart';
 import '../../util/global_styling.dart' as global_styling;
+import '../../util/global_info.dart' as global_info;
+import '../../util/requests.dart';
+import '../navigation/bottom_tab_navigation.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -96,11 +100,40 @@ class _LoginPageState extends State<LoginPage> {
                   width: MediaQuery.of(context).size.width - 30,
                   child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            PageTransition(
-                                child: const PageNavigation(),
-                                type: PageTransitionType.rightToLeftWithFade));
+
+                        String encryptedUsername = '';
+                        String encryptedPassword = '';
+
+                        // Get User Encryption
+                        Requests.makeGetRequest('${global_info.url}/invested_account/encrypt/${_usernameController.text}')
+                            .then((value) {
+                              encryptedUsername = value;
+                        });
+
+                        Requests.makeGetRequest('${global_info.url}/invested_account/encrypt/${_passwordController.text}')
+                            .then((value) {
+                          encryptedPassword = value;
+                        });
+
+                        // Make Request Login
+                        Map<String, dynamic> requestBody = {
+                          "username" : encryptedUsername,
+                          "password" : encryptedPassword
+                        };
+                        Requests.makePostRequest('${global_info.url}/invested_account/authenticate', requestBody)
+                            .then((value) {
+                            var response = json.decode(value);
+                            if(response["results"]["status-code"] == 400) {
+                              print('Failed Login');
+                            } else if(response["results"]["status-code"] == 200) {
+                              // Save the JWT tokens to the system.
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      child: const PageNavigation(),
+                                      type: PageTransitionType.rightToLeftWithFade));
+                            }
+                        });
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Color(global_styling.LOGO_COLOR),

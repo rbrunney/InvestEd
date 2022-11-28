@@ -38,6 +38,7 @@ dependencies:
   flutter_vector_icons: ^2.0.0
   fl_chart: ^0.55.2
   syncfusion_flutter_gauges: ^20.3.57
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:
