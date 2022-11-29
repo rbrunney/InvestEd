@@ -3,11 +3,17 @@ import 'package:invested/pages/login/login_page.dart';
 import 'package:invested/util/page_image.dart';
 import 'package:invested/util/page_title.dart';
 import 'package:invested/util/custom_text_field.dart';
+import 'package:invested/util/requests.dart';
 import 'package:invested/util/to_previous_page.dart';
 import '../../util/global_styling.dart' as global_styling;
+import '../../util/global_info.dart' as global_info;
 
 class ChangePasswordPage extends StatefulWidget {
-  const ChangePasswordPage({Key? key}) : super(key: key);
+  final String token;
+  const ChangePasswordPage({
+    Key? key,
+    this.token = ''
+  }) : super(key: key);
 
   @override
   State<ChangePasswordPage> createState() => _ChangePasswordPageState();
@@ -50,10 +56,18 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
   void onSubmit() {
     if (newPassErrorText == null && confirmNewPassErrorText == null) {
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-              builder: (context) => const LoginPage()),
-              (Route<dynamic> route) => false);
+
+      Map<String, dynamic> requestBody = {
+        "password" : newPasswordController.text
+      };
+
+      Requests.makePutRequestWithAuth('${global_info.localhost_url}/invested_account', requestBody, widget.token)
+          .then((value) {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (context) => const LoginPage()),
+                (Route<dynamic> route) => false);
+      });
     }
   }
 

@@ -3,6 +3,7 @@ package org.invested.accountservice.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.invested.accountservice.models.application.Account;
 import org.invested.accountservice.models.application.Response;
+import org.invested.accountservice.models.security.JsonWebToken;
 import org.invested.accountservice.models.security.RSA;
 import org.invested.accountservice.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -159,6 +161,7 @@ public class AccountController {
             accountService.deleteVerificationCode(requestBody.get("user_email").asText());
             return new ResponseEntity<>(new Response("Verification Code Valid!", new HashMap<>(){{
                 put("status-code", HttpStatus.OK.value());
+                put("temp-token", accountService.generateTempJWTToken((requestBody.get("user_email").asText())));
             }}).getResponseBody(), HttpStatus.OK);
         } else {
             accountService.deleteVerificationCode(requestBody.get("user_email").asText());

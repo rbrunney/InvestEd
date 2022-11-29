@@ -48,9 +48,10 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
         "verification_code" : codeController.text
       };
 
-      Requests.makePostRequest('${global_info.url}/invested_account/verify_code', requestBody)
+      Requests.makePostRequest('${global_info.localhost_url}/invested_account/verify_code', requestBody)
       .then((value) async {
         var response = json.decode(value);
+        print(response);
         if(response['results']['status-code'] == 400) {
           await showDialog<void>(
               context: context,
@@ -65,6 +66,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
               }
           );
         } else if (response['results']['status-code'] == 200) {
+          print(response['results']);
           // Send code off to get validated
           Navigator.push(
               context,

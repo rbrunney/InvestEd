@@ -85,6 +85,13 @@ public class AccountService {
         return tokens;
     }
 
+    public String generateTempJWTToken(String email) {
+        Account account = accountRepo.getAccountByEmail(email);
+        UserDetails authenticatedUser = User.withUsername(account.getUsername())
+                .password(account.getPassword()).roles("USER").build();
+        return new JsonWebToken(authenticatedUser, email, JWTUtil.getAlgorithm(), 5).getGeneratedToken();
+    }
+
     public boolean checkIfAccountExists(String key, String value) {
         Account foundUser;
         if(key.equals("username"))

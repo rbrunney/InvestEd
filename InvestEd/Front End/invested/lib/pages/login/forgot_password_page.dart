@@ -42,7 +42,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   void onSubmit() {
     if (emailErrorText == null) {
 
-      Requests.makeGetRequest('${global_info.url}/invested_account/forgot_password/${emailController.text}')
+      Requests.makeGetRequest('${global_info.localhost_url}/invested_account/forgot_password/${emailController.text}')
       .then((value){
         var response = json.decode(value);
         if(response['results']['status-code'] == 200) {
