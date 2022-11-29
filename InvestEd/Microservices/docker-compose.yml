@@ -1,5 +1,5 @@
 version: "3.9"
-# x-aws-vpc: "vpc-0a87ca4dddd490953"
+
 services:
 
  # /////////////////////////////////////////////////////
@@ -11,9 +11,11 @@ services:
     environment:
       - ALPHA_VANTAGE_API_KEY=${ALPHA_VANTAGE_API_KEY}
       - POLYGON_API_KEY=${POLYGON_API_KEY}
-      - EUREKA_SERVER=${EUREKA_SERVER}
     depends_on:
       - registration_service
+      - invested-db
+    networks:
+      - base-net
     deploy:
       replicas: 1
 
@@ -37,8 +39,9 @@ services:
       - RSA_PUBLIC_KEY=${RSA_PUBLIC_KEY}
     depends_on:
       - registration_service
-    ports:
-      - "9000:8080"
+      - invested-db
+    networks:
+      - base-net
     deploy:
       replicas: 1
 
@@ -53,8 +56,9 @@ services:
       - JWT_SECRET=${JWT_SECRET}
     depends_on:
       - registration_service
-    ports:
-      - "9001:8080"
+      - invested-db
+    networks:
+      - base-net 
     deploy:
       replicas: 1
 
@@ -71,8 +75,9 @@ services:
       - JWT_SECRET=${JWT_SECRET}
     depends_on:
       - registration_service
-    ports:
-      - "9002:8080"
+      - invested-db
+    networks:
+      - base-net
     deploy:
       replicas: 1
 
@@ -84,209 +89,215 @@ services:
       - DB_PASSWORD=${MYSQL_PASSWORD}
       - DB_PORT=${MYSQL_PORT}
       - DB_HOST=${MYSQL_HOST}
-      - EUREKA_SERVER=${EUREKA_SERVER}
-    ports:
-      - "9003:8080"
+    depends_on:
+      - registration_service
+      - invested-db
+    networks:
+      - base-net
     deploy:
       replicas: 1
 
-#   # ////////////////////////////////////////////////////
-#   # Services
-  # check_portfolio_stock:
-  #   build: ./Portfolio Service/CheckPortfolioStocks
-  #   image: check-portfolio-stock:1.0
-  #   environment:
-  #     - DB_USER=${MYSQL_USER}
-  #     - DB_PASSWORD=${MYSQL_PASSWORD}
-  #     - DB_PORT=${MYSQL_PORT}
-  #     - DB_HOST=${MYSQL_HOST}
-  #   networks:
-  #   - base-net
-  #   deploy:
-  #     replicas: 1
+  # ////////////////////////////////////////////////////
+  # Services
+  check_portfolio_stock:
+    build: ./Portfolio Service/CheckPortfolioStocks
+    image: check-portfolio-stock:1.0
+    environment:
+      - DB_USER=${MYSQL_USER}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+      - DB_PORT=${MYSQL_PORT}
+      - DB_HOST=${MYSQL_HOST}
+    networks:
+    - base-net
+    deploy:
+      replicas: 1
 
 
-#   # ////////////////////////////////////////////////////
-#   # Order Consumers
+  # ////////////////////////////////////////////////////
+  # Order Consumers
 
-  # market_order_consumer:
-  #   build: ./Order Consumers/MarketOrderConsumer
-  #   image: market-order-consumer:1.0
-  #   environment:
-  #     - CUSTOM_PASSWORD=${CUSTOM_PASSWORD}
-  #     - CUSTOM_USERNAME=${CUSTOM_USERNAME}
-  #     - RABBITMQ_HOST=rabbitmq
-  #     - RABBITMQ_PORT=5672
-  #     - RABBITMQ_USERNAME=guest
-  #     - RABBITMQ_PASSWORD=guest
-  #     - RABBITMQ_QUEUE=market-order-queue
-  #   depends_on:
-  #     - rabbitmq
-  #   networks:
-  #     - base-net
-  #   deploy:
-  #     replicas: 1
+  market_order_consumer:
+    build: ./Order Consumers/MarketOrderConsumer
+    image: market-order-consumer:1.0
+    environment:
+      - CUSTOM_PASSWORD=${CUSTOM_PASSWORD}
+      - CUSTOM_USERNAME=${CUSTOM_USERNAME}
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=market-order-queue
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
 
-  # limit_order_consumer:
-  #   build: ./Order Consumers/LimitOrderConsumer
-  #   image: limit-order-consumer:1.0
-  #   environment:
-  #     - RABBITMQ_HOST=rabbitmq
-  #     - RABBITMQ_PORT=5672
-  #     - RABBITMQ_USERNAME=guest
-  #     - RABBITMQ_PASSWORD=guest
-  #     - RABBITMQ_QUEUE=limit-order-queue
-  #   depends_on:
-  #     - rabbitmq
-  #   networks:
-  #     - base-net
-  #   deploy:
-  #     replicas: 1
+  limit_order_consumer:
+    build: ./Order Consumers/LimitOrderConsumer
+    image: limit-order-consumer:1.0
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=limit-order-queue
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
 
-  # stop_loss_order_consumer:
-  #   build: ./Order Consumers/StopLossConsumer
-  #   image: stop-loss-order-consumer:1.0
-  #   environment:
-  #     - RABBITMQ_HOST=rabbitmq
-  #     - RABBITMQ_PORT=5672
-  #     - RABBITMQ_USERNAME=guest
-  #     - RABBITMQ_PASSWORD=guest
-  #     - RABBITMQ_QUEUE=stop-loss-order-queue
-  #   depends_on:
-  #     - rabbitmq
-  #   networks:
-  #     - base-net
-  #   deploy:
-  #     replicas: 1
+  stop_loss_order_consumer:
+    build: ./Order Consumers/StopLossConsumer
+    image: stop-loss-order-consumer:1.0
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=stop-loss-order-queue
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
   
-  # stop_price_order_consumer:
-  #   build: ./Order Consumers/StopPriceOrderConsumer
-  #   image: stop-price-order-consumer:1.0
-  #   environment:
-  #     - RABBITMQ_HOST=rabbitmq
-  #     - RABBITMQ_PORT=5672
-  #     - RABBITMQ_USERNAME=guest
-  #     - RABBITMQ_PASSWORD=guest
-  #     - RABBITMQ_QUEUE=stop-price-order-queue
-  #   depends_on:
-  #     - rabbitmq
-  #   networks:
-  #     - base-net
-  #   deploy:
-      # replicas: 1
+  stop_price_order_consumer:
+    build: ./Order Consumers/StopPriceOrderConsumer
+    image: stop-price-order-consumer:1.0
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=stop-price-order-queue
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
 
-#  # ///////////////////////////////////////////////////// 
-#  # Email Consumers
+ # ///////////////////////////////////////////////////// 
+ # Email Consumers
 
-  # confirmation_email_consumer:
-  #   build: ./Email Consumers/ConfirmEmailConsumer
-  #   image: confirm-email-consumer:1.0
-  #   environment:
-  #     - EMAIL=${EMAIL}
-  #     - EMAIL_PASSWORD=${EMAIL_PASSWORD}
-  #     - RABBITMQ_HOST=rabbitmq
-  #     - RABBITMQ_PORT=5672
-  #     - RABBITMQ_USERNAME=guest
-  #     - RABBITMQ_PASSWORD=guest
-  #     - RABBITMQ_QUEUE=confirmation-email-queue
-  #     - EMAIL_SUBJECT=${CONFIRMATION_EMAIL_SUBJECT}
-  #   depends_on:
-  #     - rabbitmq
-  #   networks:
-  #     - base-net
-  #   deploy:
-  #     replicas: 1
+  confirmation_email_consumer:
+    build: ./Email Consumers/ConfirmEmailConsumer
+    image: confirm-email-consumer:1.0
+    environment:
+      - EMAIL=${EMAIL}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=confirmation-email-queue
+      - EMAIL_SUBJECT=${CONFIRMATION_EMAIL_SUBJECT}
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
 
-  # forgot_pass_email_consumer:
-  #   build: ./Email Consumers/ForgotPassEmailConsumer
-  #   image: forgot-pass-email-consumer:1.0
-  #   environment:
-  #     - EMAIL=${EMAIL}
-  #     - EMAIL_PASSWORD=${EMAIL_PASSWORD}
-  #     - RABBITMQ_HOST=${RABBITMQ_HOST}
-  #     - RABBITMQ_PORT=${RABBITMQ_PORT}
-  #     - RABBITMQ_USERNAME=${RABBITMQ_USER}
-  #     - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
-  #     - RABBITMQ_QUEUE=forgot-pass-queue
-  #     - EMAIL_SUBJECT=${FORGOT_EMAIL_SUBJECT}
-  #   deploy:
-  #     replicas: 1
+  forgot_pass_email_consumer:
+    build: ./Email Consumers/ForgotPassEmailConsumer
+    image: forgot-pass-email-consumer:1.0
+    environment:
+      - EMAIL=${EMAIL}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=forgot-pass-queue
+      - EMAIL_SUBJECT=${FORGOT_EMAIL_SUBJECT}
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
 
-  # update_email_consumer:
-  #   build: ./Email Consumers/UpdateInfoEmailConsumer
-  #   image: update-info-email-consumer:1.0
-  #   environment:
-  #     - EMAIL=${EMAIL}
-  #     - EMAIL_PASSWORD=${EMAIL_PASSWORD}
-  #     - RABBITMQ_HOST=rabbitmq
-  #     - RABBITMQ_PORT=5672
-  #     - RABBITMQ_USERNAME=guest
-  #     - RABBITMQ_PASSWORD=guest
-  #     - RABBITMQ_QUEUE=updated-info-queue
-  #     - EMAIL_SUBJECT=${UPDATE_EMAIL_SUBJECT}
-  #   depends_on:
-  #     - rabbitmq
-  #   networks:
-  #     - base-net
-  #   deploy:
-  #     replicas: 1
+  update_email_consumer:
+    build: ./Email Consumers/UpdateInfoEmailConsumer
+    image: update-info-email-consumer:1.0
+    environment:
+      - EMAIL=${EMAIL}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=updated-info-queue
+      - EMAIL_SUBJECT=${UPDATE_EMAIL_SUBJECT}
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
 
-  # order_placed_email_consumer:
-  #   build: ./Email Consumers/OrderPlacedEmailConsumer
-  #   image: order-placed-email-consumer:1.0
-  #   environment:
-  #     - EMAIL=${EMAIL}
-  #     - EMAIL_PASSWORD=${EMAIL_PASSWORD}
-  #     - RABBITMQ_HOST=rabbitmq
-  #     - RABBITMQ_PORT=5672
-  #     - RABBITMQ_USERNAME=guest
-  #     - RABBITMQ_PASSWORD=guest
-  #     - RABBITMQ_QUEUE=order-placed-email-queue
-  #     - EMAIL_SUBJECT=${ORDER_PLACED_EMAIL_SUBJECT}
-  #   depends_on:
-  #     - rabbitmq
-  #   networks:
-  #     - base-net
-  #   deploy:
-  #     replicas: 1
+  order_placed_email_consumer:
+    build: ./Email Consumers/OrderPlacedEmailConsumer
+    image: order-placed-email-consumer:1.0
+    environment:
+      - EMAIL=${EMAIL}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=order-placed-email-queue
+      - EMAIL_SUBJECT=${ORDER_PLACED_EMAIL_SUBJECT}
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
 
-  # order_canceled_email_consumer:
-  #   build: ./Email Consumers/OrderCanceledEmailConsumer
-  #   image: order-canceled-email-consumer:1.0
-  #   environment:
-  #     - EMAIL=${EMAIL}
-  #     - EMAIL_PASSWORD=${EMAIL_PASSWORD}
-  #     - RABBITMQ_HOST=rabbitmq
-  #     - RABBITMQ_PORT=5672
-  #     - RABBITMQ_USERNAME=guest
-  #     - RABBITMQ_PASSWORD=guest
-  #     - RABBITMQ_QUEUE=order-canceled-email-queue
-  #     - EMAIL_SUBJECT=${ORDER_CANCELED_EMAIL_SUBJECT}
-  #   depends_on:
-  #     - rabbitmq
-  #   networks:
-  #     - base-net
-  #   deploy:
-  #     replicas: 1
+  order_canceled_email_consumer:
+    build: ./Email Consumers/OrderCanceledEmailConsumer
+    image: order-canceled-email-consumer:1.0
+    environment:
+      - EMAIL=${EMAIL}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=order-canceled-email-queue
+      - EMAIL_SUBJECT=${ORDER_CANCELED_EMAIL_SUBJECT}
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
 
-  # order_fulfilled_email_consumer:
-  #   build: ./Email Consumers/OrderfulfilledConsumer
-  #   image: order-fulfilled-consumer:1.0
-  #   environment:
-  #     - EMAIL=${EMAIL}
-  #     - EMAIL_PASSWORD=${EMAIL_PASSWORD}
-  #     - RABBITMQ_HOST=rabbitmq
-  #     - RABBITMQ_PORT=5672
-  #     - RABBITMQ_USERNAME=guest
-  #     - RABBITMQ_PASSWORD=guest
-  #     - RABBITMQ_QUEUE=order-fulfilled-email-queue
-  #     - EMAIL_SUBJECT=${ORDER_FULFILLED_EMAIL_SUBJECT}
-  #   depends_on:
-  #     - rabbitmq
-  #   networks:
-  #     - base-net
-  #   deploy:
-  #     replicas: 1
+  order_fulfilled_email_consumer:
+    build: ./Email Consumers/OrderfulfilledConsumer
+    image: order-fulfilled-consumer:1.0
+    environment:
+      - EMAIL=${EMAIL}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_QUEUE=order-fulfilled-email-queue
+      - EMAIL_SUBJECT=${ORDER_FULFILLED_EMAIL_SUBJECT}
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
 
   
   # /////////////////////////////////////////////////////////////
@@ -294,34 +305,55 @@ services:
 
   gateway_service:
     build: "./Gateway"
-    image: invested-gateway:1.0
+    image: "invested-gateway:1.0"
     depends_on:
       - stock_api
     ports:
       - "8888:8888"
+    networks:
+      - base-net
 
   registration_service:
-    image: steeltoeoss/eureka-server:latest
+    image: "steeltoeoss/eureka-server"
     container_name: "eureka"
     ports:
       - "8761:8761"
+    networks:
+    - base-net
 
-  # rabbitmq:
-  #   image: 884873584882.dkr.ecr.us-west-1.amazonaws.com/invested:rabbitmq
-  #   container_name: rabbitmq
-  #   ports:
-  #     - "5672:5672"
-  #     - "15672:15672"
-  #   networks:
-  #     - base-net
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - base-net
 
   # /////////////////////////////////////////////////////////////
   # Databases
 
-#   forgot_pass_code_database:
-#     image: "redis:alpine"
-#     container_name: verify-code-database
-#     ports:
-#       - "6379:6379"
-#     networks:
-#       - base-net
+  forgot_pass_code_database:
+    image: "redis:alpine"
+    container_name: verify-code-database
+    ports:
+      - "6379:6379"
+    networks:
+      - base-net
+
+  invested-db:
+    image: "mysql:latest"
+    container_name: invested-mysql
+    environment:
+      - MYSQL_DATABASE=invested
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=InvestEd190936089!
+      - MYSQL_ROOT_PASSWORD=InvestEd190936089!
+    ports:
+      - "9000:3306"
+    networks:
+      - base-net
+      
+networks:
+  base-net:
+    name: "invested_ecosystem"

@@ -4,12 +4,22 @@ import 'package:invested/pages/login/login_page.dart';
 import 'package:invested/util/page_image.dart';
 import 'package:invested/util/page_title.dart';
 import 'package:invested/util/custom_text_field.dart';
+import 'package:invested/util/requests.dart';
 import 'package:invested/util/to_previous_page.dart';
 import '../../util/custom_text.dart';
 import '../../util/global_styling.dart' as global_styling;
+import '../../util/global_info.dart' as global_info;
 
 class AccountDetailsPage extends StatefulWidget {
-  const AccountDetailsPage({Key? key}) : super(key: key);
+  final String username;
+  final String email;
+  final String password;
+  const AccountDetailsPage({
+    Key? key,
+    this.username = '',
+    this.email = '',
+    this.password = ''
+  }) : super(key: key);
 
   @override
   State<AccountDetailsPage> createState() => _AccountDetailsPageState();
@@ -63,6 +73,34 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
 
   void onSubmit() {
     if (fnameController.text.isNotEmpty && lnameController.text.isNotEmpty && birthdayErrorText == null) {
+
+      List<String> userInfo = [
+        widget.username, widget.password, fnameController.text, lnameController.text, birthdayController.text, widget.email, "555-555-5555"
+      ];
+
+      for (int i = 0 ; i < userInfo.length; i++ ) {
+        Requests.makeGetRequest('${global_info.url}/invested_account/encrypt/${userInfo[i]}')
+            .then((value) {
+              userInfo[i] = value;
+        });
+      }
+
+      Map<String, dynamic> requestBody = {
+        "username" : userInfo[0],
+        "password" : userInfo[1],
+        "firstName" : userInfo[2],
+        "lastName" : userInfo[3],
+        "birthdate" : userInfo[4],
+        "email" : userInfo[5],
+        "phone" : userInfo[6],
+        "buyingPower" : 5000
+      };
+
+      Requests.makePostRequest('${global_info.url}/invested_account', requestBody)
+      .then((value) {
+        print(value);
+      });
+
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
               builder: (context) => const LoginPage()),

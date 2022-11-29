@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:invested/pages/login/account_detail_page.dart';
 import 'package:invested/util/custom_text_field.dart';
+import 'package:invested/util/requests.dart';
 import 'package:invested/util/to_previous_page.dart';
 import 'package:invested/util/page_image.dart';
 import 'package:invested/util/page_title.dart';
 import 'package:page_transition/page_transition.dart';
+import '../../util/alert.dart';
 import '../../util/global_styling.dart' as global_styling;
+import '../../util/global_info.dart' as global_info;
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -74,13 +79,48 @@ class _RegisterPageState extends State<RegisterPage> {
   // On Submit
   void onSubmit() {
     if (newPassErrorText == null && confirmNewPassErrorText == null && emailErrorText == null && usernameController.text.isNotEmpty) {
-      Navigator.push(
-          context,
-          PageTransition(
-              child: const AccountDetailsPage(),
-              type: PageTransitionType.rightToLeftWithFade
-          )
-      );
+
+      Requests.makeGetRequest('${global_info.url}/invested_account/check_taken?email=${emailController.text}&username=${usernameController.text}')
+      .then((value) async {
+        var response = json.decode(value);
+        if(response['results']['status-code'] == 400) {
+          if(response['message'].toString().contains("Username")) {
+            await showDialog<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  return Alert(
+                    title: "Username Taken!",
+                    message: "Please choose another username!",
+                    buttonMessage: "Ok",
+                    width: 50,
+                  );
+                }
+            );
+          } else if (response['message'].toString().contains("Email")) {
+            await showDialog<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  return Alert(
+                    title: "Email Taken!",
+                    message: "Please use another email!",
+                    buttonMessage: "Ok",
+                    width: 50,
+                  );
+                }
+            );
+          }
+        } else if(response['results']['status-code'] == 200) {
+          Navigator.push(
+              context,
+              PageTransition(
+                  child: const AccountDetailsPage(),
+                  type: PageTransitionType.rightToLeftWithFade
+              )
+          );
+        }
+      });
+
+
     }
   }
 

@@ -47,11 +47,6 @@ class _LoginPageState extends State<LoginPage> {
     return null;
   }
 
-  void printInfo() {
-    print(_usernameController.text);
-    print(_passwordController.text);
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -124,6 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                         };
                         Requests.makePostRequest('${global_info.url}/invested_account/authenticate', requestBody)
                             .then((value) async {
+                              print(value);
                             var response = json.decode(value);
                             if(response["results"]["status-code"] == 400) {
                               await showDialog<void>(
@@ -138,6 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                                 }
                               );
                           } else if(response["results"]["status-code"] == 200) {
+                              print("Login Good!");
                               // Save the JWT tokens to the system.
                               Navigator.push(
                                   context,
