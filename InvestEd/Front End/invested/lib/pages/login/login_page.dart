@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:invested/pages/login/forgot_password_page.dart';
 import 'package:invested/pages/login/register_page.dart';
-import 'package:invested/util/custom_text.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:invested/util/page_image.dart';
 import 'package:invested/util/page_title.dart';
@@ -26,6 +25,9 @@ class _LoginPageState extends State<LoginPage> {
   // Making Controllers so we can get the text information later
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  String username = '';
+  String password = '';
 
   String? get usernameErrorText {
     final text = _usernameController.text;
@@ -96,31 +98,31 @@ class _LoginPageState extends State<LoginPage> {
               child: SizedBox(
                   width: MediaQuery.of(context).size.width - 30,
                   child: ElevatedButton(
-                      onPressed: () {
-
-                        String encryptedUsername = '';
-                        String encryptedPassword = '';
-
-                        // Get User Encryption
-                        Requests.makeGetRequest('${global_info.localhost_url}/invested_account/encrypt/${_usernameController.text}')
+                      onPressed: () async {
+                        await Requests.makeGetRequest('${global_info.localhost_url}/invested_account/encrypt/${_usernameController.text}')
                             .then((value) {
-                              encryptedUsername = value;
+                              setState(() {
+                                username = value;
+                              });
                         });
 
-                        Requests.makeGetRequest('${global_info.localhost_url}/invested_account/encrypt/${_passwordController.text}')
+                        await Requests.makeGetRequest('${global_info.localhost_url}/invested_account/encrypt/${_passwordController.text}')
                             .then((value) {
-                          encryptedPassword = value;
+                            setState(() {
+                              password = value;
+                            });
                         });
 
                         // Make Request Login
                         Map<String, dynamic> requestBody = {
-                          "username" : encryptedUsername,
-                          "password" : encryptedPassword
+                          "username" : username,
+                          "password" : password
                         };
+
                         Requests.makePostRequest('${global_info.localhost_url}/invested_account/authenticate', requestBody)
                             .then((value) async {
-                              print(value);
                             var response = json.decode(value);
+                            print(response);
                             if(response["results"]["status-code"] == 400) {
                               await showDialog<void>(
                                 context: context,
@@ -133,8 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                                   );
                                 }
                               );
-                          } else if(response["results"]["status-code"] == 200) {
-                              print("Login Good!");
+                          } else if(response['message'].toString().contains("Passed!")) {
                               // Save the JWT tokens to the system.
                               Navigator.push(
                                   context,

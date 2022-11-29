@@ -51,7 +51,6 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
       Requests.makePostRequest('${global_info.localhost_url}/invested_account/verify_code', requestBody)
       .then((value) async {
         var response = json.decode(value);
-        print(response);
         if(response['results']['status-code'] == 400) {
           await showDialog<void>(
               context: context,
@@ -66,12 +65,11 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
               }
           );
         } else if (response['results']['status-code'] == 200) {
-          print(response['results']);
           // Send code off to get validated
           Navigator.push(
               context,
               PageTransition(
-                  child: const ChangePasswordPage(),
+                  child: ChangePasswordPage(token: response['results']['temp-token']),
                   type: PageTransitionType.rightToLeftWithFade
               )
           );
