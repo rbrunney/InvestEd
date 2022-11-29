@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:invested/pages/login/login_page.dart';
@@ -71,19 +73,23 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
     return null;
   }
 
-  void onSubmit() {
+  void onSubmit() async {
     if (fnameController.text.isNotEmpty && lnameController.text.isNotEmpty && birthdayErrorText == null) {
+      Future<List<String>> getAllItems() async {
+        List<String> userInfo = [
+          widget.username, widget.password, fnameController.text, lnameController.text, birthdayController.text, widget.email
+        ];
 
-      List<String> userInfo = [
-        widget.username, widget.password, fnameController.text, lnameController.text, birthdayController.text, widget.email, "555-555-5555"
-      ];
-
-      for (int i = 0 ; i < userInfo.length; i++ ) {
-        Requests.makeGetRequest('${global_info.url}/invested_account/encrypt/${userInfo[i]}')
-            .then((value) {
-              userInfo[i] = value;
-        });
+        return Future.wait<String>(
+            userInfo.map((item) =>
+            Requests.makeGetRequest('${global_info.localhost_url}/invested_account/encrypt/$item')
+                .then((value) {
+              return value;
+            })).toList()
+        );
       }
+
+      List<String> userInfo = await getAllItems();
 
       Map<String, dynamic> requestBody = {
         "username" : userInfo[0],
@@ -92,19 +98,29 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
         "lastName" : userInfo[3],
         "birthdate" : userInfo[4],
         "email" : userInfo[5],
-        "phone" : userInfo[6],
         "buyingPower" : 5000
       };
 
-      Requests.makePostRequest('${global_info.url}/invested_account', requestBody)
+      Requests.makePostRequest('${global_info.localhost_url}/invested_account', requestBody)
       .then((value) {
-        print(value);
-      });
 
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-              builder: (context) => const LoginPage()),
-              (Route<dynamic> route) => false);
+        requestBody = {
+          "username" : userInfo[0],
+          "password" : userInfo[1]
+        };
+
+        Requests.makePostRequest('${global_info.localhost_url}/invested_account/authenticate', requestBody)
+        .then((value) async {
+          var response = json.decode(value);
+          await Requests.makePostRequestWithAuth('${global_info.localhost_url}/invested_portfolio', requestBody, response['results']['access-token'])
+          .then((value) {
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (context) => const LoginPage()),
+                    (Route<dynamic> route) => false);
+          });
+        });
+      });
     }
   }
 

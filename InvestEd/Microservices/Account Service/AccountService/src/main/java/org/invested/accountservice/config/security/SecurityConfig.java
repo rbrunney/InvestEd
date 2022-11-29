@@ -48,6 +48,7 @@ public class SecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/invested_account").permitAll()
+                .antMatchers(HttpMethod.POST, "/invested_account/check_taken/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/invested_account/authenticate").permitAll()
                 .antMatchers(HttpMethod.GET, "/invested_account/forgot_password").permitAll()
                 .antMatchers(HttpMethod.PUT, "/invested_account/buying_power/**").hasRole("ADMIN")

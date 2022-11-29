@@ -81,9 +81,8 @@ public class AccountController {
                 newAccount.getPassword(),
                 newAccount.getFirstName(),
                 newAccount.getLastName(),
-                newAccount.getBirthdate().toString(),
-                newAccount.getEmail(),
-                newAccount.getPhone());
+                newAccount.getBirthdate(),
+                newAccount.getEmail());
 
         newAccount.setUsername(userCredentials.get("username"));
         newAccount.setPassword(userCredentials.get("password"));
@@ -91,7 +90,6 @@ public class AccountController {
         newAccount.setLastName(userCredentials.get("lname"));
         newAccount.setBirthdate(userCredentials.get("birthdate"));
         newAccount.setEmail(userCredentials.get("email"));
-        newAccount.setPhone(userCredentials.get("phone"));
 
         // Check to see if username or email us taken
         if(!(accountService.checkIfAccountExists("username", newAccount.getUsername())

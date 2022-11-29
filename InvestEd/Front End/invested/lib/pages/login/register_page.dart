@@ -79,8 +79,7 @@ class _RegisterPageState extends State<RegisterPage> {
   // On Submit
   void onSubmit() {
     if (newPassErrorText == null && confirmNewPassErrorText == null && emailErrorText == null && usernameController.text.isNotEmpty) {
-
-      Requests.makeGetRequest('${global_info.url}/invested_account/check_taken?email=${emailController.text}&username=${usernameController.text}')
+      Requests.makeGetRequest('${global_info.localhost_url}/invested_account/check_taken?email=${emailController.text}&username=${usernameController.text}')
       .then((value) async {
         var response = json.decode(value);
         if(response['results']['status-code'] == 400) {
@@ -113,14 +112,16 @@ class _RegisterPageState extends State<RegisterPage> {
           Navigator.push(
               context,
               PageTransition(
-                  child: const AccountDetailsPage(),
+                  child: AccountDetailsPage(
+                    username: usernameController.text,
+                    password: newPasswordController.text,
+                    email: emailController.text,
+                  ),
                   type: PageTransitionType.rightToLeftWithFade
               )
           );
         }
       });
-
-
     }
   }
 

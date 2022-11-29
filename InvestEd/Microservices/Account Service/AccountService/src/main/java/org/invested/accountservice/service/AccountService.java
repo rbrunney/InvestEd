@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.security.InvalidKeyException;
 import java.util.Base64;
@@ -42,7 +41,7 @@ public class AccountService {
         return decryptedUserInfo;
     }
 
-    public Map<String, String> decryptUserInformation(String username, String password, String fname, String lname, String birthdate, String email, String phone) {
+    public Map<String, String> decryptUserInformation(String username, String password, String fname, String lname, String birthdate, String email) {
         // Having to Decrypt User Information using RSA
         RSA rsa = new RSA();
         String decryptedUsername = rsa.decrypt(username);
@@ -51,7 +50,6 @@ public class AccountService {
         String decryptedLastName = rsa.decrypt(lname);
         String decryptedBirthdate = rsa.decrypt(birthdate);
         String decryptedEmail = rsa.decrypt(email);
-        String decryptedPhone = rsa.decrypt(phone);
 
         Map<String, String> decryptedUserInfo = new HashMap<>();
         decryptedUserInfo.put("username", decryptedUsername);
@@ -60,7 +58,6 @@ public class AccountService {
         decryptedUserInfo.put("lname", decryptedLastName);
         decryptedUserInfo.put("birthdate", decryptedBirthdate);
         decryptedUserInfo.put("email", decryptedEmail);
-        decryptedUserInfo.put("phone", decryptedPhone);
 
         return decryptedUserInfo;
     }
@@ -152,10 +149,6 @@ public class AccountService {
             }
             case "password" -> {
                 accountToUpdate.setPassword(BCrypt.hashpw(newInfo, BCrypt.gensalt()));
-                return accountToUpdate;
-            }
-            case "phone" -> {
-                accountToUpdate.setPhone(newInfo);
                 return accountToUpdate;
             }
             case "buying_power_to_add" -> {

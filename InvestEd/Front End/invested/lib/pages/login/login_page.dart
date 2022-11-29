@@ -102,12 +102,12 @@ class _LoginPageState extends State<LoginPage> {
                         String encryptedPassword = '';
 
                         // Get User Encryption
-                        Requests.makeGetRequest('${global_info.url}/invested_account/encrypt/${_usernameController.text}')
+                        Requests.makeGetRequest('${global_info.localhost_url}/invested_account/encrypt/${_usernameController.text}')
                             .then((value) {
                               encryptedUsername = value;
                         });
 
-                        Requests.makeGetRequest('${global_info.url}/invested_account/encrypt/${_passwordController.text}')
+                        Requests.makeGetRequest('${global_info.localhost_url}/invested_account/encrypt/${_passwordController.text}')
                             .then((value) {
                           encryptedPassword = value;
                         });
@@ -117,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                           "username" : encryptedUsername,
                           "password" : encryptedPassword
                         };
-                        Requests.makePostRequest('${global_info.url}/invested_account/authenticate', requestBody)
+                        Requests.makePostRequest('${global_info.localhost_url}/invested_account/authenticate', requestBody)
                             .then((value) async {
                               print(value);
                             var response = json.decode(value);

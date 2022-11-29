@@ -17,7 +17,6 @@ public class Account {
     private String lastName;
     private String birthdate;
     private String email;
-    private String phone;
 
     private double buyingPower;
 
@@ -29,7 +28,7 @@ public class Account {
 
     }
 
-    public Account(String username, String password, String firstName, String lastName, String birthdate, String email, String phone, double buyingPower) {
+    public Account(String username, String password, String firstName, String lastName, String birthdate, String email, double buyingPower) {
         this.id = UUID.randomUUID().toString();
         this.buyingPower = buyingPower;
         this.username = username;
@@ -38,7 +37,6 @@ public class Account {
         this.lastName = lastName;
         this.birthdate = birthdate;
         this.email = email;
-        this.phone = phone;
     }
 
 
@@ -101,14 +99,6 @@ public class Account {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public double getBuyingPower() {
