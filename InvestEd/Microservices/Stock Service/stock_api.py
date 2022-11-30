@@ -5,7 +5,7 @@ import stock
 import os
 
 eureka_client.init(eureka_server="http://eureka:8761/eureka",
-                   app_name="stock-api",
+                   app_name="stock-service",
                    instance_port=105)
 
 stock_api = Flask(__name__)

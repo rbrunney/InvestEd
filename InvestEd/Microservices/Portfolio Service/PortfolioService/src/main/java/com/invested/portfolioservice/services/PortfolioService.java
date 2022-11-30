@@ -151,7 +151,7 @@ public class PortfolioService {
 
     // ////////////////////////////////////////////////////////////////////////////////////
     // Util Methods
-    private Map<String, String> convertMsgToMap(String msgToConvert) {
+    public Map<String, String> convertMsgToMap(String msgToConvert) {
         Map<String, String> finalResult = new HashMap<>();
 
         // Getting rid of all the unnecessary characters to split the string easier.

@@ -166,6 +166,10 @@ public class AccountService {
         }
     }
 
+    public double getUserBuyingPower(String userInfo) {
+        return accountRepo.getBuyingPowerById(userInfo);
+    }
+
     public void updateUserBuyingPower(String userId, double totalPurchasePrice) {
         Account account = accountRepo.getAccountById(userId);
         account.setBuyingPower(account.getBuyingPower() + totalPurchasePrice);

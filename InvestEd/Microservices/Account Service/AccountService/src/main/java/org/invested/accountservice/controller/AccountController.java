@@ -28,6 +28,11 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
+    @GetMapping("/buying_power")
+    public double getBuyingPower(Principal principal) {
+        return accountService.getUserBuyingPower(principal.getName());
+    }
+
     @GetMapping("/encrypt/{msg}")
     public String encrypt(@PathVariable String msg) {
         try {

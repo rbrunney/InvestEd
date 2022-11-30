@@ -122,7 +122,6 @@ class _LoginPageState extends State<LoginPage> {
                         Requests.makePostRequest('${global_info.localhost_url}/invested_account/authenticate', requestBody)
                             .then((value) async {
                             var response = json.decode(value);
-                            print(response);
                             if(response["results"]["status-code"] == 400) {
                               await showDialog<void>(
                                 context: context,
@@ -136,6 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                                 }
                               );
                           } else if(response['message'].toString().contains("Passed!")) {
+                              global_info.access_token = response['results']['refresh-token'];
                               // Save the JWT tokens to the system.
                               Navigator.push(
                                   context,

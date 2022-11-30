@@ -53,6 +53,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET, "/invested_account/forgot_password").permitAll()
                 .antMatchers(HttpMethod.PUT, "/invested_account/buying_power/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/invested_account/test").hasAnyAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.GET, "/invested_account/buying_power").hasAnyAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.DELETE, "/invested_account").hasAnyAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.PUT, "/invested_account").hasAnyAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.GET, "/invested_account/encrypt/**").permitAll()

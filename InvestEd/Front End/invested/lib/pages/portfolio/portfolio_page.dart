@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:invested/pages/portfolio/period_choice_picker.dart';
 import 'package:invested/util/custom_divider.dart';
@@ -8,6 +10,8 @@ import 'package:invested/pages/portfolio/stock_info.dart';
 import 'package:invested/util/custom_text.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:invested/util/global_styling.dart' as global_styling;
+import 'package:invested/util/global_info.dart' as global_info;
+import 'package:invested/util/requests.dart';
 
 class PortfolioPage extends StatefulWidget {
   const PortfolioPage({Key? key}) : super(key: key);
@@ -17,6 +21,50 @@ class PortfolioPage extends StatefulWidget {
 }
 
 class _PortfolioPageState extends State<PortfolioPage> {
+
+  double totalCapitalValue = 0;
+  double buyingPower = 0;
+  double totalGain = 0;
+  double totalCashGain = 0;
+  List<Widget> stocksToDisplay = [];
+
+  @override
+  initState() {
+    // Making Request to get information
+    Requests.makeGetRequestWithAuth('${global_info.localhost_url}/invested_portfolio', global_info.access_token)
+        .then((value) async {
+
+      // Make Request to get Account Information
+      await Requests.makeGetRequestWithAuth('${global_info.localhost_url}/invested_account/buying_power', global_info.access_token)
+          .then((value) {
+        var response = json.decode(value);
+        setState(() {
+          buyingPower = response;
+        });
+      });
+
+      var response = json.decode(value);
+
+      setState(() {
+        for(var stock in response['results']['portfolio']['current-stocks']) {
+          double currentStockPrice = 0;
+          Requests.makeGetRequest('${global_info.localhost_url}/invested_stock/${stock['ticker']}/price')
+          .then((value) async {
+            var response = json.decode(value);
+              currentStockPrice = response['results']['current_price'];
+          });
+
+          stocksToDisplay.add(StockInfo(
+            ticker: stock['ticker'],
+            totalShares: stock['totalShareQuantity'],
+            currentPrice: currentStockPrice,
+          ));
+        }
+        totalGain = response['results']['portfolio']['total-gain'];
+        totalCapitalValue = response['results']['portfolio']['total-value'] + buyingPower;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +80,12 @@ class _PortfolioPageState extends State<PortfolioPage> {
                 CustomText(
                   leftMargin: 30,
                   alignment: Alignment.centerLeft,
-                  text: '\$5,000.00',
+                  text: '\$$totalCapitalValue',
                   fontSize: 30,
                 ),
-                DisplayPortfolioGain(),
+                DisplayPortfolioGain(
+                  gainPercentage: totalGain,
+                ),
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 40),
                   child: LineGraph(
@@ -87,7 +137,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
                       ),
                       const Spacer(),
                       CustomText(
-                        text: '\$5,000.00',
+                        text: '\$$buyingPower',
                         topMargin: 5,
                         bottomMargin: 5,
                         alignment: Alignment.centerRight,
@@ -104,31 +154,9 @@ class _PortfolioPageState extends State<PortfolioPage> {
                     fontSize: 30,
                   ),
                 ),
-                const StockInfo(
-                  ticker: "MSFT",
-                  totalShares: 1236.72183,
-                  currentPrice: 1120.75,
-                ),
-                const StockInfo(
-                  ticker: "AAPL",
-                  totalShares: 32.05,
-                  currentPrice: 132.75,
-                ),
-                const StockInfo(
-                  ticker: "VOO",
-                  totalShares: 32.05,
-                  currentPrice: 132.75,
-                ),
-                const StockInfo(
-                  ticker: "SPHD",
-                  totalShares: 32.05,
-                  currentPrice: 132.75,
-                ),
-                const StockInfo(
-                  ticker: "XOM",
-                  totalShares: 32.05,
-                  currentPrice: 132.75,
-                ),
+                Column(
+                  children: stocksToDisplay,
+                )
               ],
             )
           )
