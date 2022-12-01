@@ -60,6 +60,11 @@ class _PortfolioPageState extends State<PortfolioPage> {
             currentPrice: currentStockPrice,
           ));
         }
+        stocksToDisplay.add(const StockInfo(
+          ticker: "MSFT",
+          totalShares: 1.25,
+          currentPrice: 245.75,
+        ));
         totalGain = response['results']['portfolio']['total-gain'];
         totalCapitalValue = response['results']['portfolio']['total-value'] + buyingPower;
       });

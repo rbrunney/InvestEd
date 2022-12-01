@@ -76,7 +76,7 @@ class _LessonInfoState extends State<LessonInfo> {
       }
 
       setState(() {
-        totalSubCategoryCount = response['lessonInfo'].length;
+        totalSubCategoryCount = response['lessonInfo'].length + 1;
         widget.percentageComplete = (totalCompleted / totalSubCategoryCount) * 100;
       });
     });
