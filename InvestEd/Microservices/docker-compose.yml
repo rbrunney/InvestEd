@@ -87,10 +87,9 @@ services:
     build: ./Lesson Service/LessonService
     image: invested-lesson-api:1.0
     environment:
-      - DB_USER=${MYSQL_USER}
-      - DB_PASSWORD=${MYSQL_PASSWORD}
-      - DB_PORT=${MYSQL_PORT}
-      - DB_HOST=${MYSQL_HOST}
+      - DB_HOST=lesson_db
+      - DB_PORT=27017
+      - DB=lessons
     depends_on:
       - registration_service
       - invested-db
@@ -343,6 +342,14 @@ services:
     container_name: verify-code-database
     ports:
       - "6379:6379"
+    networks:
+      - base-net
+
+  lesson_db:
+    image: "mongo:latest"
+    container_name: lesson_db
+    ports:
+      - "9001:27017"
     networks:
       - base-net
 

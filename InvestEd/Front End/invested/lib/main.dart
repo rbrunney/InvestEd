@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:invested/pages/login/forgot_password_page.dart';
 import 'package:invested/pages/login/login_page.dart';
+import 'package:invested/pages/navigation/bottom_tab_navigation.dart';
 import 'package:invested/util/global_styling.dart';
 
 void main() {
