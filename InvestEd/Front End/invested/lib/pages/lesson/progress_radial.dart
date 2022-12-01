@@ -45,7 +45,7 @@ class ProgressRadial extends StatelessWidget {
             GaugeAnnotation(
               positionFactor: 0.1,
                 widget: CustomText(
-                  text: "$percentageComplete%",
+                  text: "${percentageComplete.toStringAsFixed(2)}%",
                   fontSize: percentageFontSize,
                 )
             )

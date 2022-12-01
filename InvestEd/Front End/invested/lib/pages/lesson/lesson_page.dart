@@ -11,6 +11,13 @@ class LessonPage extends StatefulWidget {
 }
 
 class _LessonPageState extends State<LessonPage> {
+
+  @override
+  void initState() {
+    super.initState();
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -26,25 +33,25 @@ class _LessonPageState extends State<LessonPage> {
                   iconData: MaterialCommunityIcons.checkbox_marked_outline,
                   name: "Evaluating Goals",
                   reward: 500,
-                  percentageComplete: 100,
+                  percentageComplete: 0,
                 ),
                 const LessonMarker(
                   iconData: MaterialCommunityIcons.alert_octagram_outline,
                   name: "Risk Management",
                   reward: 750,
-                  percentageComplete: 33,
+                  percentageComplete: 0,
                 ),
                 const LessonMarker(
                   iconData: Ionicons.md_cash_outline,
                   name: "Stock 101",
                   reward: 1000,
-                  percentageComplete: 50,
+                  percentageComplete: 0,
                 ),
                 const LessonMarker(
                   iconData: MaterialCommunityIcons.script_text_outline,
                   name: "Order Types",
                   reward: 350,
-                  percentageComplete: 75,
+                  percentageComplete: 0,
                 )
               ],
             )

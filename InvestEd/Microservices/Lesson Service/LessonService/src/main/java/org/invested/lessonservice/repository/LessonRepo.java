@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface LessonRepo extends MongoRepository<Lesson, String> {
 
     Lesson getLessonByName(String name);
+    
 }

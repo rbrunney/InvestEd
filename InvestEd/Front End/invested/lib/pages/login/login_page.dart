@@ -136,6 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                               );
                           } else if(response['message'].toString().contains("Passed!")) {
                               global_info.access_token = response['results']['refresh-token'];
+                              global_info.username = _usernameController.text;
                               // Save the JWT tokens to the system.
                               Navigator.push(
                                   context,

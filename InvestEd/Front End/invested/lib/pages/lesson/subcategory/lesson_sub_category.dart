@@ -7,10 +7,12 @@ import 'package:invested/util/global_styling.dart' as global_styling;
 
 class LessonSubCategory extends StatelessWidget {
   final String subCategoryName;
+  final List<dynamic> snippets;
   final bool hasFinished;
   const LessonSubCategory({
     Key? key,
     this.subCategoryName = "",
+    this.snippets = const [],
     this.hasFinished = false,
   }) : super(key: key);
 
@@ -21,7 +23,7 @@ class LessonSubCategory extends StatelessWidget {
           Navigator.push(
               context,
               PageTransition(
-                  child: SubCategoryInfo(title: subCategoryName),
+                  child: SubCategoryInfo(title: subCategoryName, snippets: snippets),
                   type: PageTransitionType.fade));
         },
         child: Container(
