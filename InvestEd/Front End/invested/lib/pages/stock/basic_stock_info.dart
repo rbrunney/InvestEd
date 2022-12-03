@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -21,10 +22,12 @@ import '../portfolio/portfolio_gain.dart';
 class BasicStockInfo extends StatefulWidget {
   final String ticker;
   final double totalShares;
+  final double portfolioValue;
   const BasicStockInfo({
     Key? key,
     this.ticker = '',
     this.totalShares = 0,
+    this.portfolioValue = 0
   }) : super(key: key);
 
   @override
@@ -36,11 +39,6 @@ class _BasicStockInfoState extends State<BasicStockInfo> {
   // Basic Stock Info
   String companyName = '';
   double currentPrice = 0;
-
-  // Total Position Information
-  double totalShares = 0;
-  double totalMarketValue = 0;
-  double portfolioDiversity = 0;
 
   // About Section
   String description = '';
@@ -59,6 +57,10 @@ class _BasicStockInfoState extends State<BasicStockInfo> {
   String addressCity = '';
   String addressState = '';
   String addressZipcode = '';
+  List<FlSpot> stockPrices = [];
+
+  // Chart Low
+  double chartMinY = 1000000;
 
   // Used for Request
   Future<String>? futureStockInfo;
@@ -67,13 +69,34 @@ class _BasicStockInfoState extends State<BasicStockInfo> {
   void initState() {
     super.initState();
     futureStockInfo = getBasicStockInfo();
+    Requests.makeGetRequest("${global_info.localhost_url}/invested_stock/${widget.ticker}/WEEK")
+        .then((value) {
+      var response = json.decode(value);
+
+      for(int i=0; i<response['results']['period_info'].length; i++) {
+        setState(() {
+          if(response['results']['period_info'][i].toDouble() < chartMinY) {
+            chartMinY = response['results']['period_info'][i];
+          }
+          stockPrices.add(FlSpot(i.toDouble(), response['results']['period_info'][i].toDouble()));
+        });
+      }
+    });
+
+    Requests.makeGetRequest("${global_info.localhost_url}/invested_stock/${widget.ticker}/price")
+    .then((value) {
+      var response = json.decode(value);
+      setState(() {
+        currentPrice = response['results']['current_price'].toDouble();
+        stockPrices.add(FlSpot(stockPrices.length.toDouble(), currentPrice));
+      });
+    });
   }
 
   Future<String>? getBasicStockInfo() async {
     await Requests.makeGetRequest("${global_info.localhost_url}/invested_stock/${widget.ticker}/basic_info").
     then((value) {
       var response = json.decode(value);
-      print(response);
       setState(() {
         companyName = response['results']['name'];
         description = response['results']['description'];
@@ -94,7 +117,6 @@ class _BasicStockInfoState extends State<BasicStockInfo> {
         // portfolioDiversity = 0;
       });
     });
-
     return 'Done';
   }
 
@@ -130,42 +152,35 @@ class _BasicStockInfoState extends State<BasicStockInfo> {
                             CustomText(
                               leftMargin: 30,
                               alignment: Alignment.centerLeft,
-                              text: '\$245.5838',
+                              text: '\$${currentPrice.toStringAsFixed(2)}',
                               fontSize: 30,
                             ),
-                            DisplayPortfolioGain(),
+                            DisplayPortfolioGain(
+                              gainPercentage: ((openPrice - currentPrice).abs()/((openPrice + currentPrice)/2)) * 100,
+                              cashGain: currentPrice - openPrice,
+                            ),
                             Container(
                                 margin: const EdgeInsets.symmetric(vertical: 15),
                                 child: LineGraph(
                                     width: MediaQuery.of(context).size.width - 15,
-                                    maxX: 20,
-                                    maxY: high,
-                                    graphLineColor: Color(global_styling.LOGO_COLOR),
+                                    maxX: 250,
+                                    minY: chartMinY,
+                                    maxY: openPrice + (currentPrice - openPrice).abs(),
+                                    graphLineColor: openPrice < currentPrice ? Color(global_styling.LOGO_COLOR) : Colors.red,
                                     previousCloseData: [
                                       FlSpot(0, openPrice),
-                                      FlSpot(20, openPrice)
+                                      FlSpot(250, openPrice)
                                     ],
-                                    graphLineData: const [
-                                      FlSpot(0, 3),
-                                      FlSpot(1, 4),
-                                      FlSpot(2, 3),
-                                      FlSpot(3, 2),
-                                      FlSpot(4, 0.5),
-                                      FlSpot(5, 5),
-                                      FlSpot(6, 3),
-                                      FlSpot(7, 4.3),
-                                      FlSpot(8, 2.75),
-                                      FlSpot(9, 3.75),
-                                      FlSpot(10, 1.45),
-                                      FlSpot(13, 5.45),
-                                      FlSpot(17, 5),
-                                      FlSpot(20, 6)
-                                    ]
+                                    graphLineData: stockPrices
                                 )
                             ),
                             PeriodChoicePicker(),
                             const CustomDivider(),
-                            const TotalPosition(),
+                            TotalPosition(
+                              totalShares: widget.totalShares,
+                              currentPrice: currentPrice,
+                              portfolioDiversity: (widget.totalShares * currentPrice)/widget.portfolioValue,
+                            ),
                             PageTitle(
                               title: "About ${widget.ticker}",
                               fontSize: 25,

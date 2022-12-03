@@ -21,12 +21,11 @@ class DisplayPortfolioGain extends StatefulWidget {
 }
 
 class _DisplayPortfolioGainState extends State<DisplayPortfolioGain> {
-  Color gainColor = Color(global_styling.LOGO_COLOR);
-
   double gainTextSize = 14;
 
   @override
   Widget build(BuildContext context) {
+    Color gainColor = widget.cashGain > 0 ? Color(global_styling.LOGO_COLOR) : Colors.red;
     return Container(
         margin: const EdgeInsets.only(left: 30),
         alignment: Alignment.centerLeft,
@@ -35,7 +34,7 @@ class _DisplayPortfolioGainState extends State<DisplayPortfolioGain> {
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 2),
               child: Icon(
-                MaterialCommunityIcons.arrow_up,
+                widget.cashGain > 0 ? MaterialCommunityIcons.arrow_up : MaterialCommunityIcons.arrow_down,
                 size: gainTextSize,
                 color: gainColor,
               ),
@@ -43,14 +42,14 @@ class _DisplayPortfolioGainState extends State<DisplayPortfolioGain> {
             CustomText(
               leftMargin: 2,
               rightMargin: 2,
-              text: "\$${widget.cashGain}",
+              text: "\$${widget.cashGain.toStringAsFixed(2)}",
               fontSize: gainTextSize,
               color: gainColor,
             ),
             CustomText(
               leftMargin: 2,
               rightMargin: 2,
-              text: "(${widget.gainPercentage}%)",
+              text: "(${widget.gainPercentage.toStringAsFixed(2)}%)",
               fontSize: gainTextSize,
               color: gainColor
             ),

@@ -12,12 +12,14 @@ class StockInfo extends StatefulWidget {
   final String ticker;
   final double totalShares;
   final double currentPrice;
+  final double portfolioValue;
   final IconData iconData;
   const StockInfo({
     Key? key,
     this.ticker = '',
     this.totalShares = 0,
     this.currentPrice = 0,
+    this.portfolioValue = 0,
     this.iconData = MaterialCommunityIcons.arrow_up
   }) : super(key: key);
 
@@ -121,6 +123,7 @@ class _StockInfoState extends State<StockInfo> {
                 child: BasicStockInfo(
                     ticker: widget.ticker,
                   totalShares: widget.totalShares,
+                  portfolioValue: widget.portfolioValue,
                 ),
                 type: PageTransitionType.rightToLeftWithFade));
       },

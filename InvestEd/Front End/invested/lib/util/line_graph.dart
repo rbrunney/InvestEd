@@ -6,6 +6,7 @@ class LineGraph extends StatefulWidget {
   final double width;
   final double maxX;
   final double maxY;
+  final double minY;
   final int previousCloseLineSize;
   final List<FlSpot> previousCloseData;
   final List<FlSpot> graphLineData;
@@ -16,6 +17,7 @@ class LineGraph extends StatefulWidget {
     this.width = 0,
     this.maxX = 0,
     this.maxY = 0,
+    this.minY = 0,
     this.previousCloseLineSize = 8,
     this.previousCloseData = const [],
     this.graphLineData = const [],
@@ -36,7 +38,7 @@ class _LineGraphState extends State<LineGraph> {
           LineChartData(
             minX: 0,
             maxX: widget.maxX,
-            minY: 0,
+            minY: widget.minY,
             maxY: widget.maxY,
             // Removing all of the label axis for information
             titlesData: FlTitlesData(

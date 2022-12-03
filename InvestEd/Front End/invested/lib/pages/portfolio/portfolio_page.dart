@@ -46,27 +46,29 @@ class _PortfolioPageState extends State<PortfolioPage> {
       var response = json.decode(value);
 
       setState(() {
+        totalGain = response['results']['portfolio']['total-gain'];
+        totalCapitalValue = response['results']['portfolio']['total-value'] + buyingPower;
         for(var stock in response['results']['portfolio']['current-stocks']) {
           double currentStockPrice = 0;
           Requests.makeGetRequest('${global_info.localhost_url}/invested_stock/${stock['ticker']}/price')
           .then((value) async {
             var response = json.decode(value);
-              currentStockPrice = response['results']['current_price'];
+            currentStockPrice = response['results']['current_price'];
           });
 
           stocksToDisplay.add(StockInfo(
             ticker: stock['ticker'],
             totalShares: stock['totalShareQuantity'],
             currentPrice: currentStockPrice,
+            portfolioValue: totalCapitalValue,
           ));
         }
-        stocksToDisplay.add(const StockInfo(
+        stocksToDisplay.add(StockInfo(
           ticker: "MSFT",
           totalShares: 1.25,
           currentPrice: 245.75,
+          portfolioValue: totalCapitalValue,
         ));
-        totalGain = response['results']['portfolio']['total-gain'];
-        totalCapitalValue = response['results']['portfolio']['total-value'] + buyingPower;
       });
     });
   }

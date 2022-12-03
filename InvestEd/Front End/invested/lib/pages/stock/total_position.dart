@@ -4,7 +4,15 @@ import '../../util/custom_text.dart';
 import '../../util/page_title.dart';
 
 class TotalPosition extends StatelessWidget {
-  const TotalPosition({Key? key}) : super(key: key);
+  final double totalShares;
+  final double currentPrice;
+  final double portfolioDiversity;
+  const TotalPosition({
+    Key? key,
+    this.totalShares = 0,
+    this.currentPrice = 0,
+    this.portfolioDiversity = 0
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +38,7 @@ class TotalPosition extends StatelessWidget {
                     fontSize: 15,
                   ),
                   CustomText(
-                    text: "1236.72183",
+                    text: totalShares.toStringAsFixed(2),
                     fontSize: 18,
                   )
                 ],
@@ -44,7 +52,7 @@ class TotalPosition extends StatelessWidget {
                     fontSize: 15,
                   ),
                   CustomText(
-                    text: "\$1234767.123",
+                    text: "\$${(currentPrice * totalShares).toStringAsFixed(2)}",
                     fontSize: 18,
                   )
                 ],
@@ -62,7 +70,7 @@ class TotalPosition extends StatelessWidget {
               fontSize: 15,
             ),
             CustomText(
-              text: "30.55%",
+              text: "${portfolioDiversity.toStringAsFixed(2)}%",
               fontSize: 18,
               bottomMargin: 30,
             )
