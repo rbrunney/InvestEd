@@ -120,7 +120,7 @@ class _StockInfoState extends State<StockInfo> {
             PageTransition(
                 child: BasicStockInfo(
                     ticker: widget.ticker,
-                  companyName: "Microsoft Corp",
+                  totalShares: widget.totalShares,
                 ),
                 type: PageTransitionType.rightToLeftWithFade));
       },

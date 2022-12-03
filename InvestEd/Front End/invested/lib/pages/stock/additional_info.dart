@@ -4,7 +4,21 @@ import '../../util/custom_text.dart';
 import '../../util/page_title.dart';
 
 class AdditionalInformation extends StatelessWidget {
-  const AdditionalInformation({Key? key}) : super(key: key);
+  final String listDate;
+  final int totalEmployees;
+  final String street;
+  final String city;
+  final String state;
+  final String zipcode;
+  const AdditionalInformation({
+    Key? key,
+    this.listDate = '',
+    this.street = '',
+    this.city = '',
+    this.state = '',
+    this.zipcode = '',
+    this.totalEmployees = 0
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +44,7 @@ class AdditionalInformation extends StatelessWidget {
                     fontSize: 15,
                   ),
                   CustomText(
-                    text: "1986-03-13",
+                    text: listDate,
                     fontSize: 18,
                   )
                 ],
@@ -44,7 +58,7 @@ class AdditionalInformation extends StatelessWidget {
                     fontSize: 15,
                   ),
                   CustomText(
-                    text: "221000",
+                    text: '$totalEmployees',
                     fontSize: 18,
                   )
                 ],
@@ -63,15 +77,15 @@ class AdditionalInformation extends StatelessWidget {
             ),
             // Start of Address
             CustomText(
-              text: "ONE MICROSOFT WAY",
+              text: street,
               fontSize: 18,
             ),
             CustomText(
-              text: "REDMOND, WA",
+              text: "$city, $state",
               fontSize: 18,
             ),
             CustomText(
-              text: "98052-6399",
+              text: zipcode,
               fontSize: 18,
               bottomMargin: 30,
             )
