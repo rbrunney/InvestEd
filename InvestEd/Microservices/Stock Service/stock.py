@@ -51,12 +51,15 @@ class Stock:
             data_points = []
 
             for aggreagate in aggregates:
-                data_points.append(aggreagate.vwap)
+                data_points.append(aggreagate.close)
             
             return data_points
 
         if period == "DAY":
-            return period_data_points(self.check_date(), self.check_date(), "minute")
+            try: 
+                return period_data_points(self.check_date(), self.check_date(), "minute")
+            except:
+                return period_data_points(self.check_date() - dt.timedelta(days=1), self.check_date() - dt.timedelta(days=1), "minute")
         elif period == "WEEK":
             return period_data_points(self.check_date() - dt.timedelta(days=7), self.check_date(), "minute")
         elif period == "MONTH":

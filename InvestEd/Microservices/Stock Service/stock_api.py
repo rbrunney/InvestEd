@@ -25,6 +25,21 @@ def getTickerPrice(ticker:str):
         'date-time' : datetime.now()
     }
 
+@stock_api.route("/invested_stock/<ticker>/<period>", methods=["GET"])
+def getPricePeriodTicker(ticker:str, period:str):
+    fetched_data = stock.Stock(ticker).get_data_points(period)
+
+    if(fetched_data == 400):
+        return failed_fetch(ticker), 404
+    
+    return {
+        'message' : f'{ticker} Price Period Successfully Fetched!',
+        'results' : {
+            'period_info' : fetched_data
+        },
+        'date-time' : datetime.now()
+    }
+
 @stock_api.route("/invested_stock/<ticker>/basic_info", methods=["GET"])
 def getTickerBasicInfo(ticker: str):
     fetched_data = stock.Stock(ticker).get_basic_info()
