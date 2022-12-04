@@ -10,10 +10,14 @@ import '../../../util/custom_text.dart';
 class BottomTradeBar extends StatelessWidget {
   final String ticker;
   final double currentPrice;
+  final double previousClose;
+  final bool isPortfolioStock;
   const BottomTradeBar({
     Key? key,
     this.ticker = "",
-    this.currentPrice = 0
+    this.currentPrice = 0,
+    this.previousClose = 0,
+    this.isPortfolioStock = true,
   }) : super(key: key);
 
   @override
@@ -30,27 +34,30 @@ class BottomTradeBar extends StatelessWidget {
                 margin: const EdgeInsets.symmetric(horizontal: 25),
                 child: Row(
                   children: [
-                    InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              PageTransition(
-                                  child: SellPage(
-                                    ticker: ticker,
-                                    currentPrice: currentPrice,
-                                  ),
-                                  type: PageTransitionType.bottomToTop));
-                        },
-                        child: Container(
-                            margin: const EdgeInsets.symmetric(vertical: 10),
-                            padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 50),
-                            decoration: BoxDecoration(
-                                color: Color(global_styling.LOGO_COLOR),
-                                borderRadius: BorderRadius.circular(5)
-                            ),
-                            child: CustomText(
-                              text: "Sell",
-                              color: Color(global_styling.GREY_LOGO_COLOR),
+                    Visibility(
+                      visible: isPortfolioStock,
+                        child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      child: SellPage(
+                                        ticker: ticker,
+                                        currentPrice: currentPrice,
+                                      ),
+                                      type: PageTransitionType.bottomToTop));
+                            },
+                            child: Container(
+                                margin: const EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 50),
+                                decoration: BoxDecoration(
+                                    color: previousClose < currentPrice ? Color(global_styling.LOGO_COLOR) : Colors.red,
+                                    borderRadius: BorderRadius.circular(5)
+                                ),
+                                child: CustomText(
+                                  text: "Sell",
+                                  color: Color(global_styling.GREY_LOGO_COLOR),
+                                )
                             )
                         )
                     ),
@@ -70,7 +77,7 @@ class BottomTradeBar extends StatelessWidget {
                         margin: const EdgeInsets.symmetric(vertical: 10),
                         padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 50),
                         decoration: BoxDecoration(
-                            color: Color(global_styling.LOGO_COLOR),
+                            color: previousClose < currentPrice ? Color(global_styling.LOGO_COLOR) : Colors.red,
                             borderRadius: BorderRadius.circular(5)
                         ),
                         child: CustomText(

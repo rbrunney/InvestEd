@@ -56,20 +56,17 @@ class Stock:
             return data_points
 
         if period == "DAY":
-            try: 
-                return period_data_points(self.check_date(), self.check_date(), "minute")
-            except:
-                return period_data_points(self.check_date() - dt.timedelta(days=1), self.check_date() - dt.timedelta(days=1), "minute")
+            return period_data_points(self.check_date().date(), self.check_date().date(), "minute")
         elif period == "WEEK":
-            return period_data_points(self.check_date() - dt.timedelta(days=7), self.check_date(), "minute")
+            return period_data_points(self.check_date().date() - dt.timedelta(days=7), self.check_date().date(), "minute")
         elif period == "MONTH":
-            return period_data_points(self.check_date() - dt.timedelta(days=31), self.check_date(), "minute")
+            return period_data_points(self.check_date().date() - dt.timedelta(days=31), self.check_date().date(), "minute")
         elif period == "3-MONTH":
-            return period_data_points(self.check_date() - dt.timedelta(days=93), self.check_date(), "minute")
+            return period_data_points(self.check_date().date() - dt.timedelta(days=93), self.check_date().date(), "minute")
         elif period == "YEAR":
-            return period_data_points(self.check_date() - dt.timedelta(days=365), self.check_date(), "day")
+            return period_data_points(self.check_date().date() - dt.timedelta(days=365), self.check_date().date(), "day")
         elif period == "5-YEAR":
-            return period_data_points(self.check_date() - dt.timedelta(days=1825), self.check_date(), "day")
+            return period_data_points(self.check_date().date() - dt.timedelta(days=1825), self.check_date().date(), "day")
         else:
             # Return 400 so we know we have to send a bad request
             return 400
@@ -105,6 +102,7 @@ class Stock:
 
         # Get last dividend amount and add to basic info
         dividend_amount = self.polygon_client.list_dividends(ticker=self.ticker)
+        last_dividend = None
         for dividend in dividend_amount:
             last_dividend = dividend.cash_amount
             break
@@ -124,6 +122,9 @@ class Stock:
         basic_info['high'] = daily_info.high
         basic_info['low'] = daily_info.close
         basic_info['volume'] = daily_info.volume
+
+        daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date() -dt.timedelta(days=1))
+        basic_info['previous_close'] = daily_info.close
 
         return basic_info
 

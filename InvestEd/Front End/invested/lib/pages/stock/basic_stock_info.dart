@@ -23,11 +23,13 @@ class BasicStockInfo extends StatefulWidget {
   final String ticker;
   final double totalShares;
   final double portfolioValue;
+  final bool isPortfolioStock;
   const BasicStockInfo({
     Key? key,
     this.ticker = '',
     this.totalShares = 0,
-    this.portfolioValue = 0
+    this.portfolioValue = 0,
+    this.isPortfolioStock = true,
   }) : super(key: key);
 
   @override
@@ -49,6 +51,7 @@ class _BasicStockInfoState extends State<BasicStockInfo> {
   double volume = 0;
   double marketCap = 0;
   double dividend = 0;
+  double previousClose = 0;
 
   // Additional Info
   String listDate = '';
@@ -61,6 +64,7 @@ class _BasicStockInfoState extends State<BasicStockInfo> {
 
   // Chart Low
   double chartMinY = 1000000;
+  double chartMaxY = 0;
 
   // Used for Request
   Future<String>? futureStockInfo;
@@ -69,14 +73,18 @@ class _BasicStockInfoState extends State<BasicStockInfo> {
   void initState() {
     super.initState();
     futureStockInfo = getBasicStockInfo();
-    Requests.makeGetRequest("${global_info.localhost_url}/invested_stock/${widget.ticker}/WEEK")
+    Requests.makeGetRequest("${global_info.localhost_url}/invested_stock/${widget.ticker}/DAY")
         .then((value) {
       var response = json.decode(value);
 
       for(int i=0; i<response['results']['period_info'].length; i++) {
         setState(() {
           if(response['results']['period_info'][i].toDouble() < chartMinY) {
-            chartMinY = response['results']['period_info'][i];
+            chartMinY = response['results']['period_info'][i].toDouble();
+          }
+
+          if(response['results']['period_info'][i].toDouble() > chartMaxY) {
+            chartMaxY = response['results']['period_info'][i].toDouble();
           }
           stockPrices.add(FlSpot(i.toDouble(), response['results']['period_info'][i].toDouble()));
         });
@@ -112,6 +120,7 @@ class _BasicStockInfoState extends State<BasicStockInfo> {
         addressCity = response['results']['hq_address']['city'];
         addressState = response['results']['hq_address']['state'];
         addressZipcode = response['results']['hq_address']['zipcode'];
+        previousClose = response['results']['previous_close'];
         // totalShares = widget.totalShares;
         // totalMarketValue = widget.totalShares * 245.5838;
         // portfolioDiversity = 0;
@@ -156,30 +165,33 @@ class _BasicStockInfoState extends State<BasicStockInfo> {
                               fontSize: 30,
                             ),
                             DisplayPortfolioGain(
-                              gainPercentage: ((openPrice - currentPrice).abs()/((openPrice + currentPrice)/2)) * 100,
-                              cashGain: currentPrice - openPrice,
+                              gainPercentage: ((previousClose - currentPrice).abs()/((previousClose + currentPrice)/2)) * 100,
+                              cashGain: currentPrice - previousClose,
                             ),
                             Container(
                                 margin: const EdgeInsets.symmetric(vertical: 15),
                                 child: LineGraph(
                                     width: MediaQuery.of(context).size.width - 15,
                                     maxX: 250,
-                                    minY: chartMinY,
-                                    maxY: openPrice + (currentPrice - openPrice).abs(),
-                                    graphLineColor: openPrice < currentPrice ? Color(global_styling.LOGO_COLOR) : Colors.red,
+                                    minY: chartMinY < openPrice ? chartMinY : openPrice,
+                                    maxY: chartMaxY > currentPrice ? chartMaxY : currentPrice,
+                                    graphLineColor: previousClose < currentPrice ? Color(global_styling.LOGO_COLOR) : Colors.red,
                                     previousCloseData: [
-                                      FlSpot(0, openPrice),
-                                      FlSpot(250, openPrice)
+                                      FlSpot(0, previousClose),
+                                      FlSpot(250, previousClose)
                                     ],
                                     graphLineData: stockPrices
                                 )
                             ),
                             PeriodChoicePicker(),
                             const CustomDivider(),
-                            TotalPosition(
-                              totalShares: widget.totalShares,
-                              currentPrice: currentPrice,
-                              portfolioDiversity: (widget.totalShares * currentPrice)/widget.portfolioValue,
+                            Visibility(
+                              visible: widget.isPortfolioStock,
+                              child: TotalPosition(
+                                totalShares: widget.totalShares,
+                                currentPrice: currentPrice,
+                                portfolioDiversity: (widget.totalShares * currentPrice)/widget.portfolioValue,
+                              )
                             ),
                             PageTitle(
                               title: "About ${widget.ticker}",
@@ -234,7 +246,9 @@ class _BasicStockInfoState extends State<BasicStockInfo> {
             ),
             BottomTradeBar(
               ticker: widget.ticker,
-              currentPrice: 253.4545,
+              currentPrice: currentPrice,
+              previousClose: previousClose,
+              isPortfolioStock: widget.isPortfolioStock
             )
           ],
         )

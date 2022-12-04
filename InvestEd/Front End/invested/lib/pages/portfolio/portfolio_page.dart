@@ -69,6 +69,12 @@ class _PortfolioPageState extends State<PortfolioPage> {
           currentPrice: 245.75,
           portfolioValue: totalCapitalValue,
         ));
+        stocksToDisplay.add(StockInfo(
+          ticker: "XOM",
+          totalShares: 1.25,
+          currentPrice: 245.75,
+          portfolioValue: totalCapitalValue,
+        ));
       });
     });
   }
