@@ -58,15 +58,15 @@ class OrderCompletePage extends StatelessWidget {
                         ),
                         BuySellInfoRow(
                           infoPrefixText: "Total Shares:",
-                          infoSuffixText: "$totalShares",
+                          infoSuffixText: totalShares.toStringAsFixed(2),
                         ),
                         BuySellInfoRow(
                             infoPrefixText: "Price-Per-Share:",
-                          infoSuffixText: "\$$currentPrice",
+                          infoSuffixText: "\$${currentPrice.toStringAsFixed(2)}",
                         ),
                         BuySellInfoRow(
                           infoPrefixText: "Total Price:",
-                          infoSuffixText: "\$$finalPrice",
+                          infoSuffixText: "\$${finalPrice.toStringAsFixed(2)}",
                         ),
                         BuySellInfoRow(
                           infoPrefixText: "Trade Type:",
@@ -74,7 +74,7 @@ class OrderCompletePage extends StatelessWidget {
                         ),
                         BuySellInfoRow(
                           infoPrefixText: "Order Id:",
-                          infoSuffixText: orderId,
+                          infoSuffixText: orderId.split("-")[4],
                         )
                       ],
                     ),

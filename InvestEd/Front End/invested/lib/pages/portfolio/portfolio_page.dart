@@ -40,6 +40,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
         var response = json.decode(value);
         setState(() {
           buyingPower = response;
+          global_info.buying_power = response;
         });
       });
 
@@ -50,8 +51,9 @@ class _PortfolioPageState extends State<PortfolioPage> {
         totalCapitalValue = response['results']['portfolio']['total-value'] + buyingPower;
         for(var stock in response['results']['portfolio']['current-stocks']) {
           double currentStockPrice = 0;
-          Requests.makeGetRequest('${global_info.localhost_url}/invested_stock/${stock['ticker']}/price')
-          .then((value) async {
+          Requests.makeGetRequest('${global_info
+              .localhost_url}/invested_stock/${stock['ticker']}/price')
+              .then((value) async {
             var response = json.decode(value);
             currentStockPrice = response['results']['current_price'];
           });
@@ -63,18 +65,6 @@ class _PortfolioPageState extends State<PortfolioPage> {
             portfolioValue: totalCapitalValue,
           ));
         }
-        stocksToDisplay.add(StockInfo(
-          ticker: "MSFT",
-          totalShares: 1.25,
-          currentPrice: 245.75,
-          portfolioValue: totalCapitalValue,
-        ));
-        stocksToDisplay.add(StockInfo(
-          ticker: "XOM",
-          totalShares: 1.25,
-          currentPrice: 245.75,
-          portfolioValue: totalCapitalValue,
-        ));
       });
     });
   }

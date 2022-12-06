@@ -23,7 +23,7 @@ class Stock:
             return current_date - dt.timedelta(days=1)
         elif date_value == sunday:
             return current_date - dt.timedelta(days=2)
-
+            
         return current_date
 
     def get_current_price(self):
@@ -47,7 +47,10 @@ class Stock:
 
         # Getting the aggreagate data so we can return array of datapoints later
         def period_data_points(from_date, end_date, timespan):
-            aggregates = self.polygon_client.get_aggs(self.ticker, multiplier=1, from_=from_date, to=end_date, timespan=timespan,limit=250)
+            try:
+                aggregates = self.polygon_client.get_aggs(ticker=self.ticker, multiplier=1, from_=from_date, to=end_date, timespan=timespan,limit=250)
+            except:
+                aggregates = self.polygon_client.get_aggs(ticker=self.ticker, multiplier=1, from_=from_date - dt.timedelta(days=1), to=end_date - dt.timedelta(days=1), timespan=timespan,limit=250)
             data_points = []
 
             for aggreagate in aggregates:
@@ -115,15 +118,26 @@ class Stock:
             try: 
                 daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date() - dt.timedelta(days=1))
             except:
-                daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date() - dt.timedelta(days=2))
-
+                try: 
+                    daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date() - dt.timedelta(days=2))
+                except:
+                    daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date() - dt.timedelta(days=3))
         # Adding open, high, low, and volume to basic information
         basic_info['open'] = daily_info.open
         basic_info['high'] = daily_info.high
         basic_info['low'] = daily_info.close
         basic_info['volume'] = daily_info.volume
 
-        daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date() -dt.timedelta(days=1))
+        if(basic_info['low'] == None):
+            basic_info['low'] = 0
+
+        try:
+            daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date() - dt.timedelta(days=1))
+        except:
+            try: 
+                daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date() - dt.timedelta(days=2))
+            except:
+                 daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date() - dt.timedelta(days=3))
         basic_info['previous_close'] = daily_info.close
 
         return basic_info

@@ -66,17 +66,44 @@ class _BasicStockInfoState extends State<BasicStockInfo> {
   double chartMinY = 1000000;
   double chartMaxY = 0;
 
+  Future<String>? stockInfo;
+
   // Used for Request
-  Future<String>? futureStockInfo;
+  Future<String>? futureStockInfo() async {
+    await Requests.makeGetRequest("${global_info.localhost_url}/invested_stock/${widget.ticker}/basic_info").
+    then((value) {
+      var response = json.decode(value);
+      setState(() {
+        companyName = response['results']['name'];
+        description = response['results']['description'];
+        openPrice = response['results']['open'];
+        high = response['results']['high'];
+        low = response['results']['low'].toDouble();
+        volume = response['results']['volume'];
+        marketCap = response['results']['market_cap'];
+        dividend = response['results']['last_dividend'];
+        listDate = response['results']['list_date'];
+        totalEmployees = response['results']['total_employees'];
+        addressStreet = response['results']['hq_address']['street'];
+        addressCity = response['results']['hq_address']['city'];
+        addressState = response['results']['hq_address']['state'];
+        addressZipcode = response['results']['hq_address']['zipcode'];
+        previousClose = response['results']['previous_close'];
+        // totalShares = widget.totalShares;
+        // totalMarketValue = widget.totalShares * 245.5838;
+        // portfolioDiversity = 0;
+      });
+    });
+
+    return "Done";
+  }
 
   @override
   void initState() {
     super.initState();
-    futureStockInfo = getBasicStockInfo();
     Requests.makeGetRequest("${global_info.localhost_url}/invested_stock/${widget.ticker}/DAY")
         .then((value) {
       var response = json.decode(value);
-
       for(int i=0; i<response['results']['period_info'].length; i++) {
         setState(() {
           if(response['results']['period_info'][i].toDouble() < chartMinY) {
@@ -99,34 +126,8 @@ class _BasicStockInfoState extends State<BasicStockInfo> {
         stockPrices.add(FlSpot(stockPrices.length.toDouble(), currentPrice));
       });
     });
-  }
 
-  Future<String>? getBasicStockInfo() async {
-    await Requests.makeGetRequest("${global_info.localhost_url}/invested_stock/${widget.ticker}/basic_info").
-    then((value) {
-      var response = json.decode(value);
-      setState(() {
-        companyName = response['results']['name'];
-        description = response['results']['description'];
-        openPrice = response['results']['open'];
-        high = response['results']['high'];
-        low = response['results']['low'];
-        volume = response['results']['volume'];
-        marketCap = response['results']['market_cap'];
-        dividend = response['results']['last_dividend'];
-        listDate = response['results']['list_date'];
-        totalEmployees = response['results']['total_employees'];
-        addressStreet = response['results']['hq_address']['street'];
-        addressCity = response['results']['hq_address']['city'];
-        addressState = response['results']['hq_address']['state'];
-        addressZipcode = response['results']['hq_address']['zipcode'];
-        previousClose = response['results']['previous_close'];
-        // totalShares = widget.totalShares;
-        // totalMarketValue = widget.totalShares * 245.5838;
-        // portfolioDiversity = 0;
-      });
-    });
-    return 'Done';
+    stockInfo = futureStockInfo();
   }
 
   @override
@@ -138,7 +139,7 @@ class _BasicStockInfoState extends State<BasicStockInfo> {
             Expanded(
               child:  SingleChildScrollView(
                   child: FutureBuilder<String>(
-                    future: futureStockInfo,
+                    future: stockInfo,
                     builder: (context, snapshot) {
                       if(snapshot.hasData) {
                         return Column(
@@ -173,8 +174,8 @@ class _BasicStockInfoState extends State<BasicStockInfo> {
                                 child: LineGraph(
                                     width: MediaQuery.of(context).size.width - 15,
                                     maxX: 250,
-                                    minY: chartMinY < openPrice ? chartMinY : openPrice,
-                                    maxY: chartMaxY > currentPrice ? chartMaxY : currentPrice,
+                                    minY: chartMinY < openPrice ? (chartMinY < previousClose ? chartMinY : previousClose) : openPrice,
+                                    maxY: chartMaxY > currentPrice ? (chartMaxY > previousClose ? chartMaxY : previousClose) : currentPrice,
                                     graphLineColor: previousClose < currentPrice ? Color(global_styling.LOGO_COLOR) : Colors.red,
                                     previousCloseData: [
                                       FlSpot(0, previousClose),

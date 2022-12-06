@@ -70,6 +70,7 @@ class BottomTradeBar extends StatelessWidget {
                                 child: BuyPage(
                                   ticker: ticker,
                                   currentPrice: currentPrice,
+                                  previousClose: previousClose
                                 ),
                                 type: PageTransitionType.bottomToTop));
                       },
