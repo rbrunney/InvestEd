@@ -50,18 +50,9 @@ class _PortfolioPageState extends State<PortfolioPage> {
         totalGain = response['results']['portfolio']['total-gain'];
         totalCapitalValue = response['results']['portfolio']['total-value'] + buyingPower;
         for(var stock in response['results']['portfolio']['current-stocks']) {
-          double currentStockPrice = 0;
-          Requests.makeGetRequest('${global_info
-              .localhost_url}/invested_stock/${stock['ticker']}/price')
-              .then((value) async {
-            var response = json.decode(value);
-            currentStockPrice = response['results']['current_price'];
-          });
-
           stocksToDisplay.add(StockInfo(
             ticker: stock['ticker'],
             totalShares: stock['totalShareQuantity'],
-            currentPrice: currentStockPrice,
             portfolioValue: totalCapitalValue,
           ));
         }
