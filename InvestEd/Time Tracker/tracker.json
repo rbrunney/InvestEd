@@ -777,11 +777,302 @@
                     "description": "Working on DTO's"
                 }
             ]
+        },
+        "Saturday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "1:0 pm",
+                    "end_time": "3:35 pm",
+                    "description": "Working on Login Page"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "4:30 pm",
+                    "end_time": "5:13 pm",
+                    "description": "Continue Work on Login Screen"
+                }
+            ]
         }
     },
-    "Week 6": {},
-    "Week 7": {},
-    "Week 8": {},
+    "Week 6": {
+        "Monday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "9:0 am",
+                    "end_time": "9:45 am",
+                    "description": "Working on Login Screen"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "10:45 am",
+                    "end_time": "11:09 am",
+                    "description": "Working on Login Page"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "8:30 pm",
+                    "end_time": "9:30 pm",
+                    "description": "Working on Login Page"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "10:0 pm",
+                    "end_time": "11:59 pm",
+                    "description": "Working on different screens"
+                }
+            ]
+        },
+        "Tuesday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "12:0 am",
+                    "end_time": "12:15 am",
+                    "description": "Working on Bottom Tab Navigation"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "9:30 am",
+                    "end_time": "10:30 am",
+                    "description": "Working on Bottom Nav / Register Pages"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "6:15 pm",
+                    "end_time": "7:15 pm",
+                    "description": "Working on Login Page Pixel Overflow"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "7:15 pm",
+                    "end_time": "10:56 pm",
+                    "description": "Working on Begining Pages, and adding validation"
+                }
+            ]
+        },
+        "Wednesday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "9:30 am",
+                    "end_time": "10:0 am",
+                    "description": "Working on Portfolio Page"
+                },
+                {
+                    "activity": "Research",
+                    "start_time": "10:0 am",
+                    "end_time": "10:30 am",
+                    "description": "Doing Research on how to make Line Chart"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "10:30 am",
+                    "end_time": "11:38 am",
+                    "description": "Implmeneting FL Chart for my visual"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "7:0 pm",
+                    "end_time": "8:46 pm",
+                    "description": "Working on Portfolio Page and Graph"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "8:46 pm",
+                    "end_time": "9:55 pm",
+                    "description": "Working on Portfolio Graph"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "9:55 pm",
+                    "end_time": "10:23 pm",
+                    "description": "Working on Portfolio Graph somemore"
+                },
+                {
+                    "activity": "Research",
+                    "start_time": "10:23 pm",
+                    "end_time": "11:30 pm",
+                    "description": "Looking for a way to imporve Portoflio Grpah Touch"
+                },
+                {
+                    "activity": "Research",
+                    "start_time": "1:0 pm",
+                    "end_time": "2:5 pm",
+                    "description": "Watching videos since first chart deoendency wasn;t great"
+                }
+            ]
+        },
+        "Thursday": {
+            "activities": [
+                {
+                    "activity": "Research",
+                    "start_time": "6:30 am",
+                    "end_time": "8:30 am",
+                    "description": "Looking for a way to imporve Portoflio Grpah Touch"
+                },
+                {
+                    "activity": "Design",
+                    "start_time": "8:0 am",
+                    "end_time": "8:30 am",
+                    "description": "Drawing Visuals for Portfolio App"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "9:30 am",
+                    "end_time": "10:55 am",
+                    "description": "Working on Stock Info Card"
+                }
+            ]
+        },
+        "Friday": {
+            "activities": [
+                {
+                    "activity": "Design",
+                    "start_time": "7:0 pm",
+                    "end_time": "8:30 pm",
+                    "description": "Working on Account Setting Layout"
+                }
+            ]
+        }
+    },
+    "Week 7": {
+        "Sunday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "5:30 pm",
+                    "end_time": "8:30 pm",
+                    "description": "Working on Portfolio Picker"
+                },
+                {
+                    "activity": "Bug Fixing",
+                    "start_time": "8:30 pm",
+                    "end_time": "10:3 pm",
+                    "description": "Working on fixing visual graph error"
+                },
+                {
+                    "activity": "Bug Fixing",
+                    "start_time": "11:0 pm",
+                    "end_time": "11:55 pm",
+                    "description": "Working on Basic Stock Info Page"
+                }
+            ]
+        },
+        "Tuesday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "9:0 pm",
+                    "end_time": "10:30 pm",
+                    "description": "Working on Stock Basic Info Page"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "9:30 pm",
+                    "end_time": "10:47 pm",
+                    "description": "Finished up portfolio page and stock basic page"
+                },
+                {
+                    "activity": "Design",
+                    "start_time": "10:47 pm",
+                    "end_time": "11:30 pm",
+                    "description": "Working on Design for Account Page"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "11:30 pm",
+                    "end_time": "11:59 pm",
+                    "description": "Implmenting Design"
+                }
+            ]
+        },
+        "Wednesday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "9:30 am",
+                    "end_time": "11:59 am",
+                    "description": "Working on Account Page Design and Code"
+                },
+                {
+                    "activity": "Design",
+                    "start_time": "6:0 am",
+                    "end_time": "8:11 am",
+                    "description": "Privacy Policy Page"
+                },
+                {
+                    "activity": "Design",
+                    "start_time": "1:30 pm",
+                    "end_time": "2:30 pm",
+                    "description": "Working on Lesson Page Design"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "1:30 am",
+                    "end_time": "2:30 am",
+                    "description": "Implmenting Lesson Marker Design"
+                },
+                {
+                    "activity": "Design",
+                    "start_time": "3:30 pm",
+                    "end_time": "4:30 pm",
+                    "description": "Looking for more Lesson UI Desing Choices"
+                }
+            ]
+        }
+    },
+    "Week 8": {
+        "Sunday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "5:0 pm",
+                    "end_time": "7:5 pm",
+                    "description": "Working on Buy Sell Page"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "8:30 pm",
+                    "end_time": "11:59 pm",
+                    "description": "Working on Lesson Page and Account Page"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "1:0 am",
+                    "end_time": "2:36 am",
+                    "description": "Working on Contact Page"
+                }
+            ]
+        },
+        "Thursday": {
+            "activities": [
+                {
+                    "activity": "Coding",
+                    "start_time": "5:0 pm",
+                    "end_time": "11:59 pm",
+                    "description": "Working on AWS Cloud Hosting"
+                },
+                {
+                    "activity": "Coding",
+                    "start_time": "1:0 am",
+                    "end_time": "2:12 am",
+                    "description": "Working on AWS Cloud Hosting"
+                }
+            ]
+        },
+        "Wednesday": {
+            "activities": [
+                {
+                    "activity": "Bug Fixing",
+                    "start_time": "6:0 pm",
+                    "end_time": "11:59 pm",
+                    "description": "Trying to fix hosting issues"
+                }
+            ]
+        }
+    },
     "Week 9": {},
     "Week 10": {}
 }

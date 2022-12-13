@@ -3,6 +3,7 @@ package org.invested.accountservice.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.invested.accountservice.models.application.Account;
 import org.invested.accountservice.models.application.Response;
+import org.invested.accountservice.models.security.JsonWebToken;
 import org.invested.accountservice.models.security.RSA;
 import org.invested.accountservice.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,11 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
+    @GetMapping("/buying_power")
+    public double getBuyingPower(Principal principal) {
+        return accountService.getUserBuyingPower(principal.getName());
+    }
+
     @GetMapping("/encrypt/{msg}")
     public String encrypt(@PathVariable String msg) {
         try {
@@ -34,6 +41,24 @@ public class AccountController {
         } catch(Exception e) {
             return "Encrypt MSG Failed";
         }
+    }
+
+    @GetMapping("/check_taken")
+    public ResponseEntity<Map<String, Object>> checkTaken(@RequestParam String email, @RequestParam String username){
+        // Check to see if username or email us taken
+        if(accountService.checkIfAccountExists("username", username)) {
+            return new ResponseEntity<>(new Response("Username Already Taken!", new HashMap<>(){{
+                put("status-code", HttpStatus.BAD_REQUEST.value());
+            }}).getResponseBody(), HttpStatus.BAD_REQUEST);
+        } else if(accountService.checkIfAccountExists("email", email)) {
+            return new ResponseEntity<>(new Response("Email Already Taken!", new HashMap<>(){{
+                put("status-code", HttpStatus.BAD_REQUEST.value());
+            }}).getResponseBody(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(new Response("Username and Email valid!", new HashMap<>(){{
+            put("status-code", HttpStatus.OK.value());
+        }}).getResponseBody(), HttpStatus.OK);
     }
 
     @PostMapping("/authenticate")
@@ -63,9 +88,8 @@ public class AccountController {
                 newAccount.getPassword(),
                 newAccount.getFirstName(),
                 newAccount.getLastName(),
-                newAccount.getBirthdate().toString(),
-                newAccount.getEmail(),
-                newAccount.getPhone());
+                newAccount.getBirthdate(),
+                newAccount.getEmail());
 
         newAccount.setUsername(userCredentials.get("username"));
         newAccount.setPassword(userCredentials.get("password"));
@@ -73,7 +97,6 @@ public class AccountController {
         newAccount.setLastName(userCredentials.get("lname"));
         newAccount.setBirthdate(userCredentials.get("birthdate"));
         newAccount.setEmail(userCredentials.get("email"));
-        newAccount.setPhone(userCredentials.get("phone"));
 
         // Check to see if username or email us taken
         if(!(accountService.checkIfAccountExists("username", newAccount.getUsername())
@@ -124,16 +147,16 @@ public class AccountController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/forgot_password")
-    public ResponseEntity<Map<String, Object>> forgotPassword(@RequestBody JsonNode requestBody) {
+    @GetMapping("/forgot_password/{email}")
+    public ResponseEntity<Map<String, Object>> forgotPassword(@PathVariable String email) {
 
-        accountService.sendCode(requestBody.get("user_email").asText());
+        accountService.sendCode(email);
         return new ResponseEntity<>(new Response("Verification Code Sent", new HashMap<>(){{
             put("status-code", HttpStatus.OK.value());
         }}).getResponseBody(), HttpStatus.OK);
     }
 
-    @GetMapping("/verify_code")
+    @PostMapping("/verify_code")
     public ResponseEntity<Map<String, Object>> verifyCode(@RequestBody JsonNode requestBody) {
 
         // Verifying Code
@@ -143,6 +166,7 @@ public class AccountController {
             accountService.deleteVerificationCode(requestBody.get("user_email").asText());
             return new ResponseEntity<>(new Response("Verification Code Valid!", new HashMap<>(){{
                 put("status-code", HttpStatus.OK.value());
+                put("temp-token", accountService.generateTempJWTToken((requestBody.get("user_email").asText())));
             }}).getResponseBody(), HttpStatus.OK);
         } else {
             accountService.deleteVerificationCode(requestBody.get("user_email").asText());

@@ -45,15 +45,4 @@ public class RabbitMQTopicConfig {
     Binding userUpdateInfoBinding() {
         return BindingBuilder.bind(userUpdateInfoQueue()).to(topicExchange()).with("email.user-info-update");
     }
-
-    @Bean
-    public ConnectionFactory connectionFactory() {
-        CachingConnectionFactory factory = new CachingConnectionFactory();
-
-        factory.setHost(System.getenv("RABBITMQ_HOST"));
-        factory.setPort(Integer.parseInt(System.getenv("RABBITMQ_PORT")));
-
-        return factory;
-    }
-
 }

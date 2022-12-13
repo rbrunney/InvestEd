@@ -23,7 +23,7 @@ class Stock:
             return current_date - dt.timedelta(days=1)
         elif date_value == sunday:
             return current_date - dt.timedelta(days=2)
-
+            
         return current_date
 
     def get_current_price(self):
@@ -34,35 +34,42 @@ class Stock:
             aggs = self.polygon_client.get_aggs(self.ticker, 1, "day", date_to_retrieve, date_to_retrieve)
         except:
             # If we get error means there is no resuls so we have to go back a few days
-            date_to_retrieve = self.check_date(current_date=date_to_retrieve - dt.timedelta(days=1))
-            aggs = self.polygon_client.get_aggs(ticker=self.ticker, multiplier=1, timespan="day", from_=date_to_retrieve, to=date_to_retrieve)
-            
+            try:
+                date_to_retrieve = self.check_date(current_date=date_to_retrieve - dt.timedelta(days=1))
+                aggs = self.polygon_client.get_aggs(ticker=self.ticker, multiplier=1, timespan="day", from_=date_to_retrieve, to=date_to_retrieve)
+            except:
+                date_to_retrieve = self.check_date(current_date=date_to_retrieve - dt.timedelta(days=1))
+                aggs = self.polygon_client.get_aggs(ticker=self.ticker, multiplier=1, timespan="day", from_=date_to_retrieve, to=date_to_retrieve)
+
         return aggs[0].vwap
     
     def get_data_points(self, period):
 
         # Getting the aggreagate data so we can return array of datapoints later
         def period_data_points(from_date, end_date, timespan):
-            aggregates = self.polygon_client.get_aggs(self.ticker, multiplier=1, from_=from_date, to=end_date, timespan=timespan,limit=250)
+            try:
+                aggregates = self.polygon_client.get_aggs(ticker=self.ticker, multiplier=1, from_=from_date, to=end_date, timespan=timespan,limit=250)
+            except:
+                aggregates = self.polygon_client.get_aggs(ticker=self.ticker, multiplier=1, from_=from_date - dt.timedelta(days=1), to=end_date - dt.timedelta(days=1), timespan=timespan,limit=250)
             data_points = []
 
             for aggreagate in aggregates:
-                data_points.append(aggreagate.vwap)
+                data_points.append(aggreagate.close)
             
             return data_points
 
         if period == "DAY":
-            return period_data_points(self.check_date(), self.check_date(), "minute")
+            return period_data_points(self.check_date().date(), self.check_date().date(), "minute")
         elif period == "WEEK":
-            return period_data_points(self.check_date() - dt.timedelta(days=7), self.check_date(), "minute")
+            return period_data_points(self.check_date().date() - dt.timedelta(days=7), self.check_date().date(), "minute")
         elif period == "MONTH":
-            return period_data_points(self.check_date() - dt.timedelta(days=31), self.check_date(), "minute")
+            return period_data_points(self.check_date().date() - dt.timedelta(days=31), self.check_date().date(), "minute")
         elif period == "3-MONTH":
-            return period_data_points(self.check_date() - dt.timedelta(days=93), self.check_date(), "minute")
+            return period_data_points(self.check_date().date() - dt.timedelta(days=93), self.check_date().date(), "minute")
         elif period == "YEAR":
-            return period_data_points(self.check_date() - dt.timedelta(days=365), self.check_date(), "day")
+            return period_data_points(self.check_date().date() - dt.timedelta(days=365), self.check_date().date(), "day")
         elif period == "5-YEAR":
-            return period_data_points(self.check_date() - dt.timedelta(days=1825), self.check_date(), "day")
+            return period_data_points(self.check_date().date() - dt.timedelta(days=1825), self.check_date().date(), "day")
         else:
             # Return 400 so we know we have to send a bad request
             return 400
@@ -98,19 +105,40 @@ class Stock:
 
         # Get last dividend amount and add to basic info
         dividend_amount = self.polygon_client.list_dividends(ticker=self.ticker)
+        last_dividend = None
         for dividend in dividend_amount:
             last_dividend = dividend.cash_amount
             break
         basic_info['last_dividend'] = last_dividend
 
         # Making second request for current days open, high, and low
-        daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date())
-        
+        try: 
+            daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date())
+        except:
+            try: 
+                daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date() - dt.timedelta(days=1))
+            except:
+                try: 
+                    daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date() - dt.timedelta(days=2))
+                except:
+                    daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date() - dt.timedelta(days=3))
         # Adding open, high, low, and volume to basic information
         basic_info['open'] = daily_info.open
         basic_info['high'] = daily_info.high
         basic_info['low'] = daily_info.close
         basic_info['volume'] = daily_info.volume
+
+        if(basic_info['low'] == None):
+            basic_info['low'] = 0
+
+        try:
+            daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date() - dt.timedelta(days=1))
+        except:
+            try: 
+                daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date() - dt.timedelta(days=2))
+            except:
+                 daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date() - dt.timedelta(days=3))
+        basic_info['previous_close'] = daily_info.close
 
         return basic_info
 

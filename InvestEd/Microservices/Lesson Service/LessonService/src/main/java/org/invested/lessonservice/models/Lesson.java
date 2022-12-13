@@ -1,31 +1,27 @@
 package org.invested.lessonservice.models;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import java.util.List;
 
-@Entity
+@Document(collection = "lessons")
 public class Lesson {
 
     @Id
+    private String id;
     private String name;
-    private String description;
-    @OneToMany(mappedBy = "lesson")
-    private List<LessonQuiz> quizzes;
+    private String summary;
+    private List<LessonSection> lessonInfo;
 
-    @OneToMany(mappedBy = "lesson")
-    private List<LessonSnippet> info;
+    public String getId() {
+        return id;
+    }
 
-    // ////////////////////////////////////////////////////
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public Lesson() {}
-
-    // ////////////////////////////////////////////////////
-    // Getters and Setters
     public String getName() {
         return name;
     }
@@ -34,27 +30,19 @@ public class Lesson {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getSummary() {
+        return summary;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
-    public List<LessonQuiz> getQuizzes() {
-        return quizzes;
+    public List<LessonSection> getLessonInfo() {
+        return lessonInfo;
     }
 
-    public void setQuizzes(List<LessonQuiz> quiz) {
-        this.quizzes = quiz;
-    }
-
-    public List<LessonSnippet> getInfo() {
-        return info;
-    }
-
-    public void setInfo(List<LessonSnippet> info) {
-        this.info = info;
+    public void setLessonInfo(List<LessonSection> lessonInfo) {
+        this.lessonInfo = lessonInfo;
     }
 }

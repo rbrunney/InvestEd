@@ -2,9 +2,10 @@ import py_eureka_client.eureka_client as eureka_client
 from datetime import datetime
 from flask import Flask, request
 import stock
+import os
 
 eureka_client.init(eureka_server="http://eureka:8761/eureka",
-                   app_name="stock-api",
+                   app_name="stock-service",
                    instance_port=105)
 
 stock_api = Flask(__name__)
@@ -20,6 +21,21 @@ def getTickerPrice(ticker:str):
         'message' : f'{ticker} Price Successfully Fetched!',
         'results' : {
             'current_price' : stock.Stock(ticker).get_current_price()
+        },
+        'date-time' : datetime.now()
+    }
+
+@stock_api.route("/invested_stock/<ticker>/<period>", methods=["GET"])
+def getPricePeriodTicker(ticker:str, period:str):
+    fetched_data = stock.Stock(ticker).get_data_points(period)
+
+    if(fetched_data == 400):
+        return failed_fetch(ticker), 404
+    
+    return {
+        'message' : f'{ticker} Price Period Successfully Fetched!',
+        'results' : {
+            'period_info' : fetched_data
         },
         'date-time' : datetime.now()
     }

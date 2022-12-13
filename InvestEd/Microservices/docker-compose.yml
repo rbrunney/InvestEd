@@ -13,6 +13,7 @@ services:
       - POLYGON_API_KEY=${POLYGON_API_KEY}
     depends_on:
       - registration_service
+      - invested-db
     networks:
       - base-net
     deploy:
@@ -32,12 +33,15 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - RABBITMQ_HOST=${RABBITMQ_HOST}
       - RABBITMQ_PORT=${RABBITMQ_PORT}
+      - RABBITMQ_USER=${RABBITMQ_USER}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
       - RSA_PRIVATE_KEY=${RSA_PRIVATE_KEY}
       - RSA_PUBLIC_KEY=${RSA_PUBLIC_KEY}
     depends_on:
       - registration_service
+      - invested-db
     networks:
       - base-net
     deploy:
@@ -54,6 +58,7 @@ services:
       - JWT_SECRET=${JWT_SECRET}
     depends_on:
       - registration_service
+      - invested-db
     networks:
       - base-net 
     deploy:
@@ -69,9 +74,27 @@ services:
       - DB_HOST=${MYSQL_HOST}
       - RABBITMQ_HOST=${RABBITMQ_HOST}
       - RABBITMQ_PORT=${RABBITMQ_PORT}
+      - RABBITMQ_USER=${RABBITMQ_USER}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
       - JWT_SECRET=${JWT_SECRET}
     depends_on:
       - registration_service
+      - invested-db
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
+
+  lesson_api:
+    build: ./Lesson Service/LessonService
+    image: invested-lesson-api:1.0
+    environment:
+      - DB_HOST=lesson_db
+      - DB_PORT=27017
+      - DB=lessons
+    depends_on:
+      - registration_service
+      - invested-db
     networks:
       - base-net
     deploy:
@@ -304,6 +327,9 @@ services:
   rabbitmq:
     image: "rabbitmq:3-management"
     container_name: rabbitmq
+    environment:
+      - RABBITMQ_USER=${RABBITMQ_USER}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD} 
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -318,6 +344,27 @@ services:
     container_name: verify-code-database
     ports:
       - "6379:6379"
+    networks:
+      - base-net
+
+  lesson_db:
+    image: "mongo:latest"
+    container_name: lesson_db
+    ports:
+      - "9001:27017"
+    networks:
+      - base-net
+
+  invested-db:
+    image: "mysql:latest"
+    container_name: invested-mysql
+    environment:
+      - MYSQL_DATABASE=invested
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=InvestEd190936089!
+      - MYSQL_ROOT_PASSWORD=InvestEd190936089!
+    ports:
+      - "9000:3306"
     networks:
       - base-net
       

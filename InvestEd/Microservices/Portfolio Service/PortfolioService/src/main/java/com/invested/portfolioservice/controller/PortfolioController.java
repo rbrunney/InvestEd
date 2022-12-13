@@ -38,6 +38,18 @@ public class PortfolioController {
         }},HttpStatus.BAD_REQUEST);
     }
 
+    @GetMapping()
+    public ResponseEntity<Map<String, Object>> getPortfolio(Principal principal) {
+        Map<String, String> userInfo = portfolioService.convertMsgToMap(principal.getName());
+        String portfolioId = portfolioService.getPortfolioId(userInfo.get("username"));
+
+        return new ResponseEntity<>(new HashMap<>() {{
+            put("message", portfolioId + " has been retrieved");
+            put("results", portfolioService.getPortfolio(portfolioId));
+            put("date-time", LocalDateTime.now());
+        }}, HttpStatus.OK);
+    }
+
     @GetMapping("/{portfolioId}")
     public ResponseEntity<Map<String, Object>> getPortfolio(Principal principal, @PathVariable String portfolioId) {
         if(portfolioService.portfolioExists(portfolioId)) {

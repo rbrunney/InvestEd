@@ -100,16 +100,4 @@ public class RabbitMQTopicConfig {
     }
 
 
-    // ///////////////////////////////////////////////
-    // Setting up basic configuration for rabbitmq
-    @Bean
-    public ConnectionFactory connectionFactory() {
-        CachingConnectionFactory factory = new CachingConnectionFactory();
-
-        factory.setHost(System.getenv("RABBITMQ_HOST"));
-        factory.setPort(Integer.parseInt(System.getenv("RABBITMQ_PORT")));
-
-        return factory;
-    }
-
 }
