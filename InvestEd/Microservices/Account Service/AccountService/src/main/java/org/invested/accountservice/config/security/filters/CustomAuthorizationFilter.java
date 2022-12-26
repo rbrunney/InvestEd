@@ -35,7 +35,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 DecodedJWT decodedJWT = decodeJWT(getJWTToken(authHeader));
                 UsernamePasswordAuthenticationToken authToken = generateUserPassAuthToken(decodedJWT);
                 SecurityContextHolder.getContext().setAuthentication(authToken);
-                filterChain.doFilter(request, response);
             } catch(Exception e) {
                 // If hit here then we had an issue with the Auth Header
                 response.setHeader("error", e.getMessage());
@@ -47,9 +46,9 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 response.setContentType("application/json");
                 new ObjectMapper().writeValue(response.getOutputStream(), error);
             }
-        } else {
-            filterChain.doFilter(request, response);
         }
+
+        filterChain.doFilter(request, response);
     }
 
     public boolean isValidHeader(String authHeader) {
