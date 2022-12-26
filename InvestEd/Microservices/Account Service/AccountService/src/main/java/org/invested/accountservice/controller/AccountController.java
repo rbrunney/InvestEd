@@ -28,6 +28,14 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
+    // /////////////////////////////////////////////////////////////////////////////////////////////
+    // Get Account Information End Points
+
+    /**
+     * A end-point to get the users buying power
+     * @param principal Used to get the username off of our UserPassAuthToken
+     * @return Will return a double containing the users buying power
+     */
     @GetMapping("/buying_power")
     public double getBuyingPower(Principal principal) {
         return accountService.getUserBuyingPower(principal.getName());
@@ -132,31 +140,46 @@ public class AccountController {
         }}).getResponseBody(), HttpStatus.BAD_REQUEST);
     }
 
-    @DeleteMapping()
-    public ResponseEntity<Map<String, Object>> deleteUser(Principal principal) {
-        accountService.deleteUser(principal.getName());
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+    // /////////////////////////////////////////////////////////////////////////////////////////////
+    // Update Account End Points
 
+    /**
+     * A end-point to update a users account information
+     * @param principal Used to get the username off of our UserPassAuthToken
+     * @param requestBody A JsonNode containing all the fields the user may want to update on their account
+     * @return Returns a ResponseEntity simply changing the status code of response 200 if it was good, 400 if it was bad
+     * @throws InvalidKeyException Throws IKE, if there is a field that should not belong in the request body JSON
+     */
     @PutMapping()
     public ResponseEntity<Map<String, Object>> updateUser(Principal principal, @RequestBody JsonNode requestBody) throws InvalidKeyException {
-        Account userToUpdate = null;
-        for (Iterator<String> it = requestBody.fieldNames(); it.hasNext(); ) {
-            String key = it.next();
-            userToUpdate = accountService.updateUserField(principal.getName(), key, requestBody.get(key).asText());
+        Account accountToUpdate = null;
+
+        // Going through all the keys and updating fields as needed
+        Iterator<String> accountPropertyKeys = requestBody.fieldNames();
+        while(accountPropertyKeys.hasNext()) {
+            String key = accountPropertyKeys.next();
+            accountToUpdate = accountService.updateUserField(principal.getName(), key, requestBody.get(key).asText());
         }
 
-        if(userToUpdate != null) {
-            accountService.updateUser(userToUpdate);
+        // Checking to see if we had an actual update to the object!
+        if(accountToUpdate != null) {
+            accountService.updateUser(accountToUpdate);
             return new ResponseEntity<>(HttpStatus.OK);
         }
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * An end-point to update a users buying power
+     * @param authHead A Basic Auth Header so other Resources can update a user's account
+     * @param userId A PathVariable, which a String, containing and Account's Id
+     * @param requestBody A JsonNode containing the total-purchase-price so we can update the Account Buying Power
+     * @return If the update is successful we will return a 200 OK, otherwise it will return a 400 BAD_REQUEST
+     */
     @PutMapping("/buying_power/{userId}")
     public ResponseEntity<Map<String, Object>> updateUserBuyingPower(@RequestHeader(value = "Authorization") String authHead, @PathVariable String userId, @RequestBody JsonNode requestBody) {
-        // Check Auth
+        // Check Auth, by decoding it
         String[] requestAuthInfo = accountService.decodeAuth(authHead);
         if(requestAuthInfo[0].equals(System.getenv("CUSTOM_USERNAME")) && requestAuthInfo[1].equals(System.getenv("CUSTOM_PASSWORD"))) {
             accountService.updateUserBuyingPower(userId, requestBody.get("total-purchase-price").asDouble());
@@ -166,6 +189,28 @@ public class AccountController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    // /////////////////////////////////////////////////////////////////////////////////////////////
+    // Delete Account End Points
+
+    /**
+     * An end-point to delete a Users Account!
+     * @param principal Used to get the username off of our UserPassAuthToken
+     * @return Will return a response entity containing a 204 or a NO_CONTENT
+     */
+    @DeleteMapping()
+    public ResponseEntity<Map<String, Object>> deleteUser(Principal principal) {
+        accountService.deleteUser(principal.getName());
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    // /////////////////////////////////////////////////////////////////////////////////////////////
+    // Forgot Password End Points
+
+    /**
+     * An end-point to send a code when a user forgets their password
+     * @param email A String containing the users email
+     * @return Will return a response of OK, when the code has been sent
+     */
     @GetMapping("/forgot_password/{email}")
     public ResponseEntity<Map<String, Object>> forgotPassword(@PathVariable String email) {
 
@@ -175,6 +220,11 @@ public class AccountController {
         }}).getResponseBody(), HttpStatus.OK);
     }
 
+    /**
+     * An end-point for verifying the generated verification code
+     * @param requestBody A JsonNode containing a user email and verification code
+     * @return
+     */
     @PostMapping("/verify_code")
     public ResponseEntity<Map<String, Object>> verifyCode(@RequestBody JsonNode requestBody) {
 
@@ -183,14 +233,13 @@ public class AccountController {
                 Integer.parseInt(requestBody.get("verification_code").asText()))) {
 
             accountService.deleteVerificationCode(requestBody.get("user_email").asText());
-            return new ResponseEntity<>(new Response("Verification Code Valid!", new HashMap<>(){{
+            return new ResponseEntity<>(new Response("Verification Code Valid!", new HashMap<>() {{
                 put("status-code", HttpStatus.OK.value());
                 put("temp-token", accountService.generateTempJWTToken((requestBody.get("user_email").asText())));
             }}).getResponseBody(), HttpStatus.OK);
-        } else {
-            accountService.deleteVerificationCode(requestBody.get("user_email").asText());
         }
 
+        accountService.deleteVerificationCode(requestBody.get("user_email").asText());
         return new ResponseEntity<>(new Response("Verification Code Invalid!", new HashMap<>(){{
             put("status-code", HttpStatus.BAD_REQUEST.value());
         }}).getResponseBody(), HttpStatus.BAD_REQUEST);

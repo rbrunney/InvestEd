@@ -111,7 +111,7 @@ public class AccountService {
      * @param key A String which tells either we should be looking for an account with a specific username or an account with a specific email
      * @param value A String which is the value we are trying to see if it already exists
      * @return A true of if there is a match in the database, otherwise it will be false
-     * @throws InvalidKeyException If there is a invalid key passed in it will throw a InvalidKeyException
+     * @throws InvalidKeyException If there is an invalid key passed in it will throw a InvalidKeyException
      */
     public boolean checkIfAccountExists(String key, String value) throws InvalidKeyException {
         Account foundUser;
@@ -147,33 +147,17 @@ public class AccountService {
         amqpTemplate.convertAndSend("ACCOUNT_EMAIL_EXCHANGE", "email.confirmation", message.toString());
     }
 
-    public String generateTempJWTToken(String email) {
-        Account account = accountRepo.getAccountByEmail(email);
-        UserDetails authenticatedUser = User.withUsername(accountRepo.getIdByUsername(account.getUsername()))
-                .password(account.getPassword()).roles("USER").build();
-        return new JsonWebToken(authenticatedUser, email, JsonWebTokenUTIL.getAlgorithm(), 5).getGeneratedToken();
-    }
+    // //////////////////////////////////////////////////////////////////
+    // Update Account Methods
 
-    public void deleteUser(String id) {
-        try {
-            accountRepo.deleteById(id);
-        } catch(Exception e) {
-            System.out.println("[ERROR] " + e.getMessage());
-        }
-    }
-
-    public void updateUser(Account updatedAccount) {
-        accountRepo.save(updatedAccount);
-
-        Map<String, String> message = new HashMap<>() {{
-            put("email", updatedAccount.getEmail());
-            put("fname", updatedAccount.getFirstName());
-            put("lname", updatedAccount.getLastName());
-        }};
-
-        amqpTemplate.convertAndSend("ACCOUNT_EMAIL_EXCHANGE", "email.user-info-update", message.toString());
-    }
-
+    /**
+     * A method to update specific Account Fields on an Account Object!
+     * @param id A String containing the user's id, so we can fetch it off the database
+     * @param fieldToUpdate A String containing the specific field we will be updating
+     * @param newInfo A String containing the new information that will be saved
+     * @return An Account object, meaning that the user actually existed, and we are sending it back with the new information
+     * @throws InvalidKeyException If there is a invalid key passed in it will throw a InvalidKeyException
+     */
     public Account updateUserField(String id, String fieldToUpdate, String newInfo) throws InvalidKeyException {
         Account accountToUpdate = accountRepo.getAccountById(id);
 
@@ -198,16 +182,30 @@ public class AccountService {
         }
     }
 
-    public double getUserBuyingPower(String userInfo) {
-        return accountRepo.getBuyingPowerById(userInfo);
+    /**
+     * A method to update the user information on the database
+     * @param updatedAccount An Account containing all the fields with new information to update
+     */
+    public void updateUser(Account updatedAccount) {
+        // Saving the Account to the Database
+        accountRepo.save(updatedAccount);
+
+        // Making the message for to notify the user that their account has been updated
+        Map<String, String> message = new HashMap<>() {{
+            put("email", updatedAccount.getEmail());
+            put("fname", updatedAccount.getFirstName());
+            put("lname", updatedAccount.getLastName());
+        }};
+
+        // Sending the message off to RabbitMQ
+        amqpTemplate.convertAndSend("ACCOUNT_EMAIL_EXCHANGE", "email.user-info-update", message.toString());
     }
 
-    public void updateUserBuyingPower(String userId, double totalPurchasePrice) {
-        Account account = accountRepo.getAccountById(userId);
-        account.setBuyingPower(account.getBuyingPower() + totalPurchasePrice);
-        accountRepo.save(account);
-    }
-
+    /**
+     * A method to decode a Basic Auth Header off a Request
+     * @param encodedString The encoded basic auth header from the request
+     * @return It will return a String[] containing the decoded username and password
+     */
     public String[] decodeAuth(String encodedString) {
         encodedString = encodedString.substring(encodedString.indexOf(" ") + 1);
         byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
@@ -215,6 +213,47 @@ public class AccountService {
         return decodedString.split(":", 2);
     }
 
+    /**
+     * A method to update an Account's buying power on the Database
+     * @param userId A String containing the Account's Id we are going to update
+     * @param totalPurchasePrice A double containing how much we either need to add or remove from Account
+     */
+    public void updateUserBuyingPower(String userId, double totalPurchasePrice) {
+        Account account = accountRepo.getAccountById(userId);
+        account.setBuyingPower(account.getBuyingPower() + totalPurchasePrice);
+        accountRepo.save(account);
+    }
+
+    // //////////////////////////////////////////////////////////////////
+    // Delete Account Methods
+
+    /**
+     * A method to delete an Account
+     * @param id A String containing an Account's ID
+     */
+    public void deleteUser(String id) {
+        try {
+            accountRepo.deleteById(id);
+        } catch(Exception e) {
+            System.err.println("[ERROR] " + e.getMessage());
+        }
+    }
+
+    // /////////////////////////////////////////////////////////////////////////////////////////////
+    // Forgot Password Methods
+
+    /**
+     * A method for generating a temp six-digit code
+     * @return A String containing the six-digit code
+     */
+    public String generateSixDigitCode() {
+        return String.format("%06d", new Random().nextInt(999999));
+    }
+
+    /**
+     * A method to generate a code and send it to RabbitMQ and Redis
+     * @param email A String containing the users email
+     */
     public void sendCode(String email) {
         // Generate code and put into redis
         String generatedCode = generateSixDigitCode();
@@ -230,17 +269,47 @@ public class AccountService {
         amqpTemplate.convertAndSend("ACCOUNT_EMAIL_EXCHANGE", "email.forgot-pass", forgotPassMsg.toString());
     }
 
-    public String generateSixDigitCode() {
-        return String.format("%06d", new Random().nextInt(999999));
-    }
-
+    /**
+     * A method to verify the verification code the user sent
+     * @param email A String containing the users email
+     * @param code An int containing the users verification code they entered
+     * @return A boolean to see if the code in Redis is the same as the once sent in the request
+     */
     public boolean verifyCode(String email, int code) {
         // Get current code from redis and check to see if it's the same
         String currentCode = RedisUtil.redisConnection.get(email);
         return currentCode != null && Integer.parseInt(currentCode) == code;
     }
 
+    /**
+     * A method to delete the current verification code in Redis
+     * @param email A String containing the users email
+     */
     public void deleteVerificationCode(String email) {
         RedisUtil.redisConnection.del(email);
+    }
+
+    /**
+     * A method to generate a Temporary Json Web Token so the user can update there password after validating their verification code
+     * @param email A String containing the users email
+     * @return A String containing the temporary Json Web Token
+     */
+    public String generateTempJWTToken(String email) {
+        Account account = accountRepo.getAccountByEmail(email);
+        UserDetails authenticatedUser = User.withUsername(accountRepo.getIdByUsername(account.getUsername()))
+                .password(account.getPassword()).roles("USER").build();
+        return new JsonWebToken(authenticatedUser, email, JsonWebTokenUTIL.getAlgorithm(), 5).getGeneratedToken();
+    }
+
+    // /////////////////////////////////////////////////////////////////////////////////////////////
+    // Get Account Information End Points
+
+    /**
+     * A method to get the buying power for an account
+     * @param id A String containing the users id
+     * @return A double containing the users current buying power
+     */
+    public double getUserBuyingPower(String id) {
+        return accountRepo.getBuyingPowerById(id);
     }
 }
