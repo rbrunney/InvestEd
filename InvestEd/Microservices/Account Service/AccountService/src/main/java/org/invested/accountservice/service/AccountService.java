@@ -2,7 +2,7 @@ package org.invested.accountservice.service;
 
 import org.invested.accountservice.models.application.Account;
 import org.invested.accountservice.models.application.RedisUtil;
-import org.invested.accountservice.models.security.JWTUtil;
+import org.invested.accountservice.models.security.JsonWebTokenUTIL;
 import org.invested.accountservice.models.security.JsonWebToken;
 import org.invested.accountservice.models.security.RSA;
 import org.invested.accountservice.respository.AccountJPARepo;
@@ -79,8 +79,8 @@ public class AccountService {
 
         Map<String, Object> tokens = new HashMap<>();
         // Generate the actual tokens
-        tokens.put("access-token", new JsonWebToken(authenticatedUser, accountRepo.getEmailByUsername(userCredentials.get("username")), JWTUtil.getAlgorithm(), expireTimeInMinutes).getGeneratedToken());
-        tokens.put("refresh-token", new JsonWebToken(authenticatedUser, accountRepo.getEmailByUsername(userCredentials.get("username")), JWTUtil.getAlgorithm(), expireTimeInMinutes * 2).getGeneratedToken());
+        tokens.put("access-token", new JsonWebToken(authenticatedUser, accountRepo.getEmailByUsername(userCredentials.get("username")), JsonWebTokenUTIL.getAlgorithm(), expireTimeInMinutes).getGeneratedToken());
+        tokens.put("refresh-token", new JsonWebToken(authenticatedUser, accountRepo.getEmailByUsername(userCredentials.get("username")), JsonWebTokenUTIL.getAlgorithm(), expireTimeInMinutes * 2).getGeneratedToken());
 
         return tokens;
     }
@@ -89,7 +89,7 @@ public class AccountService {
         Account account = accountRepo.getAccountByEmail(email);
         UserDetails authenticatedUser = User.withUsername(accountRepo.getIdByUsername(account.getUsername()))
                 .password(account.getPassword()).roles("USER").build();
-        return new JsonWebToken(authenticatedUser, email, JWTUtil.getAlgorithm(), 5).getGeneratedToken();
+        return new JsonWebToken(authenticatedUser, email, JsonWebTokenUTIL.getAlgorithm(), 5).getGeneratedToken();
     }
 
     public boolean checkIfAccountExists(String key, String value) {
