@@ -28,12 +28,22 @@ public class AccountService {
     @Autowired
     private AmqpTemplate amqpTemplate;
 
+    // /////////////////////////////////////////////////////////////////////////////////////////////
+    // User Authentication Methods
+
+    /**
+     * A method to decrypt incoming RSA encrypted user credentials, from a request!
+     * @param username An RSA encrypted string containing the users username
+     * @param password An RSA encrypted string containing the users password
+     * @return A Map containing the decrypted username and password
+     */
     public Map<String, String> decryptUserCredentials(String username, String password) {
         // Having to Decrypt User Information using RSA
         RSA rsa = new RSA();
         String decryptedUsername = rsa.decrypt(username);
         String decryptedPassword = rsa.decrypt(password);
 
+        // Generate Decrypted User Credentials
         Map<String, String> decryptedUserInfo = new HashMap<>();
         decryptedUserInfo.put("username", decryptedUsername);
         decryptedUserInfo.put("password", decryptedPassword);
@@ -41,27 +51,11 @@ public class AccountService {
         return decryptedUserInfo;
     }
 
-    public Map<String, String> decryptUserInformation(String username, String password, String fname, String lname, String birthdate, String email) {
-        // Having to Decrypt User Information using RSA
-        RSA rsa = new RSA();
-        String decryptedUsername = rsa.decrypt(username);
-        String decryptedPassword = rsa.decrypt(password);
-        String decryptedFirstName = rsa.decrypt(fname);
-        String decryptedLastName = rsa.decrypt(lname);
-        String decryptedBirthdate = rsa.decrypt(birthdate);
-        String decryptedEmail = rsa.decrypt(email);
-
-        Map<String, String> decryptedUserInfo = new HashMap<>();
-        decryptedUserInfo.put("username", decryptedUsername);
-        decryptedUserInfo.put("password", decryptedPassword);
-        decryptedUserInfo.put("fname", decryptedFirstName);
-        decryptedUserInfo.put("lname", decryptedLastName);
-        decryptedUserInfo.put("birthdate", decryptedBirthdate);
-        decryptedUserInfo.put("email", decryptedEmail);
-
-        return decryptedUserInfo;
-    }
-
+    /**
+     * A method to validate user credentials against what is in the database
+     * @param userCredentials A Map containing a users decrypted username and password
+     * @return Will return true if the users information is valid, otherwise it will be false
+     */
     public boolean validateUserCredentials(Map<String, String> userCredentials) {
         Account foundUser = accountRepo.getAccountByUsername(userCredentials.get("username"));
 
@@ -72,38 +66,69 @@ public class AccountService {
         return false;
     }
 
+    /**
+     * A method to generate two Json Web Tokens, an Access Token and a Refresh Token.
+     * @param userCredentials A Map containing a users decrypted username and password
+     * @param expireTimeInMinutes An int representing minutes for when the Json Web Token will expire
+     * @return Returns a Map containing the Access Token and the Refresh Token
+     */
     public Map<String, Object> generateJsonWebTokens(Map<String, String> userCredentials, int expireTimeInMinutes) {
         // Making user detail object so spring can keep track of it for a short term
         UserDetails authenticatedUser = User.withUsername(accountRepo.getIdByUsername(userCredentials.get("username")))
                 .password(userCredentials.get("password")).roles("USER").build();
 
+        // Generate the actual access token and the refresh token
         Map<String, Object> tokens = new HashMap<>();
-        // Generate the actual tokens
         tokens.put("access-token", new JsonWebToken(authenticatedUser, accountRepo.getEmailByUsername(userCredentials.get("username")), JsonWebTokenUTIL.getAlgorithm(), expireTimeInMinutes).getGeneratedToken());
         tokens.put("refresh-token", new JsonWebToken(authenticatedUser, accountRepo.getEmailByUsername(userCredentials.get("username")), JsonWebTokenUTIL.getAlgorithm(), expireTimeInMinutes * 2).getGeneratedToken());
 
         return tokens;
     }
 
-    public String generateTempJWTToken(String email) {
-        Account account = accountRepo.getAccountByEmail(email);
-        UserDetails authenticatedUser = User.withUsername(accountRepo.getIdByUsername(account.getUsername()))
-                .password(account.getPassword()).roles("USER").build();
-        return new JsonWebToken(authenticatedUser, email, JsonWebTokenUTIL.getAlgorithm(), 5).getGeneratedToken();
+    // /////////////////////////////////////////////////////////////////////////////////////////////
+    // Account Creation Methods
+
+    /**
+     * A method to decrypt incoming new account information
+     * @param newAccount An Account where its properties are encrypted in RSA
+     * @return Will return an Account Object with most of the properties decrypted
+     */
+    public Account decryptUserInformation(Account newAccount) {
+        // Having to Decrypt User Information using RSA to get the actual values
+        RSA rsa = new RSA();
+        newAccount.setUsername(rsa.decrypt(newAccount.getUsername()));
+        newAccount.setPassword(rsa.decrypt(newAccount.getPassword()));
+        newAccount.setFirstName(rsa.decrypt(newAccount.getFirstName()));
+        newAccount.setLastName(rsa.decrypt(newAccount.getLastName()));
+        newAccount.setBirthdate(rsa.decrypt(newAccount.getBirthdate()));
+        newAccount.setEmail(rsa.decrypt(newAccount.getEmail()));
+
+        return newAccount;
     }
 
-    public boolean checkIfAccountExists(String key, String value) {
+    /**
+     * A method to check to see if there is Account already made with either the given username or email
+     * @param key A String which tells either we should be looking for an account with a specific username or an account with a specific email
+     * @param value A String which is the value we are trying to see if it already exists
+     * @return A true of if there is a match in the database, otherwise it will be false
+     * @throws InvalidKeyException If there is a invalid key passed in it will throw a InvalidKeyException
+     */
+    public boolean checkIfAccountExists(String key, String value) throws InvalidKeyException {
         Account foundUser;
         if(key.equals("username"))
             foundUser = accountRepo.getAccountByUsername(value);
         else if(key.equals("email"))
             foundUser = accountRepo.getAccountByEmail(value);
         else
-            throw new IllegalArgumentException("Key must either be 'username' or 'email'");
+            throw new InvalidKeyException("Key must either be 'username' or 'email'");
 
         return foundUser != null;
     }
 
+    /**
+     * A method to save a new account to the database and send a message to RabbitMQ, so we can send a confirmation email
+     * @param newAccount An Account object containing the information for the new Account
+     */
     public void saveUser(Account newAccount) {
         // Encrypting Password so it's not plain text on database
         newAccount.setPassword(BCrypt.hashpw(newAccount.getPassword(), BCrypt.gensalt()));
@@ -118,8 +143,15 @@ public class AccountService {
             put("lname", savedAccount.getLastName());
         }};
 
-        // Make Call to RabbitMQ to send confirmation email
+        // Make call to RabbitMQ to send confirmation email
         amqpTemplate.convertAndSend("ACCOUNT_EMAIL_EXCHANGE", "email.confirmation", message.toString());
+    }
+
+    public String generateTempJWTToken(String email) {
+        Account account = accountRepo.getAccountByEmail(email);
+        UserDetails authenticatedUser = User.withUsername(accountRepo.getIdByUsername(account.getUsername()))
+                .password(account.getPassword()).roles("USER").build();
+        return new JsonWebToken(authenticatedUser, email, JsonWebTokenUTIL.getAlgorithm(), 5).getGeneratedToken();
     }
 
     public void deleteUser(String id) {

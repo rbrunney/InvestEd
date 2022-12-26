@@ -43,24 +43,15 @@ public class AccountController {
         }
     }
 
-    @GetMapping("/check_taken")
-    public ResponseEntity<Map<String, Object>> checkTaken(@RequestParam String email, @RequestParam String username){
-        // Check to see if username or email us taken
-        if(accountService.checkIfAccountExists("username", username)) {
-            return new ResponseEntity<>(new Response("Username Already Taken!", new HashMap<>(){{
-                put("status-code", HttpStatus.BAD_REQUEST.value());
-            }}).getResponseBody(), HttpStatus.BAD_REQUEST);
-        } else if(accountService.checkIfAccountExists("email", email)) {
-            return new ResponseEntity<>(new Response("Email Already Taken!", new HashMap<>(){{
-                put("status-code", HttpStatus.BAD_REQUEST.value());
-            }}).getResponseBody(), HttpStatus.BAD_REQUEST);
-        }
+    // /////////////////////////////////////////////////////////////////////////////////////////////
+    // User Authentication End Point
 
-        return new ResponseEntity<>(new Response("Username and Email valid!", new HashMap<>(){{
-            put("status-code", HttpStatus.OK.value());
-        }}).getResponseBody(), HttpStatus.OK);
-    }
-
+    /**
+     * An end-point to authenticate a user with their username and password which is RSA encrypted
+     * @param userCredentials JsonNode which is the RSA encrypted username and password
+     * @return If valid it will return the two Json Web Tokens, an access token and a refresh token. If not
+     * then it will return a BAD_REQUEST.
+     */
     @PostMapping("/authenticate")
     public ResponseEntity<Map<String, Object>> authenticateUser(@RequestBody JsonNode userCredentials) {
         // Decrypt incoming body
@@ -79,33 +70,61 @@ public class AccountController {
         return new ResponseEntity<>(new Response("Authentication Invalid!", status).getResponseBody(), HttpStatus.BAD_REQUEST);
     }
 
+    // /////////////////////////////////////////////////////////////////////////////////////////////
+    // User Creation End Points
+
+    /**
+     * An end-point to check to see if username or email is already taken, before we actually save the account
+     * @param email A String containing the email to check to see if it is already in use
+     * @param username A String containing the username to check to see if it already in use
+     * @return Will return a status code 200 if it's OK, otherwise it will return 400 BAD_REQUEST
+     */
+    @GetMapping("/check_taken")
+    public ResponseEntity<Map<String, Object>> checkTaken(@RequestParam String email, @RequestParam String username){
+        try {
+            // Check to see if username or email us taken
+            if(accountService.checkIfAccountExists("username", username)) {
+                return new ResponseEntity<>(new Response("Username Already Taken!", new HashMap<>(){{
+                    put("status-code", HttpStatus.BAD_REQUEST.value());
+                }}).getResponseBody(), HttpStatus.BAD_REQUEST);
+            } else if(accountService.checkIfAccountExists("email", email)) {
+                return new ResponseEntity<>(new Response("Email Already Taken!", new HashMap<>(){{
+                    put("status-code", HttpStatus.BAD_REQUEST.value());
+                }}).getResponseBody(), HttpStatus.BAD_REQUEST);
+            }
+        } catch(InvalidKeyException ike) {
+            System.err.println("[ERROR] " + ike.getMessage());
+        }
+
+        return new ResponseEntity<>(new Response("Username and Email valid!", new HashMap<>(){{
+            put("status-code", HttpStatus.OK.value());
+        }}).getResponseBody(), HttpStatus.OK);
+    }
+
+
+    /**
+     * An end-point to create a new account for the user
+     * @param newAccount An Account Object containing the users: username, password, first name, last name, email, and birthdate
+     * @return If a valid creation is made it will just return a 201 CREATED! Otherwise, it will return a 400 BAD_REQUEST
+     */
     @PostMapping()
     public ResponseEntity<Map<String, Object>> createUser(@RequestBody Account newAccount) {
 
-        // Decoding user information
-        Map<String, String> userCredentials = accountService.decryptUserInformation(
-                newAccount.getUsername(),
-                newAccount.getPassword(),
-                newAccount.getFirstName(),
-                newAccount.getLastName(),
-                newAccount.getBirthdate(),
-                newAccount.getEmail());
+        // Decrypting the newAccount Information
+        newAccount = accountService.decryptUserInformation(newAccount);
 
-        newAccount.setUsername(userCredentials.get("username"));
-        newAccount.setPassword(userCredentials.get("password"));
-        newAccount.setFirstName(userCredentials.get("fname"));
-        newAccount.setLastName(userCredentials.get("lname"));
-        newAccount.setBirthdate(userCredentials.get("birthdate"));
-        newAccount.setEmail(userCredentials.get("email"));
+        try {
+            // Check to see if username or email is taken
+            if(!(accountService.checkIfAccountExists("username", newAccount.getUsername())
+                    || accountService.checkIfAccountExists("email", newAccount.getEmail()))) {
+                // Saving user
+                newAccount.setId(UUID.randomUUID().toString());
+                accountService.saveUser(newAccount);
 
-        // Check to see if username or email us taken
-        if(!(accountService.checkIfAccountExists("username", newAccount.getUsername())
-                || accountService.checkIfAccountExists("email", newAccount.getEmail()))) {
-            // Saving user
-            newAccount.setId(UUID.randomUUID().toString());
-            accountService.saveUser(newAccount);
-
-            return new ResponseEntity<>(HttpStatus.CREATED);
+                return new ResponseEntity<>(HttpStatus.CREATED);
+            }
+        } catch(InvalidKeyException ike) {
+            System.err.println("[ERROR] " + ike.getMessage());
         }
 
         return new ResponseEntity<>(new Response("Username or Email Already Taken!", new HashMap<>(){{
