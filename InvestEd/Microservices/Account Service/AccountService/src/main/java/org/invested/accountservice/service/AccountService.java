@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.security.InvalidKeyException;
+import java.time.LocalDate;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -132,6 +133,9 @@ public class AccountService {
     public void saveUser(Account newAccount) {
         // Encrypting Password so it's not plain text on database
         newAccount.setPassword(BCrypt.hashpw(newAccount.getPassword(), BCrypt.gensalt()));
+
+        // Setting Join Date
+        newAccount.setJoinDate(LocalDate.now().toString());
 
         // Save to database
         Account savedAccount = accountRepo.save(newAccount);
