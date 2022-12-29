@@ -11,7 +11,7 @@ class Stock:
 
     def __init__(self, ticker : str):
         self.ticker = ticker
-        self.polygon_key = 'pWnmnyskgOhWmfE226LWf4BH4vDY1i73'
+        self.polygon_key = os.getenv('POLYGON_API_KEY')
 
     """
         Purpose
@@ -27,7 +27,7 @@ class Stock:
     def check_date(self, current_date=current_dt.today()):
         
         def check_if_holiday():
-            response = requests.get(f'https://api.polygon.io/v1/marketstatus/upcoming?apiKey=pWnmnyskgOhWmfE226LWf4BH4vDY1i73')
+            response = requests.get(f'https://api.polygon.io/v1/marketstatus/upcoming?apiKey={self.polygon_key}')
             holidays = json.loads(response.text)
             return holidays[0]['date']
         
@@ -45,22 +45,26 @@ class Stock:
             
         return current_date
 
+    """
+        Purpose
+        -------
+            A method for retrieving the current price of the given ticker
+        Parameters
+        ----------
+            self: Stock
+                Is just referincing that it belongs to the Stock Class
+
+    """
     def get_current_price(self):
         # Getting the date and then checking to get the the current price, at least close to it
         date_to_retrieve = self.check_date().date()
 
-        try:
-            aggs = self.polygon_client.get_aggs(self.ticker, 1, "day", date_to_retrieve, date_to_retrieve)
-        except:
-            # If we get error means there is no resuls so we have to go back a few days
-            try:
-                date_to_retrieve = self.check_date(current_date=date_to_retrieve - dt.timedelta(days=1))
-                aggs = self.polygon_client.get_aggs(ticker=self.ticker, multiplier=1, timespan="day", from_=date_to_retrieve, to=date_to_retrieve)
-            except:
-                date_to_retrieve = self.check_date(current_date=date_to_retrieve - dt.timedelta(days=1))
-                aggs = self.polygon_client.get_aggs(ticker=self.ticker, multiplier=1, timespan="day", from_=date_to_retrieve, to=date_to_retrieve)
+        # Fetching ticker price for the day
+        response = requests.get(f'https://api.polygon.io/v2/aggs/ticker/{self.ticker}/range/1/day/{date_to_retrieve}/{date_to_retrieve}?adjusted=true&sort=asc&limit=1&apiKey={self.polygon_key}')
+        current_price_info = json.loads(response.text)
 
-        return aggs[0].vwap
+        # Getting closing price since it is closet to the current price
+        return current_price_info['results'][0]['c']
     
     def get_data_points(self, period):
 
@@ -228,5 +232,5 @@ class Stock:
         return {
             'moving_avg_data' : moving_avg_data_points
         }
-    
-print(Stock('MSFT').check_date())
+
+print(Stock('MSFT').get_current_price())
