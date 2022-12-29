@@ -27,11 +27,18 @@ public class OrderController {
     private BasicOrderService basicOrderService;
 
     // /////////////////////////////////////////////////////////////////////
-    // Basic CRUD with orders
+    // Getting Order End Points
+
+    /**
+     * An end point to get an orders information
+     * @param principal Used to get the username and email off of our UserPassAuthToken
+     * @param orderId A string containing the order that the user is trying to fetch
+     * @return An Order Class with it information if valid, otherwise it will be a 400 BAD_REQUEST
+     */
     @GetMapping("/get_order_info/{orderId}")
     public ResponseEntity<Map<String, Object>> getOrderInformation(Principal principal, @PathVariable String orderId) {
         if(basicOrderService.isUsersOrder(orderId, principal.getName())) {
-            BasicOrder order = basicOrderService.getUsersOrder(orderId);
+            BasicOrder order = basicOrderService.getOrder(orderId);
             return new ResponseEntity<>(new HashMap<>() {{
                 put("order-info", order);
             }}, HttpStatus.OK);
@@ -40,13 +47,20 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * An end-point for retrieving all the users orders from the database, based off of some filters
+     * @param principal Used to get the username and email off of our UserPassAuthToken
+     * @param byStatus An Enum Type of Status which helps filter by COMPLETED, PENDING, CANCELED, or None
+     * @param byTradeType An Enum Type of Trade Type which helps filter by BUY, SELL, or None
+     * @return A list of Orders based off of the filter parameters
+     */
     @GetMapping("/get_orders")
     public ResponseEntity<Map<String, Object>> getUsersOrders(Principal principal,
                                                               @RequestParam(required = false) Status byStatus,
                                                               @RequestParam(required = false) TradeType byTradeType) {
         return new ResponseEntity<>(new HashMap<>() {{
             put("orders", basicOrderService.getUsersOrders(principal.getName(), byStatus, byTradeType));
-        }},HttpStatus.OK);
+        }}, HttpStatus.OK);
     }
 
     @PutMapping("/fulfill_order/{orderId}/{email}")

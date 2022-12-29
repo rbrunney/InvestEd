@@ -25,6 +25,50 @@ public class BasicOrderService {
     @Autowired
     private AmqpTemplate amqpTemplate;
 
+    // /////////////////////////////////////////////////////////////////
+    // Getting Order Information Methods
+
+    /**
+     * A method to check to see a order belongs to the requesting user
+     * @param orderId A string containing the order id we want to view
+     * @param user A string containing the username that is wanting to view the order
+     * @return Returns true if it is the users order, otherwise it will be false
+     */
+    public boolean isUsersOrder(String orderId, String user) {
+        BasicOrder order = basicOrderRepo.getBasicOrderById(orderId);
+
+        return order != null && order.getUser().equals(user);
+    }
+
+    /**
+     * A method to return an order
+     * @param orderId A string containing the requested order to fetch
+     * @return Returns an order based off of the id
+     */
+    public BasicOrder getOrder(String orderId) {
+        return basicOrderRepo.getBasicOrderById(orderId);
+    }
+
+    /**
+     * A method for returning a list of orders that the user has
+     * @param user A string containing the username that is retrieving their orders
+     * @param currentStatus Enum type Status which could be COMPLETED, PENDING, CANCELED
+     * @param tradeType Enum type TradeType which could BUY and SELL
+     * @return Returns a list of Orders, based off of the filters
+     */
+    public ArrayList<BasicOrder> getUsersOrders(String user, Status currentStatus, TradeType tradeType) {
+        if(currentStatus != null && tradeType != null) {
+            return basicOrderRepo.getBasicOrdersByCurrentStatusAndTradeTypeAndUser(currentStatus, tradeType, user);
+        } else if (currentStatus != null) {
+            return basicOrderRepo.getBasicOrdersByCurrentStatusAndUser(currentStatus, user);
+        } else if (tradeType != null) {
+            return basicOrderRepo.getBasicOrdersByTradeTypeAndUser(tradeType, user);
+        }
+        return basicOrderRepo.getBasicOrdersByUser(user);
+    }
+
+
+
     private void sendMessageToQueue(Map<String, Object> message, String exchange, String queue) {
         amqpTemplate.convertAndSend(exchange, queue, message.toString());
     }
@@ -94,26 +138,6 @@ public class BasicOrderService {
             put("trade-type", basicOrder.getTradeType());
             put("status", basicOrder.getCurrentStatus());
         }}, "ORDER-EMAIL-EXCHANGE", "order-email.placed");
-    }
-    public boolean isUsersOrder(String orderId, String user) {
-        BasicOrder order = basicOrderRepo.getBasicOrderById(orderId);
-
-        return order != null && order.getUser().equals(user);
-    }
-
-    public BasicOrder getUsersOrder(String orderId) {
-        return basicOrderRepo.getBasicOrderById(orderId);
-    }
-
-    public ArrayList<BasicOrder> getUsersOrders(String user, Status currentStatus, TradeType tradeType) {
-        if(currentStatus != null && tradeType != null) {
-            return basicOrderRepo.getBasicOrdersByCurrentStatusAndTradeTypeAndUser(currentStatus, tradeType, user);
-        } else if (currentStatus != null) {
-            return basicOrderRepo.getBasicOrdersByCurrentStatusAndUser(currentStatus, user);
-        } else if (tradeType != null) {
-            return basicOrderRepo.getBasicOrdersByTradeTypeAndUser(tradeType, user);
-        }
-        return basicOrderRepo.getBasicOrdersByUser(user);
     }
 
     public void checkOrderStatus(BasicOrder order, String email) {
