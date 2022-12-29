@@ -1,5 +1,6 @@
 package org.invested.orderservice.services;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.invested.orderservice.model.application.order_enums.Status;
 import org.invested.orderservice.model.application.order_enums.TradeType;
 import org.invested.orderservice.model.application.order_types.BasicOrder;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class BasicOrderService {
@@ -29,7 +31,7 @@ public class BasicOrderService {
     // Getting Order Information Methods
 
     /**
-     * A method to check to see a order belongs to the requesting user
+     * A method to check to see an order belongs to the requesting user
      * @param orderId A string containing the order id we want to view
      * @param user A string containing the username that is wanting to view the order
      * @return Returns true if it is the users order, otherwise it will be false
@@ -67,6 +69,113 @@ public class BasicOrderService {
         return basicOrderRepo.getBasicOrdersByUser(user);
     }
 
+    // /////////////////////////////////////////////////////////////////
+    // Creating Order Methods
+
+    /**
+     * A method for creating a Specific Order Object based off the order_type
+     * @param username A string containing the username
+     * @param orderInfo An JsonNode containing all necessary order information
+     * @return A Basic Order object containing all the necessary information, or null if order_type was none of the cases
+     */
+    public BasicOrder makeOrder(String username, JsonNode orderInfo) {
+        return switch (orderInfo.get("order_type").asText()) {
+            case "basic-order" -> new BasicOrder(
+                    UUID.randomUUID().toString(),
+                    username,
+                    orderInfo.get("ticker").asText(),
+                    orderInfo.get("stock_quantity").asDouble(),
+                    orderInfo.get("price_per_share").asDouble(),
+                    TradeType.valueOf(orderInfo.get("trade_type").asText()));
+            case "limit-order" -> new LimitOrder(
+                    UUID.randomUUID().toString(),
+                    username,
+                    orderInfo.get("ticker").asText(),
+                    orderInfo.get("stock_quantity").asDouble(),
+                    orderInfo.get("price_per_share").asDouble(),
+                    TradeType.valueOf(orderInfo.get("trade_type").asText()),
+                    orderInfo.get("limit_price").asDouble()
+            );
+            case "stop-loss-order" -> new StopLossOrder(
+                    UUID.randomUUID().toString(),
+                    username,
+                    orderInfo.get("ticker").asText(),
+                    orderInfo.get("stock_quantity").asDouble(),
+                    orderInfo.get("price_per_share").asDouble(),
+                    TradeType.valueOf(orderInfo.get("trade_type").asText()),
+                    orderInfo.get("stop_loss_price").asDouble()
+            );
+            case "stop-price-order" -> new StopPriceOrder(
+                    UUID.randomUUID().toString(),
+                    username,
+                    orderInfo.get("ticker").asText(),
+                    orderInfo.get("stock_quantity").asDouble(),
+                    orderInfo.get("price_per_share").asDouble(),
+                    TradeType.valueOf(orderInfo.get("trade_type").asText()),
+                    orderInfo.get("stop_loss_price").asDouble(),
+                    orderInfo.get("limit_price").asDouble()
+            );
+            default -> null;
+        };
+    }
+
+    /**
+     * A method for actually creating an Order in both SQL for saving and RabbitMQ for sending a email
+     * @param basicOrder An Order which contains all the details for the Order
+     * @param email The users email so that way we can use it for a RabbitMQ Consumer
+     */
+    public void createOrder(BasicOrder basicOrder, String email) {
+
+        // Save to database
+        basicOrderRepo.save(basicOrder);
+
+        // Setting Base Hash Map with Order Information
+        Map<String, Object> orderMessage = new HashMap<>() {{
+            put("order-id", basicOrder.getId());
+            put("user", basicOrder.getUser());
+            put("email", email);
+            put("ticker", basicOrder.getTicker());
+            put("stock-qty", basicOrder.getStockQuantity());
+            put("price-per-share", basicOrder.getPricePerShare());
+            put("order-date", basicOrder.getOrderDate());
+            put("status", basicOrder.getCurrentStatus());
+            put("expire-time", basicOrder.getExpireTime());
+            put("trade-type", basicOrder.getTradeType());
+        }};
+
+        // TODO Break this out to its own method, it has its own logic so would be better to put it in its own method
+        // Checking to see what type of order it is
+        // This way we can send it to the proper queue
+        String queue = "order.market-order";
+        if (LimitOrder.class.equals(basicOrder.getClass())) {
+            queue = "order.limit-order";
+            orderMessage.put("limit-price", ((LimitOrder) basicOrder).getLimitPrice());
+        } else if (StopLossOrder.class.equals(basicOrder.getClass())) {
+            queue = "order.stop-loss-order";
+            orderMessage.put("stop-loss-price", ((StopLossOrder) basicOrder).getStopLossPrice());
+        } else if (StopPriceOrder.class.equals(basicOrder.getClass())) {
+            queue = "order.stop-price-order";
+            orderMessage.put("limit-price", ((StopPriceOrder) basicOrder).getLimitPrice());
+            orderMessage.put("stop-loss-price", ((StopPriceOrder) basicOrder).getStopLossPrice());
+        }
+
+        // Send to Market Order Queue
+        sendMessageToQueue(orderMessage, "ORDER_EXCHANGE", queue);
+
+        // TODO Replace this hashmap with the orderMessage, it is pretty much the same, but need to have certain information
+        // Send Placed Order Email
+        sendMessageToQueue(new HashMap<>(){{
+            put("order-id", basicOrder.getId());
+            put("user", basicOrder.getUser());
+            put("email", email);
+            put("ticker", basicOrder.getTicker());
+            put("stock-qty", basicOrder.getStockQuantity());
+            put("price-per-share", basicOrder.getPricePerShare());
+            put("total-cost", (basicOrder.getPricePerShare() * basicOrder.getStockQuantity()));
+            put("trade-type", basicOrder.getTradeType());
+            put("status", basicOrder.getCurrentStatus());
+        }}, "ORDER-EMAIL-EXCHANGE", "order-email.placed");
+    }
 
 
     private void sendMessageToQueue(Map<String, Object> message, String exchange, String queue) {
@@ -87,57 +196,6 @@ public class BasicOrderService {
             put("total-cost", order.getStockQuantity() * order.getPricePerShare());
             put("email", email);
         }}, "ORDER-EMAIL-EXCHANGE", "order-email.fulfilled");
-    }
-
-    public void createBasicOrder(BasicOrder basicOrder, String email) {
-
-        // Save to database
-        basicOrderRepo.save(basicOrder);
-
-        // Setting base Hash Map
-        Map<String, Object> orderMessage = new HashMap<>() {{
-            put("order-id", basicOrder.getId());
-            put("user", basicOrder.getUser());
-            put("email", email);
-            put("ticker", basicOrder.getTicker());
-            put("stock-qty", basicOrder.getStockQuantity());
-            put("price-per-share", basicOrder.getPricePerShare());
-            put("order-date", basicOrder.getOrderDate());
-            put("status", basicOrder.getCurrentStatus());
-            put("expire-time", basicOrder.getExpireTime());
-            put("trade-type", basicOrder.getTradeType());
-        }};
-
-        // Checking to see what type of order it is
-        // This way we can send it to the proper queue
-        String queue = "order.market-order";
-        if (LimitOrder.class.equals(basicOrder.getClass())) {
-            queue = "order.limit-order";
-            orderMessage.put("limit-price", ((LimitOrder) basicOrder).getLimitPrice());
-        } else if (StopLossOrder.class.equals(basicOrder.getClass())) {
-            queue = "order.stop-loss-order";
-            orderMessage.put("stop-loss-price", ((StopLossOrder) basicOrder).getStopLossPrice());
-        } else if (StopPriceOrder.class.equals(basicOrder.getClass())) {
-            queue = "order.stop-price-order";
-            orderMessage.put("limit-price", ((StopPriceOrder) basicOrder).getLimitPrice());
-            orderMessage.put("stop-loss-price", ((StopPriceOrder) basicOrder).getStopLossPrice());
-        }
-
-        // Send to Market Order Queue
-        sendMessageToQueue(orderMessage, "ORDER_EXCHANGE", queue);
-
-        // Send Placed Order Email
-        sendMessageToQueue(new HashMap<>(){{
-            put("order-id", basicOrder.getId());
-            put("user", basicOrder.getUser());
-            put("email", email);
-            put("ticker", basicOrder.getTicker());
-            put("stock-qty", basicOrder.getStockQuantity());
-            put("price-per-share", basicOrder.getPricePerShare());
-            put("total-cost", (basicOrder.getPricePerShare() * basicOrder.getStockQuantity()));
-            put("trade-type", basicOrder.getTradeType());
-            put("status", basicOrder.getCurrentStatus());
-        }}, "ORDER-EMAIL-EXCHANGE", "order-email.placed");
     }
 
     public void checkOrderStatus(BasicOrder order, String email) {
