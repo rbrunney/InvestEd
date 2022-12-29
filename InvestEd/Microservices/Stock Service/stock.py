@@ -10,7 +10,7 @@ class Stock:
 
     def __init__(self, ticker : str):
         self.ticker = ticker
-        self.polygon_key = 'pWnmnyskgOhWmfE226LWf4BH4vDY1i73'
+        self.polygon_key = os.getenv('POLYGON_API_KEY')
 
     """
         Purpose
@@ -260,5 +260,3 @@ class Stock:
         return {
             'moving_avg_data' : moving_avg_data_points
         }
-
-print(Stock('MSFT').get_news())
