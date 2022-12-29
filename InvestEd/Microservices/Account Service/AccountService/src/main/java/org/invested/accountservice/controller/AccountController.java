@@ -223,7 +223,8 @@ public class AccountController {
     /**
      * An end-point for verifying the generated verification code
      * @param requestBody A JsonNode containing a user email and verification code
-     * @return
+     * @return Returns a temporary token if the verification code was correct, otherwise it will return
+     * a 400 BAD_REQUEST
      */
     @PostMapping("/verify_code")
     public ResponseEntity<Map<String, Object>> verifyCode(@RequestBody JsonNode requestBody) {
