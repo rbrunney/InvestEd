@@ -110,68 +110,65 @@ class Stock:
     
     def get_basic_info(self):
 
-        basic_info = {}
+        # Making the neccessary requests to get the basic information
+        response = requests.get(f'https://api.polygon.io/v3/reference/tickers/{self.ticker}?apiKey={self.polygon_key}')
+        ticker_details = json.loads(response.text)
 
-        # Getting first request data for part of basic info
-        ticker_details = self.polygon_client.get_ticker_details(ticker=self.ticker)
+        response = requests.get(f'https://api.polygon.io/v3/reference/dividends?ticker={self.ticker}&apiKey={self.polygon_key}')
+        dividend_details = json.loads(response.text)
 
-        # Adding information into basic_info
-        basic_info['ticker'] = ticker_details.ticker
-        basic_info['name'] = ticker_details.name
-        # basic_info['52_week_high'] = float(fetched_data['52WeekHigh'])
-        # basic_info['52_week_low'] = float(fetched_data['52WeekLow'])
-        basic_info['market_cap'] = ticker_details.market_cap
-        # basic_info['pe_ratio'] = float(fetched_data['PERatio'])
-        basic_info['description'] = ticker_details.description
-        basic_info['list_date'] = ticker_details.list_date
-        basic_info['total_employees'] = ticker_details.total_employees
+        response = requests.get(f'https://api.polygon.io/v1/open-close/{self.ticker}/{self.check_date().date()}?adjusted=true&apiKey={self.polygon_key}')
+        open_close_details = json.loads(response.text)
 
+        response = requests.get(f'https://api.polygon.io/v2/aggs/ticker/{self.ticker}/prev?adjusted=true&apiKey={self.polygon_key}')
+        previous_close_details = json.loads(response.text)
+
+        # Generating ticker information 
+        basic_info = {
+            'ticker': self.ticker,
+            'name' : ticker_details['results']['name'],
+            'list_date': ticker_details['results']['list_date'],
+            'open' : open_close_details['open'],
+            'high' : open_close_details['high'],
+            'low' : open_close_details['low'],
+            'volume' : open_close_details['volume'],
+            'previous_close' : previous_close_details['results'][0]['c'],
+        }
+
+        # Checking to see if ticker has a description (could be an etf)
+        try:
+            basic_info['description'] = ticker_details['results']['description']
+        except:
+            basic_info['description'] = None
+        
+        # Checking to see if ticker has a market cap
+        try:
+            basic_info['market_cap'] = ticker_details['results']['market_cap']
+        except:
+            basic_info['market_cap'] = None
+
+        # Checking to see if ticker has an physical address
         try:
             basic_info['hq_address'] = {
-                "street" : ticker_details.address.address1,
-                "city" : ticker_details.address.city,
-                "state" : ticker_details.address.state,
-                "zipcode" : ticker_details.address.postal_code
+                'street' : ticker_details['address']['address1'],
+                'city' : ticker_details['address']['city'],
+                'state' : ticker_details['address']['state'],
+                'zipcode' : ticker_details['address']['postal_code']
             }
         except:
-            pass
+            basic_info['hq_address'] = None
 
-        # Get last dividend amount and add to basic info
-        dividend_amount = self.polygon_client.list_dividends(ticker=self.ticker)
-        last_dividend = None
-        for dividend in dividend_amount:
-            last_dividend = dividend.cash_amount
-            break
-        basic_info['last_dividend'] = last_dividend
-
-        # Making second request for current days open, high, and low
-        try: 
-            daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date())
-        except:
-            try: 
-                daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date() - dt.timedelta(days=1))
-            except:
-                try: 
-                    daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date() - dt.timedelta(days=2))
-                except:
-                    daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date() - dt.timedelta(days=3))
-        # Adding open, high, low, and volume to basic information
-        basic_info['open'] = daily_info.open
-        basic_info['high'] = daily_info.high
-        basic_info['low'] = daily_info.close
-        basic_info['volume'] = daily_info.volume
-
-        if(basic_info['low'] == None):
-            basic_info['low'] = 0
-
+        # Checking to see if ticker has total employees
         try:
-            daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date() - dt.timedelta(days=1))
+            basic_info['total_employees'] = ticker_details['results']['total_employees']
         except:
-            try: 
-                daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date() - dt.timedelta(days=2))
-            except:
-                 daily_info = self.polygon_client.get_daily_open_close_agg(ticker=self.ticker, date=self.check_date().date() - dt.timedelta(days=3))
-        basic_info['previous_close'] = daily_info.close
+            basic_info['total_employees'] = None
+
+        # Checking to see if ticker has a dividend
+        try:
+            basic_info['last_dividend'] = dividend_details['results'][0]['cash_amount']
+        except:
+            basic_info['last_dividend'] = None
 
         return basic_info
 
@@ -243,4 +240,4 @@ class Stock:
             'moving_avg_data' : moving_avg_data_points
         }
 
-print(Stock('MSFT').get_data_points('YEAR'))
+print(Stock('MSFT').get_basic_info())
