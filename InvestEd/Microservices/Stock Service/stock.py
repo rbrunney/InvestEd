@@ -1,6 +1,5 @@
 from datetime import date, datetime as current_dt
 import datetime as dt
-import news_article as na
 import requests
 import json
 import os
@@ -11,7 +10,7 @@ class Stock:
 
     def __init__(self, ticker : str):
         self.ticker = ticker
-        self.polygon_key = ''
+        self.polygon_key = 'pWnmnyskgOhWmfE226LWf4BH4vDY1i73'
 
     """
         Purpose
@@ -72,6 +71,8 @@ class Stock:
             To retrieve data points to display to some front end over a given period
         Parameters
         ----------
+            self: Stock
+                Is just referincing that it belongs to the Stock Class
             period: str
                 A string representing the period to retrieve from 
     """
@@ -107,6 +108,15 @@ class Stock:
             # Return 400 so we know we have to send a bad request
             return 400
     
+    """
+        Purpose
+        -------
+            To retrieve basic information about a ticker
+        Parameters
+        ----------
+            self: Stock
+                Is just referincing that it belongs to the Stock Class
+    """
     
     def get_basic_info(self):
 
@@ -200,21 +210,32 @@ class Stock:
 
         return final_earning_calls
         
+    """
+        Purpose
+        -------
+            To get 5 recent news articles realating to this ticker
+        Parameters
+        ----------
+            self: Stock
+                Is just referincing that it belongs to the Stock Class
+    """
     def get_news(self):
-        news_articles = self.polygon_client.list_ticker_news(ticker=self.ticker, limit=5)
+        response = requests.get(f'https://api.polygon.io/v2/reference/news?ticker={self.ticker}&limit=5&apiKey={self.polygon_key}')
+        news_articles = json.loads(response.text)['results']
 
         recent_news_articles = []
 
         for news_article in news_articles:
-            recent_news_articles.append(na.NewsArticle(
-                title=news_article.title,
-                authors=news_article.author,
-                publisher=news_article.publisher,
-                publish_date=news_article.published_utc,
-                summary=news_article.description,
-                story_link=news_article.article_url,
-                thumbnail_link=news_article.image_url
-            ).to_json()
+            recent_news_articles.append(
+                {
+                    'title' : news_article['title'],
+                    'authors' : news_article['author'],
+                    'publisher' : news_article['publisher'],
+                    'publish_date' : news_article['published_utc'],
+                    'summary' : news_article['description'],
+                    'story_link' : news_article['article_url'],
+                    'thumbnail_link' : news_article['image_url'],
+                }
             )
 
         return recent_news_articles
@@ -240,4 +261,4 @@ class Stock:
             'moving_avg_data' : moving_avg_data_points
         }
 
-print(Stock('MSFT').get_basic_info())
+print(Stock('MSFT').get_news())
