@@ -11,7 +11,7 @@ class Stock:
 
     def __init__(self, ticker : str):
         self.ticker = ticker
-        self.polygon_key = os.getenv('POLYGON_API_KEY')
+        self.polygon_key = ''
 
     """
         Purpose
@@ -66,33 +66,43 @@ class Stock:
         # Getting closing price since it is closet to the current price
         return current_price_info['results'][0]['c']
     
+    """
+        Purpose
+        -------
+            To retrieve data points to display to some front end over a given period
+        Parameters
+        ----------
+            period: str
+                A string representing the period to retrieve from 
+    """
     def get_data_points(self, period):
 
         # Getting the aggreagate data so we can return array of datapoints later
-        def period_data_points(from_date, end_date, timespan):
-            try:
-                aggregates = self.polygon_client.get_aggs(ticker=self.ticker, multiplier=1, from_=from_date, to=end_date, timespan=timespan,limit=250)
-            except:
-                aggregates = self.polygon_client.get_aggs(ticker=self.ticker, multiplier=1, from_=from_date - dt.timedelta(days=1), to=end_date - dt.timedelta(days=1), timespan=timespan,limit=250)
+        def period_data_points(from_date, timespan, end_date=self.check_date().date()):
+            response = requests.get(f'https://api.polygon.io/v2/aggs/ticker/{self.ticker}/range/1/{timespan}/{from_date}/{end_date}?adjusted=true&sort=asc&limit=120&apiKey={self.polygon_key}')
+            aggregates = json.loads(response.text)['results']
             data_points = []
 
             for aggreagate in aggregates:
-                data_points.append(aggreagate.close)
+                # Getting closing prices for each aggreagate we get back
+                data_points.append(aggreagate['c'])
             
             return data_points
+        
+        current_date = self.check_date().date()
 
         if period == "DAY":
-            return period_data_points(self.check_date().date(), self.check_date().date(), "minute")
+            return period_data_points(current_date, "minute")
         elif period == "WEEK":
-            return period_data_points(self.check_date().date() - dt.timedelta(days=7), self.check_date().date(), "minute")
+            return period_data_points(current_date - dt.timedelta(days=7), "minute")
         elif period == "MONTH":
-            return period_data_points(self.check_date().date() - dt.timedelta(days=31), self.check_date().date(), "minute")
+            return period_data_points(current_date - dt.timedelta(days=31), "minute")
         elif period == "3-MONTH":
-            return period_data_points(self.check_date().date() - dt.timedelta(days=93), self.check_date().date(), "minute")
+            return period_data_points(current_date - dt.timedelta(days=93), "minute")
         elif period == "YEAR":
-            return period_data_points(self.check_date().date() - dt.timedelta(days=365), self.check_date().date(), "day")
+            return period_data_points(current_date - dt.timedelta(days=365), "day")
         elif period == "5-YEAR":
-            return period_data_points(self.check_date().date() - dt.timedelta(days=1825), self.check_date().date(), "day")
+            return period_data_points(current_date - dt.timedelta(days=1825), "day")
         else:
             # Return 400 so we know we have to send a bad request
             return 400
@@ -233,4 +243,4 @@ class Stock:
             'moving_avg_data' : moving_avg_data_points
         }
 
-print(Stock('MSFT').get_current_price())
+print(Stock('MSFT').get_data_points('YEAR'))
