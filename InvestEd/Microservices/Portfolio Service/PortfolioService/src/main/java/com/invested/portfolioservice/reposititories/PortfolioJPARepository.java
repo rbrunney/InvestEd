@@ -8,9 +8,11 @@ import java.util.ArrayList;
 
 public interface PortfolioJPARepository extends JpaRepository<Portfolio, String> {
     ArrayList<Portfolio> getPortfoliosByUserId(String userId);
+    Portfolio getPortfolioByUserId(String userId);
 
-    Portfolio getPortfolioById(String portfolioId);
+    void deletePortfolioByUserId(String userId);
 
     @Query(value = "SELECT id FROM portfolio WHERE user_id = ?1", nativeQuery = true)
     String getPortfolioIdByUsername(String user_id);
+
 }

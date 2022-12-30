@@ -24,9 +24,28 @@ public class PortfolioService {
 
 
     // ///////////////////////////////////////////////////////////////
-    // Dealing with portfolio information
-    public Map<String, Object> createPortfolio(String msgToConvert) {
-        Map<String, String> userInfo = convertMsgToMap(msgToConvert);
+    // Creating Portfolio Methods
+
+    /**
+     * A method to check to see if the user has a portfolio already
+     * @param principalToConvert A String that is a Map we will need to convert to get username
+     * @return
+     */
+    public boolean hasPortfolio(String principalToConvert) {
+        // Getting map from principal
+        Map<String, String> userInfo = convertMsgToMap(principalToConvert);
+
+        // If greater or equal to one they have a portfolio already
+        return portfolioRepo.getPortfoliosByUserId(userInfo.get("username")).size() >= 1;
+    }
+
+    /**
+     * A method to create a portfolio!
+     * @param principalToConvert A String that is a Map we will need to convert to get username
+     * @return A map with the new portfolio id
+     */
+    public Map<String, Object> createPortfolio(String principalToConvert) {
+        Map<String, String> userInfo = convertMsgToMap(principalToConvert);
         // Making new portfolio
         Portfolio portfolio = new Portfolio(userInfo.get("username"));
         portfolioRepo.save(portfolio);
@@ -36,52 +55,28 @@ public class PortfolioService {
         }};
     }
 
-    public boolean hasPortfolio(String principalToConvert) {
-        // Getting map from principal
-        Map<String, String> userInfo = convertMsgToMap(principalToConvert);
-        return portfolioRepo.getPortfoliosByUserId(userInfo.get("username")).size() >= 1;
+    // ////////////////////////////////////////////////////////////////////
+    // Portfolio Retrieval Methods
 
-        // Meaning they have reached the portfolio limit
+    /**
+     * A method for fetching the information within a portfolio
+     * @param userId A string containing the userId
+     * @return A portfolio containing all the users information
+     */
+    public Portfolio getPortfolio(String userId) {
+        return portfolioRepo.getPortfolioByUserId(userId);
     }
 
-    public boolean portfolioExists(String portfolioId) {
-        return portfolioRepo.getPortfolioById(portfolioId) != null;
-    }
+    // //////////////////////////////////////////////////////////////////
+    // Portfolio Delete Methods
 
-    public boolean isUsersPortfolio(String msgToConvert, String portfolioId) {
-        Map<String, String> userInfo = convertMsgToMap(msgToConvert);
-        return portfolioRepo.getPortfolioById(portfolioId).getUserId().equals(userInfo.get("username"));
-    }
-
-    public String getPortfolioId(String username) {
-        return portfolioRepo.getPortfolioIdByUsername(username);
-    }
-
-    public Map<String, Object> getPortfolio(String portfolioId) {
-        // Getting all stock information
-        Portfolio portfolio = portfolioRepo.getPortfolioById(portfolioId);
-        ArrayList<PortfolioStock> portfolioStocks = portfolioStockRepo.getPortfolioStocksByPortfolioId(portfolioId);
-
-        // Creating result
-        return new HashMap<>(){{
-            put("portfolio", new HashMap<>(){{
-                put("portfolio-id", portfolioId);
-                put("total-value", portfolio.getTotalValue());
-                put("total-gain", portfolio.getTotalGain());
-                put("current-stocks", portfolioStocks);
-            }});
-        }};
-    }
-
-    public void deletePortfolio(String portfolioId) {
-        portfolioRepo.deleteById(portfolioId);
-    }
-
-    public void updatePortfolioValue(String portfolioId, double stockPurchaseValue) {
-        // Updating portfolio value so when orders go through portfolio value goes up
-        Portfolio portfolio = portfolioRepo.getPortfolioById(portfolioId);
-        portfolio.setTotalValue(portfolio.getTotalValue() + stockPurchaseValue);
-        portfolioRepo.save(portfolio);
+    /**
+     * A method to delete a users portfolio
+     * @param userId A String containing the users id
+     */
+    @Transactional
+    public void deletePortfolio(String userId) {
+        portfolioRepo.deletePortfolioByUserId(userId);
     }
 
     // ////////////////////////////////////////////////////////////////////////////////////
