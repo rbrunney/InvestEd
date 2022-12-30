@@ -130,10 +130,4 @@ public class OrderController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-    @PutMapping("/fulfill_order/{orderId}/{email}")
-    public ResponseEntity<Map<String, Object>> fulfillOrder(@PathVariable String orderId, @PathVariable String email) {
-        basicOrderService.fulfillOrder(orderId, email);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 }

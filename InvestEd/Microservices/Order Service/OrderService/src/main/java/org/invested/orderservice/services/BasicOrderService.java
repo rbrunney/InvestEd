@@ -235,22 +235,6 @@ public class BasicOrderService {
         }
     }
 
-    public void fulfillOrder(String orderId, String email) {
-        BasicOrder order = basicOrderRepo.getBasicOrderById(orderId);
-        order.setCurrentStatus(Status.COMPLETED);
-        order.setOrderFulFilledDate(LocalDateTime.now());
-        basicOrderRepo.save(order);
-
-        sendMessageToQueue(new HashMap<>(){{
-            put("order-id", order.getId());
-            put("status", order.getCurrentStatus());
-            put("ticker", order.getTicker());
-            put("trade-type", order.getTradeType());
-            put("total-cost", order.getStockQuantity() * order.getPricePerShare());
-            put("email", email);
-        }}, "ORDER-EMAIL-EXCHANGE", "order-email.fulfilled");
-    }
-
     // Adding this so we can decode Principal information
     public Map<String, String> convertMsgToMap(String msgToConvert) {
         Map<String, String> finalResult = new HashMap<>();
