@@ -1,6 +1,6 @@
 package com.invested.portfolioservice.config.security;
 
-import com.invested.portfolioservice.config.filter.CustomAuthorizationFilter;
+import com.invested.portfolioservice.config.security.filter.CustomAuthorizationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
