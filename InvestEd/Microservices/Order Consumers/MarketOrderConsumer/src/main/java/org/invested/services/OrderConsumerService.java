@@ -1,33 +1,35 @@
 package org.invested.services;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import org.invested.models.application.order_enums.Status;
+import org.invested.models.application.order_types.BasicOrder;
+import org.invested.repositories.OrderJPARepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoField;
-import java.util.Base64;
+import java.util.Map;
 
+@Service
 public class OrderConsumerService {
 
-    // In ChronoField 6 and 7 represents saturday
-    private final static int SATURDAY = 6;
-    private final static LocalTime MARKET_OPEN = LocalTime.of(9, 30);
-    private final static LocalTime MARKET_CLOSE = LocalTime.of(16, 0);
+    @Autowired
+    private OrderJPARepository orderRepo;
 
+    /**
+     * A method to determine if current time is within trading hours
+     * @return true if it is trading hours, false otherwise
+     */
+    public boolean isTradingHours() {
 
-    public static void buyStock(String userId, String ticker, double stockQty, double pricePerShare) {
-        makePutRequest("http://localhost:8888/invested_portfolio/buy_stock/" + userId,
-                "{\"ticker\":\"" + ticker + "\", \"stock-qty\":" + stockQty + ", \"price-per-share\":" + pricePerShare + "}", false);
-    }
+        // Setting Base Trading Hours Information
+        final int SATURDAY = 6;
+        final LocalTime MARKET_OPEN = LocalTime.of(9, 30);
+        final LocalTime MARKET_CLOSE = LocalTime.of(16, 0);
 
-    public static void sellStock(String userId, String ticker, double stockQty, double pricePerShare) {
-        makePutRequest("http://localhost:8888/invested_portfolio/sell_stock/" + userId,
-                "{\"ticker\":\"" + ticker + "\", \"stock-qty\":" + stockQty + ", \"price-per-share\":" + pricePerShare + "}", false);
-    }
-
-    public static boolean isTradingHours() {
         // Get current date time
         ZonedDateTime currentTime = ZonedDateTime.now();
         // Get ET current time
@@ -39,39 +41,46 @@ public class OrderConsumerService {
                 LocalTime.of(currentET.getHour(), currentET.getMinute(), currentET.getSecond()).isAfter(MARKET_OPEN) &&
                 LocalTime.of(currentET.getHour(), currentET.getMinute(), currentET.getSecond()).isBefore(MARKET_CLOSE);
     }
-    // /////////////////////////////////////////////////////////
-    // Util Methods
 
-    public static void makePutRequest(String url, String requestBody, boolean enableAuthorization) {
-        try {
-            // Opening connection for body request
-            URL putUrl = new URL(url);
-            HttpURLConnection request = (HttpURLConnection) putUrl.openConnection();
+    /**
+     * A method for getting an order based off its id
+     * @param orderId A String containing the order id
+     * @return A BasicOrder object with all of its information
+     */
+    public BasicOrder getOrder(String orderId) {
+        return orderRepo.getBasicOrderById(orderId);
+    }
 
-            // Setting up basic properties for request
-            request.setRequestMethod("PUT");
-            if(enableAuthorization) {
-                // Setting Basic Authorization header so we cna limit who is getting into potential end-point
-                request.setRequestProperty("Authorization", "Basic " +
-                        new String(Base64.getEncoder().encode(
-                                (System.getenv("CUSTOM_USERNAME") + ":" + System.getenv("CUSTOM_PASSWORD")
-                                ).getBytes())));
-            }
-            request.setRequestProperty("Content-Type", "application/json");
-            request.setRequestProperty("Accept", "application/json");
-            request.setDoOutput(true);
-            request.setDoInput(true);
+    /**
+     * A method for executing a buy on a order
+     * @param currentOrder A Basic Order Object
+     */
+    public void executeBuy(BasicOrder currentOrder) {
+        double originalTotalOrderPrice = currentOrder.getPricePerShare() * currentOrder.getStockQuantity();
 
-            // Adding body to request
-            try (DataOutputStream writer = new DataOutputStream(request.getOutputStream())) {
-                writer.write(requestBody.getBytes());
-            }
+        // TODO Get Current Price
+        Map<String, String> getPriceResponse = Requests.get("http://localhost:8888/invested_stock/" + currentOrder.getTicker() + "/price");
+        // TODO Calculate new totalOrderPrice
+        // TODO Get Original and New and check the difference
+            // TODO if more than call execute buy else take it
+            // TODO Update account buying power accordingly
+    }
 
-            // Had to add this so that way the request would actually go through, I don't like this
-            request.getResponseMessage();
-            request.disconnect();
-        } catch(Exception e) {
-            System.out.println("[ERROR] " + e.getMessage());
-        }
+    /**
+     * A method for executing a buy on a order
+     * @param currentOrder A Basic Order Object
+     */
+    public void executeSell(BasicOrder currentOrder) {
+
+    }
+
+    /**
+     * A method for marking the order as complete and updating its status to complete!
+     * @param currentOrder A Basic Order Object
+     */
+    public void completeOrder(BasicOrder currentOrder) {
+        currentOrder.setOrderFulFilledDate(LocalDateTime.now());
+        currentOrder.setCurrentStatus(Status.COMPLETED);
+        orderRepo.save(currentOrder);
     }
 }
