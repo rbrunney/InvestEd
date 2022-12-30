@@ -1,12 +1,14 @@
 package org.invested.orderservice.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.invested.orderservice.model.application.account.Account;
 import org.invested.orderservice.model.application.order_enums.Status;
 import org.invested.orderservice.model.application.order_enums.TradeType;
 import org.invested.orderservice.model.application.order_types.BasicOrder;
 import org.invested.orderservice.model.application.order_types.LimitOrder;
 import org.invested.orderservice.model.application.order_types.StopLossOrder;
 import org.invested.orderservice.model.application.order_types.StopPriceOrder;
+import org.invested.orderservice.repository.AccountJPARepo;
 import org.invested.orderservice.repository.BasicOrderJPARepo;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class BasicOrderService {
 
     @Autowired
     private BasicOrderJPARepo basicOrderRepo;
+
+    @Autowired
+    private AccountJPARepo accountRepo;
 
     @Autowired
     private AmqpTemplate amqpTemplate;
@@ -128,6 +133,12 @@ public class BasicOrderService {
 
         // Save to database
         basicOrderRepo.save(basicOrder);
+
+        // Update Users Buying Power
+        Account userAccount = accountRepo.getAccountByEmail(email);
+        double totalOrderPrice = basicOrder.getStockQuantity() * basicOrder.getPricePerShare();
+        userAccount.setBuyingPower(userAccount.getBuyingPower() - totalOrderPrice);
+        accountRepo.save(userAccount);
 
         // Setting Base Order Information, because we will fetch information off on the consumer
         Map<String, Object> orderMessage = new HashMap<>() {{
