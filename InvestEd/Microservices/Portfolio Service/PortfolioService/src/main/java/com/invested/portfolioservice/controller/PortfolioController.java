@@ -77,35 +77,4 @@ public class PortfolioController {
             put("date-time", LocalDateTime.now());
         }}, HttpStatus.NO_CONTENT);
     }
-
-    // ///////////////////////////////////////////////////////////
-    // Dealing with the stocks within the portfolio
-
-//    @PutMapping("/buy_stock/{userId}")
-//    public ResponseEntity<Map<String, Object>> addStockToPortfolio(@PathVariable String userId, @RequestBody JsonNode stock) {
-//        String portfolioId = portfolioService.getPortfolioId(userId);
-//
-//        // Saving Incoming Stock
-//        portfolioService.buyStock(stock.get("ticker").asText(),
-//                portfolioId,
-//                stock.get("stock-qty").asDouble(),
-//                stock.get("stock-qty").asDouble() * stock.get("price-per-share").asDouble()
-//                );
-//
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
-//
-//    @PutMapping("/sell_stock/{userId}")
-//    public ResponseEntity<Map<String, Object>> removeStockFromPortfolio(@PathVariable String userId, @RequestBody JsonNode stock) {
-//        String portfolioId = portfolioService.getPortfolioId(userId);
-//
-//        Map<String, Object> response = portfolioService.sellStock(
-//            stock.get("ticker").asText(),
-//            portfolioId,
-//            stock.get("stock-qty").asDouble(),
-//            stock.get("stock-qty").asDouble() * stock.get("price-per-share").asDouble()
-//        );
-//
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
 }
