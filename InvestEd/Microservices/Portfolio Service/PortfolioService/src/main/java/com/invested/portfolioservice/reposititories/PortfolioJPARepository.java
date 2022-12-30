@@ -1,6 +1,6 @@
 package com.invested.portfolioservice.reposititories;
 
-import com.invested.portfolioservice.models.Portfolio;
+import com.invested.portfolioservice.models.application.Portfolio;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

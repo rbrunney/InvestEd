@@ -1,6 +1,6 @@
 package com.invested.portfolioservice.reposititories;
 
-import com.invested.portfolioservice.models.PortfolioStock;
+import com.invested.portfolioservice.models.application.PortfolioStock;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.ArrayList;
