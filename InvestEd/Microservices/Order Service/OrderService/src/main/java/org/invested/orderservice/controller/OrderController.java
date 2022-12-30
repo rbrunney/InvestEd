@@ -65,6 +65,13 @@ public class OrderController {
 
     // /////////////////////////////////////////////////////////////////////
     // Making Orders End Points
+
+    /**
+     * A end point to make different orders: basic, limit, stop price, and stop loss
+     * @param principal Used to get the username and email off of our UserPassAuthToken
+     * @param orderInfo A JsonNode containing the Order Information we will use to make an order
+     * @return A Response Entity with the order id if it's good, otherwise it will send a 400 BAD_REQUEST
+     */
     @PostMapping("/order")
     public ResponseEntity<Map<String, Object>> placeBasicOrder(Principal principal, @RequestBody JsonNode orderInfo) {
 
@@ -91,12 +98,15 @@ public class OrderController {
         }}, HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping("/fulfill_order/{orderId}/{email}")
-    public ResponseEntity<Map<String, Object>> fulfillOrder(@PathVariable String orderId, @PathVariable String email) {
-        basicOrderService.fulfillOrder(orderId, email);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+    // ////////////////////////////////////////////////////////////////////////////////
+    // Order Update End Points
 
+    /**
+     * An endpoint to cancel an order by id
+     * @param principal Used to get the username and email off of our UserPassAuthToken
+     * @param orderId A string containing the order if that the user wants to cancel
+     * @return A 200 OK if order was canceled, otherwise a 400 BAD_REQUEST
+     */
     @PutMapping("/cancel_order/{orderId}")
     public ResponseEntity<Map<String, Object>> cancelOrder(Principal principal, @PathVariable String orderId) {
         Map<String, String> userInfo = basicOrderService.convertMsgToMap(principal.getName());
@@ -108,11 +118,22 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * An end-point to cancel all current orders a user has
+     * @param principal Used to get the username and email off of our UserPassAuthToken
+     * @return A 200 OK when the orders have been CANCELED
+     */
     @PutMapping("/cancel_all_orders")
     public ResponseEntity<Map<String, Object>> cancelAllOrder(Principal principal) {
         Map<String, String> userInfo = basicOrderService.convertMsgToMap(principal.getName());
-        basicOrderService.cancelAllOrders(userInfo.get("user"), userInfo.get("email").replace("\"", ""));
+        basicOrderService.cancelAllOrders(userInfo.get("username"), userInfo.get("email").replace("\"", ""));
 
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/fulfill_order/{orderId}/{email}")
+    public ResponseEntity<Map<String, Object>> fulfillOrder(@PathVariable String orderId, @PathVariable String email) {
+        basicOrderService.fulfillOrder(orderId, email);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

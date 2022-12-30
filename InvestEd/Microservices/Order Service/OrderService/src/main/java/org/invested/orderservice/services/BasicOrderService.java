@@ -175,9 +175,64 @@ public class BasicOrderService {
         return "order.market-order";
     }
 
+    // //////////////////////////////////////////////////////////////////////////////////////////////
+    // Util Methods
 
+    /**
+     * A method for sending a message to a exchange and queue to RabbitMQ
+     * @param message A Map containing the message we will be sending!
+     * @param exchange A String defining which exchange will be handling the message
+     * @param queue A String defining where the message will stay!
+     */
     private void sendMessageToQueue(Map<String, Object> message, String exchange, String queue) {
         amqpTemplate.convertAndSend(exchange, queue, message.toString());
+    }
+
+    // /////////////////////////////////////////////////////////////
+    // Update Order Methods
+
+    /**
+     * A method for canceling a specific order
+     * @param orderId A string containing the order we will be canceling!
+     * @param email A string containing the email of the user wanting to cancel their order
+     */
+    public void cancelOrder(String orderId, String email) {
+        BasicOrder order = basicOrderRepo.getBasicOrderById(orderId);
+
+        // Check to see if order is pending
+        if(order.getCurrentStatus() == Status.PENDING) {
+            // Update order fulfilled date and status
+            order.setOrderFulFilledDate(LocalDateTime.now());
+            order.setCurrentStatus(Status.CANCELED);
+            basicOrderRepo.save(order);
+
+            // Update Accounts Buying Power
+            Account userAccount = accountRepo.getAccountByEmail(email);
+            double totalOrderPrice = order.getStockQuantity() * order.getPricePerShare();
+            userAccount.setBuyingPower(userAccount.getBuyingPower() + totalOrderPrice);
+            accountRepo.save(userAccount);
+
+            // Sending Message to Canceled Email Queue
+            sendMessageToQueue(new HashMap<>() {{
+                put("user", order.getUser());
+                put("email", email);
+                put("order_id", order.getId());
+                put("order_status", order.getCurrentStatus());
+            }}, "ORDER-EMAIL-EXCHANGE", "order-email.cancel");
+        }
+    }
+
+    /**
+     * A method to CANCEL all orders that are pending
+     * @param user A string containing the users id
+     * @param email A string containing the users email
+     */
+    public void cancelAllOrders(String user, String email) {
+        ArrayList<BasicOrder> usersOrders = basicOrderRepo.getBasicOrdersByUser(user);
+
+        for(BasicOrder order : usersOrders) {
+            cancelOrder(order.getId(), email);
+        }
     }
 
     public void fulfillOrder(String orderId, String email) {
@@ -194,39 +249,6 @@ public class BasicOrderService {
             put("total-cost", order.getStockQuantity() * order.getPricePerShare());
             put("email", email);
         }}, "ORDER-EMAIL-EXCHANGE", "order-email.fulfilled");
-    }
-
-    public void checkOrderStatus(BasicOrder order, String email) {
-        if(order.getCurrentStatus() == Status.CANCELED || order.getCurrentStatus() == Status.COMPLETED) {
-            return;
-        }
-
-        order.setOrderFulFilledDate(LocalDateTime.now());
-        order.setCurrentStatus(Status.CANCELED);
-        basicOrderRepo.save(order);
-
-        // Sending Message to Canceled Email Queue
-        sendMessageToQueue(new HashMap<>() {{
-            put("user", order.getUser());
-            put("email", email);
-            put("order_id", order.getId());
-            put("order_status", order.getCurrentStatus());
-        }}, "ORDER-EMAIL-EXCHANGE", "order-email.cancel");
-    }
-
-    public void cancelOrder(String orderId, String email) {
-        // Need to add check to see it current status. If pending, then we can cancel it.
-        // Canceling it we will update the status to cancel
-        BasicOrder order = basicOrderRepo.getBasicOrderById(orderId);
-        checkOrderStatus(order, email);
-    }
-
-    public void cancelAllOrders(String user, String email) {
-        ArrayList<BasicOrder> usersOrders = basicOrderRepo.getBasicOrdersByUser(user);
-
-        for(BasicOrder order : usersOrders) {
-            checkOrderStatus(order, email);
-        }
     }
 
     // Adding this so we can decode Principal information
