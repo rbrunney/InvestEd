@@ -78,7 +78,7 @@ public class BasicOrderService {
      * @param orderInfo An JsonNode containing all necessary order information
      * @return A Basic Order object containing all the necessary information, or null if order_type was none of the cases
      */
-    public BasicOrder makeOrder(String username, JsonNode orderInfo) {
+    public BasicOrder makeOrderClass(String username, JsonNode orderInfo) {
         return switch (orderInfo.get("order_type").asText()) {
             case "basic-order" -> new BasicOrder(
                     UUID.randomUUID().toString(),
@@ -120,7 +120,7 @@ public class BasicOrderService {
     }
 
     /**
-     * A method for actually creating an Order in both SQL for saving and RabbitMQ for sending a email
+     * A method for actually creating an Order in both SQL for saving and RabbitMQ for sending an email
      * @param basicOrder An Order which contains all the details for the Order
      * @param email The users email so that way we can use it for a RabbitMQ Consumer
      */
@@ -129,52 +129,39 @@ public class BasicOrderService {
         // Save to database
         basicOrderRepo.save(basicOrder);
 
-        // Setting Base Hash Map with Order Information
+        // Setting Base Order Information, because we will fetch information off on the consumer
         Map<String, Object> orderMessage = new HashMap<>() {{
             put("order-id", basicOrder.getId());
             put("user", basicOrder.getUser());
             put("email", email);
-            put("ticker", basicOrder.getTicker());
-            put("stock-qty", basicOrder.getStockQuantity());
-            put("price-per-share", basicOrder.getPricePerShare());
-            put("order-date", basicOrder.getOrderDate());
-            put("status", basicOrder.getCurrentStatus());
-            put("expire-time", basicOrder.getExpireTime());
-            put("trade-type", basicOrder.getTradeType());
         }};
 
-        // TODO Break this out to its own method, it has its own logic so would be better to put it in its own method
         // Checking to see what type of order it is
         // This way we can send it to the proper queue
-        String queue = "order.market-order";
-        if (LimitOrder.class.equals(basicOrder.getClass())) {
-            queue = "order.limit-order";
-            orderMessage.put("limit-price", ((LimitOrder) basicOrder).getLimitPrice());
-        } else if (StopLossOrder.class.equals(basicOrder.getClass())) {
-            queue = "order.stop-loss-order";
-            orderMessage.put("stop-loss-price", ((StopLossOrder) basicOrder).getStopLossPrice());
-        } else if (StopPriceOrder.class.equals(basicOrder.getClass())) {
-            queue = "order.stop-price-order";
-            orderMessage.put("limit-price", ((StopPriceOrder) basicOrder).getLimitPrice());
-            orderMessage.put("stop-loss-price", ((StopPriceOrder) basicOrder).getStopLossPrice());
-        }
+        String queue = defineOrderQueue(basicOrder);
 
-        // Send to Market Order Queue
+        // Send to Specified Order Queue
         sendMessageToQueue(orderMessage, "ORDER_EXCHANGE", queue);
 
-        // TODO Replace this hashmap with the orderMessage, it is pretty much the same, but need to have certain information
         // Send Placed Order Email
-        sendMessageToQueue(new HashMap<>(){{
-            put("order-id", basicOrder.getId());
-            put("user", basicOrder.getUser());
-            put("email", email);
-            put("ticker", basicOrder.getTicker());
-            put("stock-qty", basicOrder.getStockQuantity());
-            put("price-per-share", basicOrder.getPricePerShare());
-            put("total-cost", (basicOrder.getPricePerShare() * basicOrder.getStockQuantity()));
-            put("trade-type", basicOrder.getTradeType());
-            put("status", basicOrder.getCurrentStatus());
-        }}, "ORDER-EMAIL-EXCHANGE", "order-email.placed");
+        sendMessageToQueue(orderMessage, "ORDER-EMAIL-EXCHANGE", "order-email.placed");
+    }
+
+    /**
+     * A method to define which queue to send for the market orders
+     * @param order A Basic Order which is going to help determine which queue to send it to
+     * @return A string containing the queue we will be sending to
+     */
+    public String defineOrderQueue(BasicOrder order) {
+        if (LimitOrder.class.equals(order.getClass())) {
+            return "order.limit-order";
+        } else if (StopLossOrder.class.equals(order.getClass())) {
+            return "order.stop-loss-order";
+        } else if (StopPriceOrder.class.equals(order.getClass())) {
+            return "order.stop-price-order";
+        }
+
+        return "order.market-order";
     }
 
 

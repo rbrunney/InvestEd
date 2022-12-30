@@ -71,7 +71,7 @@ public class OrderController {
         // Getting the user information off of UserPassAuthToken from principal
         Map<String, String> userInfo = basicOrderService.convertMsgToMap(principal.getName());
         // Making an order with the given information within the request
-        BasicOrder newOrder = basicOrderService.makeOrder(userInfo.get("username"), orderInfo);
+        BasicOrder newOrder = basicOrderService.makeOrderClass(userInfo.get("username"), orderInfo);
 
         if(newOrder != null) {
             // Creating Order Object In Database
