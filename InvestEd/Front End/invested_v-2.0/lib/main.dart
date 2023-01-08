@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:invested/navigation/bottom_tab_navigation.dart';
 import '../util/global_styling.dart' as global_style;
 
 void main() {
@@ -25,19 +26,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return const SafeArea(
         child: Scaffold(
-          body: SingleChildScrollView(
-            child: Column(
-              children: const [
-                Card(
-                  color: Color(0xFFFFFFFF),
-                  child: Text("testing color"),
-                ),
-                Text("Hello World")
-              ],
-            ),
-          ),
+          body: BottomTabNavigation()
         )
     );
   }

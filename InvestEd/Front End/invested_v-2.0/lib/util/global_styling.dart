@@ -1,4 +1,6 @@
 // InvestEd Color Pallet
+const int whiteBackgroundColor = 0xFFE5EAEB;
+const int greenPrimaryColor = 0xFF24A970;
+const int blackAccentColor = 0xFF212324;
+const int greenAccentColor = 0xFF8FC0AD;
 const int whiteAccentColor = 0xFFFFFFFF;
-const int whiteBackgroundColor = 0xFFF6F6F6;
-const int greenLogoColor = 0xFF24a970;
