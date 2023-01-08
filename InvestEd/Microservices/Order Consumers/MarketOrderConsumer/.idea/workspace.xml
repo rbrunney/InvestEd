@@ -5,21 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="551c2867-427b-4431-b84d-584c19b4e632" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/invested/models/application/order_enums/ExpireTime.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/invested/models/application/order_enums/Status.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/invested/models/application/order_enums/TradeType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/invested/models/application/order_types/BasicOrder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/invested/models/rabbitmq/RabbitMQConsumer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/invested/repositories/OrderJPARepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/invested/services/Requests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/invested/models/application/account/Account.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/invested/repositories/AccountJPARepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/invested/ConsumerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/invested/ConsumerMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/invested/rabbitmq/RabbitMQConsumer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/invested/models/rabbitmq/RabbitMQConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/invested/models/rabbitmq/RabbitMQConsumer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/invested/services/OrderConsumerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/invested/services/OrderConsumerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/invested/services/Requests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/invested/services/Requests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../StopLossConsumer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../StopLossConsumer/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,9 +21,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Enum" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -60,6 +52,7 @@
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;a9706de39b9798eab6471b062f01b0ff&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -139,7 +132,11 @@
       <workItem from="1667365320622" duration="666000" />
       <workItem from="1667486986246" duration="1267000" />
       <workItem from="1672415436159" duration="152000" />
-      <workItem from="1672431147822" duration="10775000" />
+      <workItem from="1672431147822" duration="11833000" />
+      <workItem from="1672799747411" duration="109000" />
+      <workItem from="1672847935034" duration="133000" />
+      <workItem from="1672852876128" duration="142000" />
+      <workItem from="1673137242037" duration="1732000" />
     </task>
     <servers />
   </component>

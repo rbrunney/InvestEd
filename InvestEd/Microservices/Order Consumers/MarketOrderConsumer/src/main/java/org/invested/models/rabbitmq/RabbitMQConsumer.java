@@ -20,7 +20,7 @@ public class RabbitMQConsumer {
     private AmqpTemplate amqpTemplate;
 
     @RabbitListener(queues = "market-order-queue")
-    public void method(String message) {
+    public void consumeMarketOrderMessages(String message) {
         System.out.println(message);
         try {
 //        if(orderService.isTradingHours()) {

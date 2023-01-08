@@ -1,6 +1,9 @@
 package org.invested.services;
 
-import org.springframework.stereotype.Service;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -11,7 +14,7 @@ import java.util.Map;
 
 public class Requests {
 
-    public static Map<String, String> get(String link) {
+    public static JsonNode get(String link) {
         try {
             // Making Connection
             URL url = new URL(link);
@@ -29,29 +32,23 @@ public class Requests {
 
             // Closing Connection
             con.disconnect();
-            return convertResponseToMap(response.toString());
+            return convertResponseToJson(response.toString());
         } catch(Exception e) {
             System.err.println("[ERROR] " + e.getMessage());
         }
 
-        return new HashMap<>();
+        return new ObjectMapper().createObjectNode();
     }
 
-    private static Map<String, String> convertResponseToMap(String responseToConvert) {
+    private static JsonNode convertResponseToJson(String responseToConvert) {
+        ObjectMapper mapper = new ObjectMapper();
 
-        // Replacing the { } so we can just get straight key values
-        responseToConvert = responseToConvert.replace("{", "").replace("}", "").replace(" ", "");
-        Map<String, String> finalResult = new HashMap<>();
-
-        // Splitting to get key values
-        String[] jsonPairs = responseToConvert.split(",");
-
-        // Generating map based off of message
-        for(String pair : jsonPairs) {
-            String[] keyValue = pair.split("=");
-            finalResult.put(keyValue[0], keyValue[1]);
+        try {
+            return mapper.readTree(responseToConvert);
+        } catch (JsonProcessingException jpe) {
+            System.err.println("[ERROR] " + jpe.getMessage());
         }
 
-        return finalResult;
+        return mapper.createObjectNode();
     }
 }

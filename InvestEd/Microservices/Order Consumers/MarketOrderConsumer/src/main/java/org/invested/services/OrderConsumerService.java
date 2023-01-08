@@ -1,7 +1,10 @@
 package org.invested.services;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import org.invested.models.application.account.Account;
 import org.invested.models.application.order_enums.Status;
 import org.invested.models.application.order_types.BasicOrder;
+import org.invested.repositories.AccountJPARepository;
 import org.invested.repositories.OrderJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,13 +14,15 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoField;
-import java.util.Map;
 
 @Service
 public class OrderConsumerService {
 
     @Autowired
     private OrderJPARepository orderRepo;
+
+    @Autowired
+    private AccountJPARepository accountRepo;
 
     /**
      * A method to determine if current time is within trading hours
@@ -52,18 +57,32 @@ public class OrderConsumerService {
     }
 
     /**
-     * A method for executing a buy on a order
+     * A method for executing a buy on an order
      * @param currentOrder A Basic Order Object
      */
     public void executeBuy(BasicOrder currentOrder) {
-        double originalTotalOrderPrice = currentOrder.getPricePerShare() * currentOrder.getStockQuantity();
 
-        // TODO Get Current Price
-        Map<String, String> getPriceResponse = Requests.get("http://localhost:8888/invested_stock/" + currentOrder.getTicker() + "/price");
-        // TODO Calculate new totalOrderPrice
-        // TODO Get Original and New and check the difference
-            // TODO if more than call execute buy else take it
-            // TODO Update account buying power accordingly
+        // Getting current ticker price
+        JsonNode currentPriceResponse = Requests.get("http://localhost:8888/invested_stock/" + currentOrder.getTicker() + "/price");
+        double currentTickerPrice = currentPriceResponse.get("results").get("current_price").asDouble();
+
+        double originalTotalOrderPrice = currentOrder.getPricePerShare() * currentOrder.getStockQuantity();
+        double newTotalOrderPrice = currentTickerPrice * currentOrder.getStockQuantity();
+
+        if(originalTotalOrderPrice > newTotalOrderPrice) {
+            // Updating User Account Information
+            double buyingPowerToGiveBack = originalTotalOrderPrice - newTotalOrderPrice;
+            Account userToUpdate = accountRepo.getAccountById(currentOrder.getUser());
+            userToUpdate.setBuyingPower(userToUpdate.getBuyingPower() + buyingPowerToGiveBack);
+            accountRepo.save(userToUpdate);
+
+            // Updating Order information
+            currentOrder.setPricePerShare(currentTickerPrice);
+        }
+
+        currentOrder.setOrderFulFilledDate(LocalDateTime.now());
+        currentOrder.setCurrentStatus(Status.COMPLETED);
+        orderRepo.save(currentOrder);
     }
 
     /**
