@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:invested/pages/portfolio/portfolio_page.dart';
 
 import '../util/global_styling.dart' as global_style;
 
@@ -35,7 +36,7 @@ class _BottomTabNavigationState extends State<BottomTabNavigation> {
             });
           },
           children: const [
-            SafeArea(child: Scaffold(body: Text("Portfolio"))),
+            PortfolioPage(),
             SafeArea(child: Scaffold(body: Text("Lesson"))),
             SafeArea(child: Scaffold(body: Text("Challenge"))),
             SafeArea(child: Scaffold(body: Text("Account"))),
