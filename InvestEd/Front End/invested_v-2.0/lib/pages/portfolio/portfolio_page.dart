@@ -148,7 +148,17 @@ class _PortfolioPageState extends State<PortfolioPage> {
                       child: StockInfoCard(
                         height: MediaQuery.of(context).size.height * 0.15,
                         width: MediaQuery.of(context).size.width,
+                        logo: "https://api.polygon.io/v1/reference/company-branding/d3d3LmFtYXpvbi5jb20/images/2023-01-01_icon.jpeg?apiKey=pWnmnyskgOhWmfE226LWf4BH4vDY1i73",
                       )
+                    ),
+                    Container(
+                        margin: const EdgeInsets.only(top: 15),
+                        padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
+                        child: StockInfoCard(
+                          height: MediaQuery.of(context).size.height * 0.15,
+                          width: MediaQuery.of(context).size.width,
+                          logo: "https://api.polygon.io/v1/reference/company-branding/d3d3Lm1pY3Jvc29mdC5jb20/images/2023-01-01_icon.jpeg?apiKey=pWnmnyskgOhWmfE226LWf4BH4vDY1i73",
+                        )
                     )
                   ],
                 ),
