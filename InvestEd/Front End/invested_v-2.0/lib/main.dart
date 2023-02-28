@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:invested/navigation/bottom_tab_navigation.dart';
-import '../util/global_styling.dart' as global_style;
+import 'util/style/global_styling.dart' as global_style;
 
 void main() {
   runApp(const MyApp());

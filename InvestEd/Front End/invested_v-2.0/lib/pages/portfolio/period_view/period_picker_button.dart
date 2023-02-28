@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:invested/util/text/custom_text.dart';
-import 'package:invested/util/global_styling.dart' as global_style;
+import 'package:invested/util/widget/text/custom_text.dart';
+import 'package:invested/util/style/global_styling.dart' as global_style;
 
 
 class PeriodPickerButton extends StatefulWidget {

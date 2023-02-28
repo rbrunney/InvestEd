@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import "package:invested/util/global_styling.dart" as global_style;
+import 'package:invested/util/style/global_styling.dart' as global_style;
 
 class LineGraph extends StatefulWidget {
   final double height;

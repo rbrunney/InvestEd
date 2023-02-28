@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:invested/util/global_styling.dart' as global_style;
+import 'package:invested/util/style/global_styling.dart' as global_style;
 
 class ToPrevPage extends StatelessWidget {
   const ToPrevPage({Key? key}) : super(key: key);

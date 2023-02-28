@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:invested/util/global_styling.dart' as global_style;
+import 'package:invested/util/style/global_styling.dart' as global_style;
 
 class CustomText extends StatefulWidget {
   double topMargin;

@@ -2,9 +2,9 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:invested/pages/portfolio/period_view/period_choice.dart';
-import 'package:invested/pages/portfolio/stock_info/stock_card.dart';
-import 'package:invested/util/global_styling.dart' as global_style;
-import 'package:invested/util/line_graph.dart';
+import 'package:invested/pages/stock_info/stock_card.dart';
+import 'package:invested/util/style/global_styling.dart' as global_style;
+import 'package:invested/util/widget/graphs/line_graph.dart';
 
 class PortfolioPage extends StatefulWidget {
   const PortfolioPage({Key? key}) : super(key: key);
@@ -133,14 +133,20 @@ class _PortfolioPageState extends State<PortfolioPage> {
                       alignment: Alignment.centerLeft,
                       margin: const EdgeInsets.only(top: 10),
                       padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.06),
-                      child: Text(
-                        "Stocks",
-                        style: TextStyle(
-                            fontFamily: global_style.titleFont,
-                            fontSize: 30,
-                            color: const Color(global_style.blackAccentColor)
-                        ),
-                      ),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Stocks",
+                            style: TextStyle(
+                                fontFamily: global_style.titleFont,
+                                fontSize: 30,
+                                color: const Color(global_style.blackAccentColor)
+                            ),
+                          ),
+                          const Spacer(),
+                          const Icon(Ionicons.filter)
+                        ],
+                      )
                     ),
                     Container(
                       margin: const EdgeInsets.only(top: 15),

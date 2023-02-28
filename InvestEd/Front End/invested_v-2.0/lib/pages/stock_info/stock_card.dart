@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:invested/pages/portfolio/stock_info/page/basic_stock_info.dart';
-import 'package:invested/util/global_styling.dart' as global_style;
+import 'package:invested/pages/stock_info/basic_stock_info.dart';
+import 'package:invested/util/style/global_styling.dart' as global_style;
 import 'package:page_transition/page_transition.dart';
 
 class StockInfoCard extends StatefulWidget {
