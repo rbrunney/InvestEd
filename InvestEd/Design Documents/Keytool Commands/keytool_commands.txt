@@ -1,5 +1,5 @@
 // To Generate Keys
-keytool -genkey -v -keystore my-key.keystore -alias alias_name -keyalg RSA -keysize 2048 -validity 10000
+keytool -genkey -v -keystore invested.keystore -alias invested -keyalg RSA -keysize 2048 -validity 10000
 
 // To List Keys
-keytool -list -v -keystore my-key.keystore -alias alias_name
+keytool -list -v -keystore invested.keystore -alias invested

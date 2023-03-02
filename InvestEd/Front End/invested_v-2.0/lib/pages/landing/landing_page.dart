@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:get/get.dart';
+import 'package:invested/main.dart';
+import 'package:invested/pages/landing/login_controller.dart';
 import 'package:invested/util/widget/text/custom_text.dart';
 import 'package:invested/util/widget/text/page_title.dart';
 import 'package:invested/util/style/global_styling.dart' as global_style;
+import 'package:page_transition/page_transition.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -13,16 +15,7 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  final FirebaseAuth auth = FirebaseAuth.instance;
-  final GoogleSignIn googleSignIn = GoogleSignIn();
-
-  Future<void> handleSignIn() async {
-    try {
-      await googleSignIn.signIn();
-    } catch (error) {
-      print(error);
-    }
-  }
+  final controller = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -39,27 +32,74 @@ class _LandingPageState extends State<LandingPage> {
                       alignment: Alignment.center,
                       fontSize: 30,
                     )),
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                      decoration: const BoxDecoration(
-                          color: Color(global_style.greenPrimaryColor),
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      child: SizedBox(
-                        height: 45,
-                        width: MediaQuery.of(context).size.width * 0.90,
-                        child: CustomText(
-                          text: 'Register',
-                          color: const Color(global_style.whiteAccentColor),
-                          fontSize: 16,
-                        ),
-                      )),
-                ),
-                InkWell(
-                  onTap: () async {
-                    handleSignIn();
-                  },
-                  child: const Text('Sign In'),
+                buildRegisterButton(),
+                Obx(() {
+                  if (controller.googleAccount.value == null) {
+                    return buildGoogleSignInButton();
+                  } else {
+                    return const Text('Logged In');
+                  }
+                })
+              ],
+            ),
+          )),
+    );
+  }
+
+  InkWell buildRegisterButton() {
+    return InkWell(
+        onTap: () {
+          controller.logout();
+        },
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          decoration: const BoxDecoration(
+              color: Color(global_style.greenPrimaryColor),
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: SizedBox(
+              height: 45,
+              width: MediaQuery.of(context).size.width * 0.90,
+              child: CustomText(
+                text: 'Register',
+                color: const Color(global_style.whiteAccentColor),
+                fontSize: 18,
+                leftMargin: 10,
+              )),
+        ));
+  }
+
+  InkWell buildGoogleSignInButton() {
+    return InkWell(
+      onTap: () async {
+        await controller.login();
+
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+            context,
+            PageTransition(
+              type: PageTransitionType.bottomToTop,
+              child: const HomePage(),
+            ));
+      },
+      child: Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          decoration: BoxDecoration(
+              border:
+                  Border.all(color: const Color(global_style.greenAccentColor)),
+              borderRadius: const BorderRadius.all(Radius.circular(10))),
+          child: SizedBox(
+            height: 45,
+            width: MediaQuery.of(context).size.width * 0.90,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('./assets/images/google_logo.png',
+                    height: 32, width: 32),
+                CustomText(
+                  text: 'Sign in with Google',
+                  color: const Color(global_style.blackAccentColor),
+                  fontSize: 18,
+                  leftMargin: 10,
                 )
               ],
             ),

@@ -39,6 +39,7 @@ dependencies:
   page_transition: ^2.0.9
   google_sign_in: ^6.0.1
   firebase_auth: ^4.2.9
+  get: ^4.6.5
 
 dev_dependencies:
   flutter_test:
@@ -94,8 +95,7 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 
   assets:
-      - assets/images/logo.png
-      - assets/images/icon.png
+      - assets/images/
       - assets/fonts/Work_Sans/static/WorkSans-Regular.ttf
 
   fonts:
