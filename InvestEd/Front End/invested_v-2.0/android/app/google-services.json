@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "962811506310",
+    "project_id": "invested-19eb7",
+    "storage_bucket": "invested-19eb7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:962811506310:android:2c72edfaa0e53cc4aa2b07",
+        "android_client_info": {
+          "package_name": "org.invested.invested"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "962811506310-gj5nb4va179vf9f34qlb6rl57209ntvs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqTQWF1iAvxQTKYuzd5Dc5BDrP-XMM6do"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "962811506310-gj5nb4va179vf9f34qlb6rl57209ntvs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
