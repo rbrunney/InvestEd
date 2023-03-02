@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class LoginController extends GetxController {
+class GoogleLoginController extends GetxController {
   var _googleSignIn = GoogleSignIn();
   var googleAccount = Rx<GoogleSignInAccount?>(null);
 

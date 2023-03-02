@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:invested/main.dart';
-import 'package:invested/pages/landing/login_controller.dart';
+import 'package:invested/controllers/google_login_controller.dart';
 import 'package:invested/util/widget/text/custom_text.dart';
 import 'package:invested/util/widget/text/page_title.dart';
 import 'package:invested/util/style/global_styling.dart' as global_style;
@@ -15,7 +15,7 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  final controller = Get.put(LoginController());
+  final googleController = Get.put(GoogleLoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +33,9 @@ class _LandingPageState extends State<LandingPage> {
                       fontSize: 30,
                     )),
                 buildRegisterButton(),
-                Obx(() {
-                  if (controller.googleAccount.value == null) {
-                    return buildGoogleSignInButton();
-                  } else {
-                    return const Text('Logged In');
-                  }
-                })
+                buildGoogleSignInButton(),
+                buildFacebookSignInButton(),
+                const PageTitle(title: 'Login', alignment: Alignment.center, fontSize: 18,)
               ],
             ),
           )),
@@ -49,7 +45,7 @@ class _LandingPageState extends State<LandingPage> {
   InkWell buildRegisterButton() {
     return InkWell(
         onTap: () {
-          controller.logout();
+          googleController.logout();
         },
         child: Container(
           margin: const EdgeInsets.only(bottom: 10),
@@ -71,7 +67,7 @@ class _LandingPageState extends State<LandingPage> {
   InkWell buildGoogleSignInButton() {
     return InkWell(
       onTap: () async {
-        await controller.login();
+        await googleController.login();
 
         // ignore: use_build_context_synchronously
         Navigator.push(
@@ -97,6 +93,45 @@ class _LandingPageState extends State<LandingPage> {
                     height: 32, width: 32),
                 CustomText(
                   text: 'Sign in with Google',
+                  color: const Color(global_style.blackAccentColor),
+                  fontSize: 18,
+                  leftMargin: 10,
+                )
+              ],
+            ),
+          )),
+    );
+  }
+
+  InkWell buildFacebookSignInButton() {
+    return InkWell(
+      onTap: () async {
+        await googleController.login();
+
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+            context,
+            PageTransition(
+              type: PageTransitionType.bottomToTop,
+              child: const HomePage(),
+            ));
+      },
+      child: Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          decoration: BoxDecoration(
+              border:
+                  Border.all(color: const Color(global_style.greenAccentColor)),
+              borderRadius: const BorderRadius.all(Radius.circular(10))),
+          child: SizedBox(
+            height: 45,
+            width: MediaQuery.of(context).size.width * 0.90,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('./assets/images/facebook_logo.png',
+                    height: 32, width: 32),
+                CustomText(
+                  text: 'Sign in with Facebook',
                   color: const Color(global_style.blackAccentColor),
                   fontSize: 18,
                   leftMargin: 10,
