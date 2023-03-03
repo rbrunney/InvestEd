@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:invested/util/data/global_data.dart' as global_data;
 
 class FacebookLoginController extends GetxController {
   Map<String, dynamic>? userData;
@@ -14,6 +15,7 @@ class FacebookLoginController extends GetxController {
       userData = await FacebookAuth.instance.getUserData();
     } else {
       login();
+      _updateGlobalData();
     }
   }
 
@@ -35,6 +37,15 @@ class FacebookLoginController extends GetxController {
     await FacebookAuth.instance.logOut();
     accessToken = null;
     userData = null;
+  }
 
+  _updateGlobalData() {
+    // Update Global User Data
+    global_data.userData["name"] = userData!["name"];
+    global_data.userData["email"] = userData!["email"];
+    global_data.userData["photoUrl"] = userData!["picture"]["data"]["url"];
+
+    // Update LoginType for later
+    global_data.currentLoginType = global_data.LoginType.facebook;
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:invested/controllers/google_login_controller.dart';
+import 'package:invested/controllers/login_controllers/google_login_controller.dart';
 import 'package:invested/navigation/bottom_tab_navigation.dart';
 import 'package:invested/pages/landing/landing_page.dart';
 import 'util/style/global_styling.dart' as global_style;
