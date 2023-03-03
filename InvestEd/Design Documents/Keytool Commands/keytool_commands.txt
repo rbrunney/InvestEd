@@ -3,3 +3,5 @@ keytool -genkey -v -keystore invested.keystore -alias invested -keyalg RSA -keys
 
 // To List Keys
 keytool -list -v -keystore invested.keystore -alias invested
+
+keytool -exportcert -alias androiddebugkey -keystore "C:\Users\rbrunney\.android\debug.keystore" | "C:\Program Files\OpenSSL\bin\openssl" sha1 -binary | "C:\Program Files\OpenSSL\bin\openssl" base64

@@ -16,7 +16,6 @@ class MyApp extends StatelessWidget {
     // Need to Check for InvestEd Login
     // Need to Check for Facebook Login
     final googleController = Get.put(GoogleLoginController());
-    print(googleController.googleAccount.value);
     return googleController.googleAccount.value != null;
   }
 

@@ -9,6 +9,7 @@ class CustomText extends StatefulWidget {
   double fontSize;
   String text;
   Alignment alignment;
+  FontWeight fontWeight;
   Color color;
 
   CustomText({
@@ -20,7 +21,8 @@ class CustomText extends StatefulWidget {
     this.fontSize = 15,
     this.text = '',
     this.color = const Color(global_style.blackAccentColor),
-    this.alignment = Alignment.center
+    this.alignment = Alignment.center,
+    this.fontWeight = FontWeight.normal
   }) : super(key: key);
 
   @override
@@ -38,6 +40,7 @@ class _CustomTextState extends State<CustomText> {
           style: TextStyle(
               fontFamily: global_style.textFont,
               fontSize: widget.fontSize,
+              fontWeight: widget.fontWeight,
               color: widget.color
           ),
         )
