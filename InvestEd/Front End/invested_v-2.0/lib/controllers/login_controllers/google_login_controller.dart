@@ -1,10 +1,14 @@
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:invested/util/data/global_data.dart' as global_data;
+import 'package:invested/controllers/user_data_controllers/user_data_controller.dart';
+import 'login_type_controller.dart';
 
 class GoogleLoginController extends GetxController {
   var _googleSignIn = GoogleSignIn();
   var googleAccount = Rx<GoogleSignInAccount?>(null);
+
+  final loginTypeController = Get.put(LoginTypeController());
+  final userDataController = Get.put(UserDataController());
 
   login() async {
     googleAccount.value = await _googleSignIn.signIn();
@@ -13,15 +17,17 @@ class GoogleLoginController extends GetxController {
 
   logout() async {
     googleAccount.value = await _googleSignIn.signOut();
+    userDataController.clearUserData();
+    loginTypeController.clearCurrentLoginType();
   }
 
   _updateGlobalData() {
     // Update Global User Data
-    global_data.userData["name"] = googleAccount.value!.displayName;
-    global_data.userData["email"] = googleAccount.value!.email;
-    global_data.userData["photoUrl"] = googleAccount.value!.photoUrl;
+    userDataController.setUserData(
+        googleAccount.value!.displayName.toString(), googleAccount.value!.email, googleAccount.value!.photoUrl.toString()
+    );
 
     // Update LoginType for later
-    global_data.currentLoginType = global_data.LoginType.google;
+    loginTypeController.setCurrentLoginType(LoginType.google);
   }
 }

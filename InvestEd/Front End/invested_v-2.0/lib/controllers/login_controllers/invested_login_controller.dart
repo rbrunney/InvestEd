@@ -1,32 +1,29 @@
 import 'package:get/get.dart';
-import 'package:invested/util/data/global_data.dart' as global_data;
+import 'package:invested/controllers/user_data_controllers/user_data_controller.dart';
+import 'login_type_controller.dart';
 
 class InvestedLoginController extends GetxController {
+  final loginTypeController = Get.put(LoginTypeController());
+  final userDataController = Get.put(UserDataController());
+
   Map<String, dynamic>? userData;
 
   login() async {
     // Make Request Here
     // Get User Data
-    userData!['name'] = '';
-    userData!['email'] = '';
-    userData!['photoUrl'] = '';
-
-    _updateGlobalData();
+    _updateGlobalData('', '', '');
   }
 
   logout() async {
-    global_data.userData['name'] = '';
-    global_data.userData['email'] = '';
-    global_data.userData['photoUrl'] = '';
+    userDataController.clearUserData();
+    loginTypeController.clearCurrentLoginType();
   }
 
-  _updateGlobalData() {
+  _updateGlobalData(String name, String email, String photoUrl) {
     // Update Global User Data
-    global_data.userData['name'] = userData!['name'];
-    global_data.userData['email'] = userData!['email'];
-    global_data.userData['photoUrl'] = userData!['photoUrl'];
+    userDataController.setUserData(name, email, photoUrl);
 
     // Update LoginType for later
-    global_data.currentLoginType = global_data.LoginType.invested;
+    loginTypeController.setCurrentLoginType(LoginType.invested);
   }
 }
