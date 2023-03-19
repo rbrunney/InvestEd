@@ -8,6 +8,8 @@ import 'package:invested/util/widget/text/custom_text_field.dart';
 import 'package:invested/util/widget/text/page_title.dart';
 import 'package:page_transition/page_transition.dart';
 
+import 'additional_detail/additional_detail_page.dart';
+
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
 
@@ -21,7 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
     Navigator.push(
         context,
         PageTransition(
-            child: const LoginPage(),
+            child: const AccountDetailsPage(),
             type: PageTransitionType.rightToLeftWithFade
         )
     );
