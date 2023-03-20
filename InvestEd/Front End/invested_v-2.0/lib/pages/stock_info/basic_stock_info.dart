@@ -1,8 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:invested/pages/portfolio/period_view/period_choice.dart';
 import 'package:invested/pages/stock_info/basic_stat_card/basic_stock_stat_card.dart';
-import 'package:invested/pages/stock_info/display_portoflio_gain.dart';
+import 'package:invested/util/widget/data/price_history/period_view/period_choice.dart';
 import 'package:invested/util/style/global_styling.dart' as global_style;
 import 'package:invested/util/widget/page/to_previous_page.dart';
 import 'package:invested/util/widget/text/custom_text.dart';

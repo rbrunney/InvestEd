@@ -1,10 +1,11 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:invested/pages/portfolio/period_view/period_choice.dart';
-import 'package:invested/pages/stock_info/stock_card.dart';
+import 'package:invested/util/widget/data/cash_gain.dart';
 import 'package:invested/util/style/global_styling.dart' as global_style;
-import 'package:invested/util/widget/graphs/line_graph.dart';
+import 'package:invested/util/widget/data/price_history/price_history.dart';
+import 'package:invested/util/widget/data/stock_card.dart';
+import 'package:invested/util/widget/text/custom_text.dart';
+import 'package:invested/util/widget/text/page_title.dart';
 
 class PortfolioPage extends StatefulWidget {
   const PortfolioPage({Key? key}) : super(key: key);
@@ -19,143 +20,21 @@ class _PortfolioPageState extends State<PortfolioPage> {
     return SafeArea(
         child: Scaffold(
             body: Stack(
-      children: [
-        buildTopGreenPatch(),
-        SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                  alignment: Alignment.centerLeft,
-                  margin: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.05),
-                  padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.05),
-                  child: Text(
-                    "Investing",
-                    style: TextStyle(
-                        fontFamily: global_style.titleFont,
-                        fontSize: 45,
-                        color: const Color(global_style.whiteAccentColor)),
-                  )),
-              Container(
-                  alignment: Alignment.centerLeft,
-                  margin: const EdgeInsets.only(top: 10, bottom: 10),
-                  padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.05),
-                  child: Text(
-                    "\$4,500.75",
-                    style: TextStyle(
-                        fontFamily: global_style.textFont,
-                        fontSize: 35,
-                        color: const Color(global_style.whiteAccentColor)),
-                  )),
-              Container(
-                  alignment: Alignment.centerLeft,
-                  margin: const EdgeInsets.only(top: 5, bottom: 10),
-                  padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.05),
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.05,
-                    width: MediaQuery.of(context).size.width * 0.40,
-                    child: Card(
-                        color: const Color(global_style.greenAccentColor),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Container(
-                            alignment: Alignment.center,
-                            child: Text(
-                              "\$258.79 (^5.75%)",
-                              style: TextStyle(
-                                  fontFamily: global_style.titleFont,
-                                  fontSize: 17,
-                                  color: const Color(
-                                      global_style.greenAccentTextColor)),
-                            ))),
-                  )),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 10),
-                padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.05),
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.35,
-                  child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Column(
-                        children: [
-                          Container(
-                              padding: const EdgeInsets.only(
-                                  top: 35, left: 25, right: 25),
-                              child: LineGraph(
-                                width: MediaQuery.of(context).size.width,
-                                maxY: 5,
-                                maxX: 6,
-                                graphLineData: const [
-                                  FlSpot(0, 5),
-                                  FlSpot(1, 3),
-                                  FlSpot(2, 5),
-                                  FlSpot(3, 2),
-                                  FlSpot(4, 3),
-                                  FlSpot(5, 5),
-                                  FlSpot(6, 2)
-                                ],
-                                previousCloseData: const [
-                                  FlSpot(0, 3),
-                                  FlSpot(6, 3)
-                                ],
-                              )),
-                          Container(
-                            padding: const EdgeInsets.only(left: 25, right: 25),
-                            child: PeriodChoice(),
-                          )
-                        ],
-                      )),
-                ),
-              ),
-              Container(
-                  alignment: Alignment.centerLeft,
-                  margin: const EdgeInsets.only(top: 10),
-                  padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.06),
-                  child: Row(
+              children: [
+                buildTopGreenPatch(),
+                SingleChildScrollView(
+                  child: Column(
                     children: [
-                      Text(
-                        "Stocks",
-                        style: TextStyle(
-                            fontFamily: global_style.titleFont,
-                            fontSize: 30,
-                            color: const Color(global_style.blackAccentColor)),
-                      ),
-                      const Spacer(),
-                      const Icon(Ionicons.filter)
+                      buildHeader(),
+                      buildPortfolioValue(4500.75),
+                      buildPortfolioTotalGain(0, 0),
+                      buildPortfolioHistory(0, 0, 0, []),
+                      buildPortfolioHeader(),
+                      buildPortfolio()
                     ],
-                  )),
-              Container(
-                  margin: const EdgeInsets.only(top: 15),
-                  padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.05),
-                  child: StockInfoCard(
-                    height: MediaQuery.of(context).size.height * 0.15,
-                    width: MediaQuery.of(context).size.width,
-                    logo:
-                        "https://api.polygon.io/v1/reference/company-branding/d3d3LmFtYXpvbi5jb20/images/2023-01-01_icon.jpeg?apiKey=pWnmnyskgOhWmfE226LWf4BH4vDY1i73",
-                  )),
-              Container(
-                  margin: const EdgeInsets.only(top: 15),
-                  padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.05),
-                  child: StockInfoCard(
-                    height: MediaQuery.of(context).size.height * 0.15,
-                    width: MediaQuery.of(context).size.width,
-                    logo:
-                        "https://api.polygon.io/v1/reference/company-branding/d3d3Lm1pY3Jvc29mdC5jb20/images/2023-01-01_icon.jpeg?apiKey=pWnmnyskgOhWmfE226LWf4BH4vDY1i73",
-                  ))
-            ],
-          ),
-        )
-      ],
+                  ),
+                )
+              ],
     )));
   }
 
@@ -170,6 +49,123 @@ class _PortfolioPageState extends State<PortfolioPage> {
                 0.35, // Multiply to get 30%
             color: const Color(global_style.greenPrimaryColor))
       ],
+    );
+  }
+
+  Row buildHeader() {
+    return Row(
+      children: [
+        Container(
+            margin: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height * 0.05,
+              left: MediaQuery.of(context).size.width * 0.05
+            ),
+            child: const PageTitle(
+              title: "Investing",
+              fontSize: 45,
+              color: Color(global_style.whiteAccentColor),
+            ),
+        ),
+        const Spacer(),
+        Container(
+          margin: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height * 0.04,
+            right: MediaQuery.of(context).size.width * 0.05
+          ),
+          child: IconButton(
+            icon: const Icon(
+              Icons.search,
+              size: 30,
+              color: Color(global_style.whiteAccentColor),
+            ),
+            onPressed: () {
+              print('Search');
+            },
+          )
+        )
+      ],
+    );
+  }
+
+  Container buildPortfolioValue(double portfolioValue) {
+    return Container(
+      margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
+      child: CustomText(
+        alignment: Alignment.centerLeft,
+        text: "\$$portfolioValue",
+        fontSize: 35,
+        color: const Color(global_style.whiteAccentColor)
+      )
+    );
+  }
+
+  Container buildPortfolioTotalGain(double cashGain, double percentageGain) {
+    return Container(
+        alignment: Alignment.centerLeft,
+        margin: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height * 0.01,
+            left: MediaQuery.of(context).size.width * 0.05
+        ),
+        child: CashGainCard(cashGain: cashGain, percentageGain: percentageGain)
+    );
+  }
+
+  Container buildPortfolioHistory(double minPrice, double maxPrice, double previousClose, List<double> pricePoints) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.02, horizontal: MediaQuery.of(context).size.width * 0.05),
+      child: PriceHistoryCard(
+        minPrice: minPrice - 5,
+        maxPrice: maxPrice + 5,
+        previousClose: previousClose,
+        pricePoints: pricePoints
+      )
+    );
+  }
+
+  Container buildPortfolioHeader() {
+    return Container(
+        alignment: Alignment.centerLeft,
+        margin: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width * 0.06,
+        ),
+        child: Row(
+          children: [
+            const PageTitle(title: 'Stocks', fontSize: 30, bottomMargin: 0),
+            const Spacer(),
+            IconButton(
+              icon: const Icon(Ionicons.filter),
+              onPressed: () {},
+            )
+          ],
+        )
+    );
+  }
+
+  Container buildPortfolio() {
+    return Container(
+      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
+      child: Column(
+        children: [
+          Container(
+              margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
+              child: Row(
+                children: const [
+                  StockCard(
+                      tickerLogo: 'https://api.polygon.io/v1/reference/company-branding/d3d3LmFtYXpvbi5jb20/images/2023-01-01_icon.jpeg?apiKey=pWnmnyskgOhWmfE226LWf4BH4vDY1i73',
+                      ticker: 'AMZN',
+                      totalGain: 35
+                  ),
+                  Spacer(),
+                  StockCard(
+                      tickerLogo: 'https://api.polygon.io/v1/reference/company-branding/d3d3LmFtYXpvbi5jb20/images/2023-01-01_icon.jpeg?apiKey=pWnmnyskgOhWmfE226LWf4BH4vDY1i73',
+                      ticker: 'AMZN',
+                      totalGain: 35
+                  )
+                ],
+              )
+          )
+        ],
+      )
     );
   }
 }

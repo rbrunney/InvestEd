@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:invested/pages/portfolio/period_view/period_picker_button.dart';
+import 'package:invested/util/widget/data/price_history/period_view/period_picker_button.dart';
 
 class PeriodChoice extends StatefulWidget {
   String gainPeriod;
