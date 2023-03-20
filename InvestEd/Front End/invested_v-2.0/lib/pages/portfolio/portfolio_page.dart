@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:invested/pages/search/search_page.dart';
 import 'package:invested/util/widget/data/cash_gain.dart';
 import 'package:invested/util/style/global_styling.dart' as global_style;
 import 'package:invested/util/widget/data/price_history/price_history.dart';
 import 'package:invested/util/widget/data/stock_card.dart';
 import 'package:invested/util/widget/text/custom_text.dart';
 import 'package:invested/util/widget/text/page_title.dart';
+import 'package:page_transition/page_transition.dart';
 
 class PortfolioPage extends StatefulWidget {
   const PortfolioPage({Key? key}) : super(key: key);
@@ -79,7 +81,13 @@ class _PortfolioPageState extends State<PortfolioPage> {
               color: Color(global_style.whiteAccentColor),
             ),
             onPressed: () {
-              print('Search');
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      child: const SearchPage(),
+                      type: PageTransitionType.rightToLeftWithFade
+                  )
+              );
             },
           )
         )
