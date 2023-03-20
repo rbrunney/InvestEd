@@ -65,7 +65,7 @@ class _PriceHistoryCardState extends State<PriceHistoryCard> {
           child: Column(
             children: [
               Container(
-                  padding: const EdgeInsets.only(top: 35, left: 25, right: 25),
+                  padding: const EdgeInsets.only(top: 25, left: 25, right: 25, bottom: 10),
                   child: LineGraph(
                     graphLineColor: currentLineColor,
                     width: MediaQuery.of(context).size.width,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:invested/pages/stock_info/basic_stock_info.dart';
+import 'package:invested/pages/stock_info/basic_stock_info_page.dart';
 import 'package:invested/util/widget/text/custom_text.dart';
 import 'package:invested/util/widget/text/page_title.dart';
 import 'package:page_transition/page_transition.dart';
@@ -29,7 +29,7 @@ class _StockCardState extends State<StockCard> {
         Navigator.push(
             context,
             PageTransition(
-                child: const BasicStockInfoPage(),
+                child: BasicStockInfoPage(ticker: widget.ticker),
                 type: PageTransitionType.rightToLeftWithFade)
         );
       },
