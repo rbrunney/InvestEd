@@ -5,6 +5,7 @@ import 'package:invested/controllers/login_controllers/invested_login_controller
 import 'package:invested/controllers/user_data_controllers/user_data_controller.dart';
 import 'package:invested/main.dart';
 import 'package:invested/pages/landing/landing_button.dart';
+import 'package:invested/pages/login/login_page.dart';
 import 'package:invested/pages/register/register_page.dart';
 import 'package:invested/util/widget/page/alert.dart';
 import 'package:invested/util/widget/text/page_title.dart';
@@ -131,7 +132,7 @@ class _LandingPageState extends State<LandingPage> {
   LandingButton buildLoginButton() {
     return LandingButton(
       onTap: () async {
-
+        pushToNewPage(const LoginPage(), PageTransitionType.fade);
       },
       hasBorder: true,
       text: 'Login'
