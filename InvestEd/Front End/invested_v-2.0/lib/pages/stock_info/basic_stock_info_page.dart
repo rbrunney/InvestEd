@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:invested/pages/landing/landing_button.dart';
 import 'package:invested/util/style/global_styling.dart' as global_style;
 import 'package:invested/util/widget/data/cash_gain.dart';
@@ -32,33 +33,13 @@ class _BasicStockInfoPageState extends State<BasicStockInfoPage> {
                     buildHeader(),
                     buildCurrentPrice(98.95),
                     buildTickerTotalGain(0, 0),
-                    buildTickerPriceHistory(0, 0, 0, [])
+                    buildTickerPriceHistory(0, 0, 0, []),
+                    buildBasicTickerInfoCard(),
+                    // buildAboutTickerCard('This is about Amazon Pretty Poggers')
                   ],
                 ),
-              ),Column(
-                  children: [
-                    Expanded(
-                      child: Container(
-                          alignment: Alignment.bottomCenter,
-                          child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.08,
-                            width: MediaQuery.of(context).size.width,
-                            child: Container(
-                              color: const Color(global_style.whiteAccentColor),
-                              child: Container(
-                                margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01, horizontal: MediaQuery.of(context).size.width * 0.05),
-                                child: LandingButton(
-                                  onTap: () {},
-                                  hasFillColor: true,
-                                  text: 'Buy',
-                                )
-                              )
-                            )
-                          )
-                      )
-                    )
-                  ],
-                )
+              ),
+              buildBuyButton()
             ]
         ),
       )
@@ -146,6 +127,123 @@ class _BasicStockInfoPageState extends State<BasicStockInfoPage> {
             previousClose: previousClose,
             pricePoints: pricePoints
         )
+    );
+  }
+
+  Container buildBasicTickerInfoCard() {
+    return Container (
+      margin: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.05,
+          vertical: MediaQuery.of(context).size.height * 0.025
+      ),
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.18,
+        width: MediaQuery.of(context).size.width,
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: GridView(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              childAspectRatio: 1.7
+            ),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              buildBasicStat("Open", "\$90.95"),
+              buildBasicStat("High", "\$90.95"),
+              buildBasicStat("Low", "\$90.95"),
+              buildBasicStat("Volume", "\$90.95"),
+              buildBasicStat("Market Cap", "\$90.95"),
+              buildBasicStat("Dividend", "\$90.95")
+            ],
+          ),
+        )
+      )
+    );
+  }
+
+  Container buildBasicStat(String title, String stat) {
+    return Container(
+      alignment: Alignment.center,
+      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.015),
+      child: Column(
+        children: [
+          CustomText(
+            text: title,
+            fontSize: 17,
+            fontWeight: FontWeight.bold,
+            bottomMargin: MediaQuery.of(context).size.height * 0.01,
+            color: const Color(global_style.greenAccentTextColor),
+          ),
+          CustomText(
+            text: stat,
+            fontSize: 17,
+          )
+        ],
+      )
+    );
+  }
+
+  Container buildAboutTickerCard(String description) {
+    return Container (
+      margin: EdgeInsets.only(
+          top: MediaQuery.of(context).size.width * 0.05,
+          bottom: MediaQuery.of(context).size.width * 0.2,
+          left: MediaQuery.of(context).size.height * 0.025,
+          right: MediaQuery.of(context).size.height * 0.025
+      ),
+      child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.18,
+          width: MediaQuery.of(context).size.width,
+          child: Card(
+            shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
+              children: [
+                CustomText(
+                  text: 'About ${widget.ticker}',
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                  bottomMargin: MediaQuery.of(context).size.height * 0.01,
+                  color: const Color(global_style.greenAccentTextColor),
+                ),
+                CustomText(
+                  text: '     $description',
+                )
+              ],
+            )
+          )
+      )
+    );
+  }
+
+  Column buildBuyButton() {
+    return Column(
+      children: [
+        Expanded(
+            child: Container(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.08,
+                    width: MediaQuery.of(context).size.width,
+                    child: Container(
+                        color: const Color(global_style.whiteAccentColor),
+                        child: Container(
+                            margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01, horizontal: MediaQuery.of(context).size.width * 0.05),
+                            child: LandingButton(
+                              onTap: () {},
+                              hasFillColor: true,
+                              text: 'Buy',
+                            )
+                        )
+                    )
+                )
+            )
+        )
+      ],
     );
   }
 }
