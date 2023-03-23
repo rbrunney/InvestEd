@@ -31,8 +31,8 @@ class _VideoPlayerState extends State<VideoPlayer> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: MediaQuery.of(context).size.height * 0.35,
-        width: MediaQuery.of(context).size.width * 0.90,
+        height: MediaQuery.of(context).size.height * 0.33,
+        width: MediaQuery.of(context).size.width * 0.9,
         child: Card(
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15))),
@@ -46,8 +46,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
                       controller: controller, showVideoProgressIndicator: true),
                 ),
                 Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 12),
+                    margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     child: Row(
                       children: [
                         IconButton(
