@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:invested/util/style/global_styling.dart' as global_style;
 import 'package:invested/util/widget/data/lesson_card.dart';
+import 'package:invested/util/widget/text/custom_text.dart';
 import 'package:invested/util/widget/text/page_title.dart';
 
 class LessonPage extends StatefulWidget {
@@ -22,7 +23,15 @@ class _LessonPageState extends State<LessonPage> {
               child: Column(
                 children: [
                   buildHeader(),
-                  const LessonCard()
+                  CustomText(
+                    text: 'Complete Lessons to earn more buying power!',
+                    fontSize: 15,
+                    color: const Color(global_style.whiteAccentColor)
+                  ),
+                  const LessonCard(),
+                  const LessonCard(),
+                  const LessonCard(),
+                  const LessonCard(),
                 ]
               )
             )
@@ -46,17 +55,21 @@ class _LessonPageState extends State<LessonPage> {
     );
   }
 
-  Container buildHeader() {
-      return Container(
-        margin: EdgeInsets.only(
-          top: MediaQuery.of(context).size.height * 0.05,
-          left: MediaQuery.of(context).size.width * 0.05
-        ),
-        child: const PageTitle(
-          title: "Lessons",
-          fontSize: 45,
-          color: Color(global_style.whiteAccentColor),
-        ),
+  Column buildHeader() {
+      return Column(
+        children: [
+            Container(
+              margin: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.05,
+                left: MediaQuery.of(context).size.width * 0.05
+              ),
+              child: const PageTitle(
+              title: "Lessons",
+              fontSize: 45,
+              color: Color(global_style.whiteAccentColor),
+            ),
+          )
+        ],
       );
   }
 }
