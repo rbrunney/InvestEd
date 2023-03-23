@@ -6,7 +6,7 @@ class Stock {
 
   // Basic Description
   late String ticker;
-  String? companyName;
+  late String companyName;
   String? description;
 
   // Financial Information
@@ -23,7 +23,7 @@ class Stock {
 
   Stock({
     required this.ticker,
-    this.companyName,
+    this.companyName = '',
     this.description,
     this.currentPrice = 0,
     this.open = 0,
@@ -55,7 +55,7 @@ class Stock {
         low = response['results']['low'] + 0.0;
         volume = response['results']['volume'] + 0.0;
         marketCap = response['results']['market_cap'] + 0.0;
-        dividend = response['results']['last_dividend'];
+        dividend = response['results']['last_dividend'] + 0.0;
         previousClose = response['results']['previous_close'] + 0.0;
     });
   }

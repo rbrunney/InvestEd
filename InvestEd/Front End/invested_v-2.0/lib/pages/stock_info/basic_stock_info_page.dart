@@ -116,11 +116,11 @@ class _BasicStockInfoPageState extends State<BasicStockInfoPage> {
             ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
-              child: const PageTitle(
-                title: 'Amazon.Com Inc',
+              child: PageTitle(
+                title: currentStock.companyName,
                 fontSize: 35,
                 bottomMargin: 5,
-                color: Color(global_style.whiteAccentColor),
+                color: const Color(global_style.whiteAccentColor),
               )
             ),
           ],
