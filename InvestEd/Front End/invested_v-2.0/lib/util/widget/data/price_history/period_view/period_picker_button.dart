@@ -6,10 +6,12 @@ import 'package:invested/util/style/global_styling.dart' as global_style;
 class PeriodPickerButton extends StatefulWidget {
   final String text;
   final String activePicker;
+  final Color color;
   final VoidCallback onPress;
   const PeriodPickerButton({
     Key? key,
     this.text = '',
+    this.color = const Color(global_style.greenPrimaryColor),
     this.activePicker = '',
     required this.onPress
   }) : super(key: key);
@@ -33,11 +35,11 @@ class _PeriodPickerButtonState extends State<PeriodPickerButton> {
                   text: widget.text,
                   color: widget.text == widget.activePicker ? const Color(global_style.blackAccentColor) : const Color(global_style.greenAccentTextColor)
               ),
-              widget.text == widget.activePicker ? const SizedBox(
+              widget.text == widget.activePicker ? SizedBox(
                 height: 15,
                 width: 35,
                 child: Card(
-                    color: Color(global_style.greenPrimaryColor)
+                    color: widget.color
                 )
               ) : const Text("")
             ],

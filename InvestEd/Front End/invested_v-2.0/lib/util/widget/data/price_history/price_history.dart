@@ -75,7 +75,9 @@ class _PriceHistoryCardState extends State<PriceHistoryCard> {
                   )),
               Container(
                 padding: const EdgeInsets.only(left: 25, right: 25),
-                child: PeriodChoice(),
+                child: PeriodChoice(
+                  color: currentLineColor,
+                ),
               )
             ],
           )),

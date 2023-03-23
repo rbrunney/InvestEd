@@ -3,9 +3,11 @@ import 'package:invested/util/widget/data/price_history/period_view/period_picke
 
 class PeriodChoice extends StatefulWidget {
   String gainPeriod;
+  final Color color;
   PeriodChoice({
     Key? key,
-    this.gainPeriod = ""
+    this.gainPeriod = "",
+    required this.color
   }) : super(key: key);
 
   @override
@@ -23,6 +25,7 @@ class _PeriodChoicePickerState extends State<PeriodChoice> {
         PeriodPickerButton(
           text: "1D",
           activePicker: activePicker,
+          color: widget.color,
           onPress: () {
             setState(() {
               widget.gainPeriod = "Today";
@@ -34,6 +37,7 @@ class _PeriodChoicePickerState extends State<PeriodChoice> {
         PeriodPickerButton(
           text: "1W",
           activePicker: activePicker,
+          color: widget.color,
           onPress: () {
             setState(() {
               widget.gainPeriod = "Week";
@@ -45,6 +49,7 @@ class _PeriodChoicePickerState extends State<PeriodChoice> {
         PeriodPickerButton(
           text: "1M",
           activePicker: activePicker,
+          color: widget.color,
           onPress: () {
             setState(() {
               widget.gainPeriod = "Month";
@@ -56,6 +61,7 @@ class _PeriodChoicePickerState extends State<PeriodChoice> {
         PeriodPickerButton(
           text: "3M",
           activePicker: activePicker,
+          color: widget.color,
           onPress: () {
             setState(() {
               widget.gainPeriod = "3-Month";
@@ -67,6 +73,7 @@ class _PeriodChoicePickerState extends State<PeriodChoice> {
         PeriodPickerButton(
           text: "YTD",
           activePicker: activePicker,
+          color: widget.color,
           onPress: () {
             setState(() {
               widget.gainPeriod = "Year-to-Date";
@@ -78,6 +85,7 @@ class _PeriodChoicePickerState extends State<PeriodChoice> {
         PeriodPickerButton(
           text: "ALL",
           activePicker: activePicker,
+          color: widget.color,
           onPress: () {
             setState(() {
               widget.gainPeriod = "All";
