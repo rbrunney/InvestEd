@@ -1,5 +1,6 @@
 import 'package:invested/pages/landing/landing_button.dart';
 import 'package:flutter/material.dart';
+import 'package:invested/pages/lesson_info/lesson_info_page.dart';
 import 'package:invested/util/widget/text/custom_text.dart';
 import 'package:invested/util/style/global_styling.dart' as global_style;
 
@@ -140,7 +141,12 @@ class _LessonCardState extends State<LessonCard> {
         margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width* 0.03),
         child: LandingButton(
           text: buttonText,
-          onTap: () {  },
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const LessonInfoPage()));
+          },
           hasFillColor: true,
         )
     );
