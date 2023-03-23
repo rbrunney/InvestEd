@@ -61,7 +61,7 @@ class _LineGraphState extends State<LineGraph> {
                   ),
                 ),
                 LineChartBarData(
-                  barWidth: 4,
+                  barWidth: 2,
                   spots: widget.graphLineData,
                   color: widget.graphLineColor,
                   // This is here to remove the disgusting data points
@@ -87,7 +87,7 @@ class _LineGraphState extends State<LineGraph> {
                           (int index) {
                         final line = FlLine(
                             color: Colors.grey,
-                            strokeWidth: 5,
+                            strokeWidth: 3,
                             dashArray: [2, 4]);
                         return TouchedSpotIndicatorData(
                           line,

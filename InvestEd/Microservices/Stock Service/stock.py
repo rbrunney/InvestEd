@@ -80,13 +80,15 @@ class Stock:
 
         # Getting the aggreagate data so we can return array of datapoints later
         def period_data_points(from_date, timespan, end_date=self.check_date().date()):
-            response = requests.get(f'https://api.polygon.io/v2/aggs/ticker/{self.ticker}/range/1/{timespan}/{from_date}/{end_date}?adjusted=true&sort=asc&limit=120&apiKey={self.polygon_key}')
+            response = requests.get(f'https://api.polygon.io/v2/aggs/ticker/{self.ticker}/range/1/{timespan}/{from_date}/{end_date}?adjusted=true&sort=asc&limit=600&apiKey={self.polygon_key}')
             aggregates = json.loads(response.text)['results']
             data_points = []
 
             for aggreagate in aggregates:
                 # Getting closing prices for each aggreagate we get back
-                data_points.append(aggreagate['c'])
+                data_points.append(aggreagate['vw'])
+
+            data_points.append(self.get_current_price())
             
             return data_points
         
@@ -142,7 +144,7 @@ class Stock:
             'high' : open_close_details['high'],
             'low' : open_close_details['low'],
             'volume' : open_close_details['volume'],
-            'previous_close' : previous_close_details['results'][0]['c'],
+            'previous_close' : previous_close_details['results'][0]['vw'],
         }
 
         # Checking to see if ticker has a description (could be an etf)

@@ -51,7 +51,7 @@ class _CashGainCardState extends State<CashGainCard> {
                           color: currentTextColor
                       ),
                       CustomText(
-                          text: "(${widget.percentageGain.toStringAsFixed(2)})",
+                          text: "(${widget.percentageGain.toStringAsFixed(2)}%)",
                           fontSize: fontSize,
                           fontWeight: FontWeight.bold,
                           color: currentTextColor

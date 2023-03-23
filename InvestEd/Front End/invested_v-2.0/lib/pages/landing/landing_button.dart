@@ -7,6 +7,7 @@ class LandingButton extends StatelessWidget {
   final String prefixImagePath;
   final bool hasBorder;
   final bool hasFillColor;
+  final Color color;
   final Function()? onTap;
   const LandingButton(
       {super.key,
@@ -14,6 +15,7 @@ class LandingButton extends StatelessWidget {
       this.prefixImagePath = '',
       this.hasBorder = false,
       this.hasFillColor = false,
+      this.color = const Color(global_style.greenPrimaryColor),
       required this.onTap});
 
   @override
@@ -23,7 +25,7 @@ class LandingButton extends StatelessWidget {
       child: Container(
           margin: const EdgeInsets.only(bottom: 10),
           decoration: BoxDecoration(
-              color: hasFillColor ? const Color(global_style.greenPrimaryColor) : const Color(global_style.whiteBackgroundColor),
+              color: hasFillColor ? color : const Color(global_style.whiteBackgroundColor),
               border: hasBorder ? Border.all(color: const Color(global_style.greenAccentColor)) : null,
               borderRadius: const BorderRadius.all(Radius.circular(10))),
           child: SizedBox(

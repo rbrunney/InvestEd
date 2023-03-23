@@ -1,5 +1,6 @@
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:invested/models/stock.dart';
 import 'package:invested/pages/landing/landing_button.dart';
 import 'package:invested/util/style/global_styling.dart' as global_style;
 import 'package:invested/util/widget/data/cash_gain.dart';
@@ -17,45 +18,83 @@ class BasicStockInfoPage extends StatefulWidget {
 }
 
 class _BasicStockInfoPageState extends State<BasicStockInfoPage> {
-  final double currentPrice = 0;
-  final double previousClose = 0;
+
+  late Stock currentStock;
+  Future<List<double>>? futurePricePoints;
+  List<double> pricePoints = [];
+  double cashGain = 0;
+  double percentageGain = 0;
+
+  void getStockInformation() async {
+    await currentStock.getCurrentPrice();
+    await currentStock.getBasicInfo();
+    futurePricePoints = currentStock.getPricePoints("DAY");
+
+    futurePricePoints?.then((value) {
+      setState(() {
+        pricePoints = value;
+        cashGain = currentStock.currentPrice - currentStock.previousClose;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    currentStock = Stock(ticker: widget.ticker);
+    getStockInformation();
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          body: Stack(
-            children: [
-              buildTopGreenPatch(),
-              SingleChildScrollView(
-                child: Column(
-                  children: [
-                    buildHeader(),
-                    buildCurrentPrice(98.95),
-                    buildTickerTotalGain(0, 0),
-                    buildTickerPriceHistory(0, 0, 0, []),
-                    buildBasicTickerInfoCard(),
-                    // buildAboutTickerCard('This is about Amazon Pretty Poggers')
-                  ],
-                ),
-              ),
-              buildBuyButton()
-            ]
-        ),
+          body: FutureBuilder<List<double>>(
+            future: futurePricePoints,
+            builder: (context, snapshot) {
+              if(snapshot.hasData) {
+                return Stack(
+                    children: [
+                      buildTopPatch(),
+                      SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            buildHeader(),
+                            buildCurrentPrice(currentStock.currentPrice),
+                            buildTickerTotalGain(cashGain, ((cashGain).abs()/ currentStock.previousClose) * 100),
+                            buildTickerPriceHistory(currentStock),
+                            buildBasicTickerInfoCard()
+                          ],
+                        ),
+                      ),
+                      buildBuyButton()
+                    ]
+                );
+              }
+
+              return Center(
+                  heightFactor: 20,
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: const CircularProgressIndicator(
+                      color: Color(global_style.greenPrimaryColor),
+                    ),
+                  ));
+            }
+          )
       )
     );
   }
 
-  Column buildTopGreenPatch() {
+  Column buildTopPatch() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height *
-                0.35, // Multiply to get 30%
-            color: const Color(global_style.greenPrimaryColor))
+            height: MediaQuery.of(context).size.height * 0.35, // Multiply to get 30%
+            color: cashGain < 0 ? const Color(global_style.redPrimaryColor) : const Color(global_style.greenPrimaryColor))
       ],
     );
   }
@@ -94,7 +133,7 @@ class _BasicStockInfoPageState extends State<BasicStockInfoPage> {
         margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
         child: CustomText(
             alignment: Alignment.centerLeft,
-            text: "\$$currentPrice",
+            text: "\$${currentPrice.toStringAsFixed(2)}",
             fontSize: 35,
             color: const Color(global_style.whiteAccentColor)
         )
@@ -118,13 +157,13 @@ class _BasicStockInfoPageState extends State<BasicStockInfoPage> {
     );
   }
 
-  Container buildTickerPriceHistory(double minPrice, double maxPrice, double previousClose, List<double> pricePoints) {
+  Container buildTickerPriceHistory(Stock stock) {
     return Container(
         margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01, horizontal: MediaQuery.of(context).size.width * 0.05),
         child: PriceHistoryCard(
-            minPrice: minPrice - 5,
-            maxPrice: maxPrice + 5,
-            previousClose: previousClose,
+            minPrice: stock.low < stock.open ? (stock.low < stock.previousClose ? stock.low : stock.previousClose) : stock.open,
+            maxPrice: stock.high > stock.currentPrice ? (stock.high > stock.previousClose ? stock.high : stock.previousClose) : stock.currentPrice,
+            previousClose: stock.previousClose,
             pricePoints: pricePoints
         )
     );
@@ -151,12 +190,12 @@ class _BasicStockInfoPageState extends State<BasicStockInfoPage> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              buildBasicStat("Open", "\$90.95"),
-              buildBasicStat("High", "\$90.95"),
-              buildBasicStat("Low", "\$90.95"),
-              buildBasicStat("Volume", "\$90.95"),
-              buildBasicStat("Market Cap", "\$90.95"),
-              buildBasicStat("Dividend", "\$90.95")
+              buildBasicStat("Open", "\$${currentStock.open.toStringAsFixed(2)}"),
+              buildBasicStat("High", "\$${currentStock.high.toStringAsFixed(2)}"),
+              buildBasicStat("Low", "\$${currentStock.low.toStringAsFixed(2)}"),
+              buildBasicStat("Volume", NumberFormat.compact().format(currentStock.volume)),
+              buildBasicStat("Market Cap", NumberFormat.compact().format(currentStock.marketCap)),
+              buildBasicStat("Dividend", currentStock.dividend == null ? 'N/A' : "\$${currentStock.dividend?.toStringAsFixed(2)}")
             ],
           ),
         )
@@ -175,7 +214,7 @@ class _BasicStockInfoPageState extends State<BasicStockInfoPage> {
             fontSize: 17,
             fontWeight: FontWeight.bold,
             bottomMargin: MediaQuery.of(context).size.height * 0.01,
-            color: const Color(global_style.greenAccentTextColor),
+            color: cashGain < 0 ? const Color(global_style.redAccentTextColor) : const Color(global_style.greenAccentTextColor),
           ),
           CustomText(
             text: stat,
@@ -236,6 +275,7 @@ class _BasicStockInfoPageState extends State<BasicStockInfoPage> {
                             child: LandingButton(
                               onTap: () {},
                               hasFillColor: true,
+                              color: cashGain < 0 ? const Color(global_style.redPrimaryColor) : const Color(global_style.greenPrimaryColor),
                               text: 'Buy',
                             )
                         )

@@ -23,7 +23,7 @@ class PriceHistoryCard extends StatefulWidget {
 
 class _PriceHistoryCardState extends State<PriceHistoryCard> {
 
-  final double maxPricePoints = 250;
+  double maxPricePoints = 250;
   double firstPricePoint = 0;
   double lastPricePoint = 0;
   List<FlSpot> dataPoints = [];
@@ -32,21 +32,16 @@ class _PriceHistoryCardState extends State<PriceHistoryCard> {
   void initState() {
     super.initState();
 
-    if(widget.pricePoints.length < maxPricePoints) {
-      try {
-        firstPricePoint = widget.pricePoints.elementAt(0);
-        lastPricePoint = widget.pricePoints.elementAt(widget.pricePoints.length - 1);
+    maxPricePoints = widget.pricePoints.length + 0.0;
 
-        for(int i=0; i < widget.pricePoints.length; i++) {
-          dataPoints.add(FlSpot((maxPricePoints - 1) - i, widget.pricePoints.elementAt(i)));
-        }
-      } catch(exception) {
-        firstPricePoint = 0;
-      }
+    for(int i=0; i < widget.pricePoints.length; i++) {
+      dataPoints.add(FlSpot(i + 0.0, widget.pricePoints.elementAt(i)));
+    }
 
-      for(double i=0; i < maxPricePoints - widget.pricePoints.length; i++) {
-        dataPoints.add(FlSpot(i, firstPricePoint));
-      }
+    try {
+      lastPricePoint = widget.pricePoints.elementAt(widget.pricePoints.length-1);
+    } catch(exception) {
+      lastPricePoint = 0;
     }
   }
 

@@ -166,7 +166,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
                   Spacer(),
                   StockCard(
                       tickerLogo: 'https://api.polygon.io/v1/reference/company-branding/d3d3LmFtYXpvbi5jb20/images/2023-01-01_icon.jpeg?apiKey=pWnmnyskgOhWmfE226LWf4BH4vDY1i73',
-                      ticker: 'AMZN',
+                      ticker: 'XOM',
                       totalGain: 35
                   )
                 ],
