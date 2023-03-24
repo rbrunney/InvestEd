@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:invested/pages/landing/landing_button.dart';
+import 'package:invested/pages/quiz/quiz_page.dart';
 import 'package:invested/util/style/global_styling.dart' as global_style;
 import 'package:invested/util/widget/data/exercise_card.dart';
 import 'package:invested/util/widget/data/lesson_card.dart';
@@ -8,6 +9,7 @@ import 'package:invested/util/widget/page/to_previous_page.dart';
 import 'package:invested/util/widget/text/custom_text.dart';
 import 'package:invested/util/widget/text/page_title.dart';
 import 'package:invested/util/widget/video/video_player.dart';
+import 'package:page_transition/page_transition.dart';
 
 class LessonInfoPage extends StatefulWidget {
   final String lessonTitle;
@@ -160,7 +162,12 @@ class _LessonInfoPageState extends State<LessonInfoPage> {
                         child: Container(
                             margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01, horizontal: MediaQuery.of(context).size.width * 0.05),
                             child: LandingButton(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                        builder: (BuildContext context) => QuizPage(lessonTitle: widget.lessonTitle,)));
+                              },
                               hasFillColor: true,
                               color: const Color(global_style.greenPrimaryColor),
                               text: 'Take Quiz',
