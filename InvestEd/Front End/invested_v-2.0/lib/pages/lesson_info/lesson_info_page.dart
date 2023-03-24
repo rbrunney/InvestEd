@@ -130,7 +130,7 @@ class _LessonInfoPageState extends State<LessonInfoPage> {
       ExerciseCard(),ExerciseCard(),ExerciseCard()
     ];
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05, vertical: MediaQuery.of(context).size.height * 0.02),
+      margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05, vertical: MediaQuery.of(context).size.height * 0.015),
       child: Column(
         children: [
           const PageTitle(

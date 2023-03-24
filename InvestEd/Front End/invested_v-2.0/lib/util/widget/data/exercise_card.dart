@@ -41,7 +41,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
 
   Container buildThumbnail() {
     return Container(
-        margin: const EdgeInsets.all(10),
+        margin: const EdgeInsets.only(left:10, right:10, top: 10, bottom: 8),
         child: ClipRRect(
           borderRadius:
           const BorderRadius.all(Radius.circular(15)),
@@ -58,7 +58,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
   Container buildExerciseTitle() {
     return Container(
       child: CustomText(
-        text: ,
+        text: "Text",
       )
     );
   }
