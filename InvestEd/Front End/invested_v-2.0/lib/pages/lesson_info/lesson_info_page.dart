@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:invested/pages/landing/landing_button.dart';
 import 'package:invested/util/style/global_styling.dart' as global_style;
+import 'package:invested/util/widget/data/exercise_card.dart';
 import 'package:invested/util/widget/data/lesson_card.dart';
 import 'package:invested/util/widget/page/horizontal_card_slider.dart';
 import 'package:invested/util/widget/page/to_previous_page.dart';
@@ -126,7 +127,7 @@ class _LessonInfoPageState extends State<LessonInfoPage> {
 
   Container buildExerciseCards() {
     List<Widget> exerciseCards = const [
-      LessonCard(),LessonCard(),LessonCard()
+      ExerciseCard(),ExerciseCard(),ExerciseCard()
     ];
     return Container(
       margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05, vertical: MediaQuery.of(context).size.height * 0.02),
