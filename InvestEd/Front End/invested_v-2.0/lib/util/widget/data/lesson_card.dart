@@ -59,8 +59,7 @@ class _LessonCardState extends State<LessonCard> {
     return Container(
         margin: const EdgeInsets.all(10),
         child: ClipRRect(
-          borderRadius:
-          const BorderRadius.all(Radius.circular(15)),
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
           child: Image.network(
             widget.thumbnail,
             width: 350,

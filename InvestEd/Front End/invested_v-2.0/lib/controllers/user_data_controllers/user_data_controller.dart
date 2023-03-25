@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 
 class UserDataController extends GetxController {
-  String? name;
-  String? email;
-  String? photoUrl;
+  String name = '';
+  String email = '';
+  String photoUrl = '';
 
   setUserData(String name, String email, String photoUrl) {
     this.name = name;

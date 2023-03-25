@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:invested/pages/challenge/challenge_page.dart';
 import 'package:invested/pages/lesson/lesson_page.dart';
-import 'package:invested/util/widget/graphs/portfolio/portfolio_page.dart';
+import 'package:invested/pages/portfolio/portfolio_page.dart';
 
 import '../util/style/global_styling.dart' as global_style;
 
