@@ -115,6 +115,7 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               buildCardUsername(),
               buildCardHeader(),
+              buildPortfolioStats()
             ],
           ),
         )
@@ -192,6 +193,105 @@ class _ProfilePageState extends State<ProfilePage> {
           )
         ],
       )
+    );
+  }
+
+  Container buildPortfolioStats() {
+    return Container(
+      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
+      child: Column(
+        children: [
+          buildTabSelection(),
+          CustomText(
+            topMargin: 15,
+            text: 'Portfolio Stats',
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+          const Divider(thickness: 2, indent: 10, endIndent: 10, color: Color(global_style.greenAccentColor)),
+          buildStatCard('Total Gains', '0'),
+          buildStatCard('Total Losses', '0'),
+          buildStatCard('Total Earned (Lessons)', '0'),
+        ],
+      ),
+    );
+  }
+
+  Container buildStatCard(String statName, String stat) {
+    return Container(
+      margin: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.025,
+        vertical: MediaQuery.of(context).size.height * 0.005
+      ),
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.065,
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          color: const Color(global_style.whiteBackgroundColor),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: CustomText(
+                  text: statName
+                )
+              ),
+              Expanded(
+                flex: 1,
+                child: CustomText(
+                    text: '\$$stat'
+                )
+              )
+            ],
+          )
+        )
+      )
+    );
+  }
+
+  Container buildTabSelection() {
+    return Container(
+        height: MediaQuery.of(context).size.height * 0.05,
+        margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05, vertical: MediaQuery.of(context).size.height * 0.01),
+        decoration: const BoxDecoration(
+            color: Color(global_style.whiteBackgroundColor),
+            borderRadius: BorderRadius.all(Radius.circular(15))
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: buildSelector('All Time', isSelected),
+            ),
+            Expanded(
+              child: buildSelector('This Month', !isSelected),
+            )
+          ],
+        )
+    );
+  }
+
+  InkWell buildSelector(String text, bool isTouched) {
+    return InkWell(
+        onTap: () {
+          setState(() {
+            isSelected = !isSelected;
+          });
+        },
+        child: Container(
+            decoration: BoxDecoration(
+                color: isTouched ? const Color(global_style.greenAccentColor) : const Color(global_style.whiteBackgroundColor),
+                borderRadius: const BorderRadius.all(Radius.circular(12))
+            ),
+            margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.01, vertical: MediaQuery.of(context).size.height * 0.005),
+            child: CustomText(
+              text: text,
+              color: const Color(global_style.greenAccentTextColor),
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            )
+        )
     );
   }
 }
