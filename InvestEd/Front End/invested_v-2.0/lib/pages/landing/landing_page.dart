@@ -7,6 +7,7 @@ import 'package:invested/main.dart';
 import 'package:invested/pages/landing/landing_button.dart';
 import 'package:invested/pages/login/login_page.dart';
 import 'package:invested/pages/register/register_page.dart';
+import 'package:invested/util/security/RSA.dart';
 import 'package:invested/util/widget/page/alert.dart';
 import 'package:invested/util/widget/text/page_title.dart';
 import 'package:invested/util/style/global_styling.dart' as global_style;
@@ -24,8 +25,20 @@ class _LandingPageState extends State<LandingPage> {
   final investedController = Get.put(InvestedLoginController());
   final userDataController = Get.put(UserDataController());
 
+  void encrypt() async {
+    String message = RSA().encrypt('rbrunney');
+    print(message);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    encrypt();
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
       child: Scaffold(
           backgroundColor: const Color(global_style.whiteBackgroundColor),

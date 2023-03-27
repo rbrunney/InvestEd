@@ -44,6 +44,7 @@ dependencies:
   intl: ^0.17.0
   syncfusion_flutter_gauges: ^20.4.54
   youtube_player_flutter: ^8.1.2
+  basic_utils: ^5.5.3
 
 dev_dependencies:
   flutter_test:
