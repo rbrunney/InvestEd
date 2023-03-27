@@ -1,7 +1,13 @@
+import 'dart:convert';
+
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:invested/controllers/url_controller/url_controller.dart';
 import 'package:invested/pages/landing/landing_button.dart';
 import 'package:invested/pages/landing/landing_page.dart';
+import 'package:invested/util/requests/basic_request.dart';
+import 'package:invested/util/security/RSA.dart';
 import 'package:invested/util/widget/page/to_previous_page.dart';
 import 'package:invested/util/style/global_styling.dart' as global_style;
 import 'package:invested/util/widget/text/custom_text.dart';
@@ -25,12 +31,28 @@ class AccountDetailsPage extends StatefulWidget {
 
 class _AccountDetailsPageState extends State<AccountDetailsPage> {
 
+  final urlController = Get.put(URLController());
+
   void onSubmit() async {
     if (fnameController.text.isNotEmpty && lnameController.text.isNotEmpty && birthdayErrorText == null) {
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-              builder: (context) => const LandingPage()),
-              (Route<dynamic> route) => false);
+      Map<String, dynamic> requestBody = {
+        "username" : RSA.encrypt(widget.username),
+        "password" : RSA.encrypt(widget.password),
+        "firstName" : RSA.encrypt(fnameController.text),
+        "lastName" : RSA.encrypt(lnameController.text),
+        "birthdate" : RSA.encrypt(birthdayController.text),
+        "email" : RSA.encrypt(widget.email),
+        "phone" : RSA.encrypt("555-555-5555"),
+        "buyingPower" : 5000
+      };
+
+      BasicRequest.makePostRequest("${urlController.localBaseURL}/invested_account", requestBody)
+      .then((value) {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (context) => const LandingPage()),
+                (Route<dynamic> route) => false);
+      });
     }
   }
 

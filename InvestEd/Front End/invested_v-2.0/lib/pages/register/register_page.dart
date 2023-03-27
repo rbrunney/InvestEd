@@ -23,7 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
     Navigator.push(
         context,
         PageTransition(
-            child: const AccountDetailsPage(),
+            child: AccountDetailsPage(username: usernameController.text, password: newPasswordController.text, email: emailController.text),
             type: PageTransitionType.rightToLeftWithFade
         )
     );

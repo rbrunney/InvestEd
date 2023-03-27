@@ -27,6 +27,25 @@ class _LoginPageState extends State<LoginPage> {
   final urlController = Get.put(URLController());
   final tokenController = Get.put(TokenController());
 
+  void onSubmit() async {
+    Map<String, dynamic> requestBody = {
+      "username" : RSA.encrypt(usernameController.text),
+      "password" : RSA.encrypt(passwordController.text)
+    };
+
+    await BasicRequest.makePostRequest("${urlController.localBaseURL}/invested_account/authenticate", requestBody)
+        .then((value) {
+      var response = json.decode(value);
+      tokenController.accessToken = response['results']['access-token'];
+      tokenController.refreshToken = response['results']['refresh-token'];
+      Navigator.push(
+          context,
+          PageTransition(
+              child: const HomePage(),
+              type: PageTransitionType.rightToLeftWithFade));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -138,24 +157,7 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
         margin: const EdgeInsets.only(top: 15),
         child: LandingButton(onTap: (usernameController.text.isNotEmpty && passwordController.text.isNotEmpty)
-            ? () {
-              Map<String, dynamic> requestBody = {
-                "username" : RSA.encrypt(usernameController.text),
-                "password" : RSA.encrypt(passwordController.text)
-              };
-
-              BasicRequest.makePostRequest("${urlController.localBaseURL}/invested_account/authenticate", requestBody)
-                  .then((value) {
-                var response = json.decode(value);
-                tokenController.accessToken = response['results']['access-token'];
-                tokenController.refreshToken = response['results']['refresh-token'];
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        child: const HomePage(),
-                        type: PageTransitionType.rightToLeftWithFade));
-              });
-            } : () {},
+            ? onSubmit : () {},
             text: 'Login', hasFillColor: true)
     );
   }
