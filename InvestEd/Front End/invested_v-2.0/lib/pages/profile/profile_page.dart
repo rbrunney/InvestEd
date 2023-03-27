@@ -2,6 +2,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:invested/controllers/user_data_controllers/user_data_controller.dart';
+import 'package:invested/pages/settings/settings_page.dart';
 import 'package:invested/util/style/global_styling.dart' as global_style;
 import 'package:invested/util/widget/text/custom_text.dart';
 import 'package:invested/util/widget/text/page_title.dart';
@@ -43,7 +44,10 @@ class _ProfilePageState extends State<ProfilePage> {
       margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1, left: MediaQuery.of(context).size.width * 0.35),
       child:  InkWell(
         onTap: () {
-          print('Profile Settings');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const SettingsPage()),
+          );
         },
         child: CircleAvatar(
             radius: 60,
@@ -70,7 +74,10 @@ class _ProfilePageState extends State<ProfilePage> {
       margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.2, left: MediaQuery.of(context).size.width * 0.55),
       child: InkWell(
         onTap: () {
-          print('Profile Settings');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const SettingsPage()),
+          );
         },
         child: const CircleAvatar(
           radius: 20,
