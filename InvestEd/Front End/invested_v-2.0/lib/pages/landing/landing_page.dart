@@ -25,17 +25,6 @@ class _LandingPageState extends State<LandingPage> {
   final investedController = Get.put(InvestedLoginController());
   final userDataController = Get.put(UserDataController());
 
-  void encrypt() async {
-    String message = RSA().encrypt('rbrunney');
-    print(message);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    encrypt();
-  }
-
   @override
   Widget build(BuildContext context) {
 

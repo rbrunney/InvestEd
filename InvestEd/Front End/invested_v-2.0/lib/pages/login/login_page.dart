@@ -1,7 +1,14 @@
+import 'dart:convert';
+
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:invested/controllers/token_controllers/token_controller.dart';
+import 'package:invested/controllers/url_controller/url_controller.dart';
 import 'package:invested/main.dart';
 import 'package:invested/pages/forgot_password/forgot_password_page.dart';
 import 'package:invested/pages/landing/landing_button.dart';
+import 'package:invested/util/requests/basic_request.dart';
+import 'package:invested/util/security/RSA.dart';
 import 'package:invested/util/style/global_styling.dart' as global_style;
 import 'package:invested/util/widget/page/to_previous_page.dart';
 import 'package:invested/util/widget/text/custom_text_field.dart';
@@ -17,13 +24,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
-  void onSubmit() async {
-    Navigator.push(
-        context,
-        PageTransition(
-            child: const HomePage(),
-            type: PageTransitionType.rightToLeftWithFade));
-  }
+  final urlController = Get.put(URLController());
+  final tokenController = Get.put(TokenController());
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +138,24 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
         margin: const EdgeInsets.only(top: 15),
         child: LandingButton(onTap: (usernameController.text.isNotEmpty && passwordController.text.isNotEmpty)
-            ? onSubmit : () {},
+            ? () {
+              Map<String, dynamic> requestBody = {
+                "username" : RSA.encrypt(usernameController.text),
+                "password" : RSA.encrypt(passwordController.text)
+              };
+
+              BasicRequest.makePostRequest("${urlController.localBaseURL}/invested_account/authenticate", requestBody)
+                  .then((value) {
+                var response = json.decode(value);
+                tokenController.accessToken = response['results']['access-token'];
+                tokenController.refreshToken = response['results']['refresh-token'];
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        child: const HomePage(),
+                        type: PageTransitionType.rightToLeftWithFade));
+              });
+            } : () {},
             text: 'Login', hasFillColor: true)
     );
   }
