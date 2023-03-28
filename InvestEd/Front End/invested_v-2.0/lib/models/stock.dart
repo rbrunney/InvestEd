@@ -1,5 +1,6 @@
 import 'dart:convert';
-
+import 'package:get/get.dart';
+import 'package:invested/controllers/url_controller/url_controller.dart';
 import 'package:invested/util/requests/basic_request.dart';
 
 class Stock {
@@ -21,6 +22,9 @@ class Stock {
   double? volume;
   double? marketCap;
 
+  // Controllers
+  final urlController = Get.put(URLController());
+
   Stock({
     required this.ticker,
     this.companyName = '',
@@ -36,7 +40,7 @@ class Stock {
   });
 
   Future<void> getCurrentPrice() async {
-    await BasicRequest.makeGetRequest("http://10.0.2.2:105/invested_stock/$ticker/price")
+    await BasicRequest.makeGetRequest("${urlController.localBaseURL}/invested_stock/$ticker/price")
         .then((value) {
        var response = json.decode(value);
        currentPrice = response['results']['current_price'].toDouble();
@@ -44,7 +48,7 @@ class Stock {
   }
 
   Future<void> getBasicInfo() async {
-    await BasicRequest.makeGetRequest("http://10.0.2.2:105/invested_stock/$ticker/basic_info")
+    await BasicRequest.makeGetRequest("${urlController.localBaseURL}/invested_stock/$ticker/basic_info")
         .then((value) {
         var response = json.decode(value);
 
@@ -55,14 +59,14 @@ class Stock {
         low = response['results']['low'] + 0.0;
         volume = response['results']['volume'] + 0.0;
         marketCap = response['results']['market_cap'] + 0.0;
-        dividend = response['results']['last_dividend'] + 0.0;
+        dividend = response['results']['last_dividend'];
         previousClose = response['results']['previous_close'] + 0.0;
     });
   }
 
   Future<List<double>> getPricePoints(String period) async {
     List<double> pricePoints = [];
-    await BasicRequest.makeGetRequest("http://10.0.2.2:105/invested_stock/$ticker/$period")
+    await BasicRequest.makeGetRequest("${urlController.localBaseURL}/invested_stock/$ticker/$period")
         .then((value) {
         var response = json.decode(value);
 
