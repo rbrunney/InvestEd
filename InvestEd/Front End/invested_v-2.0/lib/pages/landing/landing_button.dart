@@ -8,7 +8,7 @@ class LandingButton extends StatelessWidget {
   final bool hasBorder;
   final bool hasFillColor;
   final Color color;
-  final VoidCallback onTap;
+  final Function()? onTap;
   const LandingButton(
       {super.key,
       this.text = '',

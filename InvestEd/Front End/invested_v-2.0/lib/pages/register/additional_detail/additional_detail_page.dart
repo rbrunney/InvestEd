@@ -6,6 +6,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:invested/controllers/url_controller/url_controller.dart';
 import 'package:invested/pages/landing/landing_button.dart';
 import 'package:invested/pages/landing/landing_page.dart';
+import 'package:invested/util/requests/auth_request.dart';
 import 'package:invested/util/requests/basic_request.dart';
 import 'package:invested/util/security/RSA.dart';
 import 'package:invested/util/widget/page/to_previous_page.dart';
@@ -46,12 +47,25 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
         "buyingPower" : 5000
       };
 
-      BasicRequest.makePostRequest("${urlController.localBaseURL}/invested_account", requestBody)
-      .then((value) {
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-                builder: (context) => const LandingPage()),
-                (Route<dynamic> route) => false);
+      await BasicRequest.makePostRequest("${urlController.localBaseURL}/invested_account", requestBody)
+      .then((value) async {
+
+        Map<String, dynamic> requestBody = {
+          "username" : RSA.encrypt(widget.username),
+          "password" : RSA.encrypt(widget.password)
+        };
+
+        await BasicRequest.makePostRequest("${urlController.localBaseURL}/invested_account/authenticate", requestBody)
+            .then((value) async {
+              var response = json.decode(value);
+              await AuthRequest.makePostRequest("${urlController.localBaseURL}/invested_portfolio", {}, response['results']['access-token'])
+              .then((value) {
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                        builder: (context) => const LandingPage()),
+                        (Route<dynamic> route) => false);
+              });
+        });
       });
     }
   }

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:invested/pages/landing/landing_button.dart';
-import 'package:invested/pages/login/login_page.dart';
 import 'package:invested/util/style/global_styling.dart' as global_style;
-import 'package:invested/util/widget/page/page_image.dart';
 import 'package:invested/util/widget/page/to_previous_page.dart';
 import 'package:invested/util/widget/text/custom_text_field.dart';
 import 'package:invested/util/widget/text/page_title.dart';
-import 'package:page_transition/page_transition.dart';
 
 import 'additional_detail/additional_detail_page.dart';
 
@@ -19,12 +16,12 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
 
-  void onSubmit() async {
+  void onSubmit() {
+    print('Hello World');
     Navigator.push(
         context,
-        PageTransition(
-            child: AccountDetailsPage(username: usernameController.text, password: newPasswordController.text, email: emailController.text),
-            type: PageTransitionType.rightToLeftWithFade
+        MaterialPageRoute (
+          builder: (BuildContext context) => AccountDetailsPage(username: usernameController.text, password: newPasswordController.text, email: emailController.text),
         )
     );
   }

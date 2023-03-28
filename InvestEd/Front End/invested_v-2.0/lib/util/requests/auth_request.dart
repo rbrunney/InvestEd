@@ -1,5 +1,19 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart';
 
 class AuthRequest {
+
+  static Future<String> makePostRequest(String url, Map<String, dynamic> requestBody, String token) async {
+    String jwtToken = "Bearer $token";
+    final requestLink = Uri.parse(url);
+    final headers = {
+      "Content-type": "application/json",
+      HttpHeaders.authorizationHeader: jwtToken,
+    };
+    Response response = await post(requestLink, headers: headers, body: json.encode(requestBody));
+
+    return response.body;
+  }
   
 }
