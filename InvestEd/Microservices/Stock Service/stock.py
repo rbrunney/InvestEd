@@ -1,5 +1,6 @@
 from datetime import date, datetime as current_dt
 import datetime as dt
+from pytz import timezone
 import requests
 import json
 import os
@@ -10,7 +11,7 @@ class Stock:
 
     def __init__(self, ticker : str):
         self.ticker = ticker
-        self.polygon_key = os.getenv('POLYGON_API_KEY')
+        self.polygon_key = 'pWnmnyskgOhWmfE226LWf4BH4vDY1i73'
 
     """
         Purpose
@@ -29,6 +30,9 @@ class Stock:
             response = requests.get(f'https://api.polygon.io/v1/marketstatus/upcoming?apiKey={self.polygon_key}')
             holidays = json.loads(response.text)
             return holidays[0]['date']
+
+        def is_before_open(check_time):
+            return check_time < current_dt(check_time.year, check_time.month, check_time.day, 9, 30, 0, 0)
         
         # If it is a holiday, if so then we need to get yesterday's date
         if check_if_holiday() == str(current_date.date()):
@@ -41,6 +45,9 @@ class Stock:
             return current_date - dt.timedelta(days=1)
         elif current_date_value == 6:   # 6 Reporesents Sunday
             return current_date - dt.timedelta(days=2)
+
+        if current_date.hour < 7:
+            return current_date - dt.timedelta(days=1)
             
         return current_date
 
@@ -62,8 +69,8 @@ class Stock:
         response = requests.get(f'https://api.polygon.io/v2/aggs/ticker/{self.ticker}/range/1/day/{date_to_retrieve}/{date_to_retrieve}?adjusted=true&sort=asc&limit=1&apiKey={self.polygon_key}')
         current_price_info = json.loads(response.text)
 
-        # Getting closing price since it is closet to the current price
         return current_price_info['results'][0]['c']
+
     
     """
         Purpose

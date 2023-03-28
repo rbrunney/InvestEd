@@ -28,10 +28,18 @@ class _LessonPageState extends State<LessonPage> {
                     fontSize: 15,
                     color: const Color(global_style.whiteAccentColor)
                   ),
-                  const LessonCard(),
-                  const LessonCard(),
-                  const LessonCard(),
-                  const LessonCard(),
+                  const LessonCard(
+                    title: 'Evaluating Goals',
+                    thumbnail: 'https://www.simplilearn.com/ice9/free_resources_article_thumb/smart_goals.jpg',
+                    totalExercises: 5,
+                    totalCashReward: 250,
+                  ),
+                  const LessonCard(
+                    title: 'Risk Management',
+                    thumbnail: 'https://www.itprotoday.com/sites/itprotoday.com/files/styles/article_featured_retina/public/GettyImages-1343006928-1401x788-49696df.jpeg?itok=5BgyVhCG',
+                    totalExercises: 3,
+                    totalCashReward: 150,
+                  ),
                 ]
               )
             )

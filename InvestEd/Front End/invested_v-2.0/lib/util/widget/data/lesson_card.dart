@@ -83,7 +83,7 @@ class _LessonCardState extends State<LessonCard> {
             ),
             const Spacer(),
             CustomText(
-                text: '\$${widget.totalCashReward}',
+                text: '\$${widget.totalCashReward.toStringAsFixed(2)}',
                 fontSize: 18,
                 fontWeight: FontWeight.bold
             )
@@ -93,6 +93,12 @@ class _LessonCardState extends State<LessonCard> {
   }
 
   Container buildExerciseRow() {
+    List<Widget> dots = [];
+
+    for(int i=0; i< widget.totalExercises; i++) {
+      dots.add(buildExerciseDot(const Color(global_style.greenAccentColor)));
+    }
+
     return Container(
         margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.02),
         child: Row(
@@ -111,11 +117,7 @@ class _LessonCardState extends State<LessonCard> {
             Container(
                 margin: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.03),
                 child: Row(
-                  children: [
-                    buildExerciseDot(const Color(global_style.greenAccentColor)),
-                    buildExerciseDot(const Color(global_style.greenAccentColor)),
-                    buildExerciseDot(const Color(global_style.greenAccentColor))
-                  ],
+                  children: dots,
                 )
             )
           ],
