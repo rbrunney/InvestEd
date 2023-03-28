@@ -1,6 +1,11 @@
+import 'dart:convert';
+
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:invested/controllers/url_controller/url_controller.dart';
+import 'package:invested/util/requests/basic_request.dart';
 import 'package:invested/util/style/global_styling.dart' as global_style;
-import 'package:invested/util/widget/data/news_article.dart';
+import 'package:invested/util/widget/data/news/news_article.dart';
 import 'package:invested/util/widget/data/stock_card.dart';
 import 'package:invested/util/widget/page/to_previous_page.dart';
 import 'package:invested/util/widget/text/custom_text_field.dart';
@@ -14,6 +19,42 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+
+  final urlController = Get.put(URLController());
+  Future<List<Widget>>? currentNews;
+  List<Widget> newsCards = [];
+
+  Future<List<Widget>> getCurrentNews() async {
+
+
+    await BasicRequest.makeGetRequest("${urlController.localBaseURL}/invested_stock/MSFT/news")
+    .then((value) {
+      var response = json.decode(value);
+      var newsArticles = response['results']['recent_news'];
+
+      for(var newsArticle in newsArticles) {
+        setState(() {
+          newsCards.add(
+            NewsArticleCard(
+              title: newsArticle['title'],
+              thumbnailURL: newsArticle['thumbnail_link'],
+              authors: [newsArticle['authors']],
+              publishDate: newsArticle['publish_date'],
+            )
+          );
+        });
+      }
+    });
+
+    return newsCards;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    currentNews = getCurrentNews();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -53,7 +94,23 @@ class _SearchPageState extends State<SearchPage> {
           buildTrending(),
           buildTrendingStocks(),
           buildCurrentNews(),
-          buildNewsArticles()
+          FutureBuilder<List<Widget>>(
+            future: currentNews,
+            builder: (context, snapshot) {
+              if(snapshot.hasData) {
+                return buildNewsArticles(newsCards);
+              }
+
+              return Center(
+                  heightFactor: 20,
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: const CircularProgressIndicator(
+                      color: Color(global_style.greenPrimaryColor),
+                    ),
+                  ));
+            }
+          )
         ],
       )
     );
@@ -149,29 +206,7 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  SizedBox buildNewsArticles() {
-
-    List<NewsArticleCard> newsArticles = const [
-      NewsArticleCard(
-        title: 'Article',
-        thumbnailURL: 'https://i-invdn-com.investing.com/redesign/images/seo/investingcom_analysis_og.jpg',
-        authors: ['Bob Burtha'],
-        publishDate: '12-12-1212',
-      ),
-      NewsArticleCard(
-        title: 'Article',
-        thumbnailURL: 'https://i-invdn-com.investing.com/redesign/images/seo/investingcom_analysis_og.jpg',
-        authors: ['Bob Burtha'],
-        publishDate: '12-12-1212',
-      ),
-      NewsArticleCard(
-        title: 'Article',
-        thumbnailURL: 'https://i-invdn-com.investing.com/redesign/images/seo/investingcom_analysis_og.jpg',
-        authors: ['Bob Burtha'],
-        publishDate: '12-12-1212',
-      ),
-
-    ];
+  SizedBox buildNewsArticles(List<Widget> newsArticles) {
 
     return SizedBox(
         height: MediaQuery.of(context).size.height * 0.415,

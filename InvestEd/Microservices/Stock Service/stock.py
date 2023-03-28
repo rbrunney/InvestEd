@@ -235,13 +235,19 @@ class Stock:
         recent_news_articles = []
 
         for news_article in news_articles:
+
+            try:
+                summary = news_article['description']
+            except:
+                summary = ''
+
             recent_news_articles.append(
                 {
                     'title' : news_article['title'],
                     'authors' : news_article['author'],
                     'publisher' : news_article['publisher'],
                     'publish_date' : news_article['published_utc'],
-                    'summary' : news_article['description'],
+                    'summary' : summary,
                     'story_link' : news_article['article_url'],
                     'thumbnail_link' : news_article['image_url'],
                 }
