@@ -1,5 +1,10 @@
+import 'dart:convert';
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:invested/controllers/token_controllers/token_controller.dart';
+import 'package:invested/controllers/url_controller/url_controller.dart';
+import 'package:invested/util/requests/auth_request.dart';
 import 'package:invested/util/style/global_styling.dart' as global_style;
 import 'package:invested/util/widget/text/custom_text.dart';
 

@@ -1,5 +1,6 @@
 package com.invested.portfolioservice.models.application;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +22,7 @@ public class PortfolioStock {
     private double totalEquity;
     private double totalInitialBuyIn;
     @ManyToOne
+    @JsonIgnore
     private Portfolio portfolio;
 
     public PortfolioStock() {

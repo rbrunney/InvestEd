@@ -241,6 +241,16 @@ class Stock:
             )
 
         return recent_news_articles
+    
+    def get_ticker_logo(self):
+        try: 
+            response = requests.get(f'https://api.polygon.io/v3/reference/tickers/{self.ticker}?apiKey={self.polygon_key}')
+            ticker_details = json.loads(response.text)['results']
+
+            return str(ticker_details['branding']['icon_url']) + f'?apiKey={self.polygon_key}'
+        except Exception as e:
+            print(e)
+            return {}
         
     def get_moving_average(self, moving_period):
 
