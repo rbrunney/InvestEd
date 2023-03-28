@@ -1,18 +1,21 @@
+import 'dart:convert';
+
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:invested/controllers/url_controller/url_controller.dart';
 import 'package:invested/pages/stock_info/basic_stock_info_page.dart';
+import 'package:invested/util/requests/basic_request.dart';
 import 'package:invested/util/widget/text/custom_text.dart';
 import 'package:invested/util/widget/text/page_title.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:invested/util/style/global_styling.dart' as global_style;
 
 class StockCard extends StatefulWidget {
-  final String tickerLogo;
   final String ticker;
   final double totalGain;
   const StockCard({
     Key? key,
-    required this.tickerLogo,
     required this.ticker,
     required this.totalGain,
   }) : super(key: key);
@@ -22,6 +25,34 @@ class StockCard extends StatefulWidget {
 }
 
 class _StockCardState extends State<StockCard> {
+
+  final urlController = Get.put(URLController());
+  String logo = '';
+
+  Future<String>? getLogo;
+
+  Future<String> getTickerLogo() async {
+    await BasicRequest.makeGetRequest("${urlController.localBaseURL}/invested_stock/${widget.ticker}/logo")
+        .then((value) {
+       var response = json.decode(value);
+       setState(() {
+         try {
+           logo = response['results']['logo'];
+         } catch(exception) {
+           logo = 'https://static.vecteezy.com/system/resources/previews/002/261/149/original/black-icon-dollar-symbol-sign-isolate-on-white-background-illustration-eps-10-free-vector.jpg';
+         }
+       });
+    });
+
+    return '';
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getLogo = getTickerLogo();
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -42,7 +73,23 @@ class _StockCardState extends State<StockCard> {
           ),
           child: Column(
             children: [
-              buildTickerLogo(),
+              FutureBuilder(
+                future: getLogo,
+                builder: (context, snapshot) {
+                  if(snapshot.hasData) {
+                    return buildTickerLogo();
+                  }
+
+                  return Center(
+                      heightFactor: 20,
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: const CircularProgressIndicator(
+                          color: Color(global_style.greenPrimaryColor),
+                        ),
+                      ));
+                },
+              ),
               buildTickerTitle(),
               buildTickerGain(),
             ],
@@ -58,7 +105,7 @@ class _StockCardState extends State<StockCard> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
           child: Image.network(
-            widget.tickerLogo,
+            logo,
             height: 65,
             width: 65,
           ),

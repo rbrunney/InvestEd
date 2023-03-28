@@ -105,7 +105,7 @@ class _SearchPageState extends State<SearchPage> {
             Container(
               margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
               child: const StockCard(
-                  tickerLogo: 'https://api.polygon.io/v1/reference/company-branding/d3d3LmFtYXpvbi5jb20/images/2023-01-01_icon.jpeg?apiKey=pWnmnyskgOhWmfE226LWf4BH4vDY1i73',
+                  // tickerLogo: 'https://api.polygon.io/v1/reference/company-branding/d3d3LmFtYXpvbi5jb20/images/2023-01-01_icon.jpeg?apiKey=pWnmnyskgOhWmfE226LWf4BH4vDY1i73',
                   ticker: 'AMZN',
                   totalGain: 35
               ),
@@ -113,7 +113,7 @@ class _SearchPageState extends State<SearchPage> {
             Container(
               margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
               child: const StockCard(
-                  tickerLogo: 'https://api.polygon.io/v1/reference/company-branding/d3d3LmFtYXpvbi5jb20/images/2023-01-01_icon.jpeg?apiKey=pWnmnyskgOhWmfE226LWf4BH4vDY1i73',
+                  // tickerLogo: 'https://api.polygon.io/v1/reference/company-branding/d3d3LmFtYXpvbi5jb20/images/2023-01-01_icon.jpeg?apiKey=pWnmnyskgOhWmfE226LWf4BH4vDY1i73',
                   ticker: 'AMZN',
                   totalGain: 35
               ),
@@ -121,7 +121,7 @@ class _SearchPageState extends State<SearchPage> {
             Container(
               margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
               child: const StockCard(
-                  tickerLogo: 'https://api.polygon.io/v1/reference/company-branding/d3d3LmFtYXpvbi5jb20/images/2023-01-01_icon.jpeg?apiKey=pWnmnyskgOhWmfE226LWf4BH4vDY1i73',
+                  // tickerLogo: 'https://api.polygon.io/v1/reference/company-branding/d3d3LmFtYXpvbi5jb20/images/2023-01-01_icon.jpeg?apiKey=pWnmnyskgOhWmfE226LWf4BH4vDY1i73',
                   ticker: 'AMZN',
                   totalGain: 35
               ),
@@ -129,7 +129,7 @@ class _SearchPageState extends State<SearchPage> {
             Container(
               margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
               child: const StockCard(
-                  tickerLogo: 'https://api.polygon.io/v1/reference/company-branding/d3d3LmFtYXpvbi5jb20/images/2023-01-01_icon.jpeg?apiKey=pWnmnyskgOhWmfE226LWf4BH4vDY1i73',
+                  // tickerLogo: 'https://api.polygon.io/v1/reference/company-branding/d3d3LmFtYXpvbi5jb20/images/2023-01-01_icon.jpeg?apiKey=pWnmnyskgOhWmfE226LWf4BH4vDY1i73',
                   ticker: 'AMZN',
                   totalGain: 35
               ),

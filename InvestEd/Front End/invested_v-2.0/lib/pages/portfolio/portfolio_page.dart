@@ -54,7 +54,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
       for (var stock in (response['results']['stocks'] as List)) {
         setState(() {
           stocks.add(
-              StockCard(tickerLogo: '', ticker: stock['ticker'], totalGain: totalGain)
+              StockCard(ticker: stock['ticker'], totalGain: totalGain)
           );
         });
       }
