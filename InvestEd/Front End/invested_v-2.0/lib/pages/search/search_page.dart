@@ -26,8 +26,10 @@ class _SearchPageState extends State<SearchPage> {
 
   Future<List<Widget>> getCurrentNews() async {
 
+    List<String> stocksToPullFrom = ['MSFT', 'AMZN', 'XOM', 'AAPL'];
+    stocksToPullFrom.shuffle();
 
-    await BasicRequest.makeGetRequest("${urlController.localBaseURL}/invested_stock/MSFT/news")
+    await BasicRequest.makeGetRequest("${urlController.localBaseURL}/invested_stock/${stocksToPullFrom.elementAt(0)}/news")
     .then((value) {
       var response = json.decode(value);
       var newsArticles = response['results']['recent_news'];
@@ -40,6 +42,8 @@ class _SearchPageState extends State<SearchPage> {
               thumbnailURL: newsArticle['thumbnail_link'],
               authors: [newsArticle['authors']],
               publishDate: newsArticle['publish_date'],
+              summary: newsArticle['summary'],
+              websiteUrl: newsArticle['story_link']
             )
           );
         });
