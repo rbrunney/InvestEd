@@ -2,6 +2,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:invested/models/stock.dart';
 import 'package:invested/pages/landing/landing_button.dart';
+import 'package:invested/pages/stock_info/basic_stat_card/buy/buy_page.dart';
 import 'package:invested/util/style/global_styling.dart' as global_style;
 import 'package:invested/util/widget/data/cash_gain.dart';
 import 'package:invested/util/widget/data/price_history/price_history.dart';
@@ -273,7 +274,14 @@ class _BasicStockInfoPageState extends State<BasicStockInfoPage> {
                         child: Container(
                             margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01, horizontal: MediaQuery.of(context).size.width * 0.05),
                             child: LandingButton(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute (
+                                    builder: (BuildContext context) => const BuyPage(),
+                                  ),
+                                );
+                              },
                               hasFillColor: true,
                               color: cashGain < 0 ? const Color(global_style.redPrimaryColor) : const Color(global_style.greenPrimaryColor),
                               text: 'Buy',
