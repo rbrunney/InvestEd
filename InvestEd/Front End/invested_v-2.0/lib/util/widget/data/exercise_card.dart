@@ -4,10 +4,12 @@ import 'package:invested/pages/landing/landing_button.dart';
 import 'package:invested/util/widget/text/custom_text.dart';
 
 class ExerciseCard extends StatefulWidget {
-  final String thumbnail;
+  final String title;
+  final List<dynamic> snippets;
   const ExerciseCard({
     Key? key,
-    this.thumbnail = 'https://i.pinimg.com/736x/ba/92/7f/ba927ff34cd961ce2c184d47e8ead9f6.jpg'
+    this.title = '',
+    this.snippets = const []
   }) : super(key: key);
 
   @override
@@ -30,7 +32,6 @@ class _ExerciseCardState extends State<ExerciseCard> {
                         topRight: Radius.circular(10)),
                     child: Column(
                       children: [
-                        buildThumbnail(),
                         buildExerciseTitle(),
                         buildExerciseButton('Begin')
                       ],
@@ -39,26 +40,13 @@ class _ExerciseCardState extends State<ExerciseCard> {
             )));
   }
 
-  Container buildThumbnail() {
-    return Container(
-        margin: const EdgeInsets.only(left:10, right:10, top: 10, bottom: 8),
-        child: ClipRRect(
-          borderRadius:
-          const BorderRadius.all(Radius.circular(15)),
-          child: Image.network(
-            widget.thumbnail,
-            width: 350,
-            height: 110,
-            fit: BoxFit.cover,
-          ),
-        )
-    );
-  }
-
   Container buildExerciseTitle() {
     return Container(
+      margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.06, horizontal: MediaQuery.of(context).size.width * 0.05),
       child: CustomText(
-        text: "Text",
+        text: widget.title,
+        fontWeight: FontWeight.bold,
+        fontSize: 20,
       )
     );
   }

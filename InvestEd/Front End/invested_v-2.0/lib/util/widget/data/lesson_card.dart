@@ -146,7 +146,7 @@ class _LessonCardState extends State<LessonCard> {
             Navigator.push(
                 context,
                 MaterialPageRoute<void>(
-                    builder: (BuildContext context) => const LessonInfoPage()));
+                    builder: (BuildContext context) => LessonInfoPage(lessonTitle: widget.title, cashReward: widget.totalCashReward)));
           },
           hasFillColor: true,
         )

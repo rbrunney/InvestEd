@@ -31,7 +31,7 @@ class _LessonPageState extends State<LessonPage> {
                   const LessonCard(
                     title: 'Evaluating Goals',
                     thumbnail: 'https://www.simplilearn.com/ice9/free_resources_article_thumb/smart_goals.jpg',
-                    totalExercises: 5,
+                    totalExercises: 6,
                     totalCashReward: 250,
                   ),
                   const LessonCard(
