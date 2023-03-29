@@ -13,11 +13,11 @@ import 'package:invested/util/style/global_styling.dart' as global_style;
 
 class StockCard extends StatefulWidget {
   final String ticker;
-  final double totalGain;
-  const StockCard({
+  double totalGain;
+  StockCard({
     Key? key,
     required this.ticker,
-    required this.totalGain,
+    this.totalGain = 0,
   }) : super(key: key);
 
   @override
@@ -47,10 +47,36 @@ class _StockCardState extends State<StockCard> {
     return '';
   }
 
+  Future<double>? cashGain;
+
+  Future<double> getCashGain() async {
+    double currentPrice = 0;
+    double previousClose = 0;
+
+    await BasicRequest.makeGetRequest("${urlController.localBaseURL}/invested_stock/${widget.ticker}/price")
+    .then((value) {
+      var response = json.decode(value);
+      currentPrice = response['results']['current_price'];
+    });
+
+    await BasicRequest.makeGetRequest("${urlController.localBaseURL}/invested_stock/${widget.ticker}/basic_info")
+    .then((value) {
+      var response = json.decode(value);
+      previousClose = response['results']['previous_close'];
+    });
+
+    setState(() {
+      widget.totalGain = currentPrice - previousClose;
+    });
+
+    return widget.totalGain;
+  }
+
   @override
   void initState() {
     super.initState();
     getLogo = getTickerLogo();
+    cashGain = getCashGain();
   }
 
   @override
@@ -81,7 +107,6 @@ class _StockCardState extends State<StockCard> {
                   }
 
                   return Center(
-                      heightFactor: 20,
                       child: Container(
                         alignment: Alignment.center,
                         child: const CircularProgressIndicator(
@@ -91,7 +116,22 @@ class _StockCardState extends State<StockCard> {
                 },
               ),
               buildTickerTitle(),
-              buildTickerGain(),
+              FutureBuilder(
+                future: cashGain,
+                builder: (context, snapshot) {
+                  if(snapshot.hasData) {
+                    return buildTickerGain();
+                  }
+
+                  return Center(
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: const CircularProgressIndicator(
+                          color: Color(global_style.greenPrimaryColor),
+                        ),
+                      ));
+                },
+              )
             ],
           )
         )

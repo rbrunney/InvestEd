@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:invested/controllers/url_controller/url_controller.dart';
+import 'package:invested/pages/stock_info/basic_stock_info_page.dart';
 import 'package:invested/util/requests/basic_request.dart';
 import 'package:invested/util/style/global_styling.dart' as global_style;
 import 'package:invested/util/widget/data/news/news_article.dart';
 import 'package:invested/util/widget/data/stock_card.dart';
+import 'package:invested/util/widget/page/alert.dart';
 import 'package:invested/util/widget/page/to_previous_page.dart';
 import 'package:invested/util/widget/text/custom_text_field.dart';
 import 'package:invested/util/widget/text/page_title.dart';
@@ -53,10 +55,37 @@ class _SearchPageState extends State<SearchPage> {
     return newsCards;
   }
 
+  Future<List<Widget>>? trendingStocks;
+  List<Widget> trendingStockCards = [];
+
+  Future<List<Widget>> getTrendingStocks() async {
+    await BasicRequest.makeGetRequest("${urlController.localBaseURL}/invested_stock/trending")
+    .then((value) {
+      var response = json.decode(value);
+
+      for(int i=0; i<response['results'].length; i++) {
+        setState(() {
+          trendingStockCards.add(
+              i != response['results'].length - 1 ? Container(
+                margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
+                child: StockCard(ticker: response['results'].elementAt(i), totalGain: 0)
+              ) : Container(
+                  margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
+                  child: StockCard(ticker: response['results'].elementAt(i), totalGain: 0)
+              )
+          );
+        });
+      }
+    });
+
+    return trendingStockCards;
+  }
+
   @override
   void initState() {
     super.initState();
     currentNews = getCurrentNews();
+    trendingStocks = getTrendingStocks();
   }
 
   @override
@@ -67,8 +96,6 @@ class _SearchPageState extends State<SearchPage> {
             children: [
               buildTopGreenPatch(),
               buildHeader(),
-              const SingleChildScrollView(
-              )
           ]
         )
       )
@@ -96,7 +123,22 @@ class _SearchPageState extends State<SearchPage> {
           const ToPrevPage(),
           buildSearchBar(),
           buildTrending(),
-          buildTrendingStocks(),
+          FutureBuilder<List<Widget>>(
+              future: trendingStocks,
+              builder: (context, snapshot) {
+                if(snapshot.hasData) {
+                  return buildTrendingStocks(trendingStockCards);
+                }
+
+                return Center(
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: const CircularProgressIndicator(
+                        color: Color(global_style.greenPrimaryColor),
+                      ),
+                    ));
+              }
+          ),
           buildCurrentNews(),
           FutureBuilder<List<Widget>>(
             future: currentNews,
@@ -106,7 +148,6 @@ class _SearchPageState extends State<SearchPage> {
               }
 
               return Center(
-                  heightFactor: 20,
                   child: Container(
                     alignment: Alignment.center,
                     child: const CircularProgressIndicator(
@@ -126,19 +167,45 @@ class _SearchPageState extends State<SearchPage> {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.05,
+        height: MediaQuery.of(context).size.height * 0.055,
         width: MediaQuery.of(context).size.width * 0.95,
         child: Card(
           color: const Color(global_style.whiteBackgroundColor),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(6),
           ),
-          child: CustomTextField(
-            verticalMargin: 0,
-            prefixIcon: Icons.search,
-            labelText: 'Search',
-            textCallBack: (String value) {  },
-            textController: searchController,
+          child: TextField(
+            controller: searchController,
+            decoration: InputDecoration(
+              prefixIcon: IconButton(
+                onPressed: () async {
+                  await BasicRequest.makeGetRequest("${urlController.localBaseURL}/invested_stock/${searchController.text}/price")
+                      .then((value) async {
+                        try {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute (
+                                builder: (BuildContext context) => BasicStockInfoPage(ticker: searchController.text),
+                              ));
+                        } catch(exception) {
+                          await showDialog<void>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return const Alert(
+                                  title: "Invalid Ticker",
+                                  message: "Please try again!",
+                                  buttonMessage: "Ok",
+                                  width: 50,
+                                );
+                              }
+                          );
+                        }
+                  });
+                },
+                icon: const Icon(Icons.search),
+              ),
+              hintText: 'Search',
+            ),
           )
         )
       )
@@ -147,7 +214,7 @@ class _SearchPageState extends State<SearchPage> {
 
   Container buildTrending() {
     return Container(
-      margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05, top: MediaQuery.of(context).size.height * 0.01),
+      margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05, top: MediaQuery.of(context).size.height * 0.005),
       child: const PageTitle(
           title: "Trending",
           fontSize: 35,
@@ -156,46 +223,13 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  SizedBox buildTrendingStocks() {
+  SizedBox buildTrendingStocks(List<Widget> trendingStocks) {
     return SizedBox(
         height: MediaQuery.of(context).size.height * 0.23,
         width: MediaQuery.of(context).size.width,
         child: ListView(
           scrollDirection: Axis.horizontal,
-          children: [
-            Container(
-              margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
-              child: const StockCard(
-                  // tickerLogo: 'https://api.polygon.io/v1/reference/company-branding/d3d3LmFtYXpvbi5jb20/images/2023-01-01_icon.jpeg?apiKey=pWnmnyskgOhWmfE226LWf4BH4vDY1i73',
-                  ticker: 'AMZN',
-                  totalGain: 35
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
-              child: const StockCard(
-                  // tickerLogo: 'https://api.polygon.io/v1/reference/company-branding/d3d3LmFtYXpvbi5jb20/images/2023-01-01_icon.jpeg?apiKey=pWnmnyskgOhWmfE226LWf4BH4vDY1i73',
-                  ticker: 'AMZN',
-                  totalGain: 35
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
-              child: const StockCard(
-                  // tickerLogo: 'https://api.polygon.io/v1/reference/company-branding/d3d3LmFtYXpvbi5jb20/images/2023-01-01_icon.jpeg?apiKey=pWnmnyskgOhWmfE226LWf4BH4vDY1i73',
-                  ticker: 'AMZN',
-                  totalGain: 35
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
-              child: const StockCard(
-                  // tickerLogo: 'https://api.polygon.io/v1/reference/company-branding/d3d3LmFtYXpvbi5jb20/images/2023-01-01_icon.jpeg?apiKey=pWnmnyskgOhWmfE226LWf4BH4vDY1i73',
-                  ticker: 'AMZN',
-                  totalGain: 35
-              ),
-            )
-          ],
+          children: trendingStocks,
         )
     );
   }

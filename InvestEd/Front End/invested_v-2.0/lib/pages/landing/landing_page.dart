@@ -106,7 +106,7 @@ class _LandingPageState extends State<LandingPage> {
     return LandingButton(
       onTap: () async {
         await googleController.login();
-        if (userDataController.email != null) {
+        if (userDataController.email != '') {
           userDataController.showData();
           pushToNewPage(const HomePage(), PageTransitionType.fade);
         } else {
