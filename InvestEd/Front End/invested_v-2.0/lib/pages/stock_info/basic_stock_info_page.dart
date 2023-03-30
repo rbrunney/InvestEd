@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:invested/models/stock.dart';
 import 'package:invested/pages/landing/landing_button.dart';
-import 'package:invested/pages/stock_info/basic_stat_card/buy/buy_page.dart';
+import 'package:invested/pages/buy/buy_page.dart';
 import 'package:invested/util/style/global_styling.dart' as global_style;
 import 'package:invested/util/widget/data/cash_gain.dart';
 import 'package:invested/util/widget/data/price_history/price_history.dart';
@@ -278,7 +278,11 @@ class _BasicStockInfoPageState extends State<BasicStockInfoPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute (
-                                    builder: (BuildContext context) => const BuyPage(),
+                                    builder: (BuildContext context) => BuyPage(
+                                      currentPrice: currentStock.currentPrice,
+                                      ticker: widget.ticker,
+                                      previousClose: currentStock.previousClose,
+                                    ),
                                   ),
                                 );
                               },
