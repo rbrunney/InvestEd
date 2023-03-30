@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:invested/main.dart';
 import 'package:invested/pages/buy/buy_sell_info_row.dart';
+import 'package:invested/pages/landing/landing_button.dart';
 import 'package:invested/util/widget/text/custom_text.dart';
 import 'package:invested/util/widget/text/page_title.dart';
 import 'package:invested/util/style/global_styling.dart' as global_style;
 
-class OrderCompletePage extends StatelessWidget {
+class OrderCompletePage extends StatefulWidget {
   final String ticker;
   final String tradeType;
   final String orderType;
@@ -25,94 +26,117 @@ class OrderCompletePage extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<OrderCompletePage> createState() => _OrderCompletePageState();
+}
+
+class _OrderCompletePageState extends State<OrderCompletePage> {
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          body: Stack(
-            children: [
-              SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Container(
-                          margin: const EdgeInsets.only(top: 55, bottom: 20),
-                          child:  const PageTitle(
-                            alignment: Alignment.center,
-                            title: "Order Submitted",
-                          )
-                      ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 30),
-                        child: Card(
-                          child: Column(
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.only(top: 15),
-                                child: const PageTitle(
-                                  alignment: Alignment.center,
-                                  title: "Order Info",
-                                  fontSize: 25,
-                                ),
-                              ),
-                              BuySellInfoRow(
-                                infoPrefixText: "Ticker:",
-                                infoSuffixText: ticker,
-                              ),
-                              BuySellInfoRow(
-                                infoPrefixText: "Total Shares:",
-                                infoSuffixText: totalShares.toStringAsFixed(2),
-                              ),
-                              BuySellInfoRow(
-                                infoPrefixText: "Price-Per-Share:",
-                                infoSuffixText: "\$${currentPrice.toStringAsFixed(2)}",
-                              ),
-                              BuySellInfoRow(
-                                infoPrefixText: "Total Price:",
-                                infoSuffixText: "\$${finalPrice.toStringAsFixed(2)}",
-                              ),
-                              BuySellInfoRow(
-                                infoPrefixText: "Trade Type:",
-                                infoSuffixText: tradeType,
-                              ),
-                              BuySellInfoRow(
-                                infoPrefixText: "Order Id:",
-                                infoSuffixText: orderId.split("-")[4],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                          margin: const EdgeInsets.only(top: 35),
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (context) => const HomePage()),
-                                      (Route<dynamic> route) => false);
-                            },
-                            child: SizedBox(
-                                height: 40,
-                                width: 200,
-                                child: Container(
-                                  padding: const EdgeInsets.all(5),
-                                  decoration: const BoxDecoration(
-                                      color: Color(global_style.greenPrimaryColor),
-                                      borderRadius: const BorderRadius.all(Radius.circular(5))
-                                  ),
-                                  child: CustomText(
-                                    color: const Color(global_style.greenPrimaryColor),
-                                    text: "Finish!",
-                                  ),
-                                )
-                            ),
-                          )
-                      )
-                    ],
-                  )
-              ),
-            ],
-          )
+            body: Stack(
+              children: [
+                buildTopGreenPatch(),
+                SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        buildHeader(),
+                        buildOrderReceipt(),
+                        buildCompleteButton()
+                      ],
+                    )
+                ),
+              ],
+            )
         )
+    );
+  }
+
+  Column buildTopGreenPatch() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height *
+                0.35, // Multiply to get 30%
+            color: const Color(global_style.greenPrimaryColor))
+      ],
+    );
+  }
+
+  Container buildHeader() {
+    return Container(
+        margin: const EdgeInsets.only(top: 55, bottom: 20),
+        child:  const PageTitle(
+          alignment: Alignment.center,
+          title: "Order Submitted",
+          color: Color(global_style.whiteAccentColor),
+        )
+    );
+  }
+
+  Container buildOrderReceipt() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(top: 15),
+              child: const PageTitle(
+                alignment: Alignment.center,
+                title: "Order Receipt",
+                fontSize: 25,
+              ),
+            ),
+            BuySellInfoRow(
+              infoPrefixText: "Ticker:",
+              infoSuffixText: widget.ticker,
+            ),
+            BuySellInfoRow(
+              infoPrefixText: "Total Shares:",
+              infoSuffixText: widget.totalShares.toStringAsFixed(2),
+            ),
+            BuySellInfoRow(
+              infoPrefixText: "Price-Per-Share:",
+              infoSuffixText: "\$${widget.currentPrice.toStringAsFixed(2)}",
+            ),
+            BuySellInfoRow(
+              infoPrefixText: "Total Price:",
+              infoSuffixText: "\$${widget.finalPrice.toStringAsFixed(2)}",
+            ),
+            BuySellInfoRow(
+              infoPrefixText: "Trade Type:",
+              infoSuffixText: widget.tradeType,
+            ),
+            BuySellInfoRow(
+              infoPrefixText: "Order Id:",
+              infoSuffixText: widget.orderId.split("-")[4],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container buildCompleteButton() {
+    return Container(
+      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
+      child: LandingButton(
+        text: 'Complete!',
+        onTap: () {
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                  builder: (context) => const HomePage()),
+                  (Route<dynamic> route) => false);
+        },
+        hasFillColor: true,
+      )
     );
   }
 }
