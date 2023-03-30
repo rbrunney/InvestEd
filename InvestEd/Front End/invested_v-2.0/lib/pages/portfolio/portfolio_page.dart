@@ -87,6 +87,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
                             buildPortfolioValue(portfolioValue),
                             buildPortfolioTotalGain(portfolioValue * totalGain, totalGain),
                             buildPortfolioHistory(0, 0, 0, []),
+                            buildBuyingPower(),
                             buildPortfolioHeader(),
                             buildPortfolio()
                           ],
@@ -197,6 +198,27 @@ class _PortfolioPageState extends State<PortfolioPage> {
         previousClose: previousClose,
         pricePoints: pricePoints
       )
+    );
+  }
+
+  Container buildBuyingPower() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.06),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: CustomText(alignment: Alignment.centerLeft, text: 'Buying Power:', fontSize: 17,),
+              ),
+              Expanded(
+                child: CustomText(alignment: Alignment.centerRight, text: '\$${userDataController.buyingPower.toStringAsFixed(2)}', fontSize: 17,)
+              )
+            ],
+          ),
+          const Divider(color: Color(global_style.greenAccentColor))
+        ],
+      ),
     );
   }
 
