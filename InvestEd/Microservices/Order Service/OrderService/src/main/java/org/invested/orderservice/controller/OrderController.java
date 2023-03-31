@@ -73,7 +73,7 @@ public class OrderController {
      * @return A Response Entity with the order id if it's good, otherwise it will send a 400 BAD_REQUEST
      */
     @PostMapping("/order")
-    public ResponseEntity<Map<String, Object>> placeBasicOrder(Principal principal, @RequestBody JsonNode orderInfo) {
+    public ResponseEntity<Map<String, Object>> placeBasicOrder(Principal principal, @RequestBody JsonNode orderInfo, @RequestParam String portfolioId) {
 
         // Getting the user information off of UserPassAuthToken from principal
         Map<String, String> userInfo = basicOrderService.convertMsgToMap(principal.getName());
@@ -82,7 +82,7 @@ public class OrderController {
 
         if(newOrder != null) {
             // Creating Order Object In Database
-            basicOrderService.createOrder(newOrder, userInfo.get("email").replace("\"", ""));
+            basicOrderService.createOrder(newOrder, userInfo.get("email").replace("\"", ""), portfolioId);
 
             return new ResponseEntity<>(new HashMap<>() {{
                 put("message", newOrder.getTicker() + " Order Placed Successfully");

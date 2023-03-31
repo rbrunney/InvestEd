@@ -1,11 +1,11 @@
 package org.invested.services;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import org.invested.models.application.account.Account;
 import org.invested.models.application.order_enums.Status;
 import org.invested.models.application.order_types.BasicOrder;
 import org.invested.repositories.AccountJPARepository;
 import org.invested.repositories.OrderJPARepository;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +14,9 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoField;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class OrderConsumerService {
@@ -60,11 +63,11 @@ public class OrderConsumerService {
      * A method for executing a buy on an order
      * @param currentOrder A Basic Order Object
      */
-    public void executeBuy(BasicOrder currentOrder) {
+    public void executeBuy(BasicOrder currentOrder, String portfolioId) {
 
         // Getting current ticker price
-        JsonNode currentPriceResponse = Requests.get("http://localhost:8888/invested_stock/" + currentOrder.getTicker() + "/price");
-        double currentTickerPrice = currentPriceResponse.get("results").get("current_price").asDouble();
+        JSONObject currentPriceResponse = Requests.get("http://gateway:8888/invested_stock/" + currentOrder.getTicker() + "/price");
+        double currentTickerPrice = Double.parseDouble(currentPriceResponse.get("current_price").toString());
 
         double originalTotalOrderPrice = currentOrder.getPricePerShare() * currentOrder.getStockQuantity();
         double newTotalOrderPrice = currentTickerPrice * currentOrder.getStockQuantity();
@@ -80,13 +83,34 @@ public class OrderConsumerService {
             currentOrder.setPricePerShare(currentTickerPrice);
         }
 
-        currentOrder.setOrderFulFilledDate(LocalDateTime.now());
-        currentOrder.setCurrentStatus(Status.COMPLETED);
-        orderRepo.save(currentOrder);
+        completeOrder(currentOrder);
+        addToPortfolio(currentOrder, portfolioId);
+    }
+
+    private void addToPortfolio(BasicOrder currentOrder, String portfolioId) {
+        Requests.post(
+        "http://gateway:8888/invested_portfolio/portfolio_stock",
+                "{" +
+                        "\"id\":\"\"," +
+                        "\"ticker\":\"" + currentOrder.getTicker() + "\"," +
+                        "\"portfolio\":\"" + portfolioId + "\"," +
+                        "\"totalShareQuantity\":" + currentOrder.getStockQuantity() + "," +
+                        "\"totalEquity\":" + currentOrder.getStockQuantity() * currentOrder.getPricePerShare() + "," +
+                        "\"totalInitialBuyIn\":" + currentOrder.getStockQuantity() * currentOrder.getPricePerShare() +
+                        "}");
+
+        System.out.println("{" +
+                "\"id\":\"\"," +
+                "\"ticker\":\"" + currentOrder.getTicker() + "\"," +
+                "\"portfolio_id\":\"" + portfolioId + "\"," +
+                "\"totalShareQuantity\":" + currentOrder.getStockQuantity() + "," +
+                "\"totalEquity\":" + currentOrder.getStockQuantity() * currentOrder.getPricePerShare() + "," +
+                "\"totalInitialBuyIn\":" + currentOrder.getStockQuantity() * currentOrder.getPricePerShare() + "," +
+                "}");
     }
 
     /**
-     * A method for executing a buy on a order
+     * A method for executing a buy on an order
      * @param currentOrder A Basic Order Object
      */
     public void executeSell(BasicOrder currentOrder) {
@@ -101,5 +125,23 @@ public class OrderConsumerService {
         currentOrder.setOrderFulFilledDate(LocalDateTime.now());
         currentOrder.setCurrentStatus(Status.COMPLETED);
         orderRepo.save(currentOrder);
+    }
+
+    static private Map<String, String> convertResponseToMap(String msgToConvert) {
+        // Turn body into a string
+        // Replacing the { } so we can just get straight key values
+        msgToConvert = msgToConvert.replace("{", "").replace("}", "").replace(" ", "");
+        Map<String, String> finalResult = new HashMap<>();
+
+        // Splitting to get key values
+        String[] jsonPairs = msgToConvert.split(",");
+
+        // Generating map based off of message
+        for(String pair : jsonPairs) {
+            String[] keyValue = pair.split("=");
+            finalResult.put(keyValue[0], keyValue[1]);
+        }
+
+        return finalResult;
     }
 }

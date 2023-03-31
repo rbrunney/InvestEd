@@ -1,4 +1,14 @@
-org\invested\ConsumerMain.class
-org\invested\rabbitmq\RabbitMQConsumer$1.class
+org\invested\models\application\order_types\BasicOrder.class
 org\invested\services\OrderConsumerService.class
-org\invested\rabbitmq\RabbitMQConsumer.class
+org\invested\models\rabbitmq\RabbitMQConsumer$1.class
+org\invested\models\application\account\Account.class
+org\invested\ConsumerMain.class
+org\invested\models\application\order_enums\ExpireTime.class
+org\invested\repositories\AccountJPARepository.class
+org\invested\repositories\OrderJPARepository.class
+org\invested\models\application\portfolio\Portfolio.class
+org\invested\models\application\order_enums\Status.class
+org\invested\models\application\portfolio\PortfolioStock.class
+org\invested\models\application\order_enums\TradeType.class
+org\invested\models\rabbitmq\RabbitMQConsumer.class
+org\invested\services\Requests.class

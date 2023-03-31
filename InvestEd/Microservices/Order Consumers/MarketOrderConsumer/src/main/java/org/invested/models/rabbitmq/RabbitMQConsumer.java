@@ -34,7 +34,7 @@ public class RabbitMQConsumer {
             // Checking Trade Type and Processing Accordingly
             switch (currentOrder.getTradeType()) {
                 case BUY:
-                    orderService.executeBuy(currentOrder);
+                    orderService.executeBuy(currentOrder, convertedMessage.get("portfolio-id"));
                 case SELL:
                     orderService.executeSell(currentOrder);
             }
@@ -68,7 +68,7 @@ public class RabbitMQConsumer {
      * @param msgToConvert A byte[] which is the message from RabbitMQ
      * @return A Map Object of the RabbitMQ Message
      */
-    private Map<String, String> convertMsgToMap(String msgToConvert) {
+    static private Map<String, String> convertMsgToMap(String msgToConvert) {
         // Turn body into a string
         // Replacing the { } so we can just get straight key values
         msgToConvert = msgToConvert.replace("{", "").replace("}", "").replace(" ", "");

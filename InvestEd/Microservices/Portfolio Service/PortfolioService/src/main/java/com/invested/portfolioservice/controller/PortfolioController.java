@@ -2,6 +2,9 @@ package com.invested.portfolioservice.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.invested.portfolioservice.models.application.Portfolio;
+import com.invested.portfolioservice.models.application.PortfolioStock;
+import com.invested.portfolioservice.reposititories.PortfolioJPARepository;
+import com.invested.portfolioservice.reposititories.PortfolioStockJPARepository;
 import com.invested.portfolioservice.services.PortfolioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +15,7 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/invested_portfolio")
@@ -19,6 +23,12 @@ public class PortfolioController {
 
     @Autowired
     private PortfolioService portfolioService;
+
+    @Autowired
+    private PortfolioJPARepository portfolioRepo;
+
+    @Autowired
+    private PortfolioStockJPARepository stockRepo;
 
     // /////////////////////////////////////////////////////////////////////////////
     // Create Portfolio End Points
@@ -43,6 +53,21 @@ public class PortfolioController {
             put("message", "Current User Already has a Portfolio!");
             put("date-time", LocalDateTime.now());
         }},HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("/portfolio_stock")
+    public ResponseEntity<Map<String, Object>> makePortfolioStock(@RequestBody JsonNode requestBody) {
+        PortfolioStock portfolioStock = new PortfolioStock(
+                requestBody.get("ticker").asText(),
+                requestBody.get("portfolio").asText(),
+                requestBody.get("totalShareQuantity").asDouble(),
+                requestBody.get("totalEquity").asDouble()
+        );
+        portfolioStock.setPortfolio(portfolioRepo.getReferenceById(requestBody.get("portfolio").asText()));
+        portfolioStock.setId(UUID.randomUUID().toString());
+        System.out.println(portfolioStock.getPortfolio());
+        stockRepo.save(portfolioStock);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     // /////////////////////////////////////////////////////////////////////

@@ -119,23 +119,27 @@ services:
   # ////////////////////////////////////////////////////
   # Order Consumers
 
-  # market_order_consumer:
-  #   build: ./Order Consumers/MarketOrderConsumer
-  #   image: market-order-consumer:1.0
-  #   environment:
-  #     - CUSTOM_PASSWORD=${CUSTOM_PASSWORD}
-  #     - CUSTOM_USERNAME=${CUSTOM_USERNAME}
-  #     - RABBITMQ_HOST=rabbitmq
-  #     - RABBITMQ_PORT=5672
-  #     - RABBITMQ_USERNAME=guest
-  #     - RABBITMQ_PASSWORD=guest
-  #     - RABBITMQ_QUEUE=market-order-queue
-  #   depends_on:
-  #     - rabbitmq
-  #   networks:
-  #     - base-net
-  #   deploy:
-  #     replicas: 1
+  market_order_consumer:
+    build: ./Order Consumers/MarketOrderConsumer
+    image: market-order-consumer:1.0
+    environment:
+      - CUSTOM_PASSWORD=${CUSTOM_PASSWORD}
+      - CUSTOM_USERNAME=${CUSTOM_USERNAME}
+      - DB_HOST=${MYSQL_HOST}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+      - DB_PORT=${MYSQL_PORT}
+      - DB_USER=${MYSQL_USER}
+      - RABBITMQ_HOST=${RABBITMQ_HOST}
+      - RABBITMQ_PORT=${RABBITMQ_PORT}
+      - RABBITMQ_USER=${RABBITMQ_USER}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
+      - RABBITMQ_QUEUE=market-order-queue
+    depends_on:
+      - rabbitmq
+    networks:
+      - base-net
+    deploy:
+      replicas: 1
 
   # limit_order_consumer:
   #   build: ./Order Consumers/LimitOrderConsumer
@@ -309,6 +313,7 @@ services:
   gateway_service:
     build: "./Gateway"
     image: "invested-gateway:1.0"
+    container_name: gateway
     depends_on:
       - stock_api
     ports:

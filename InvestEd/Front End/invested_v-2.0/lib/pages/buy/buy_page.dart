@@ -101,7 +101,7 @@ class _BuyPageState extends State<BuyPage> {
         child: Scaffold(
             body: Stack(
               children: [
-                buildTopGreenPatch(),
+                buildTopPatch(),
                 SingleChildScrollView(
                     child: Column(
                       children: [
@@ -120,7 +120,7 @@ class _BuyPageState extends State<BuyPage> {
     );
   }
 
-  Column buildTopGreenPatch() {
+  Column buildTopPatch() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -129,7 +129,7 @@ class _BuyPageState extends State<BuyPage> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height *
                 0.37, // Multiply to get 30%
-            color: const Color(global_style.greenPrimaryColor))
+            color: widget.previousClose > widget.currentPrice ? const Color(global_style.redPrimaryColor) : const Color(global_style.greenPrimaryColor))
       ],
     );
   }

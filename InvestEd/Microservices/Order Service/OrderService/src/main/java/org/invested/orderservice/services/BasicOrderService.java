@@ -129,7 +129,7 @@ public class BasicOrderService {
      * @param basicOrder An Order which contains all the details for the Order
      * @param email The users email so that way we can use it for a RabbitMQ Consumer
      */
-    public void createOrder(BasicOrder basicOrder, String email) {
+    public void createOrder(BasicOrder basicOrder, String email, String portfolioId) {
 
         // Save to database
         basicOrderRepo.save(basicOrder);
@@ -144,6 +144,7 @@ public class BasicOrderService {
         Map<String, Object> orderMessage = new HashMap<>() {{
             put("order-id", basicOrder.getId());
             put("user", basicOrder.getUser());
+            put("portfolio-id", portfolioId);
             put("email", email);
         }};
 
