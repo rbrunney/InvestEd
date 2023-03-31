@@ -4,6 +4,7 @@ class UserDataController extends GetxController {
   String name = '';
   String email = '';
   String photoUrl = '';
+  String portfolioId = '';
   double buyingPower = 0;
 
   setUserData(String name, String email, String photoUrl) {

@@ -46,6 +46,7 @@ dependencies:
   youtube_player_flutter: ^8.1.2
   basic_utils: ^5.5.3
   url_launcher: ^6.1.10
+  path_provider: ^2.0.14
 
 dev_dependencies:
   flutter_test:

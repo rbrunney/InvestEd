@@ -6,7 +6,17 @@ import 'package:invested/util/widget/text/custom_text.dart';
 class LeaderboardCard extends StatefulWidget {
   final Color color;
   final int place;
-  const LeaderboardCard({Key? key, required this.place, required this.color}) : super(key: key);
+  final String photo;
+  final String name;
+  final double portfolioValue;
+  const LeaderboardCard({
+    Key? key,
+    required this.place,
+    required this.color,
+    required this.photo,
+    required this.name,
+    required this.portfolioValue
+  }) : super(key: key);
 
   @override
   State<LeaderboardCard> createState() => _LeaderboardCardState();
@@ -40,10 +50,10 @@ class _LeaderboardCardState extends State<LeaderboardCard> {
                 flex: 1,
                 child: CircleAvatar(
                   radius: 25,
-                  backgroundImage: userDataController.photoUrl != ""
-                      ? NetworkImage(userDataController.photoUrl)
+                  backgroundImage: widget.photo != ""
+                      ? NetworkImage(widget.photo)
                       : null,
-                  child: userDataController.photoUrl != ""
+                  child: widget.photo != ""
                       ? null
                       : const Icon(
                     Icons.account_circle_outlined,
@@ -57,12 +67,12 @@ class _LeaderboardCardState extends State<LeaderboardCard> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomText(
-                      text: userDataController.name,
+                      text: widget.name,
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                     CustomText(
-                      text: "\$4500.75",
+                      text: "\$${widget.portfolioValue.toStringAsFixed(2)}",
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),

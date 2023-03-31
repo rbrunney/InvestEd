@@ -4,27 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="551c2867-427b-4431-b84d-584c19b4e632" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/invested/models/application/portfolio/Portfolio.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/invested/models/application/portfolio/PortfolioStock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Front End/invested_v-2.0/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Front End/invested_v-2.0/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Front End/invested_v-2.0/lib/pages/buy/buy_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Front End/invested_v-2.0/lib/pages/buy/buy_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/invested/models/rabbitmq/RabbitMQConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/invested/models/rabbitmq/RabbitMQConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/invested/services/OrderConsumerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/invested/services/OrderConsumerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/invested/services/Requests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/invested/services/Requests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/MarketOrderConsumer-1.0.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/MarketOrderConsumer-1.0.jar.original" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Order Service/OrderService/src/main/java/org/invested/orderservice/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Order Service/OrderService/src/main/java/org/invested/orderservice/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Order Service/OrderService/src/main/java/org/invested/orderservice/services/BasicOrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Order Service/OrderService/src/main/java/org/invested/orderservice/services/BasicOrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/java/com/invested/portfolioservice/config/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/java/com/invested/portfolioservice/config/security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/java/com/invested/portfolioservice/controller/PortfolioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Portfolio Service/PortfolioService/src/main/java/com/invested/portfolioservice/controller/PortfolioController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker-compose.yml" afterDir="false" />
-    </list>
+    <list default="true" id="551c2867-427b-4431-b84d-584c19b4e632" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -159,7 +139,7 @@
       <workItem from="1680229710613" duration="659000" />
       <workItem from="1680230382680" duration="278000" />
       <workItem from="1680230762056" duration="185000" />
-      <workItem from="1680231128619" duration="7051000" />
+      <workItem from="1680231128619" duration="7306000" />
     </task>
     <servers />
   </component>

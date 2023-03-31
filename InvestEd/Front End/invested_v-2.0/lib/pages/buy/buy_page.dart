@@ -300,7 +300,7 @@ class _BuyPageState extends State<BuyPage> {
                 "order_type" : "basic-order"
               };
 
-              await AuthRequest.makePostRequest('${urlController.localBaseURL}/invested_order/order', requestBody, tokenController.accessToken.toString())
+              await AuthRequest.makePostRequest('${urlController.localBaseURL}/invested_order/order?portfolioId=${userDataController.portfolioId}', requestBody, tokenController.accessToken.toString())
                   .then((value) {
                 var response = json.decode(value);
                 Navigator.push(

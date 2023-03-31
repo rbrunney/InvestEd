@@ -42,6 +42,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
 
   Container buildExerciseTitle() {
     return Container(
+      alignment: Alignment.center,
       margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.06, horizontal: MediaQuery.of(context).size.width * 0.05),
       child: CustomText(
         text: widget.title,
@@ -61,7 +62,10 @@ class _ExerciseCardState extends State<ExerciseCard> {
             Navigator.push(
                 context,
                 MaterialPageRoute<void>(
-                    builder: (BuildContext context) => const ExercisePage()));
+                    builder: (BuildContext context) => ExercisePage(
+                      title: widget.title,
+                      snippets: widget.snippets,
+                    )));
           },
           hasFillColor: true,
         )

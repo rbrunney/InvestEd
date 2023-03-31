@@ -77,7 +77,11 @@ class GoogleLoginController extends GetxController {
     await BasicRequest.makePostRequest("${urlController.localBaseURL}/invested_account/authenticate", userCredentials)
         .then((value) async {
       var response = json.decode(value);
-      await AuthRequest.makePostRequest("${urlController.localBaseURL}/invested_portfolio", {}, response['results']['access-token']);
+      await AuthRequest.makePostRequest("${urlController.localBaseURL}/invested_portfolio", {}, response['results']['access-token'])
+      .then((value) {
+        var response = json.decode(value);
+        userDataController.portfolioId = response['results']['portfolio-id'];
+      });
     });
   }
 
