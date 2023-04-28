@@ -3,3 +3,5 @@ waitress
 requests
 py-eureka-client
 polygon-api-client
+pytz
+beautifulsoup4

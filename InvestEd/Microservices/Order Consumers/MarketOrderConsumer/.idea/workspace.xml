@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="551c2867-427b-4431-b84d-584c19b4e632" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../../Lesson Service/LessonService/src/main/java/org/invested/lessonservice/services/LessonSnippetService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Lesson Service/LessonService/src/main/java/org/invested/lessonservice/services/QuizQuestionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Lesson Service/LessonService/src/main/java/org/invested/lessonservice/controllers/LessonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Lesson Service/LessonService/src/main/java/org/invested/lessonservice/controllers/LessonController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Lesson Service/LessonService/src/main/java/org/invested/lessonservice/models/Lesson.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Lesson Service/LessonService/src/main/java/org/invested/lessonservice/models/Lesson.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../LimitOrderConsumer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../LimitOrderConsumer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Time Tracker/tracker.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Time Tracker/tracker.json" afterDir="false" />
-    </list>
+    <list default="true" id="551c2867-427b-4431-b84d-584c19b4e632" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,6 +13,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -42,6 +36,10 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
@@ -49,19 +47,25 @@
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;a9706de39b9798eab6471b062f01b0ff&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Spring Boot.ConsumerMain">
     <configuration name="ConsumerMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <envs>
         <env name="CUSTOM_PASSWORD" value="tempPass123!" />
         <env name="CUSTOM_USERNAME" value="rbrunney01" />
+        <env name="DB_HOST" value="localhost" />
         <env name="RABBITMQ_HOST" value="localhost" />
         <env name="RABBITMQ_PASSWORD" value="guest" />
         <env name="RABBITMQ_PORT" value="5672" />
         <env name="RABBITMQ_QUEUE" value="market-order-queue" />
         <env name="RABBITMQ_USERNAME" value="guest" />
+        <env name="DB_PORT" value="9000" />
+        <env name="DB_USER" value="admin" />
+        <env name="DB_PASSWORD" value="InvestEd190936089!" />
       </envs>
       <option name="MAIN_CLASS_NAME" value="org.invested.ConsumerMain" />
       <module name="MarketOrderConsumer" />
@@ -75,6 +79,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ConsumerMain" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="MarketOrderConsumer" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.invested.ConsumerMain" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.ConsumerMain" />
+      <item itemvalue="Spring Boot.ConsumerMain" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.ConsumerMain" />
@@ -112,6 +127,19 @@
       <workItem from="1667358550275" duration="1527000" />
       <workItem from="1667365320622" duration="666000" />
       <workItem from="1667486986246" duration="1267000" />
+      <workItem from="1672415436159" duration="152000" />
+      <workItem from="1672431147822" duration="11833000" />
+      <workItem from="1672799747411" duration="109000" />
+      <workItem from="1672847935034" duration="133000" />
+      <workItem from="1672852876128" duration="142000" />
+      <workItem from="1673137242037" duration="1732000" />
+      <workItem from="1680166445751" duration="2093000" />
+      <workItem from="1680196492488" duration="1011000" />
+      <workItem from="1680224624650" duration="1166000" />
+      <workItem from="1680229710613" duration="659000" />
+      <workItem from="1680230382680" duration="278000" />
+      <workItem from="1680230762056" duration="185000" />
+      <workItem from="1680231128619" duration="7306000" />
     </task>
     <servers />
   </component>
@@ -128,5 +156,21 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/invested/services/Requests.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/invested/services/OrderConsumerService.java</url>
+          <line>68</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

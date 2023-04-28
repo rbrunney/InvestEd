@@ -1,6 +1,6 @@
 package com.invested.portfolioservice.config.security;
 
-import com.invested.portfolioservice.config.filter.CustomAuthorizationFilter;
+import com.invested.portfolioservice.config.security.filter.CustomAuthorizationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -45,8 +45,7 @@ public class SecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/invested_portfolio").hasAnyAuthority("ROLE_USER")
-                .antMatchers(HttpMethod.PUT, "/invested_portfolio/buy_stock/**").permitAll()
-                .antMatchers(HttpMethod.PUT, "/invested_portfolio/sell_stock/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/invested_portfolio/portfolio_stock").permitAll()
                 .antMatchers(HttpMethod.GET, "/invested_portfolio/**").hasAnyAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.DELETE, "/invested_portfolio/**").hasAnyAuthority("ROLE_USER")
                 .and()

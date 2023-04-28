@@ -1,0 +1,10 @@
+// To Generate Keys
+keytool -genkey -v -keystore invested.keystore -alias invested -keyalg RSA -keysize 2048 -validity 10000
+
+// To List Keys
+keytool -list -v -keystore invested.keystore -alias invested
+
+keytool -exportcert -alias androiddebugkey -keystore "C:\Users\rbrunney\.android\debug.keystore" | "C:\Program Files\OpenSSL\bin\openssl" sha1 -binary | "C:\Program Files\OpenSSL\bin\openssl" base64
+
+// To Get SHA1 and SHA256
+keytool -list -v -keystore "c:\users\rbrunney\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android

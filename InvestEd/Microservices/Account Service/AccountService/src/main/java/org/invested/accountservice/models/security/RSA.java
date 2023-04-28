@@ -26,7 +26,7 @@ public class RSA {
             publicKey = keyFactory.generatePublic(keySpecPublic);
             privateKey = keyFactory.generatePrivate(keySpecPrivate);
         } catch(Exception e) {
-            System.out.println("[ERROR] " + e.getMessage());
+            System.err.println("[ERROR] " + e.getMessage());
         }
     }
 

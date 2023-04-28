@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">InvestEd</string>
+    <string name="facebook_app_id">919861035817707</string>
+    <string name="fb_login_protocol_scheme">fb919861035817707</string>
+    <string name="facebook_client_token">f25a905c3c1f938e52b4689457e45406</string>
+</resources>
+

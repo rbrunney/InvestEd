@@ -1,27 +1,16 @@
 package org.invested.accountservice.errorhandling;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class ExceptionMessage {
-    private String message;
-    private Integer httpStatus;
+    private final String message;
+    private final int httpStatus;
 
     public ExceptionMessage(String message, Integer httpStatus) {
         this.message = message;
-        this.httpStatus = httpStatus;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Integer getHttpStatus() {
-        return httpStatus;
-    }
-
-    public void setHttpStatus(Integer httpStatus) {
         this.httpStatus = httpStatus;
     }
 }

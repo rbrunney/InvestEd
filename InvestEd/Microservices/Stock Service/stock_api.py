@@ -1,6 +1,7 @@
 import py_eureka_client.eureka_client as eureka_client
 from datetime import datetime
 from flask import Flask, request
+import web_scrape
 import stock
 import os
 
@@ -21,6 +22,23 @@ def getTickerPrice(ticker:str):
         'message' : f'{ticker} Price Successfully Fetched!',
         'results' : {
             'current_price' : stock.Stock(ticker).get_current_price()
+        },
+        'date-time' : datetime.now()
+    }
+
+@stock_api.route("/invested_stock/<ticker>/logo", methods=["GET"])
+def getTickerLogo(ticker:str):
+    fetched_data = stock.Stock(ticker).get_ticker_logo()
+
+    print(fetched_data)
+    
+    if(fetched_data == {}):
+        return failed_fetch(ticker), 404
+
+    return {
+        'message' : f'{ticker} Price Successfully Fetched!',
+        'results' : {
+            'logo' : stock.Stock(ticker).get_ticker_logo()
         },
         'date-time' : datetime.now()
     }
@@ -101,6 +119,14 @@ def getTickerMovingAverage(ticker: str):
     return {
         'message' : f'{ticker} Moving Average Successfuly Fetched!',
         'results' : fetched_data,
+        'date-time' : datetime.now()
+    }
+
+@stock_api.route("/invested_stock/trending", methods=["GET"])
+def getTrendingStocks():
+    return {
+        'message' : f'Trending Stocks Retreived',
+        'results' :  web_scrape.get_trending_stocks(),
         'date-time' : datetime.now()
     }
 

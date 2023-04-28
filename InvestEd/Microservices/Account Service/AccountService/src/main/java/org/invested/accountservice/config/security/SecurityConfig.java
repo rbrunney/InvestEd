@@ -1,9 +1,8 @@
 package org.invested.accountservice.config.security;
 
-import org.invested.accountservice.config.filter.CustomAuthorizationFilter;
+import org.invested.accountservice.config.security.filters.CustomAuthorizationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableMBeanExport;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;

@@ -11,6 +11,7 @@ public class Lesson {
     @Id
     private String id;
     private String name;
+    private String videoId;
     private String summary;
     private List<LessonSection> lessonInfo;
 
@@ -44,5 +45,13 @@ public class Lesson {
 
     public void setLessonInfo(List<LessonSection> lessonInfo) {
         this.lessonInfo = lessonInfo;
+    }
+
+    public String getVideoId() {
+        return videoId;
+    }
+
+    public void setVideoId(String videoId) {
+        this.videoId = videoId;
     }
 }

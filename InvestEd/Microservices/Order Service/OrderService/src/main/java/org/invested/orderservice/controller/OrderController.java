@@ -27,11 +27,18 @@ public class OrderController {
     private BasicOrderService basicOrderService;
 
     // /////////////////////////////////////////////////////////////////////
-    // Basic CRUD with orders
+    // Getting Order End Points
+
+    /**
+     * An end point to get an orders information
+     * @param principal Used to get the username and email off of our UserPassAuthToken
+     * @param orderId A string containing the order that the user is trying to fetch
+     * @return An Order Class with it information if valid, otherwise it will be a 400 BAD_REQUEST
+     */
     @GetMapping("/get_order_info/{orderId}")
     public ResponseEntity<Map<String, Object>> getOrderInformation(Principal principal, @PathVariable String orderId) {
         if(basicOrderService.isUsersOrder(orderId, principal.getName())) {
-            BasicOrder order = basicOrderService.getUsersOrder(orderId);
+            BasicOrder order = basicOrderService.getOrder(orderId);
             return new ResponseEntity<>(new HashMap<>() {{
                 put("order-info", order);
             }}, HttpStatus.OK);
@@ -40,21 +47,66 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * An end-point for retrieving all the users orders from the database, based off of some filters
+     * @param principal Used to get the username and email off of our UserPassAuthToken
+     * @param byStatus An Enum Type of Status which helps filter by COMPLETED, PENDING, CANCELED, or None
+     * @param byTradeType An Enum Type of Trade Type which helps filter by BUY, SELL, or None
+     * @return A list of Orders based off of the filter parameters
+     */
     @GetMapping("/get_orders")
     public ResponseEntity<Map<String, Object>> getUsersOrders(Principal principal,
                                                               @RequestParam(required = false) Status byStatus,
                                                               @RequestParam(required = false) TradeType byTradeType) {
         return new ResponseEntity<>(new HashMap<>() {{
             put("orders", basicOrderService.getUsersOrders(principal.getName(), byStatus, byTradeType));
-        }},HttpStatus.OK);
+        }}, HttpStatus.OK);
     }
 
-    @PutMapping("/fulfill_order/{orderId}/{email}")
-    public ResponseEntity<Map<String, Object>> fulfillOrder(@PathVariable String orderId, @PathVariable String email) {
-        basicOrderService.fulfillOrder(orderId, email);
-        return new ResponseEntity<>(HttpStatus.OK);
+    // /////////////////////////////////////////////////////////////////////
+    // Making Orders End Points
+
+    /**
+     * A end point to make different orders: basic, limit, stop price, and stop loss
+     * @param principal Used to get the username and email off of our UserPassAuthToken
+     * @param orderInfo A JsonNode containing the Order Information we will use to make an order
+     * @return A Response Entity with the order id if it's good, otherwise it will send a 400 BAD_REQUEST
+     */
+    @PostMapping("/order")
+    public ResponseEntity<Map<String, Object>> placeBasicOrder(Principal principal, @RequestBody JsonNode orderInfo, @RequestParam String portfolioId) {
+
+        // Getting the user information off of UserPassAuthToken from principal
+        Map<String, String> userInfo = basicOrderService.convertMsgToMap(principal.getName());
+        // Making an order with the given information within the request
+        BasicOrder newOrder = basicOrderService.makeOrderClass(userInfo.get("username"), orderInfo);
+
+        if(newOrder != null) {
+            // Creating Order Object In Database
+            basicOrderService.createOrder(newOrder, userInfo.get("email").replace("\"", ""), portfolioId);
+
+            return new ResponseEntity<>(new HashMap<>() {{
+                put("message", newOrder.getTicker() + " Order Placed Successfully");
+                put("results", new HashMap<>(){{
+                    put("order_id", newOrder.getId());
+                }});
+                put("date-time", LocalDateTime.now());
+            }}, HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>(new HashMap<>() {{
+            put("message", "Could not create order at this time");
+            put("date-time", LocalDateTime.now());
+        }}, HttpStatus.BAD_REQUEST);
     }
 
+    // ////////////////////////////////////////////////////////////////////////////////
+    // Order Update End Points
+
+    /**
+     * An endpoint to cancel an order by id
+     * @param principal Used to get the username and email off of our UserPassAuthToken
+     * @param orderId A string containing the order if that the user wants to cancel
+     * @return A 200 OK if order was canceled, otherwise a 400 BAD_REQUEST
+     */
     @PutMapping("/cancel_order/{orderId}")
     public ResponseEntity<Map<String, Object>> cancelOrder(Principal principal, @PathVariable String orderId) {
         Map<String, String> userInfo = basicOrderService.convertMsgToMap(principal.getName());
@@ -66,147 +118,16 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * An end-point to cancel all current orders a user has
+     * @param principal Used to get the username and email off of our UserPassAuthToken
+     * @return A 200 OK when the orders have been CANCELED
+     */
     @PutMapping("/cancel_all_orders")
     public ResponseEntity<Map<String, Object>> cancelAllOrder(Principal principal) {
         Map<String, String> userInfo = basicOrderService.convertMsgToMap(principal.getName());
-        basicOrderService.cancelAllOrders(userInfo.get("user"), userInfo.get("email").replace("\"", ""));
+        basicOrderService.cancelAllOrders(userInfo.get("username"), userInfo.get("email").replace("\"", ""));
 
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    // ///////////////////////////////////////////////////////////////////////////////
-    // Making Orders
-
-    @PostMapping("/basic_order")
-    public ResponseEntity<Map<String, Object>> placeBasicOrder(Principal principal, @RequestBody JsonNode basicOrder) {
-        Map<String, String> userInfo = basicOrderService.convertMsgToMap(principal.getName());
-        try {
-            // Making new Order and saving to database
-            BasicOrder newOrder =  new BasicOrder(
-                    UUID.randomUUID().toString(),
-                    userInfo.get("username"),
-                    basicOrder.get("ticker").asText(),
-                    basicOrder.get("stock_quantity").asDouble(),
-                    basicOrder.get("price_per_share").asDouble(),
-                    TradeType.valueOf(basicOrder.get("trade_type").asText())
-            );
-
-            // createBasicOrder
-            basicOrderService.createBasicOrder(newOrder, userInfo.get("email").replace("\"", ""));
-
-            return new ResponseEntity<>(new HashMap<>() {{
-                put("message", newOrder.getTicker() + " Order Placed Successfully");
-                put("results", new HashMap<>(){{
-                    put("order_id", newOrder.getId());
-                }});
-                put("date-time", LocalDateTime.now());
-            }}, HttpStatus.CREATED);
-        } catch(Exception e) {
-            return new ResponseEntity<>(new HashMap<>() {{
-                put("message", e.getMessage());
-                put("date-time", LocalDateTime.now());
-            }}, HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @PostMapping("/limit_order")
-    public ResponseEntity<Map<String, Object>> placeLimitOrder(Principal principal, @RequestBody JsonNode limitOrder) {
-        Map<String, String> userInfo = basicOrderService.convertMsgToMap(principal.getName());
-        try {
-            // Making new Limit Order so we can save to database
-            LimitOrder newOrder =  new LimitOrder(
-                    UUID.randomUUID().toString(),
-                    userInfo.get("username"),
-                    limitOrder.get("ticker").asText(),
-                    limitOrder.get("stock_quantity").asDouble(),
-                    limitOrder.get("price_per_share").asDouble(),
-                    TradeType.valueOf(limitOrder.get("trade_type").asText()),
-                    limitOrder.get("limit_price").asDouble()
-            );
-
-            // Making Limit Order
-            basicOrderService.createBasicOrder(newOrder, userInfo.get("email").replace("\"", ""));
-
-            return new ResponseEntity<>(new HashMap<>() {{
-                put("message", newOrder.getTicker() + " Order Placed Successfully");
-                put("results", new HashMap<>(){{
-                    put("order_id", newOrder.getId());
-                }});
-                put("date-time", LocalDateTime.now());
-            }}, HttpStatus.CREATED);
-        } catch(Exception e) {
-            return new ResponseEntity<>(new HashMap<>() {{
-                put("message", e.getMessage());
-                put("date-time", LocalDateTime.now());
-            }}, HttpStatus.BAD_REQUEST);
-        }
-
-    }
-
-    @PostMapping("/stop_loss_order")
-    public ResponseEntity<Map<String, Object>> placeStopLossOrder(Principal principal, @RequestBody JsonNode stopLossOrder) {
-        Map<String, String> userInfo = basicOrderService.convertMsgToMap(principal.getName());
-        try {
-            // Making new Limit Order so we can save to database
-            StopLossOrder newOrder =  new StopLossOrder(
-                    UUID.randomUUID().toString(),
-                    userInfo.get("username"),
-                    stopLossOrder.get("ticker").asText(),
-                    stopLossOrder.get("stock_quantity").asDouble(),
-                    stopLossOrder.get("price_per_share").asDouble(),
-                    TradeType.valueOf(stopLossOrder.get("trade_type").asText()),
-                    stopLossOrder.get("stop_loss_price").asDouble()
-            );
-
-            // Making Limit Order
-            basicOrderService.createBasicOrder(newOrder, userInfo.get("email").replace("\"", ""));
-
-            return new ResponseEntity<>(new HashMap<>() {{
-                put("message", newOrder.getTicker() + " Order Placed Successfully");
-                put("results", new HashMap<>(){{
-                    put("order_id", newOrder.getId());
-                }});
-                put("date-time", LocalDateTime.now());
-            }}, HttpStatus.CREATED);
-        } catch(Exception e) {
-            return new ResponseEntity<>(new HashMap<>() {{
-                put("message", e.getMessage());
-                put("date-time", LocalDateTime.now());
-            }}, HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @PostMapping("/stop_price_order")
-    public ResponseEntity<Map<String, Object>> placeStopPriceOrder(Principal principal, @RequestBody JsonNode stopPriceOrder) {
-        Map<String, String> userInfo = basicOrderService.convertMsgToMap(principal.getName());
-        try {
-            // Making new Limit Order so we can save to database
-            StopPriceOrder newOrder =  new StopPriceOrder(
-                    UUID.randomUUID().toString(),
-                    userInfo.get("username"),
-                    stopPriceOrder.get("ticker").asText(),
-                    stopPriceOrder.get("stock_quantity").asDouble(),
-                    stopPriceOrder.get("price_per_share").asDouble(),
-                    TradeType.valueOf(stopPriceOrder.get("trade_type").asText()),
-                    stopPriceOrder.get("stop_loss_price").asDouble(),
-                    stopPriceOrder.get("limit_price").asDouble()
-            );
-
-            // Making Limit Order
-            basicOrderService.createBasicOrder(newOrder, userInfo.get("email").replace("\"", ""));
-
-            return new ResponseEntity<>(new HashMap<>() {{
-                put("message", newOrder.getTicker() + " Order Placed Successfully");
-                put("results", new HashMap<>(){{
-                    put("order_id", newOrder.getId());
-                }});
-                put("date-time", LocalDateTime.now());
-            }}, HttpStatus.CREATED);
-        } catch(Exception e) {
-            return new ResponseEntity<>(new HashMap<>() {{
-                put("message", e.getMessage());
-                put("date-time", LocalDateTime.now());
-            }}, HttpStatus.BAD_REQUEST);
-        }
     }
 }

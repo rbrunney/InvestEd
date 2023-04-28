@@ -1,6 +1,6 @@
 package org.invested.orderservice.config.security;
 
-import org.invested.orderservice.config.filter.CustomAuthorizationFilter;
+import org.invested.orderservice.config.security.filter.CustomAuthorizationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

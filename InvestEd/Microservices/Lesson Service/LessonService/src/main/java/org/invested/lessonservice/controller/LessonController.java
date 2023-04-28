@@ -24,8 +24,8 @@ public class LessonController {
         return new ResponseEntity<>(lessonRepo.getLessonByName(lessonName), HttpStatus.OK);
     }
 
-    @PutMapping("/{lessonName}/{sectionName}/{username}")
-    public ResponseEntity<String> completeLesson(@PathVariable String lessonName, @PathVariable String sectionName, @PathVariable String username) {
-        lessonRepo.
-    }
+//    @PutMapping("/{lessonName}/{sectionName}/{username}")
+//    public ResponseEntity<String> completeLesson(@PathVariable String lessonName, @PathVariable String sectionName, @PathVariable String username) {
+//        lessonRepo.
+//    }
 }
